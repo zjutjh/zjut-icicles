@@ -1,0 +1,30 @@
+The detailed Matlab code is in the file ¡®freq_respons.m¡¯.
+    function [xm,x1m,b]=freq_respons( )
+the parameters:
+fs:     the sampling frequency;
+ws:    the frequency of the input signal;
+N:     the order of the filter;
+wc :   the cutoff frequency of the filter in the range between 0 and 1;
+para:   to choose the filter type: para=0 is the low-pass filter, para=1 is the high-pass filter;
+           para=3 is the band-pass filter, para=4 is the band-stop filter;
+xm:    the maximum amplitude of the input signal
+x1m:   the maximum amplitude of the output signal
+  b:     the coefficient of the filter;
+For example
+In the Matlab window, you type 
+>> [xm,x1m,b]=freq_respons( );
+Then type input the parameters:
+the sampling frequency:100
+the digital frequency of input signal [0 1]:0.2
+the order of the filter:10
+select the filter type:0--low pass1--high pass:2--bandpass3--stoppass:0
+the cutoff frequency of the filter [0 1]:0.4
+the maximum amplitude of the input signal:
+1
+the maximum amplitude of the output signal:
+   0.9177
+g=
+    0.9177
+It means we have input the sampling frequency of 100Hz, the digital frequency of the input signal of 0.2, the order of the low pass filter (para=0) of 10 and its cutoff frequency of 0.4. The output is the maximum of the input and output signal, the coefficient b of the filter and the gain of the filter to the input signal with frequency 0.2. There are two figure is plotted, one is the input (red color) and output signal, the other is the amplitude response of the filter.
+
+
