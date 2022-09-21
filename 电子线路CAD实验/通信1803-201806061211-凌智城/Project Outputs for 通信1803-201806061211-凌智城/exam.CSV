@@ -1,0 +1,12 @@
+"Bill of Material for "
+"On 2020/5/26 at 8:55:15"
+
+"Comment","Pattern","Quantity","Components"
+
+"14.31818MHz","R38","1","Y1","Crystal Oscillator"
+"Cap Semi","C1206","4","C2, C3, C4, C5","Capacitor (Semiconductor SIM Model)"
+"Cap Var","C1210_N","1","C1","Variable or Adjustable Capacitor"
+"Header 4","HDR1X4","1","P1","Header, 4-Pin"
+"NPN","TO-226-AA","4","Q1, Q2, Q3, Q4","NPN Bipolar Transistor"
+"PNP","SOT-23B_N","1","Q5","PNP Bipolar Transistor"
+"Res1","AXIAL-0.3","7","R1, R2, R3, R4, R5, R6, R7","Resistor"
