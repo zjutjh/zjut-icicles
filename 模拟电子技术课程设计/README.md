@@ -1,7 +1,7 @@
 ## Projects of Analog Circuits
 
 > Version: 2019-2020(2)
-> Credit: 3
+> Credit: 1
 > Score: Excellent
 > 
 
