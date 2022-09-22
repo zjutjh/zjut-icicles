@@ -1,0 +1,3 @@
+Sasahara Hampei, Hayashi Kazunori, Nagahara Masaaki. Time-Domain Equalization for Single-Frequency Full-Duplex Wireless Relay Using H <sup>2 </sup>Optimal Control. 2016, 2016:12-15.
+
+Mutsam A. Jarajreh. Reduced-Complexity Artificial Neural Network Equalization for Ultra-High-Spectral-Efficient Optical Fast-OFDM Signals. 2019, 9(19)
