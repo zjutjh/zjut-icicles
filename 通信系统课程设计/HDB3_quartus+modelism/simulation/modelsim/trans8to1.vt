@@ -1,0 +1,41 @@
+
+`timescale 1 ps/ 1 ps
+module trans8to1_vlg_tst();
+// constants                                           
+// test vector input registers
+reg clk;
+reg [7:0] indata_8;
+reg rst_n;
+reg [23:0] data;
+// wires                                               
+wire outdata_N;
+wire outdata_P;
+
+// assign statements (if any)                          
+trans8to1 i1 (
+// port map - connection between master ports and signals/registers   
+	.clk(clk),
+	.indata_8(indata_8),
+	.outdata_N(outdata_N),
+	.outdata_P(outdata_P),
+	.rst_n(rst_n)
+);
+
+initial begin
+	clk<=0;
+	rst_n<=0;
+	data <= 24'hff0080;
+	#20 rst_n<=1;
+	#(10*100) $stop;
+end
+
+always #10 clk<=~clk;
+
+always begin
+	#20 indata_8 <= data[7:0];
+	#20 indata_8 <= data[15:8];
+	#20 indata_8 <= data[23:16];
+end
+                                             
+endmodule
+

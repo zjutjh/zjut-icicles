@@ -1,0 +1,16 @@
+Fitter Status : Successful - Thu Sep 30 11:45:28 2021
+Quartus II 64-Bit Version : 13.0.0 Build 156 04/24/2013 SJ Full Version
+Revision Name : HDB3
+Top-level Entity Name : HDB3
+Family : Cyclone II
+Device : EP2C8T144C8
+Timing Models : Final
+Total logic elements : 81 / 8,256 ( < 1 % )
+    Total combinational functions : 64 / 8,256 ( < 1 % )
+    Dedicated logic registers : 65 / 8,256 ( < 1 % )
+Total registers : 65
+Total pins : 44 / 85 ( 52 % )
+Total virtual pins : 0
+Total memory bits : 0 / 165,888 ( 0 % )
+Embedded Multiplier 9-bit elements : 0 / 36 ( 0 % )
+Total PLLs : 0 / 2 ( 0 % )

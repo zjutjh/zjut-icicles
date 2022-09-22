@@ -1,0 +1,162 @@
+Flow report for HDB3
+Thu Sep 30 11:45:34 2021
+Quartus II 64-Bit Version 13.0.0 Build 156 04/24/2013 SJ Full Version
+
+
+---------------------
+; Table of Contents ;
+---------------------
+  1. Legal Notice
+  2. Flow Summary
+  3. Flow Settings
+  4. Flow Non-Default Global Settings
+  5. Flow Elapsed Time
+  6. Flow OS Summary
+  7. Flow Log
+  8. Flow Messages
+  9. Flow Suppressed Messages
+
+
+
+----------------
+; Legal Notice ;
+----------------
+Copyright (C) 1991-2013 Altera Corporation
+Your use of Altera Corporation's design tools, logic functions 
+and other software and tools, and its AMPP partner logic 
+functions, and any output files from any of the foregoing 
+(including device programming or simulation files), and any 
+associated documentation or information are expressly subject 
+to the terms and conditions of the Altera Program License 
+Subscription Agreement, Altera MegaCore Function License 
+Agreement, or other applicable license agreement, including, 
+without limitation, that your use is for the sole purpose of 
+programming logic devices manufactured by Altera and sold by 
+Altera or its authorized distributors.  Please refer to the 
+applicable agreement for further details.
+
+
+
++----------------------------------------------------------------------------------+
+; Flow Summary                                                                     ;
++------------------------------------+---------------------------------------------+
+; Flow Status                        ; Successful - Thu Sep 30 11:45:34 2021       ;
+; Quartus II 64-Bit Version          ; 13.0.0 Build 156 04/24/2013 SJ Full Version ;
+; Revision Name                      ; HDB3                                        ;
+; Top-level Entity Name              ; HDB3                                        ;
+; Family                             ; Cyclone II                                  ;
+; Device                             ; EP2C8T144C8                                 ;
+; Timing Models                      ; Final                                       ;
+; Total logic elements               ; 81 / 8,256 ( < 1 % )                        ;
+;     Total combinational functions  ; 64 / 8,256 ( < 1 % )                        ;
+;     Dedicated logic registers      ; 65 / 8,256 ( < 1 % )                        ;
+; Total registers                    ; 65                                          ;
+; Total pins                         ; 44 / 85 ( 52 % )                            ;
+; Total virtual pins                 ; 0                                           ;
+; Total memory bits                  ; 0 / 165,888 ( 0 % )                         ;
+; Embedded Multiplier 9-bit elements ; 0 / 36 ( 0 % )                              ;
+; Total PLLs                         ; 0 / 2 ( 0 % )                               ;
++------------------------------------+---------------------------------------------+
+
+
++-----------------------------------------+
+; Flow Settings                           ;
++-------------------+---------------------+
+; Option            ; Setting             ;
++-------------------+---------------------+
+; Start date & time ; 09/30/2021 11:45:21 ;
+; Main task         ; Compilation         ;
+; Revision Name     ; HDB3                ;
++-------------------+---------------------+
+
+
++-------------------------------------------------------------------------------------------------------------------------+
+; Flow Non-Default Global Settings                                                                                        ;
++--------------------------------------+-----------------------------------+---------------+-------------+----------------+
+; Assignment Name                      ; Value                             ; Default Value ; Entity Name ; Section Id     ;
++--------------------------------------+-----------------------------------+---------------+-------------+----------------+
+; COMPILER_SIGNATURE_ID                ; 167304650816590.163297352113480   ; --            ; --          ; --             ;
+; EDA_DESIGN_INSTANCE_NAME             ; NA                                ; --            ; --          ; --             ;
+; EDA_DESIGN_INSTANCE_NAME             ; NA                                ; --            ; --          ; add_v          ;
+; EDA_DESIGN_INSTANCE_NAME             ; NA                                ; --            ; --          ; add_b          ;
+; EDA_DESIGN_INSTANCE_NAME             ; NA                                ; --            ; --          ; polar          ;
+; EDA_DESIGN_INSTANCE_NAME             ; NA                                ; --            ; --          ; change         ;
+; EDA_DESIGN_INSTANCE_NAME             ; NA                                ; --            ; --          ; m_sequence     ;
+; EDA_DESIGN_INSTANCE_NAME             ; NA                                ; --            ; --          ; delvb          ;
+; EDA_DESIGN_INSTANCE_NAME             ; NA                                ; --            ; --          ; recover        ;
+; EDA_NATIVELINK_SIMULATION_TEST_BENCH ; HDB3                              ; --            ; --          ; eda_simulation ;
+; EDA_OUTPUT_DATA_FORMAT               ; Verilog Hdl                       ; --            ; --          ; eda_simulation ;
+; EDA_SIMULATION_TOOL                  ; ModelSim (Verilog)                ; <None>        ; --          ; --             ;
+; EDA_TEST_BENCH_ENABLE_STATUS         ; TEST_BENCH_MODE                   ; --            ; --          ; eda_simulation ;
+; EDA_TEST_BENCH_FILE                  ; simulation/modelsim/HDB3.vt       ; --            ; --          ; --             ;
+; EDA_TEST_BENCH_FILE                  ; simulation/modelsim/add_v.vt      ; --            ; --          ; add_v          ;
+; EDA_TEST_BENCH_FILE                  ; simulation/modelsim/add_b.vt      ; --            ; --          ; add_b          ;
+; EDA_TEST_BENCH_FILE                  ; simulation/modelsim/polar.vt      ; --            ; --          ; polar          ;
+; EDA_TEST_BENCH_FILE                  ; simulation/modelsim/change.vt     ; --            ; --          ; change         ;
+; EDA_TEST_BENCH_FILE                  ; simulation/modelsim/m_sequence.vt ; --            ; --          ; m_sequence     ;
+; EDA_TEST_BENCH_FILE                  ; simulation/modelsim/delvb.vt      ; --            ; --          ; delvb          ;
+; EDA_TEST_BENCH_FILE                  ; simulation/modelsim/recover.vt    ; --            ; --          ; recover        ;
+; EDA_TEST_BENCH_MODULE_NAME           ; HDB3_vlg_tst                      ; --            ; --          ; --             ;
+; EDA_TEST_BENCH_MODULE_NAME           ; add_v_vlg_tst                     ; --            ; --          ; add_v          ;
+; EDA_TEST_BENCH_MODULE_NAME           ; add_b_vlg_tst                     ; --            ; --          ; add_b          ;
+; EDA_TEST_BENCH_MODULE_NAME           ; polar_vlg_tst                     ; --            ; --          ; polar          ;
+; EDA_TEST_BENCH_MODULE_NAME           ; change_vlg_tst                    ; --            ; --          ; change         ;
+; EDA_TEST_BENCH_MODULE_NAME           ; m_sequence_vlg_tst                ; --            ; --          ; m_sequence     ;
+; EDA_TEST_BENCH_MODULE_NAME           ; delvb_vlg_tst                     ; --            ; --          ; delvb          ;
+; EDA_TEST_BENCH_MODULE_NAME           ; recover_vlg_tst                   ; --            ; --          ; recover        ;
+; EDA_TEST_BENCH_NAME                  ; HDB3                              ; --            ; --          ; eda_simulation ;
+; EDA_TEST_BENCH_NAME                  ; add_v                             ; --            ; --          ; eda_simulation ;
+; EDA_TEST_BENCH_NAME                  ; add_b                             ; --            ; --          ; eda_simulation ;
+; EDA_TEST_BENCH_NAME                  ; polar                             ; --            ; --          ; eda_simulation ;
+; EDA_TEST_BENCH_NAME                  ; change                            ; --            ; --          ; eda_simulation ;
+; EDA_TEST_BENCH_NAME                  ; m_sequence                        ; --            ; --          ; eda_simulation ;
+; EDA_TEST_BENCH_NAME                  ; delvb                             ; --            ; --          ; eda_simulation ;
+; EDA_TEST_BENCH_NAME                  ; recover                           ; --            ; --          ; eda_simulation ;
+; EDA_TIME_SCALE                       ; 1 ps                              ; --            ; --          ; eda_simulation ;
+; MAX_CORE_JUNCTION_TEMP               ; 85                                ; --            ; --          ; --             ;
+; MIN_CORE_JUNCTION_TEMP               ; 0                                 ; --            ; --          ; --             ;
+; PARTITION_COLOR                      ; 16764057                          ; --            ; --          ; Top            ;
+; PARTITION_FITTER_PRESERVATION_LEVEL  ; PLACEMENT_AND_ROUTING             ; --            ; --          ; Top            ;
+; PARTITION_NETLIST_TYPE               ; SOURCE                            ; --            ; --          ; Top            ;
+; PROJECT_OUTPUT_DIRECTORY             ; output_files                      ; --            ; --          ; --             ;
++--------------------------------------+-----------------------------------+---------------+-------------+----------------+
+
+
++-------------------------------------------------------------------------------------------------------------------------------+
+; Flow Elapsed Time                                                                                                             ;
++---------------------------+--------------+-------------------------+---------------------+------------------------------------+
+; Module Name               ; Elapsed Time ; Average Processors Used ; Peak Virtual Memory ; Total CPU Time (on all processors) ;
++---------------------------+--------------+-------------------------+---------------------+------------------------------------+
+; Analysis & Synthesis      ; 00:00:02     ; 1.0                     ; 4590 MB             ; 00:00:01                           ;
+; Fitter                    ; 00:00:05     ; 1.0                     ; 5258 MB             ; 00:00:05                           ;
+; Assembler                 ; 00:00:01     ; 1.0                     ; 4566 MB             ; 00:00:01                           ;
+; TimeQuest Timing Analyzer ; 00:00:02     ; 1.0                     ; 4587 MB             ; 00:00:01                           ;
+; EDA Netlist Writer        ; 00:00:00     ; 1.0                     ; 4523 MB             ; 00:00:00                           ;
+; Total                     ; 00:00:10     ; --                      ; --                  ; 00:00:08                           ;
++---------------------------+--------------+-------------------------+---------------------+------------------------------------+
+
+
++----------------------------------------------------------------------------------------+
+; Flow OS Summary                                                                        ;
++---------------------------+------------------+-----------+------------+----------------+
+; Module Name               ; Machine Hostname ; OS Name   ; OS Version ; Processor type ;
++---------------------------+------------------+-----------+------------+----------------+
+; Analysis & Synthesis      ; DESKTOP-MVLIE0I  ; Windows 7 ; 6.2        ; x86_64         ;
+; Fitter                    ; DESKTOP-MVLIE0I  ; Windows 7 ; 6.2        ; x86_64         ;
+; Assembler                 ; DESKTOP-MVLIE0I  ; Windows 7 ; 6.2        ; x86_64         ;
+; TimeQuest Timing Analyzer ; DESKTOP-MVLIE0I  ; Windows 7 ; 6.2        ; x86_64         ;
+; EDA Netlist Writer        ; DESKTOP-MVLIE0I  ; Windows 7 ; 6.2        ; x86_64         ;
++---------------------------+------------------+-----------+------------+----------------+
+
+
+------------
+; Flow Log ;
+------------
+quartus_map --read_settings_files=on --write_settings_files=off HDB3 -c HDB3
+quartus_fit --read_settings_files=off --write_settings_files=off HDB3 -c HDB3
+quartus_asm --read_settings_files=off --write_settings_files=off HDB3 -c HDB3
+quartus_sta HDB3 -c HDB3
+quartus_eda --read_settings_files=off --write_settings_files=off HDB3 -c HDB3
+
+
+

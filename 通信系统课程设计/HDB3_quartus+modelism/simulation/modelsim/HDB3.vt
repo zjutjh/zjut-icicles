@@ -1,0 +1,94 @@
+// Copyright (C) 1991-2013 Altera Corporation
+// Your use of Altera Corporation's design tools, logic functions 
+// and other software and tools, and its AMPP partner logic 
+// functions, and any output files from any of the foregoing 
+// (including device programming or simulation files), and any 
+// associated documentation or information are expressly subject 
+// to the terms and conditions of the Altera Program License 
+// Subscription Agreement, Altera MegaCore Function License 
+// Agreement, or other applicable license agreement, including, 
+// without limitation, that your use is for the sole purpose of 
+// programming logic devices manufactured by Altera and sold by 
+// Altera or its authorized distributors.  Please refer to the 
+// applicable agreement for further details.
+
+// *****************************************************************************
+// This file contains a Verilog test bench template that is freely editable to  
+// suit user's needs .Comments are provided in each section to help the user    
+// fill out necessary details.                                                  
+// *****************************************************************************
+// Generated on "09/09/2021 19:03:50"
+                                                                                
+// Verilog Test Bench template for design : HDB3
+// 
+// Simulation tool : ModelSim (Verilog)
+// 
+
+`timescale 1 ps/ 1 ps
+module HDB3_vlg_tst();
+// constants                                           
+// general purpose registers
+//reg eachvec;
+// test vector input registers
+reg ena;
+reg rst;
+// wires                                               
+reg clk;
+wire clk_256;
+wire clk_16;
+wire outm;
+wire [1:0]  outv;
+wire [1:0]  outb;
+wire outP;
+wire outN;
+wire [7:0]  data_out;
+wire outdata_P;
+wire outdata_N;
+wire [1:0]  outdata_v;
+wire clk_recover;
+wire finallyout;
+// assign statements (if any)                          
+HDB3 i1 (
+// port map - connection between master ports and signals/registers   
+	.clk(clk),
+	.clk_16(clk_16),
+	.clk_256(clk_256),
+	.clk_recover(clk_recover),
+	.data_out(data_out),
+	.ena(ena),
+	.finallyout(finallyout),
+	.outN(outN),
+	.outP(outP),
+	.outb(outb),
+	.outdata_N(outdata_N),
+	.outdata_P(outdata_P),
+	.outdata_v(outdata_v),
+	.outm(outm),
+	.outv(outv),
+	.rst(rst)
+);
+initial                                                
+begin                                                  
+// code that executes only once                        
+// insert code here --> begin                          
+   clk = 0;
+	rst = 0;
+	ena = 0;
+	#61040 rst =1;
+	ena =1;                                                                            
+// --> end                                             
+$display("Running testbench");                       
+end                                                    
+always                                                 
+// optional sensitivity list                           
+// @(event1 or event2 or .... eventn)                  
+begin                                                  
+// code executes for every event on sensitivity list   
+// insert code here --> begin                          
+    repeat(1000000000)
+	 #3052 clk = ~clk;                                                             
+//@eachvec;                                              
+// --> end                                             
+end                                                    
+endmodule
+

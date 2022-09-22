@@ -1,0 +1,165 @@
+m255
+K4
+z2
+!s11f vlog 2020.4 2020.10, Oct 13 2020
+13
+!s112 1.1
+!i10d 8192
+!i10e 25
+!i10f 100
+cModel Technology
+Z0 dE:/altera/13.0/PRJECT/HDB3/simulation/modelsim
+T_opt
+!s110 1631085177
+VVMF][USl^59^RfZ_FGi<n3
+04 13 4 work add_b_vlg_tst fast 0
+=1-7470fd101783-61386279-164-2d54
+o-quiet -auto_acc_if_foreign -work work -L altera_ver -L lpm_ver -L sgate_ver -L altera_mf_ver -L altera_lnsim_ver -L cycloneii_ver -L rtl_work -L work +acc
+Z1 tCvgOpt 0
+n@_opt
+OL;O;2020.4;71
+vadd_b
+Z2 !s110 1631085176
+!i10b 1
+!s100 YNVD4;5;n3a]M=1T2ZO=H0
+Z3 !s11b Dg1SIo80bB@j0V0VzS_@n1
+IJ7aBZ8Cjk7aNFUW>68b;[2
+R0
+w1631085149
+8E:/altera/13.0/PRJECT/HDB3/add_b.v
+FE:/altera/13.0/PRJECT/HDB3/add_b.v
+!i122 5
+L0 1 30
+Z4 VDg1SIo80bB@j0V0VzS_@n1
+Z5 OL;L;2020.4;71
+r1
+!s85 0
+31
+Z6 !s108 1631085176.000000
+!s107 E:/altera/13.0/PRJECT/HDB3/add_b.v|
+!s90 -reportprogress|300|-vlog01compat|-work|work|+incdir+E:/altera/13.0/PRJECT/HDB3|E:/altera/13.0/PRJECT/HDB3/add_b.v|
+!i113 0
+Z7 o-vlog01compat -work work -L mtiAvm -L mtiRnm -L mtiOvm -L mtiUvm -L mtiUPF -L infact
+Z8 !s92 -vlog01compat -work work +incdir+E:/altera/13.0/PRJECT/HDB3 -L mtiAvm -L mtiRnm -L mtiOvm -L mtiUvm -L mtiUPF -L infact
+R1
+vadd_b_vlg_tst
+R2
+!i10b 1
+!s100 POAVnfLPOR7DYmB3znfT@3
+R3
+I_6?453=]@S?cdPNC6khMT0
+R0
+w1631084885
+8E:/altera/13.0/PRJECT/HDB3/simulation/modelsim/add_b.vt
+FE:/altera/13.0/PRJECT/HDB3/simulation/modelsim/add_b.vt
+!i122 6
+L0 28 49
+R4
+R5
+r1
+!s85 0
+31
+R6
+!s107 E:/altera/13.0/PRJECT/HDB3/simulation/modelsim/add_b.vt|
+!s90 -reportprogress|300|-vlog01compat|-work|work|+incdir+E:/altera/13.0/PRJECT/HDB3/simulation/modelsim|E:/altera/13.0/PRJECT/HDB3/simulation/modelsim/add_b.vt|
+!i113 0
+R7
+!s92 -vlog01compat -work work +incdir+E:/altera/13.0/PRJECT/HDB3/simulation/modelsim -L mtiAvm -L mtiRnm -L mtiOvm -L mtiUvm -L mtiUPF -L infact
+R1
+vadd_v
+Z9 !s110 1631027078
+!i10b 1
+!s100 ]NR<]3OH@BRc8Qa0oId831
+R3
+IF2jjH][KQDPCj9o@2jFIC3
+R0
+w1631023716
+8E:/altera/13.0/PRJECT/HDB3/add_v.v
+FE:/altera/13.0/PRJECT/HDB3/add_v.v
+!i122 0
+L0 1 24
+R4
+R5
+r1
+!s85 0
+31
+!s108 1631027077.000000
+!s107 E:/altera/13.0/PRJECT/HDB3/add_v.v|
+!s90 -reportprogress|300|-vlog01compat|-work|work|+incdir+E:/altera/13.0/PRJECT/HDB3|E:/altera/13.0/PRJECT/HDB3/add_v.v|
+!i113 0
+R7
+R8
+R1
+vchange
+R9
+!i10b 1
+!s100 P:a6I]1YJ]]]e]gjd?JeO3
+R3
+Id7E867aeV[co;HFGJ^YAC2
+R0
+w1631024037
+8E:/altera/13.0/PRJECT/HDB3/change.v
+FE:/altera/13.0/PRJECT/HDB3/change.v
+!i122 3
+L0 1 19
+R4
+R5
+r1
+!s85 0
+31
+Z10 !s108 1631027078.000000
+!s107 E:/altera/13.0/PRJECT/HDB3/change.v|
+!s90 -reportprogress|300|-vlog01compat|-work|work|+incdir+E:/altera/13.0/PRJECT/HDB3|E:/altera/13.0/PRJECT/HDB3/change.v|
+!i113 0
+R7
+R8
+R1
+vHDB3
+R9
+!i10b 1
+!s100 k@ZXT7zl<4LO19BgABDDh0
+R3
+IPOQoJcZ5fN7C0KU86<4`>1
+R0
+w1631024062
+8E:/altera/13.0/PRJECT/HDB3/HDB3.v
+FE:/altera/13.0/PRJECT/HDB3/HDB3.v
+!i122 4
+L0 1 9
+R4
+R5
+r1
+!s85 0
+31
+R10
+!s107 E:/altera/13.0/PRJECT/HDB3/HDB3.v|
+!s90 -reportprogress|300|-vlog01compat|-work|work|+incdir+E:/altera/13.0/PRJECT/HDB3|E:/altera/13.0/PRJECT/HDB3/HDB3.v|
+!i113 0
+R7
+R8
+R1
+n@h@d@b3
+vpolar
+R9
+!i10b 1
+!s100 k`h3S32YghI=Hcc1LAELY2
+R3
+Ib^Y=GVaAMcfSd;INjnQ4W2
+R0
+w1631023996
+8E:/altera/13.0/PRJECT/HDB3/polar.v
+FE:/altera/13.0/PRJECT/HDB3/polar.v
+!i122 2
+L0 1 36
+R4
+R5
+r1
+!s85 0
+31
+R10
+!s107 E:/altera/13.0/PRJECT/HDB3/polar.v|
+!s90 -reportprogress|300|-vlog01compat|-work|work|+incdir+E:/altera/13.0/PRJECT/HDB3|E:/altera/13.0/PRJECT/HDB3/polar.v|
+!i113 0
+R7
+R8
+R1

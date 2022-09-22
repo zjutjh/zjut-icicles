@@ -1,0 +1,5 @@
+set tool_name "ModelSim (Verilog)"
+set corner_file_list {
+	{{"Slow Model"} {HDB3.vo HDB3_v.sdo}}
+	{{"Fast Model"} {HDB3_fast.vo HDB3_v_fast.sdo}}
+}

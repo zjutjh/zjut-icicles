@@ -1,0 +1,130 @@
+Assembler report for HDB3
+Thu Sep 30 11:45:30 2021
+Quartus II 64-Bit Version 13.0.0 Build 156 04/24/2013 SJ Full Version
+
+
+---------------------
+; Table of Contents ;
+---------------------
+  1. Legal Notice
+  2. Assembler Summary
+  3. Assembler Settings
+  4. Assembler Generated Files
+  5. Assembler Device Options: E:/altera/13.0/projects/HDB3_FPGA/output_files/HDB3.sof
+  6. Assembler Device Options: E:/altera/13.0/projects/HDB3_FPGA/output_files/HDB3.pof
+  7. Assembler Messages
+
+
+
+----------------
+; Legal Notice ;
+----------------
+Copyright (C) 1991-2013 Altera Corporation
+Your use of Altera Corporation's design tools, logic functions 
+and other software and tools, and its AMPP partner logic 
+functions, and any output files from any of the foregoing 
+(including device programming or simulation files), and any 
+associated documentation or information are expressly subject 
+to the terms and conditions of the Altera Program License 
+Subscription Agreement, Altera MegaCore Function License 
+Agreement, or other applicable license agreement, including, 
+without limitation, that your use is for the sole purpose of 
+programming logic devices manufactured by Altera and sold by 
+Altera or its authorized distributors.  Please refer to the 
+applicable agreement for further details.
+
+
+
++---------------------------------------------------------------+
+; Assembler Summary                                             ;
++-----------------------+---------------------------------------+
+; Assembler Status      ; Successful - Thu Sep 30 11:45:30 2021 ;
+; Revision Name         ; HDB3                                  ;
+; Top-level Entity Name ; HDB3                                  ;
+; Family                ; Cyclone II                            ;
+; Device                ; EP2C8T144C8                           ;
++-----------------------+---------------------------------------+
+
+
++--------------------------------------------------------------------------------------------------------+
+; Assembler Settings                                                                                     ;
++-----------------------------------------------------------------------------+----------+---------------+
+; Option                                                                      ; Setting  ; Default Value ;
++-----------------------------------------------------------------------------+----------+---------------+
+; Use smart compilation                                                       ; Off      ; Off           ;
+; Enable parallel Assembler and TimeQuest Timing Analyzer during compilation  ; On       ; On            ;
+; Enable compact report table                                                 ; Off      ; Off           ;
+; Generate compressed bitstreams                                              ; On       ; On            ;
+; Compression mode                                                            ; Off      ; Off           ;
+; Clock source for configuration device                                       ; Internal ; Internal      ;
+; Clock frequency of the configuration device                                 ; 10 MHZ   ; 10 MHz        ;
+; Divide clock frequency by                                                   ; 1        ; 1             ;
+; Auto user code                                                              ; On       ; On            ;
+; Use configuration device                                                    ; On       ; On            ;
+; Configuration device                                                        ; Auto     ; Auto          ;
+; Configuration device auto user code                                         ; Off      ; Off           ;
+; Generate Tabular Text File (.ttf) For Target Device                         ; Off      ; Off           ;
+; Generate Raw Binary File (.rbf) For Target Device                           ; Off      ; Off           ;
+; Generate Hexadecimal (Intel-Format) Output File (.hexout) for Target Device ; Off      ; Off           ;
+; Hexadecimal Output File start address                                       ; 0        ; 0             ;
+; Hexadecimal Output File count direction                                     ; Up       ; Up            ;
+; Release clears before tri-states                                            ; Off      ; Off           ;
+; Auto-restart configuration after error                                      ; On       ; On            ;
+; Maintain Compatibility with All Cyclone II M4K Versions                     ; On       ; On            ;
+; Generate Serial Vector Format File (.svf) for Target Device                 ; Off      ; Off           ;
+; Generate a JEDEC STAPL Format File (.jam) for Target Device                 ; Off      ; Off           ;
+; Generate a compressed Jam STAPL Byte Code 2.0 File (.jbc) for Target Device ; Off      ; Off           ;
+; Generate a compressed Jam STAPL Byte Code 2.0 File (.jbc) for Target Device ; On       ; On            ;
++-----------------------------------------------------------------------------+----------+---------------+
+
+
++---------------------------------------------------------+
+; Assembler Generated Files                               ;
++---------------------------------------------------------+
+; File Name                                               ;
++---------------------------------------------------------+
+; E:/altera/13.0/projects/HDB3_FPGA/output_files/HDB3.sof ;
+; E:/altera/13.0/projects/HDB3_FPGA/output_files/HDB3.pof ;
++---------------------------------------------------------+
+
+
++-----------------------------------------------------------------------------------+
+; Assembler Device Options: E:/altera/13.0/projects/HDB3_FPGA/output_files/HDB3.sof ;
++----------------+------------------------------------------------------------------+
+; Option         ; Setting                                                          ;
++----------------+------------------------------------------------------------------+
+; Device         ; EP2C8T144C8                                                      ;
+; JTAG usercode  ; 0x000D11B8                                                       ;
+; Checksum       ; 0x000D11B8                                                       ;
++----------------+------------------------------------------------------------------+
+
+
++-----------------------------------------------------------------------------------+
+; Assembler Device Options: E:/altera/13.0/projects/HDB3_FPGA/output_files/HDB3.pof ;
++--------------------+--------------------------------------------------------------+
+; Option             ; Setting                                                      ;
++--------------------+--------------------------------------------------------------+
+; Device             ; EPCS4                                                        ;
+; JTAG usercode      ; 0x00000000                                                   ;
+; Checksum           ; 0x06EFD4F0                                                   ;
+; Compression Ratio  ; 3                                                            ;
++--------------------+--------------------------------------------------------------+
+
+
++--------------------+
+; Assembler Messages ;
++--------------------+
+Info: *******************************************************************
+Info: Running Quartus II 64-Bit Assembler
+    Info: Version 13.0.0 Build 156 04/24/2013 SJ Full Version
+    Info: Processing started: Thu Sep 30 11:45:29 2021
+Info: Command: quartus_asm --read_settings_files=off --write_settings_files=off HDB3 -c HDB3
+Info (115031): Writing out detailed assembly data for power analysis
+Info (115030): Assembler is generating device programming files
+Info: Quartus II 64-Bit Assembler was successful. 0 errors, 0 warnings
+    Info: Peak virtual memory: 4566 megabytes
+    Info: Processing ended: Thu Sep 30 11:45:30 2021
+    Info: Elapsed time: 00:00:01
+    Info: Total CPU time (on all processors): 00:00:01
+
+

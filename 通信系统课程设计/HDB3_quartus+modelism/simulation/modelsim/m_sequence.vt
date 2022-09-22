@@ -1,0 +1,40 @@
+
+`timescale 1 ps/ 1 ps
+module m_sequence_vlg_tst();
+reg eachvec;
+reg clk;
+reg ena;
+reg rst;
+// wires                                               
+wire data_out;
+wire load;
+
+                         
+m_sequence i1 (
+
+	.clk(clk),
+	.data_out(data_out),
+	.ena(ena),
+	.load(load),
+	.rst(rst)
+);
+initial                                                
+	begin                                                  
+		clk = 0;
+		rst = 0;
+		ena = 0;
+		#40 rst = 1'b1;
+		#50 ena = 1'b1;
+	
+		#20_000;
+		$stop;
+		$display("Running testbench");                       
+	end   
+                                                 
+always                                                 
+		               
+	begin                                                  
+		#25 clk = ~clk; 				//产生20Mbp速率的码字
+	end                                                    
+endmodule
+

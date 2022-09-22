@@ -1,0 +1,424 @@
+Analysis & Synthesis report for HDB3
+Thu Sep 30 11:45:22 2021
+Quartus II 64-Bit Version 13.0.0 Build 156 04/24/2013 SJ Full Version
+
+
+---------------------
+; Table of Contents ;
+---------------------
+  1. Legal Notice
+  2. Analysis & Synthesis Summary
+  3. Analysis & Synthesis Settings
+  4. Parallel Compilation
+  5. Analysis & Synthesis Source Files Read
+  6. Analysis & Synthesis Resource Usage Summary
+  7. Analysis & Synthesis Resource Utilization by Entity
+  8. State Machine - |HDB3|polar:u3|polar_out
+  9. Registers Removed During Synthesis
+ 10. General Register Statistics
+ 11. Inverted Register Statistics
+ 12. Multiplexer Restructuring Statistics (Restructuring Performed)
+ 13. Parameter Settings for User Entity Instance: even256_div:div256
+ 14. Parameter Settings for User Entity Instance: even16_div:div16
+ 15. Port Connectivity Checks: "m_sequence:m"
+ 16. Elapsed Time Per Partition
+ 17. Analysis & Synthesis Messages
+ 18. Analysis & Synthesis Suppressed Messages
+
+
+
+----------------
+; Legal Notice ;
+----------------
+Copyright (C) 1991-2013 Altera Corporation
+Your use of Altera Corporation's design tools, logic functions 
+and other software and tools, and its AMPP partner logic 
+functions, and any output files from any of the foregoing 
+(including device programming or simulation files), and any 
+associated documentation or information are expressly subject 
+to the terms and conditions of the Altera Program License 
+Subscription Agreement, Altera MegaCore Function License 
+Agreement, or other applicable license agreement, including, 
+without limitation, that your use is for the sole purpose of 
+programming logic devices manufactured by Altera and sold by 
+Altera or its authorized distributors.  Please refer to the 
+applicable agreement for further details.
+
+
+
++----------------------------------------------------------------------------------+
+; Analysis & Synthesis Summary                                                     ;
++------------------------------------+---------------------------------------------+
+; Analysis & Synthesis Status        ; Successful - Thu Sep 30 11:45:22 2021       ;
+; Quartus II 64-Bit Version          ; 13.0.0 Build 156 04/24/2013 SJ Full Version ;
+; Revision Name                      ; HDB3                                        ;
+; Top-level Entity Name              ; HDB3                                        ;
+; Family                             ; Cyclone II                                  ;
+; Total logic elements               ; 87                                          ;
+;     Total combinational functions  ; 64                                          ;
+;     Dedicated logic registers      ; 65                                          ;
+; Total registers                    ; 65                                          ;
+; Total pins                         ; 44                                          ;
+; Total virtual pins                 ; 0                                           ;
+; Total memory bits                  ; 0                                           ;
+; Embedded Multiplier 9-bit elements ; 0                                           ;
+; Total PLLs                         ; 0                                           ;
++------------------------------------+---------------------------------------------+
+
+
++----------------------------------------------------------------------------------------------------------------------+
+; Analysis & Synthesis Settings                                                                                        ;
++----------------------------------------------------------------------------+--------------------+--------------------+
+; Option                                                                     ; Setting            ; Default Value      ;
++----------------------------------------------------------------------------+--------------------+--------------------+
+; Device                                                                     ; EP2C8T144C8        ;                    ;
+; Top-level entity name                                                      ; HDB3               ; HDB3               ;
+; Family name                                                                ; Cyclone II         ; Cyclone IV GX      ;
+; Use smart compilation                                                      ; Off                ; Off                ;
+; Enable parallel Assembler and TimeQuest Timing Analyzer during compilation ; On                 ; On                 ;
+; Enable compact report table                                                ; Off                ; Off                ;
+; Restructure Multiplexers                                                   ; Auto               ; Auto               ;
+; Create Debugging Nodes for IP Cores                                        ; Off                ; Off                ;
+; Preserve fewer node names                                                  ; On                 ; On                 ;
+; Disable OpenCore Plus hardware evaluation                                  ; Off                ; Off                ;
+; Verilog Version                                                            ; Verilog_2001       ; Verilog_2001       ;
+; VHDL Version                                                               ; VHDL_1993          ; VHDL_1993          ;
+; State Machine Processing                                                   ; Auto               ; Auto               ;
+; Safe State Machine                                                         ; Off                ; Off                ;
+; Extract Verilog State Machines                                             ; On                 ; On                 ;
+; Extract VHDL State Machines                                                ; On                 ; On                 ;
+; Ignore Verilog initial constructs                                          ; Off                ; Off                ;
+; Iteration limit for constant Verilog loops                                 ; 5000               ; 5000               ;
+; Iteration limit for non-constant Verilog loops                             ; 250                ; 250                ;
+; Add Pass-Through Logic to Inferred RAMs                                    ; On                 ; On                 ;
+; Infer RAMs from Raw Logic                                                  ; On                 ; On                 ;
+; Parallel Synthesis                                                         ; On                 ; On                 ;
+; DSP Block Balancing                                                        ; Auto               ; Auto               ;
+; NOT Gate Push-Back                                                         ; On                 ; On                 ;
+; Power-Up Don't Care                                                        ; On                 ; On                 ;
+; Remove Redundant Logic Cells                                               ; Off                ; Off                ;
+; Remove Duplicate Registers                                                 ; On                 ; On                 ;
+; Ignore CARRY Buffers                                                       ; Off                ; Off                ;
+; Ignore CASCADE Buffers                                                     ; Off                ; Off                ;
+; Ignore GLOBAL Buffers                                                      ; Off                ; Off                ;
+; Ignore ROW GLOBAL Buffers                                                  ; Off                ; Off                ;
+; Ignore LCELL Buffers                                                       ; Off                ; Off                ;
+; Ignore SOFT Buffers                                                        ; On                 ; On                 ;
+; Limit AHDL Integers to 32 Bits                                             ; Off                ; Off                ;
+; Optimization Technique                                                     ; Balanced           ; Balanced           ;
+; Carry Chain Length                                                         ; 70                 ; 70                 ;
+; Auto Carry Chains                                                          ; On                 ; On                 ;
+; Auto Open-Drain Pins                                                       ; On                 ; On                 ;
+; Perform WYSIWYG Primitive Resynthesis                                      ; Off                ; Off                ;
+; Auto ROM Replacement                                                       ; On                 ; On                 ;
+; Auto RAM Replacement                                                       ; On                 ; On                 ;
+; Auto Shift Register Replacement                                            ; Auto               ; Auto               ;
+; Allow Shift Register Merging across Hierarchies                            ; Auto               ; Auto               ;
+; Auto Clock Enable Replacement                                              ; On                 ; On                 ;
+; Strict RAM Replacement                                                     ; Off                ; Off                ;
+; Allow Synchronous Control Signals                                          ; On                 ; On                 ;
+; Force Use of Synchronous Clear Signals                                     ; Off                ; Off                ;
+; Auto RAM to Logic Cell Conversion                                          ; Off                ; Off                ;
+; Auto Resource Sharing                                                      ; Off                ; Off                ;
+; Allow Any RAM Size For Recognition                                         ; Off                ; Off                ;
+; Allow Any ROM Size For Recognition                                         ; Off                ; Off                ;
+; Allow Any Shift Register Size For Recognition                              ; Off                ; Off                ;
+; Use LogicLock Constraints during Resource Balancing                        ; On                 ; On                 ;
+; Ignore translate_off and synthesis_off directives                          ; Off                ; Off                ;
+; Timing-Driven Synthesis                                                    ; Off                ; Off                ;
+; Report Parameter Settings                                                  ; On                 ; On                 ;
+; Report Source Assignments                                                  ; On                 ; On                 ;
+; Report Connectivity Checks                                                 ; On                 ; On                 ;
+; Ignore Maximum Fan-Out Assignments                                         ; Off                ; Off                ;
+; Synchronization Register Chain Length                                      ; 2                  ; 2                  ;
+; PowerPlay Power Optimization                                               ; Normal compilation ; Normal compilation ;
+; HDL message level                                                          ; Level2             ; Level2             ;
+; Suppress Register Optimization Related Messages                            ; Off                ; Off                ;
+; Number of Removed Registers Reported in Synthesis Report                   ; 5000               ; 5000               ;
+; Number of Swept Nodes Reported in Synthesis Report                         ; 5000               ; 5000               ;
+; Number of Inverted Registers Reported in Synthesis Report                  ; 100                ; 100                ;
+; Clock MUX Protection                                                       ; On                 ; On                 ;
+; Auto Gated Clock Conversion                                                ; Off                ; Off                ;
+; Block Design Naming                                                        ; Auto               ; Auto               ;
+; SDC constraint protection                                                  ; Off                ; Off                ;
+; Synthesis Effort                                                           ; Auto               ; Auto               ;
+; Shift Register Replacement - Allow Asynchronous Clear Signal               ; On                 ; On                 ;
+; Pre-Mapping Resynthesis Optimization                                       ; Off                ; Off                ;
+; Analysis & Synthesis Message Level                                         ; Medium             ; Medium             ;
+; Disable Register Merging Across Hierarchies                                ; Auto               ; Auto               ;
+; Resource Aware Inference For Block RAM                                     ; On                 ; On                 ;
+; Synthesis Seed                                                             ; 1                  ; 1                  ;
++----------------------------------------------------------------------------+--------------------+--------------------+
+
+
++------------------------------------------+
+; Parallel Compilation                     ;
++----------------------------+-------------+
+; Processors                 ; Number      ;
++----------------------------+-------------+
+; Number detected on machine ; 4           ;
+; Maximum allowed            ; 4           ;
+;                            ;             ;
+; Average used               ; 1.00        ;
+; Maximum used               ; 1           ;
+;                            ;             ;
+; Usage by Processor         ; % Time Used ;
+;     Processor 1            ; 100.0%      ;
+;     Processors 2-4         ;   0.0%      ;
++----------------------------+-------------+
+
+
++-----------------------------------------------------------------------------------------------------------------------------------------------+
+; Analysis & Synthesis Source Files Read                                                                                                        ;
++----------------------------------+-----------------+------------------------------+-------------------------------------------------+---------+
+; File Name with User-Entered Path ; Used in Netlist ; File Type                    ; File Name with Absolute Path                    ; Library ;
++----------------------------------+-----------------+------------------------------+-------------------------------------------------+---------+
+; add_v.v                          ; yes             ; User Verilog HDL File        ; E:/altera/13.0/projects/HDB3_FPGA/add_v.v       ;         ;
+; add_b.v                          ; yes             ; User Verilog HDL File        ; E:/altera/13.0/projects/HDB3_FPGA/add_b.v       ;         ;
+; polar.v                          ; yes             ; User Verilog HDL File        ; E:/altera/13.0/projects/HDB3_FPGA/polar.v       ;         ;
+; change.v                         ; yes             ; User Verilog HDL File        ; E:/altera/13.0/projects/HDB3_FPGA/change.v      ;         ;
+; HDB3.v                           ; yes             ; User Verilog HDL File        ; E:/altera/13.0/projects/HDB3_FPGA/HDB3.v        ;         ;
+; m_sequence.v                     ; yes             ; User Verilog HDL File        ; E:/altera/13.0/projects/HDB3_FPGA/m_sequence.v  ;         ;
+; even256_div.v                    ; yes             ; User Verilog HDL File        ; E:/altera/13.0/projects/HDB3_FPGA/even256_div.v ;         ;
+; delvb.v                          ; yes             ; User Verilog HDL File        ; E:/altera/13.0/projects/HDB3_FPGA/delvb.v       ;         ;
+; trans8to1.v                      ; yes             ; User Verilog HDL File        ; E:/altera/13.0/projects/HDB3_FPGA/trans8to1.v   ;         ;
+; findv.v                          ; yes             ; User Verilog HDL File        ; E:/altera/13.0/projects/HDB3_FPGA/findv.v       ;         ;
+; recover.v                        ; yes             ; User Verilog HDL File        ; E:/altera/13.0/projects/HDB3_FPGA/recover.v     ;         ;
+; even16_div.v                     ; yes             ; Auto-Found Verilog HDL File  ; E:/altera/13.0/projects/HDB3_FPGA/even16_div.v  ;         ;
++----------------------------------+-----------------+------------------------------+-------------------------------------------------+---------+
+
+
++-----------------------------------------------------+
+; Analysis & Synthesis Resource Usage Summary         ;
++---------------------------------------------+-------+
+; Resource                                    ; Usage ;
++---------------------------------------------+-------+
+; Estimated Total logic elements              ; 87    ;
+;                                             ;       ;
+; Total combinational functions               ; 64    ;
+; Logic element usage by number of LUT inputs ;       ;
+;     -- 4 input functions                    ; 22    ;
+;     -- 3 input functions                    ; 23    ;
+;     -- <=2 input functions                  ; 19    ;
+;                                             ;       ;
+; Logic elements by mode                      ;       ;
+;     -- normal mode                          ; 57    ;
+;     -- arithmetic mode                      ; 7     ;
+;                                             ;       ;
+; Total registers                             ; 65    ;
+;     -- Dedicated logic registers            ; 65    ;
+;     -- I/O registers                        ; 0     ;
+;                                             ;       ;
+; I/O pins                                    ; 44    ;
+; Embedded Multiplier 9-bit elements          ; 0     ;
+; Maximum fan-out node                        ; rst   ;
+; Maximum fan-out                             ; 67    ;
+; Total fan-out                               ; 442   ;
+; Average fan-out                             ; 2.55  ;
++---------------------------------------------+-------+
+
+
++----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+; Analysis & Synthesis Resource Utilization by Entity                                                                                                                              ;
++----------------------------+-------------------+--------------+-------------+--------------+---------+-----------+------+--------------+--------------------------+--------------+
+; Compilation Hierarchy Node ; LC Combinationals ; LC Registers ; Memory Bits ; DSP Elements ; DSP 9x9 ; DSP 18x18 ; Pins ; Virtual Pins ; Full Hierarchy Name      ; Library Name ;
++----------------------------+-------------------+--------------+-------------+--------------+---------+-----------+------+--------------+--------------------------+--------------+
+; |HDB3                      ; 64 (0)            ; 65 (0)       ; 0           ; 0            ; 0       ; 0         ; 44   ; 0            ; |HDB3                    ;              ;
+;    |add_b:u2|              ; 4 (4)             ; 10 (10)      ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |HDB3|add_b:u2           ;              ;
+;    |add_v:u1|              ; 4 (4)             ; 4 (4)        ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |HDB3|add_v:u1           ;              ;
+;    |change:u4|             ; 0 (0)             ; 2 (2)        ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |HDB3|change:u4          ;              ;
+;    |delvb:u7|              ; 3 (3)             ; 5 (5)        ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |HDB3|delvb:u7           ;              ;
+;    |even16_div:div16|      ; 4 (4)             ; 4 (4)        ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |HDB3|even16_div:div16   ;              ;
+;    |even256_div:div256|    ; 12 (12)           ; 9 (9)        ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |HDB3|even256_div:div256 ;              ;
+;    |findv:u6|              ; 9 (9)             ; 6 (6)        ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |HDB3|findv:u6           ;              ;
+;    |m_sequence:m|          ; 2 (2)             ; 9 (9)        ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |HDB3|m_sequence:m       ;              ;
+;    |polar:u3|              ; 5 (5)             ; 3 (3)        ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |HDB3|polar:u3           ;              ;
+;    |recover:u8|            ; 14 (14)           ; 11 (11)      ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |HDB3|recover:u8         ;              ;
+;    |trans8to1:u5|          ; 7 (7)             ; 2 (2)        ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |HDB3|trans8to1:u5       ;              ;
++----------------------------+-------------------+--------------+-------------+--------------+---------+-----------+------+--------------+--------------------------+--------------+
+Note: For table entries with two numbers listed, the numbers in parentheses indicate the number of resources of the given type used by the specific entity alone. The numbers listed outside of parentheses indicate the total resources of the given type used by the specific entity and all of its sub-entities in the hierarchy.
+
+
+Encoding Type:  One-Hot
++-----------------------------------------------------------+
+; State Machine - |HDB3|polar:u3|polar_out                  ;
++--------------+--------------+--------------+--------------+
+; Name         ; polar_out.00 ; polar_out.10 ; polar_out.01 ;
++--------------+--------------+--------------+--------------+
+; polar_out.00 ; 0            ; 0            ; 0            ;
+; polar_out.01 ; 1            ; 0            ; 1            ;
+; polar_out.10 ; 1            ; 1            ; 0            ;
++--------------+--------------+--------------+--------------+
+
+
++---------------------------------------------------------------------------------+
+; Registers Removed During Synthesis                                              ;
++----------------------------------------+----------------------------------------+
+; Register name                          ; Reason for Removal                     ;
++----------------------------------------+----------------------------------------+
+; change:u4|data_out[1..6]               ; Merged with change:u4|data_out[0]      ;
+; recover:u8|buffer[0..2]                ; Lost fanout                            ;
+; polar:u3|polar_out.00                  ; Lost fanout                            ;
+; even16_div:div16|count[3]              ; Stuck at GND due to stuck port data_in ;
+; Total Number of Removed Registers = 11 ;                                        ;
++----------------------------------------+----------------------------------------+
+
+
++------------------------------------------------------+
+; General Register Statistics                          ;
++----------------------------------------------+-------+
+; Statistic                                    ; Value ;
++----------------------------------------------+-------+
+; Total registers                              ; 65    ;
+; Number of registers using Synchronous Clear  ; 8     ;
+; Number of registers using Synchronous Load   ; 0     ;
+; Number of registers using Asynchronous Clear ; 62    ;
+; Number of registers using Asynchronous Load  ; 0     ;
+; Number of registers using Clock Enable       ; 17    ;
+; Number of registers using Preset             ; 0     ;
++----------------------------------------------+-------+
+
+
++---------------------------------------------------+
+; Inverted Register Statistics                      ;
++-----------------------------------------+---------+
+; Inverted Register                       ; Fan out ;
++-----------------------------------------+---------+
+; change:u4|data_out[7]                   ; 1       ;
+; recover:u8|counter[0]                   ; 5       ;
+; m_sequence:m|temp[6]                    ; 2       ;
+; polar:u3|even                           ; 3       ;
+; m_sequence:m|temp[5]                    ; 1       ;
+; m_sequence:m|temp[4]                    ; 1       ;
+; m_sequence:m|temp[3]                    ; 1       ;
+; m_sequence:m|temp[2]                    ; 2       ;
+; m_sequence:m|temp[1]                    ; 1       ;
+; m_sequence:m|temp[0]                    ; 1       ;
+; Total number of inverted registers = 10 ;         ;
++-----------------------------------------+---------+
+
+
++--------------------------------------------------------------------------------------------------------------------------------------------+
+; Multiplexer Restructuring Statistics (Restructuring Performed)                                                                             ;
++--------------------+-----------+---------------+----------------------+------------------------+------------+------------------------------+
+; Multiplexer Inputs ; Bus Width ; Baseline Area ; Area if Restructured ; Saving if Restructured ; Registered ; Example Multiplexer Output   ;
++--------------------+-----------+---------------+----------------------+------------------------+------------+------------------------------+
+; 4:1                ; 2 bits    ; 4 LEs         ; 4 LEs                ; 0 LEs                  ; Yes        ; |HDB3|delvb:u7|counterv      ;
+; 3:1                ; 2 bits    ; 4 LEs         ; 2 LEs                ; 2 LEs                  ; Yes        ; |HDB3|add_v:u1|counter[1]    ;
+; 4:1                ; 2 bits    ; 4 LEs         ; 2 LEs                ; 2 LEs                  ; Yes        ; |HDB3|findv:u6|flag2[0]      ;
+; 4:1                ; 2 bits    ; 4 LEs         ; 4 LEs                ; 0 LEs                  ; Yes        ; |HDB3|trans8to1:u5|outdata_N ;
+; 4:1                ; 2 bits    ; 4 LEs         ; 2 LEs                ; 2 LEs                  ; Yes        ; |HDB3|findv:u6|flag1[0]      ;
+; 5:1                ; 2 bits    ; 6 LEs         ; 4 LEs                ; 2 LEs                  ; No         ; |HDB3|polar:u3|polar_out.10  ;
++--------------------+-----------+---------------+----------------------+------------------------+------------+------------------------------+
+
+
++-----------------------------------------------------------------+
+; Parameter Settings for User Entity Instance: even256_div:div256 ;
++----------------+-------+----------------------------------------+
+; Parameter Name ; Value ; Type                                   ;
++----------------+-------+----------------------------------------+
+; N              ; 256   ; Signed Integer                         ;
++----------------+-------+----------------------------------------+
+Note: In order to hide this table in the UI and the text report file, please set the "Show Parameter Settings in Synthesis Report" option in "Analysis and Synthesis Settings -> More Settings" to "Off".
+
+
++---------------------------------------------------------------+
+; Parameter Settings for User Entity Instance: even16_div:div16 ;
++----------------+-------+--------------------------------------+
+; Parameter Name ; Value ; Type                                 ;
++----------------+-------+--------------------------------------+
+; N              ; 16    ; Signed Integer                       ;
++----------------+-------+--------------------------------------+
+Note: In order to hide this table in the UI and the text report file, please set the "Show Parameter Settings in Synthesis Report" option in "Analysis and Synthesis Settings -> More Settings" to "Off".
+
+
++----------------------------------------------------------------------------------------------------------------+
+; Port Connectivity Checks: "m_sequence:m"                                                                       ;
++------+--------+----------+-------------------------------------------------------------------------------------+
+; Port ; Type   ; Severity ; Details                                                                             ;
++------+--------+----------+-------------------------------------------------------------------------------------+
+; load ; Output ; Info     ; Connected to dangling logic. Logic that only feeds a dangling port will be removed. ;
++------+--------+----------+-------------------------------------------------------------------------------------+
+
+
++-------------------------------+
+; Elapsed Time Per Partition    ;
++----------------+--------------+
+; Partition Name ; Elapsed Time ;
++----------------+--------------+
+; Top            ; 00:00:00     ;
++----------------+--------------+
+
+
++-------------------------------+
+; Analysis & Synthesis Messages ;
++-------------------------------+
+Info: *******************************************************************
+Info: Running Quartus II 64-Bit Analysis & Synthesis
+    Info: Version 13.0.0 Build 156 04/24/2013 SJ Full Version
+    Info: Processing started: Thu Sep 30 11:45:20 2021
+Info: Command: quartus_map --read_settings_files=on --write_settings_files=off HDB3 -c HDB3
+Info (20030): Parallel compilation is enabled and will use 4 of the 4 processors detected
+Info (12021): Found 1 design units, including 1 entities, in source file add_v.v
+    Info (12023): Found entity 1: add_v
+Info (12021): Found 1 design units, including 1 entities, in source file add_b.v
+    Info (12023): Found entity 1: add_b
+Info (12021): Found 1 design units, including 1 entities, in source file polar.v
+    Info (12023): Found entity 1: polar
+Info (12021): Found 1 design units, including 1 entities, in source file change.v
+    Info (12023): Found entity 1: change
+Info (12021): Found 1 design units, including 1 entities, in source file hdb3.v
+    Info (12023): Found entity 1: HDB3
+Info (12021): Found 1 design units, including 1 entities, in source file m_sequence.v
+    Info (12023): Found entity 1: m_sequence
+Info (12021): Found 1 design units, including 1 entities, in source file even256_div.v
+    Info (12023): Found entity 1: even256_div
+Info (12021): Found 1 design units, including 1 entities, in source file delvb.v
+    Info (12023): Found entity 1: delvb
+Info (12021): Found 1 design units, including 1 entities, in source file trans8to1.v
+    Info (12023): Found entity 1: trans8to1
+Info (12021): Found 1 design units, including 1 entities, in source file findv.v
+    Info (12023): Found entity 1: findv
+Info (12021): Found 1 design units, including 1 entities, in source file recover.v
+    Info (12023): Found entity 1: recover
+Warning (10236): Verilog HDL Implicit Net warning at HDB3.v(24): created implicit net for "load"
+Info (12127): Elaborating entity "HDB3" for the top level hierarchy
+Info (12128): Elaborating entity "even256_div" for hierarchy "even256_div:div256"
+Warning (12125): Using design file even16_div.v, which is not specified as a design file for the current project, but contains definitions for 1 design units and 1 entities in project
+    Info (12023): Found entity 1: even16_div
+Info (12128): Elaborating entity "even16_div" for hierarchy "even16_div:div16"
+Info (12128): Elaborating entity "m_sequence" for hierarchy "m_sequence:m"
+Info (12128): Elaborating entity "add_v" for hierarchy "add_v:u1"
+Warning (10230): Verilog HDL assignment warning at add_v.v(18): truncated value with size 32 to match size of target (2)
+Info (12128): Elaborating entity "add_b" for hierarchy "add_b:u2"
+Info (12128): Elaborating entity "polar" for hierarchy "polar:u3"
+Info (12128): Elaborating entity "change" for hierarchy "change:u4"
+Info (12128): Elaborating entity "recover" for hierarchy "recover:u8"
+Warning (10230): Verilog HDL assignment warning at recover.v(40): truncated value with size 32 to match size of target (4)
+Info (12128): Elaborating entity "trans8to1" for hierarchy "trans8to1:u5"
+Info (12128): Elaborating entity "findv" for hierarchy "findv:u6"
+Info (12128): Elaborating entity "delvb" for hierarchy "delvb:u7"
+Warning (10230): Verilog HDL assignment warning at delvb.v(49): truncated value with size 32 to match size of target (1)
+Info (13000): Registers with preset signals will power-up high
+Info (13003): DEV_CLRn pin will set, and not reset, register with preset signal due to NOT Gate Push-Back
+Info (17049): 4 registers lost all their fanouts during netlist optimizations.
+Info (144001): Generated suppressed messages file E:/altera/13.0/projects/HDB3_FPGA/output_files/HDB3.map.smsg
+Info (16010): Generating hard_block partition "hard_block:auto_generated_inst"
+    Info (16011): Adding 0 node(s), including 0 DDIO, 0 PLL, 0 transceiver and 0 LCELL
+Info (21057): Implemented 133 device resources after synthesis - the final resource count might be different
+    Info (21058): Implemented 11 input pins
+    Info (21059): Implemented 33 output pins
+    Info (21061): Implemented 89 logic cells
+Info: Quartus II 64-Bit Analysis & Synthesis was successful. 0 errors, 5 warnings
+    Info: Peak virtual memory: 4600 megabytes
+    Info: Processing ended: Thu Sep 30 11:45:22 2021
+    Info: Elapsed time: 00:00:02
+    Info: Total CPU time (on all processors): 00:00:02
+
+
++------------------------------------------+
+; Analysis & Synthesis Suppressed Messages ;
++------------------------------------------+
+The suppressed messages can be found in E:/altera/13.0/projects/HDB3_FPGA/output_files/HDB3.map.smsg.
+
+

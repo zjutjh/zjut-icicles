@@ -1,0 +1,101 @@
+------------------------------------------------------------
+TimeQuest Timing Analyzer Summary
+------------------------------------------------------------
+
+Type  : Slow Model Setup 'clk'
+Slack : -2.148
+TNS   : -19.036
+
+Type  : Slow Model Setup 'even256_div:div256|clk_out'
+Slack : -1.642
+TNS   : -6.565
+
+Type  : Slow Model Setup 'recover:u8|clk_out'
+Slack : -1.588
+TNS   : -9.670
+
+Type  : Slow Model Setup 'even16_div:div16|clk_out'
+Slack : -1.509
+TNS   : -9.497
+
+Type  : Slow Model Hold 'even256_div:div256|clk_out'
+Slack : -2.972
+TNS   : -5.944
+
+Type  : Slow Model Hold 'clk'
+Slack : -2.617
+TNS   : -2.617
+
+Type  : Slow Model Hold 'even16_div:div16|clk_out'
+Slack : 0.499
+TNS   : 0.000
+
+Type  : Slow Model Hold 'recover:u8|clk_out'
+Slack : 0.499
+TNS   : 0.000
+
+Type  : Slow Model Minimum Pulse Width 'clk'
+Slack : -1.941
+TNS   : -15.297
+
+Type  : Slow Model Minimum Pulse Width 'even16_div:div16|clk_out'
+Slack : -0.742
+TNS   : -41.552
+
+Type  : Slow Model Minimum Pulse Width 'even256_div:div256|clk_out'
+Slack : -0.742
+TNS   : -22.260
+
+Type  : Slow Model Minimum Pulse Width 'recover:u8|clk_out'
+Slack : -0.742
+TNS   : -19.292
+
+Type  : Fast Model Setup 'clk'
+Slack : -0.075
+TNS   : -0.600
+
+Type  : Fast Model Setup 'recover:u8|clk_out'
+Slack : 0.058
+TNS   : 0.000
+
+Type  : Fast Model Setup 'even256_div:div256|clk_out'
+Slack : 0.164
+TNS   : 0.000
+
+Type  : Fast Model Setup 'even16_div:div16|clk_out'
+Slack : 0.212
+TNS   : 0.000
+
+Type  : Fast Model Hold 'clk'
+Slack : -1.389
+TNS   : -1.389
+
+Type  : Fast Model Hold 'even256_div:div256|clk_out'
+Slack : -1.350
+TNS   : -2.700
+
+Type  : Fast Model Hold 'even16_div:div16|clk_out'
+Slack : 0.215
+TNS   : 0.000
+
+Type  : Fast Model Hold 'recover:u8|clk_out'
+Slack : 0.215
+TNS   : 0.000
+
+Type  : Fast Model Minimum Pulse Width 'clk'
+Slack : -1.380
+TNS   : -10.380
+
+Type  : Fast Model Minimum Pulse Width 'even16_div:div16|clk_out'
+Slack : -0.500
+TNS   : -28.000
+
+Type  : Fast Model Minimum Pulse Width 'even256_div:div256|clk_out'
+Slack : -0.500
+TNS   : -15.000
+
+Type  : Fast Model Minimum Pulse Width 'recover:u8|clk_out'
+Slack : -0.500
+TNS   : -13.000
+
+------------------------------------------------------------

@@ -1,0 +1,334 @@
+m255
+K4
+z2
+!s11f vlog 2020.4 2020.10, Oct 13 2020
+13
+!s112 1.1
+!i10d 8192
+!i10e 25
+!i10f 100
+cModel Technology
+Z0 dE:/altera/13.0/PRJECT/HDB3/simulation/modelsim
+T_opt
+!s110 1631514850
+V4Lgk9<hWVJ_WXkzhEh]ab3
+04 12 4 work HDB3_vlg_tst fast 0
+=1-7470fd101783-613ef0dd-6a-2a08
+o-quiet -auto_acc_if_foreign -work work -L altera_ver -L lpm_ver -L sgate_ver -L altera_mf_ver -L altera_lnsim_ver -L cycloneii_ver -L rtl_work -L work +acc
+Z1 tCvgOpt 0
+n@_opt
+OL;O;2020.4;71
+vadd_b
+Z2 !s110 1631514840
+!i10b 1
+!s100 S5P;h=H8z;Z>9eoPb0ECh1
+Z3 !s11b Dg1SIo80bB@j0V0VzS_@n1
+IgdTT=DK@TQnzCe_9LPijH3
+R0
+w1631260269
+8E:/altera/13.0/PRJECT/HDB3/add_b.v
+FE:/altera/13.0/PRJECT/HDB3/add_b.v
+!i122 1
+L0 1 50
+Z4 VDg1SIo80bB@j0V0VzS_@n1
+Z5 OL;L;2020.4;71
+r1
+!s85 0
+31
+Z6 !s108 1631514840.000000
+!s107 E:/altera/13.0/PRJECT/HDB3/add_b.v|
+!s90 -reportprogress|300|-vlog01compat|-work|work|+incdir+E:/altera/13.0/PRJECT/HDB3|E:/altera/13.0/PRJECT/HDB3/add_b.v|
+!i113 0
+Z7 o-vlog01compat -work work -L mtiAvm -L mtiRnm -L mtiOvm -L mtiUvm -L mtiUPF -L infact
+Z8 !s92 -vlog01compat -work work +incdir+E:/altera/13.0/PRJECT/HDB3 -L mtiAvm -L mtiRnm -L mtiOvm -L mtiUvm -L mtiUPF -L infact
+R1
+vadd_v
+R2
+!i10b 1
+!s100 Rl`KWR;VYmA6M35anTdEi1
+R3
+IQL6BzLG4=dl8lRoDDQ:XN3
+R0
+w1631260274
+8E:/altera/13.0/PRJECT/HDB3/add_v.v
+FE:/altera/13.0/PRJECT/HDB3/add_v.v
+!i122 0
+L0 1 28
+R4
+R5
+r1
+!s85 0
+31
+!s108 1631514839.000000
+!s107 E:/altera/13.0/PRJECT/HDB3/add_v.v|
+!s90 -reportprogress|300|-vlog01compat|-work|work|+incdir+E:/altera/13.0/PRJECT/HDB3|E:/altera/13.0/PRJECT/HDB3/add_v.v|
+!i113 0
+R7
+R8
+R1
+vchange
+R2
+!i10b 1
+!s100 A0CZeOV:FZ9R>XJU@C>BD2
+R3
+IzRhF3Y28fYB@Q?Qnad3MH0
+R0
+w1631261404
+8E:/altera/13.0/PRJECT/HDB3/change.v
+FE:/altera/13.0/PRJECT/HDB3/change.v
+!i122 3
+L0 2 23
+R4
+R5
+r1
+!s85 0
+31
+R6
+!s107 E:/altera/13.0/PRJECT/HDB3/change.v|
+!s90 -reportprogress|300|-vlog01compat|-work|work|+incdir+E:/altera/13.0/PRJECT/HDB3|E:/altera/13.0/PRJECT/HDB3/change.v|
+!i113 0
+R7
+R8
+R1
+vdelvb
+Z9 !s110 1631514841
+!i10b 1
+!s100 >O^[H2id;mJCQh5j2M5f32
+R3
+IK6WZmJ5UJ66nk0Xz<DT^X3
+R0
+w1631261837
+8E:/altera/13.0/PRJECT/HDB3/delvb.v
+FE:/altera/13.0/PRJECT/HDB3/delvb.v
+!i122 8
+L0 1 47
+R4
+R5
+r1
+!s85 0
+31
+Z10 !s108 1631514841.000000
+!s107 E:/altera/13.0/PRJECT/HDB3/delvb.v|
+!s90 -reportprogress|300|-vlog01compat|-work|work|+incdir+E:/altera/13.0/PRJECT/HDB3|E:/altera/13.0/PRJECT/HDB3/delvb.v|
+!i113 0
+R7
+R8
+R1
+veven256_div
+R9
+!i10b 1
+!s100 4Q;G9HRJ[fOXZC00oRg8@0
+R3
+IL4RQn3`]`onOmkeAUVd[C0
+R0
+w1631261979
+8E:/altera/13.0/PRJECT/HDB3/even256_div.v
+FE:/altera/13.0/PRJECT/HDB3/even256_div.v
+!i122 7
+Z11 L0 1 26
+R4
+R5
+r1
+!s85 0
+31
+R6
+!s107 E:/altera/13.0/PRJECT/HDB3/even256_div.v|
+!s90 -reportprogress|300|-vlog01compat|-work|work|+incdir+E:/altera/13.0/PRJECT/HDB3|E:/altera/13.0/PRJECT/HDB3/even256_div.v|
+!i113 0
+R7
+R8
+R1
+veven_div16
+R2
+!i10b 1
+!s100 AnRgVE;CJ5EIUZI37mPHz3
+R3
+IBmOTVI?BzAoZ2;T`X@YQ:2
+R0
+w1631261977
+8E:/altera/13.0/PRJECT/HDB3/even_div16.v
+FE:/altera/13.0/PRJECT/HDB3/even_div16.v
+!i122 6
+R11
+R4
+R5
+r1
+!s85 0
+31
+R6
+!s107 E:/altera/13.0/PRJECT/HDB3/even_div16.v|
+!s90 -reportprogress|300|-vlog01compat|-work|work|+incdir+E:/altera/13.0/PRJECT/HDB3|E:/altera/13.0/PRJECT/HDB3/even_div16.v|
+!i113 0
+R7
+R8
+R1
+vfindv
+R9
+!i10b 1
+!s100 PbJ6W177ER@ae1m6a;W:n3
+R3
+I?E><oU8ERl5IL@m5U1XZI1
+R0
+w1631260622
+8E:/altera/13.0/PRJECT/HDB3/findv.v
+FE:/altera/13.0/PRJECT/HDB3/findv.v
+!i122 10
+L0 1 44
+R4
+R5
+r1
+!s85 0
+31
+R10
+!s107 E:/altera/13.0/PRJECT/HDB3/findv.v|
+!s90 -reportprogress|300|-vlog01compat|-work|work|+incdir+E:/altera/13.0/PRJECT/HDB3|E:/altera/13.0/PRJECT/HDB3/findv.v|
+!i113 0
+R7
+R8
+R1
+vHDB3
+R2
+!i10b 1
+!s100 6Ri89RzEMkMaP`066BSGW2
+R3
+IZflhWYlOQ1e=O=V5Sbjen2
+R0
+w1631415231
+8E:/altera/13.0/PRJECT/HDB3/HDB3.v
+FE:/altera/13.0/PRJECT/HDB3/HDB3.v
+!i122 4
+L0 1 36
+R4
+R5
+r1
+!s85 0
+31
+R6
+!s107 E:/altera/13.0/PRJECT/HDB3/HDB3.v|
+!s90 -reportprogress|300|-vlog01compat|-work|work|+incdir+E:/altera/13.0/PRJECT/HDB3|E:/altera/13.0/PRJECT/HDB3/HDB3.v|
+!i113 0
+R7
+R8
+R1
+n@h@d@b3
+vHDB3_vlg_tst
+R9
+!i10b 1
+!s100 PZ7Mn7o]k6W4_L5O3L<WD0
+R3
+IKDGl590Y_d7KF2bW;;WJA1
+R0
+w1631415328
+8E:/altera/13.0/PRJECT/HDB3/simulation/modelsim/HDB3.vt
+FE:/altera/13.0/PRJECT/HDB3/simulation/modelsim/HDB3.vt
+!i122 12
+L0 28 66
+R4
+R5
+r1
+!s85 0
+31
+R10
+!s107 E:/altera/13.0/PRJECT/HDB3/simulation/modelsim/HDB3.vt|
+!s90 -reportprogress|300|-vlog01compat|-work|work|+incdir+E:/altera/13.0/PRJECT/HDB3/simulation/modelsim|E:/altera/13.0/PRJECT/HDB3/simulation/modelsim/HDB3.vt|
+!i113 0
+R7
+!s92 -vlog01compat -work work +incdir+E:/altera/13.0/PRJECT/HDB3/simulation/modelsim -L mtiAvm -L mtiRnm -L mtiOvm -L mtiUvm -L mtiUPF -L infact
+R1
+n@h@d@b3_vlg_tst
+vm_sequence
+R2
+!i10b 1
+!s100 MH>nACBlAHJ<RJb11zm2B2
+R3
+I^>QCh8M>8T6GBeO5fh7YH0
+R0
+w1631261978
+8E:/altera/13.0/PRJECT/HDB3/m_sequence.v
+FE:/altera/13.0/PRJECT/HDB3/m_sequence.v
+!i122 5
+L0 2 36
+R4
+R5
+r1
+!s85 0
+31
+R6
+!s107 E:/altera/13.0/PRJECT/HDB3/m_sequence.v|
+!s90 -reportprogress|300|-vlog01compat|-work|work|+incdir+E:/altera/13.0/PRJECT/HDB3|E:/altera/13.0/PRJECT/HDB3/m_sequence.v|
+!i113 0
+R7
+R8
+R1
+vpolar
+R2
+!i10b 1
+!s100 ma>F]>eZ8R5=9N]5WSd1g0
+R3
+I<A^OFVRSOZh<<07mk]LFW1
+R0
+w1631261015
+8E:/altera/13.0/PRJECT/HDB3/polar.v
+FE:/altera/13.0/PRJECT/HDB3/polar.v
+!i122 2
+L0 1 59
+R4
+R5
+r1
+!s85 0
+31
+R6
+!s107 E:/altera/13.0/PRJECT/HDB3/polar.v|
+!s90 -reportprogress|300|-vlog01compat|-work|work|+incdir+E:/altera/13.0/PRJECT/HDB3|E:/altera/13.0/PRJECT/HDB3/polar.v|
+!i113 0
+R7
+R8
+R1
+vrecover
+R9
+!i10b 1
+!s100 O3FKW?c1@1U@L4g6K2B6T0
+R3
+I`I1WdM2^DniP7KFf^9N>D3
+R0
+w1631416574
+8E:/altera/13.0/PRJECT/HDB3/recover.v
+FE:/altera/13.0/PRJECT/HDB3/recover.v
+!i122 11
+L0 2 32
+R4
+R5
+r1
+!s85 0
+31
+R10
+!s107 E:/altera/13.0/PRJECT/HDB3/recover.v|
+!s90 -reportprogress|300|-vlog01compat|-work|work|+incdir+E:/altera/13.0/PRJECT/HDB3|E:/altera/13.0/PRJECT/HDB3/recover.v|
+!i113 0
+R7
+R8
+R1
+vtrans8to1
+R9
+!i10b 1
+!s100 lBiiE8SFef29J4QTfKUk53
+R3
+ID3:0iHn[BONG=JP7bVl3Z3
+R0
+w1631260621
+8E:/altera/13.0/PRJECT/HDB3/trans8to1.v
+FE:/altera/13.0/PRJECT/HDB3/trans8to1.v
+!i122 9
+L0 1 29
+R4
+R5
+r1
+!s85 0
+31
+R10
+!s107 E:/altera/13.0/PRJECT/HDB3/trans8to1.v|
+!s90 -reportprogress|300|-vlog01compat|-work|work|+incdir+E:/altera/13.0/PRJECT/HDB3|E:/altera/13.0/PRJECT/HDB3/trans8to1.v|
+!i113 0
+R7
+R8
+R1

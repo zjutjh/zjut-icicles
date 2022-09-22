@@ -1,0 +1,87 @@
+
+`timescale 1 ps/ 1 ps
+module findv_vlg_tst();
+// constants                                           
+// test vector input registers
+reg clk;
+reg indata_N;
+reg indata_P;
+reg rst_n;
+reg [23:0] indata1;
+reg [23:0] indata2;
+// wires                                               
+wire [1:0]  outdata;
+
+// assign statements (if any)                          
+findv i1 (
+// port map - connection between master ports and signals/registers   
+	.clk(clk),
+	.indata_N(indata_N),
+	.indata_P(indata_P),
+	.outdata(outdata),
+	.rst_n(rst_n)
+);
+initial begin
+	clk<=0;
+	rst_n<=0;
+	indata1<=24'b100010001001001000010100;
+	indata2<=24'b000100000100100100101010;
+	#20 rst_n=1;
+	#(10*200) $stop;
+end
+
+always #10 clk<=~clk;
+
+always begin
+	#20 indata_P <= indata1[23];
+	    indata_N <= indata2[23];
+	#20 indata_P <= indata1[22];
+	    indata_N <= indata2[22];
+	#20 indata_P <= indata1[21];
+	    indata_N <= indata2[21];
+	#20 indata_P <= indata1[20];
+	    indata_N <= indata2[20];
+	#20 indata_P <= indata1[19];
+	    indata_N <= indata2[19];
+	#20 indata_P <= indata1[18];
+	    indata_N <= indata2[18];
+	#20 indata_P <= indata1[17];
+	    indata_N <= indata2[17];
+	#20 indata_P <= indata1[16];
+	    indata_N <= indata2[16];
+	#20 indata_P <= indata1[15];
+	    indata_N <= indata2[15];
+	#20 indata_P <= indata1[14];
+	    indata_N <= indata2[14];
+	#20 indata_P <= indata1[13];
+	    indata_N <= indata2[13];
+	#20 indata_P <= indata1[12];
+	    indata_N <= indata2[12];
+	#20 indata_P <= indata1[11];
+	    indata_N <= indata2[11];
+	#20 indata_P <= indata1[10];
+	    indata_N <= indata2[10];
+	#20 indata_P <= indata1[9];
+	    indata_N <= indata2[9];
+	#20 indata_P <= indata1[8];
+	    indata_N <= indata2[8];
+	#20 indata_P <= indata1[7];
+	    indata_N <= indata2[7];
+	#20 indata_P <= indata1[6];
+	    indata_N <= indata2[6];
+	#20 indata_P <= indata1[5];
+	    indata_N <= indata2[5];
+	#20 indata_P <= indata1[4];
+	    indata_N <= indata2[4];
+	#20 indata_P <= indata1[3];
+	    indata_N <= indata2[3];
+	#20 indata_P <= indata1[2];
+	    indata_N <= indata2[2];
+	#20 indata_P <= indata1[1];
+	    indata_N <= indata2[1];
+	#20 indata_P <= indata1[0];
+	    indata_N <= indata2[0];
+end
+                                                  
+endmodule
+

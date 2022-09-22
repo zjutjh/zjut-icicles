@@ -1,0 +1,373 @@
+|HDB3
+rst => rst.IN11
+clk => clk.IN1
+clk_256 <= clk_256.DB_MAX_OUTPUT_PORT_TYPE
+clk_16 <= clk_16.DB_MAX_OUTPUT_PORT_TYPE
+clk_recover <= clk_recover.DB_MAX_OUTPUT_PORT_TYPE
+clk_256_ad <= clk_256.DB_MAX_OUTPUT_PORT_TYPE
+clk_256_da <= clk_256.DB_MAX_OUTPUT_PORT_TYPE
+ena => ena.IN1
+data_out[0] <= change:u4.port3
+data_out[1] <= change:u4.port3
+data_out[2] <= change:u4.port3
+data_out[3] <= change:u4.port3
+data_out[4] <= change:u4.port3
+data_out[5] <= change:u4.port3
+data_out[6] <= change:u4.port3
+data_out[7] <= change:u4.port3
+data_out_ad[0] => data_out_ad[0].IN2
+data_out_ad[1] => data_out_ad[1].IN2
+data_out_ad[2] => data_out_ad[2].IN2
+data_out_ad[3] => data_out_ad[3].IN2
+data_out_ad[4] => data_out_ad[4].IN2
+data_out_ad[5] => data_out_ad[5].IN2
+data_out_ad[6] => data_out_ad[6].IN2
+data_out_ad[7] => data_out_ad[7].IN2
+outm <= outm.DB_MAX_OUTPUT_PORT_TYPE
+outv[0] <= outv[0].DB_MAX_OUTPUT_PORT_TYPE
+outv[1] <= outv[1].DB_MAX_OUTPUT_PORT_TYPE
+outb[0] <= outb[0].DB_MAX_OUTPUT_PORT_TYPE
+outb[1] <= outb[1].DB_MAX_OUTPUT_PORT_TYPE
+outP <= outP.DB_MAX_OUTPUT_PORT_TYPE
+outN <= outN.DB_MAX_OUTPUT_PORT_TYPE
+data_out_check[0] <= data_out_ad[0].DB_MAX_OUTPUT_PORT_TYPE
+data_out_check[1] <= data_out_ad[1].DB_MAX_OUTPUT_PORT_TYPE
+data_out_check[2] <= data_out_ad[2].DB_MAX_OUTPUT_PORT_TYPE
+data_out_check[3] <= data_out_ad[3].DB_MAX_OUTPUT_PORT_TYPE
+data_out_check[4] <= data_out_ad[4].DB_MAX_OUTPUT_PORT_TYPE
+data_out_check[5] <= data_out_ad[5].DB_MAX_OUTPUT_PORT_TYPE
+data_out_check[6] <= data_out_ad[6].DB_MAX_OUTPUT_PORT_TYPE
+data_out_check[7] <= data_out_ad[7].DB_MAX_OUTPUT_PORT_TYPE
+finallyout <= delvb:u7.port2
+outdata_P <= outdata_P.DB_MAX_OUTPUT_PORT_TYPE
+outdata_N <= outdata_N.DB_MAX_OUTPUT_PORT_TYPE
+outdata_v[0] <= outdata_v[0].DB_MAX_OUTPUT_PORT_TYPE
+outdata_v[1] <= outdata_v[1].DB_MAX_OUTPUT_PORT_TYPE
+
+
+|HDB3|even256_div:div256
+clk => clk_out~reg0.CLK
+clk => count[0].CLK
+clk => count[1].CLK
+clk => count[2].CLK
+clk => count[3].CLK
+clk => count[4].CLK
+clk => count[5].CLK
+clk => count[6].CLK
+clk => count[7].CLK
+rst => clk_out~reg0.ACLR
+rst => count[0].ACLR
+rst => count[1].ACLR
+rst => count[2].ACLR
+rst => count[3].ACLR
+rst => count[4].ACLR
+rst => count[5].ACLR
+rst => count[6].ACLR
+rst => count[7].ACLR
+clk_out <= clk_out~reg0.DB_MAX_OUTPUT_PORT_TYPE
+
+
+|HDB3|even16_div:div16
+clk => clk_out~reg0.CLK
+clk => count[0].CLK
+clk => count[1].CLK
+clk => count[2].CLK
+clk => count[3].CLK
+rst => clk_out~reg0.ACLR
+rst => count[0].ACLR
+rst => count[1].ACLR
+rst => count[2].ACLR
+rst => count[3].ACLR
+clk_out <= clk_out~reg0.DB_MAX_OUTPUT_PORT_TYPE
+
+
+|HDB3|m_sequence:m
+clk => temp[0].CLK
+clk => temp[1].CLK
+clk => temp[2].CLK
+clk => temp[3].CLK
+clk => temp[4].CLK
+clk => temp[5].CLK
+clk => temp[6].CLK
+clk => load~reg0.CLK
+clk => data_out~reg0.CLK
+rst => temp[0].PRESET
+rst => temp[1].PRESET
+rst => temp[2].PRESET
+rst => temp[3].PRESET
+rst => temp[4].PRESET
+rst => temp[5].PRESET
+rst => temp[6].PRESET
+rst => load~reg0.ACLR
+rst => data_out~reg0.ACLR
+ena => load~reg0.DATAIN
+ena => temp[0].ENA
+ena => data_out~reg0.ENA
+ena => temp[6].ENA
+ena => temp[5].ENA
+ena => temp[4].ENA
+ena => temp[3].ENA
+ena => temp[2].ENA
+ena => temp[1].ENA
+data_out <= data_out~reg0.DB_MAX_OUTPUT_PORT_TYPE
+load <= load~reg0.DB_MAX_OUTPUT_PORT_TYPE
+
+
+|HDB3|add_v:u1
+rst => data_out[0]~reg0.ACLR
+rst => data_out[1]~reg0.ACLR
+rst => counter[0].ACLR
+rst => counter[1].ACLR
+data_in => counter.OUTPUTSELECT
+data_in => counter.OUTPUTSELECT
+data_in => data_out.OUTPUTSELECT
+data_in => data_out.OUTPUTSELECT
+data_out[0] <= data_out[0]~reg0.DB_MAX_OUTPUT_PORT_TYPE
+data_out[1] <= data_out[1]~reg0.DB_MAX_OUTPUT_PORT_TYPE
+clk => data_out[0]~reg0.CLK
+clk => data_out[1]~reg0.CLK
+clk => counter[0].CLK
+clk => counter[1].CLK
+
+
+|HDB3|add_b:u2
+rst => buffer[0][0].ACLR
+rst => buffer[0][1].ACLR
+rst => buffer[1][0].ACLR
+rst => buffer[1][1].ACLR
+rst => buffer[2][0].ACLR
+rst => buffer[2][1].ACLR
+rst => buffer[3][0].ACLR
+rst => buffer[3][1].ACLR
+rst => counterv.ACLR
+rst => counter1.ACLR
+data_in[0] => buffer[0][0].DATAIN
+data_in[0] => Equal0.IN1
+data_in[0] => Equal1.IN0
+data_in[1] => buffer[0][1].DATAIN
+data_in[1] => Equal0.IN0
+data_in[1] => Equal1.IN1
+data_out[0] <= data_out.DB_MAX_OUTPUT_PORT_TYPE
+data_out[1] <= data_out.DB_MAX_OUTPUT_PORT_TYPE
+clk => counterv.CLK
+clk => counter1.CLK
+clk => buffer[0][0].CLK
+clk => buffer[0][1].CLK
+clk => buffer[1][0].CLK
+clk => buffer[1][1].CLK
+clk => buffer[2][0].CLK
+clk => buffer[2][1].CLK
+clk => buffer[3][0].CLK
+clk => buffer[3][1].CLK
+
+
+|HDB3|polar:u3
+rst => polar_out.10.OUTPUTSELECT
+rst => polar_out.01.OUTPUTSELECT
+rst => polar_out.00.OUTPUTSELECT
+rst => even.PRESET
+rst => data_outP.OUTPUTSELECT
+rst => data_outN.OUTPUTSELECT
+data_in[0] => Equal0.IN1
+data_in[0] => Equal1.IN0
+data_in[0] => Equal2.IN1
+data_in[0] => Equal3.IN1
+data_in[1] => Equal0.IN0
+data_in[1] => Equal1.IN1
+data_in[1] => Equal2.IN0
+data_in[1] => Equal3.IN0
+data_outP <= data_outP.DB_MAX_OUTPUT_PORT_TYPE
+data_outN <= data_outN.DB_MAX_OUTPUT_PORT_TYPE
+clk => even.CLK
+clk => polar_out~4.DATAIN
+
+
+|HDB3|change:u4
+rst => data_out[0]~reg0.ACLR
+rst => data_out[1]~reg0.ACLR
+rst => data_out[2]~reg0.ACLR
+rst => data_out[3]~reg0.ACLR
+rst => data_out[4]~reg0.ACLR
+rst => data_out[5]~reg0.ACLR
+rst => data_out[6]~reg0.ACLR
+rst => data_out[7]~reg0.PRESET
+data_inP => always0.IN0
+data_inP => always0.IN0
+data_inP => always0.IN0
+data_inN => always0.IN1
+data_inN => always0.IN1
+data_inN => always0.IN1
+data_out[0] <= data_out[0]~reg0.DB_MAX_OUTPUT_PORT_TYPE
+data_out[1] <= data_out[1]~reg0.DB_MAX_OUTPUT_PORT_TYPE
+data_out[2] <= data_out[2]~reg0.DB_MAX_OUTPUT_PORT_TYPE
+data_out[3] <= data_out[3]~reg0.DB_MAX_OUTPUT_PORT_TYPE
+data_out[4] <= data_out[4]~reg0.DB_MAX_OUTPUT_PORT_TYPE
+data_out[5] <= data_out[5]~reg0.DB_MAX_OUTPUT_PORT_TYPE
+data_out[6] <= data_out[6]~reg0.DB_MAX_OUTPUT_PORT_TYPE
+data_out[7] <= data_out[7]~reg0.DB_MAX_OUTPUT_PORT_TYPE
+clk => data_out[0]~reg0.CLK
+clk => data_out[1]~reg0.CLK
+clk => data_out[2]~reg0.CLK
+clk => data_out[3]~reg0.CLK
+clk => data_out[4]~reg0.CLK
+clk => data_out[5]~reg0.CLK
+clk => data_out[6]~reg0.CLK
+clk => data_out[7]~reg0.CLK
+
+
+|HDB3|recover:u8
+clk_in => counter[0].CLK
+clk_in => counter[1].CLK
+clk_in => counter[2].CLK
+clk_in => counter[3].CLK
+clk_in => flag.CLK
+clk_in => clk_out~reg0.CLK
+clk_in => buffer[0].CLK
+clk_in => buffer[1].CLK
+clk_in => buffer[2].CLK
+clk_in => buffer[3].CLK
+clk_in => buffer[4].CLK
+clk_in => buffer[5].CLK
+clk_in => buffer[6].CLK
+clk_in => buffer[7].CLK
+rst_n => buffer[0].ACLR
+rst_n => buffer[1].ACLR
+rst_n => buffer[2].ACLR
+rst_n => buffer[3].ACLR
+rst_n => buffer[4].ACLR
+rst_n => buffer[5].ACLR
+rst_n => buffer[6].ACLR
+rst_n => buffer[7].ACLR
+rst_n => counter[0].PRESET
+rst_n => counter[1].ACLR
+rst_n => counter[2].ACLR
+rst_n => counter[3].ACLR
+rst_n => flag.ACLR
+rst_n => clk_out~reg0.ACLR
+indata_8[0] => LessThan1.IN16
+indata_8[0] => LessThan4.IN16
+indata_8[0] => LessThan5.IN16
+indata_8[0] => LessThan7.IN16
+indata_8[0] => buffer[0].DATAIN
+indata_8[1] => LessThan1.IN15
+indata_8[1] => LessThan4.IN15
+indata_8[1] => LessThan5.IN15
+indata_8[1] => LessThan7.IN15
+indata_8[1] => buffer[1].DATAIN
+indata_8[2] => LessThan1.IN14
+indata_8[2] => LessThan4.IN14
+indata_8[2] => LessThan5.IN14
+indata_8[2] => LessThan7.IN14
+indata_8[2] => buffer[2].DATAIN
+indata_8[3] => LessThan1.IN13
+indata_8[3] => LessThan4.IN13
+indata_8[3] => LessThan5.IN13
+indata_8[3] => LessThan7.IN13
+indata_8[3] => buffer[3].DATAIN
+indata_8[4] => LessThan1.IN12
+indata_8[4] => LessThan4.IN12
+indata_8[4] => LessThan5.IN12
+indata_8[4] => LessThan7.IN12
+indata_8[4] => buffer[4].DATAIN
+indata_8[5] => LessThan1.IN11
+indata_8[5] => LessThan4.IN11
+indata_8[5] => LessThan5.IN11
+indata_8[5] => LessThan7.IN11
+indata_8[5] => buffer[5].DATAIN
+indata_8[6] => LessThan1.IN10
+indata_8[6] => LessThan4.IN10
+indata_8[6] => LessThan5.IN10
+indata_8[6] => LessThan7.IN10
+indata_8[6] => buffer[6].DATAIN
+indata_8[7] => LessThan1.IN9
+indata_8[7] => LessThan4.IN9
+indata_8[7] => LessThan5.IN9
+indata_8[7] => LessThan7.IN9
+indata_8[7] => buffer[7].DATAIN
+clk_out <= clk_out~reg0.DB_MAX_OUTPUT_PORT_TYPE
+
+
+|HDB3|trans8to1:u5
+rst_n => outdata_N~reg0.ACLR
+rst_n => outdata_P~reg0.ACLR
+indata_8[0] => LessThan0.IN16
+indata_8[0] => LessThan1.IN16
+indata_8[0] => LessThan2.IN16
+indata_8[0] => LessThan3.IN16
+indata_8[1] => LessThan0.IN15
+indata_8[1] => LessThan1.IN15
+indata_8[1] => LessThan2.IN15
+indata_8[1] => LessThan3.IN15
+indata_8[2] => LessThan0.IN14
+indata_8[2] => LessThan1.IN14
+indata_8[2] => LessThan2.IN14
+indata_8[2] => LessThan3.IN14
+indata_8[3] => LessThan0.IN13
+indata_8[3] => LessThan1.IN13
+indata_8[3] => LessThan2.IN13
+indata_8[3] => LessThan3.IN13
+indata_8[4] => LessThan0.IN12
+indata_8[4] => LessThan1.IN12
+indata_8[4] => LessThan2.IN12
+indata_8[4] => LessThan3.IN12
+indata_8[5] => LessThan0.IN11
+indata_8[5] => LessThan1.IN11
+indata_8[5] => LessThan2.IN11
+indata_8[5] => LessThan3.IN11
+indata_8[6] => LessThan0.IN10
+indata_8[6] => LessThan1.IN10
+indata_8[6] => LessThan2.IN10
+indata_8[6] => LessThan3.IN10
+indata_8[7] => LessThan0.IN9
+indata_8[7] => LessThan1.IN9
+indata_8[7] => LessThan2.IN9
+indata_8[7] => LessThan3.IN9
+outdata_P <= outdata_P~reg0.DB_MAX_OUTPUT_PORT_TYPE
+outdata_N <= outdata_N~reg0.DB_MAX_OUTPUT_PORT_TYPE
+clk => outdata_N~reg0.CLK
+clk => outdata_P~reg0.CLK
+
+
+|HDB3|findv:u6
+rst_n => outdata[0]~reg0.ACLR
+rst_n => outdata[1]~reg0.ACLR
+rst_n => flag2[0].ACLR
+rst_n => flag2[1].ACLR
+rst_n => flag1[0].ACLR
+rst_n => flag1[1].ACLR
+indata_P => always0.IN0
+indata_P => always0.IN0
+indata_P => always0.IN0
+indata_N => always0.IN1
+indata_N => always0.IN1
+indata_N => always0.IN1
+outdata[0] <= outdata[0]~reg0.DB_MAX_OUTPUT_PORT_TYPE
+outdata[1] <= outdata[1]~reg0.DB_MAX_OUTPUT_PORT_TYPE
+clk => outdata[0]~reg0.CLK
+clk => outdata[1]~reg0.CLK
+clk => flag2[0].CLK
+clk => flag2[1].CLK
+clk => flag1[0].CLK
+clk => flag1[1].CLK
+
+
+|HDB3|delvb:u7
+rst_n => buffer[0].ACLR
+rst_n => buffer[1].ACLR
+rst_n => buffer[2].ACLR
+rst_n => bufferdata.ACLR
+rst_n => counterv.ENA
+indata[0] => Equal0.IN0
+indata[0] => Equal1.IN1
+indata[0] => Equal2.IN1
+indata[1] => Equal0.IN1
+indata[1] => Equal1.IN0
+indata[1] => Equal2.IN0
+outdata <= outdata.DB_MAX_OUTPUT_PORT_TYPE
+clk => counterv.CLK
+clk => bufferdata.CLK
+clk => buffer[0].CLK
+clk => buffer[1].CLK
+clk => buffer[2].CLK
+
+

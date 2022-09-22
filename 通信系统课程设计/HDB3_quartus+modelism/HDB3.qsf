@@ -1,0 +1,134 @@
+# -------------------------------------------------------------------------- #
+#
+# Copyright (C) 1991-2013 Altera Corporation
+# Your use of Altera Corporation's design tools, logic functions 
+# and other software and tools, and its AMPP partner logic 
+# functions, and any output files from any of the foregoing 
+# (including device programming or simulation files), and any 
+# associated documentation or information are expressly subject 
+# to the terms and conditions of the Altera Program License 
+# Subscription Agreement, Altera MegaCore Function License 
+# Agreement, or other applicable license agreement, including, 
+# without limitation, that your use is for the sole purpose of 
+# programming logic devices manufactured by Altera and sold by 
+# Altera or its authorized distributors.  Please refer to the 
+# applicable agreement for further details.
+#
+# -------------------------------------------------------------------------- #
+#
+# Quartus II 64-Bit
+# Version 13.0.0 Build 156 04/24/2013 SJ Full Version
+# Date created = 19:54:25  September 07, 2021
+#
+# -------------------------------------------------------------------------- #
+#
+# Notes:
+#
+# 1) The default values for assignments are stored in the file:
+#		HDB3_assignment_defaults.qdf
+#    If this file doesn't exist, see file:
+#		assignment_defaults.qdf
+#
+# 2) Altera recommends that you do not modify this file. This
+#    file is updated automatically by the Quartus II software
+#    and any changes you make may be lost or overwritten.
+#
+# -------------------------------------------------------------------------- #
+
+
+set_global_assignment -name FAMILY "Cyclone II"
+set_global_assignment -name DEVICE EP2C8T144C8
+set_global_assignment -name TOP_LEVEL_ENTITY HDB3
+set_global_assignment -name ORIGINAL_QUARTUS_VERSION 13.0
+set_global_assignment -name PROJECT_CREATION_TIME_DATE "19:54:25  SEPTEMBER 07, 2021"
+set_global_assignment -name LAST_QUARTUS_VERSION 13.0
+set_global_assignment -name PROJECT_OUTPUT_DIRECTORY output_files
+set_global_assignment -name MIN_CORE_JUNCTION_TEMP 0
+set_global_assignment -name MAX_CORE_JUNCTION_TEMP 85
+set_global_assignment -name ERROR_CHECK_FREQUENCY_DIVISOR 1
+set_global_assignment -name EDA_SIMULATION_TOOL "ModelSim (Verilog)"
+set_global_assignment -name EDA_OUTPUT_DATA_FORMAT "VERILOG HDL" -section_id eda_simulation
+set_global_assignment -name VERILOG_FILE add_v.v
+set_global_assignment -name VERILOG_FILE add_b.v
+set_global_assignment -name VERILOG_FILE polar.v
+set_global_assignment -name VERILOG_FILE change.v
+set_global_assignment -name VERILOG_FILE HDB3.v
+set_global_assignment -name EDA_TIME_SCALE "1 ps" -section_id eda_simulation
+set_global_assignment -name EDA_TEST_BENCH_ENABLE_STATUS TEST_BENCH_MODE -section_id eda_simulation
+set_global_assignment -name EDA_NATIVELINK_SIMULATION_TEST_BENCH HDB3 -section_id eda_simulation
+set_global_assignment -name EDA_TEST_BENCH_NAME HDB3 -section_id eda_simulation
+set_global_assignment -name EDA_DESIGN_INSTANCE_NAME NA -section_id HDB3
+set_global_assignment -name EDA_TEST_BENCH_MODULE_NAME HDB3_vlg_tst -section_id HDB3
+set_global_assignment -name EDA_TEST_BENCH_NAME add_v -section_id eda_simulation
+set_global_assignment -name EDA_DESIGN_INSTANCE_NAME NA -section_id add_v
+set_global_assignment -name EDA_TEST_BENCH_MODULE_NAME add_v_vlg_tst -section_id add_v
+set_global_assignment -name EDA_TEST_BENCH_NAME add_b -section_id eda_simulation
+set_global_assignment -name EDA_DESIGN_INSTANCE_NAME NA -section_id add_b
+set_global_assignment -name EDA_TEST_BENCH_MODULE_NAME add_b_vlg_tst -section_id add_b
+set_global_assignment -name EDA_TEST_BENCH_NAME polar -section_id eda_simulation
+set_global_assignment -name EDA_DESIGN_INSTANCE_NAME NA -section_id polar
+set_global_assignment -name EDA_TEST_BENCH_MODULE_NAME polar_vlg_tst -section_id polar
+set_global_assignment -name EDA_TEST_BENCH_NAME change -section_id eda_simulation
+set_global_assignment -name EDA_DESIGN_INSTANCE_NAME NA -section_id change
+set_global_assignment -name EDA_TEST_BENCH_MODULE_NAME change_vlg_tst -section_id change
+set_global_assignment -name VERILOG_FILE m_sequence.v
+set_global_assignment -name EDA_TEST_BENCH_NAME m_sequence -section_id eda_simulation
+set_global_assignment -name EDA_DESIGN_INSTANCE_NAME NA -section_id m_sequence
+set_global_assignment -name EDA_TEST_BENCH_MODULE_NAME m_sequence_vlg_tst -section_id m_sequence
+set_global_assignment -name VERILOG_FILE even256_div.v
+set_global_assignment -name VERILOG_FILE delvb.v
+set_global_assignment -name EDA_TEST_BENCH_NAME delvb -section_id eda_simulation
+set_global_assignment -name EDA_DESIGN_INSTANCE_NAME NA -section_id delvb
+set_global_assignment -name EDA_TEST_BENCH_MODULE_NAME delvb_vlg_tst -section_id delvb
+set_global_assignment -name VERILOG_FILE trans8to1.v
+set_global_assignment -name VERILOG_FILE findv.v
+set_global_assignment -name VERILOG_FILE recover.v
+set_global_assignment -name EDA_TEST_BENCH_NAME recover -section_id eda_simulation
+set_global_assignment -name EDA_DESIGN_INSTANCE_NAME NA -section_id recover
+set_global_assignment -name EDA_TEST_BENCH_MODULE_NAME recover_vlg_tst -section_id recover
+set_global_assignment -name PARTITION_NETLIST_TYPE SOURCE -section_id Top
+set_global_assignment -name PARTITION_FITTER_PRESERVATION_LEVEL PLACEMENT_AND_ROUTING -section_id Top
+set_global_assignment -name PARTITION_COLOR 16764057 -section_id Top
+set_global_assignment -name EDA_TEST_BENCH_FILE simulation/modelsim/HDB3.vt -section_id HDB3
+set_global_assignment -name EDA_TEST_BENCH_FILE simulation/modelsim/add_v.vt -section_id add_v
+set_global_assignment -name EDA_TEST_BENCH_FILE simulation/modelsim/add_b.vt -section_id add_b
+set_global_assignment -name EDA_TEST_BENCH_FILE simulation/modelsim/polar.vt -section_id polar
+set_global_assignment -name EDA_TEST_BENCH_FILE simulation/modelsim/change.vt -section_id change
+set_global_assignment -name EDA_TEST_BENCH_FILE simulation/modelsim/m_sequence.vt -section_id m_sequence
+set_global_assignment -name EDA_TEST_BENCH_FILE simulation/modelsim/delvb.vt -section_id delvb
+set_global_assignment -name EDA_TEST_BENCH_FILE simulation/modelsim/recover.vt -section_id recover
+set_global_assignment -name STRATIX_DEVICE_IO_STANDARD "3.3-V LVTTL"
+set_location_assignment PIN_17 -to clk
+set_location_assignment PIN_73 -to clk_256
+set_location_assignment PIN_100 -to data_out[7]
+set_location_assignment PIN_99 -to data_out[6]
+set_location_assignment PIN_97 -to data_out[5]
+set_location_assignment PIN_96 -to data_out[4]
+set_location_assignment PIN_94 -to data_out[3]
+set_location_assignment PIN_93 -to data_out[2]
+set_location_assignment PIN_92 -to data_out[1]
+set_location_assignment PIN_87 -to data_out[0]
+set_location_assignment PIN_72 -to rst
+set_location_assignment PIN_74 -to ena
+set_location_assignment PIN_71 -to clk_16
+set_location_assignment PIN_101 -to outm
+set_location_assignment PIN_103 -to finallyout
+set_location_assignment PIN_144 -to clk_256_ad
+set_location_assignment PIN_7 -to data_out_ad[7]
+set_location_assignment PIN_8 -to data_out_ad[6]
+set_location_assignment PIN_9 -to data_out_ad[5]
+set_location_assignment PIN_24 -to data_out_ad[4]
+set_location_assignment PIN_25 -to data_out_ad[3]
+set_location_assignment PIN_28 -to data_out_ad[2]
+set_location_assignment PIN_30 -to data_out_ad[1]
+set_location_assignment PIN_31 -to data_out_ad[0]
+set_location_assignment PIN_119 -to data_out_check[7]
+set_location_assignment PIN_120 -to data_out_check[6]
+set_location_assignment PIN_121 -to data_out_check[5]
+set_location_assignment PIN_122 -to data_out_check[4]
+set_location_assignment PIN_125 -to data_out_check[3]
+set_location_assignment PIN_126 -to data_out_check[2]
+set_location_assignment PIN_129 -to data_out_check[1]
+set_location_assignment PIN_132 -to data_out_check[0]
+set_location_assignment PIN_70 -to clk_recover
+set_instance_assignment -name PARTITION_HIERARCHY root_partition -to | -section_id Top
