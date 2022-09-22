@@ -1,0 +1,28 @@
+//凌智城 201806061211 通信工程1803
+`timescale 1 ps/ 1 ps
+module clkdiv_vlg_tst();
+reg clk;
+reg rst;                                            
+wire clkout;
+
+// assign statements (if any)                          
+clkdiv i1 (
+// port map - connection between master ports and signals/registers   
+	.clk(clk),
+	.clkout(clkout),
+	.rst(rst)
+);
+initial clk=0;
+always
+	begin
+		#5 clk=1'b1;
+		#5 clk=1'b0;
+	end
+initial
+	begin
+		rst=0;
+		#20 rst=1;
+		#8000 $finish;
+	end                                                   
+endmodule
+

@@ -1,0 +1,68 @@
+// Copyright (C) 1991-2015 Altera Corporation. All rights reserved.
+// Your use of Altera Corporation's design tools, logic functions 
+// and other software and tools, and its AMPP partner logic 
+// functions, and any output files from any of the foregoing 
+// (including device programming or simulation files), and any 
+// associated documentation or information are expressly subject 
+// to the terms and conditions of the Altera Program License 
+// Subscription Agreement, the Altera Quartus II License Agreement,
+// the Altera MegaCore Function License Agreement, or other 
+// applicable license agreement, including, without limitation, 
+// that your use is for the sole purpose of programming logic 
+// devices manufactured by Altera and sold by Altera or its 
+// authorized distributors.  Please refer to the applicable 
+// agreement for further details.
+
+// *****************************************************************************
+// This file contains a Verilog test bench template that is freely editable to  
+// suit user's needs .Comments are provided in each section to help the user    
+// fill out necessary details.                                                  
+// *****************************************************************************
+// Generated on "12/03/2020 14:41:08"
+                                                                                
+// Verilog Test Bench template for design : add_8
+// 
+// Simulation tool : ModelSim (Verilog)
+// 
+`timescale 100 ps/ 10 ps
+module add_8_vlg_tst();
+// test vector input registers
+reg [7:0] A;
+reg [7:0] B;
+reg cin;
+// wires                                               
+wire COUNT;
+wire [7:0]  SUM;
+
+// assign statements (if any)                          
+add_8 i1 (
+// port map - connection between master ports and signals/registers   
+	.A(A),
+	.B(B),
+	.cin(cin),
+	.COUNT(COUNT),
+	.SUM(SUM)
+);
+always	#5 cin=~cin;			//每隔五个时间 进位信号就翻转一次，更加直观
+
+initial                    //两个initial模块，初值A和B都是8’b0                     
+begin                                                  
+A=8'b00000000;
+B=8'b00000000;
+cin=1'b0;
+repeat(200)
+	#10	B=B+1;
+end
+
+initial
+begin                                                  
+A=8'b00000000;
+B=8'b00000000;
+cin=1'b1;
+repeat(200)
+	#10	A=A+1;
+end 
+                                                                                                      
+endmodule
+
+

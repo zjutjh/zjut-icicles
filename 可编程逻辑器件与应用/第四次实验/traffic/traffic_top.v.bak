@@ -1,0 +1,1 @@
+module traffic_top(clk,rst_n,prim_red_time,prim_green_time,prim_yellow_time,prim_wait_time,seco_wait_time)

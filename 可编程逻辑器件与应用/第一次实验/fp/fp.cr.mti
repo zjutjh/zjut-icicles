@@ -1,0 +1,43 @@
+E:/modeltech64_10.4/projects/fp/fp_tp.v {1 {vlog -work work -vopt -stats=none E:/modeltech64_10.4/projects/fp/fp_tp.v
+Model Technology ModelSim SE-64 vlog 10.4 Compiler 2014.12 Dec  3 2014
+-- Compiling module fp_tp
+
+Top level modules:
+	fp_tp
+
+} {} {}} E:/modeltech64_10.4/projects/fp/d6_tp.v {1 {vlog -work work -vopt -stats=none E:/modeltech64_10.4/projects/fp/d6_tp.v
+Model Technology ModelSim SE-64 vlog 10.4 Compiler 2014.12 Dec  3 2014
+-- Compiling module d6_tp
+
+Top level modules:
+	d6_tp
+
+} {} {}} E:/modeltech64_10.4/projects/fp/fp.v {1 {vlog -work work -vopt -stats=none E:/modeltech64_10.4/projects/fp/fp.v
+Model Technology ModelSim SE-64 vlog 10.4 Compiler 2014.12 Dec  3 2014
+-- Compiling module fp
+
+Top level modules:
+	fp
+
+} {} {}} E:/modeltech64_10.4/projects/fp/division_6.v {1 {vlog -work work -vopt -stats=none E:/modeltech64_10.4/projects/fp/division_6.v
+Model Technology ModelSim SE-64 vlog 10.4 Compiler 2014.12 Dec  3 2014
+-- Compiling module division_6
+
+Top level modules:
+	division_6
+
+} {} {}} E:/modeltech64_10.4/projects/fp/d7_tp.v {1 {vlog -work work -vopt -stats=none E:/modeltech64_10.4/projects/fp/d7_tp.v
+Model Technology ModelSim SE-64 vlog 10.4 Compiler 2014.12 Dec  3 2014
+-- Compiling module d7_tp
+
+Top level modules:
+	d7_tp
+
+} {} {}} E:/modeltech64_10.4/projects/fp/division_7.v {1 {vlog -work work -vopt -stats=none E:/modeltech64_10.4/projects/fp/division_7.v
+Model Technology ModelSim SE-64 vlog 10.4 Compiler 2014.12 Dec  3 2014
+-- Compiling module division_7
+
+Top level modules:
+	division_7
+
+} {} {}}

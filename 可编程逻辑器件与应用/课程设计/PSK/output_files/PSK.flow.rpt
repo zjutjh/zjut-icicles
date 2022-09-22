@@ -1,0 +1,159 @@
+Flow report for PSK
+Sat Dec 26 20:40:11 2020
+Quartus II 64-Bit Version 15.0.0 Build 145 04/22/2015 SJ Full Version
+
+
+---------------------
+; Table of Contents ;
+---------------------
+  1. Legal Notice
+  2. Flow Summary
+  3. Flow Settings
+  4. Flow Non-Default Global Settings
+  5. Flow Elapsed Time
+  6. Flow OS Summary
+  7. Flow Log
+  8. Flow Messages
+  9. Flow Suppressed Messages
+
+
+
+----------------
+; Legal Notice ;
+----------------
+Copyright (C) 1991-2015 Altera Corporation. All rights reserved.
+Your use of Altera Corporation's design tools, logic functions 
+and other software and tools, and its AMPP partner logic 
+functions, and any output files from any of the foregoing 
+(including device programming or simulation files), and any 
+associated documentation or information are expressly subject 
+to the terms and conditions of the Altera Program License 
+Subscription Agreement, the Altera Quartus II License Agreement,
+the Altera MegaCore Function License Agreement, or other 
+applicable license agreement, including, without limitation, 
+that your use is for the sole purpose of programming logic 
+devices manufactured by Altera and sold by Altera or its 
+authorized distributors.  Please refer to the applicable 
+agreement for further details.
+
+
+
++----------------------------------------------------------------------------------+
+; Flow Summary                                                                     ;
++------------------------------------+---------------------------------------------+
+; Flow Status                        ; Successful - Sat Dec 26 20:40:11 2020       ;
+; Quartus II 64-Bit Version          ; 15.0.0 Build 145 04/22/2015 SJ Full Version ;
+; Revision Name                      ; PSK                                         ;
+; Top-level Entity Name              ; DPSK_top                                    ;
+; Family                             ; Cyclone IV E                                ;
+; Device                             ; EP4CE6E22C8                                 ;
+; Timing Models                      ; Final                                       ;
+; Total logic elements               ; 16 / 6,272 ( < 1 % )                        ;
+;     Total combinational functions  ; 15 / 6,272 ( < 1 % )                        ;
+;     Dedicated logic registers      ; 12 / 6,272 ( < 1 % )                        ;
+; Total registers                    ; 12                                          ;
+; Total pins                         ; 6 / 92 ( 7 % )                              ;
+; Total virtual pins                 ; 0                                           ;
+; Total memory bits                  ; 0 / 276,480 ( 0 % )                         ;
+; Embedded Multiplier 9-bit elements ; 0 / 30 ( 0 % )                              ;
+; Total PLLs                         ; 0 / 2 ( 0 % )                               ;
++------------------------------------+---------------------------------------------+
+
+
++-----------------------------------------+
+; Flow Settings                           ;
++-------------------+---------------------+
+; Option            ; Setting             ;
++-------------------+---------------------+
+; Start date & time ; 12/26/2020 20:39:41 ;
+; Main task         ; Compilation         ;
+; Revision Name     ; PSK                 ;
++-------------------+---------------------+
+
+
++-----------------------------------------------------------------------------------------------------------------------------------------------------+
+; Flow Non-Default Global Settings                                                                                                                    ;
++--------------------------------------+-----------------------------------------------+---------------+-------------+--------------------------------+
+; Assignment Name                      ; Value                                         ; Default Value ; Entity Name ; Section Id                     ;
++--------------------------------------+-----------------------------------------------+---------------+-------------+--------------------------------+
+; COMPILER_SIGNATURE_ID                ; 167304650816590.160898638116188               ; --            ; --          ; --                             ;
+; EDA_DESIGN_INSTANCE_NAME             ; i1                                            ; --            ; --          ; Modulator_CPSK_vlg_tst         ;
+; EDA_DESIGN_INSTANCE_NAME             ; i1                                            ; --            ; --          ; DPSK_top_vlg_tst               ;
+; EDA_DESIGN_INSTANCE_NAME             ; i1                                            ; --            ; --          ; PSK_top_vlg_tst                ;
+; EDA_DESIGN_INSTANCE_NAME             ; i1                                            ; --            ; --          ; Demodulator_CPSK_vlg_tst       ;
+; EDA_DESIGN_INSTANCE_NAME             ; i1                                            ; --            ; --          ; absolute_relative_code_vlg_tst ;
+; EDA_DESIGN_INSTANCE_NAME             ; i1                                            ; --            ; --          ; relative_absolute_code_vlg_tst ;
+; EDA_NATIVELINK_SIMULATION_TEST_BENCH ; PSK_top_vlg_tst                               ; --            ; --          ; eda_simulation                 ;
+; EDA_OUTPUT_DATA_FORMAT               ; Verilog Hdl                                   ; --            ; --          ; eda_simulation                 ;
+; EDA_SIMULATION_TOOL                  ; ModelSim (Verilog)                            ; <None>        ; --          ; --                             ;
+; EDA_TEST_BENCH_ENABLE_STATUS         ; TEST_BENCH_MODE                               ; --            ; --          ; eda_simulation                 ;
+; EDA_TEST_BENCH_FILE                  ; simulation/modelsim/Modulator_CPSK.vt         ; --            ; --          ; Modulator_CPSK_vlg_tst         ;
+; EDA_TEST_BENCH_FILE                  ; simulation/modelsim/DPSK_top.vt               ; --            ; --          ; DPSK_top_vlg_tst               ;
+; EDA_TEST_BENCH_FILE                  ; simulation/modelsim/PSK_top.vt                ; --            ; --          ; PSK_top_vlg_tst                ;
+; EDA_TEST_BENCH_FILE                  ; simulation/modelsim/Demodulator_CPSK.vt       ; --            ; --          ; Demodulator_CPSK_vlg_tst       ;
+; EDA_TEST_BENCH_FILE                  ; simulation/modelsim/absolute_relative_code.vt ; --            ; --          ; absolute_relative_code_vlg_tst ;
+; EDA_TEST_BENCH_FILE                  ; simulation/modelsim/relative_absolute_code.vt ; --            ; --          ; relative_absolute_code_vlg_tst ;
+; EDA_TEST_BENCH_MODULE_NAME           ; Modulator_CPSK_vlg_tst                        ; --            ; --          ; Modulator_CPSK_vlg_tst         ;
+; EDA_TEST_BENCH_MODULE_NAME           ; DPSK_top_vlg_tst                              ; --            ; --          ; DPSK_top_vlg_tst               ;
+; EDA_TEST_BENCH_MODULE_NAME           ; PSK_top_vlg_tst                               ; --            ; --          ; PSK_top_vlg_tst                ;
+; EDA_TEST_BENCH_MODULE_NAME           ; Demodulator_CPSK_vlg_tst                      ; --            ; --          ; Demodulator_CPSK_vlg_tst       ;
+; EDA_TEST_BENCH_MODULE_NAME           ; absolute_relative_code_vlg_tst                ; --            ; --          ; absolute_relative_code_vlg_tst ;
+; EDA_TEST_BENCH_MODULE_NAME           ; relative_absolute_code_vlg_tst                ; --            ; --          ; relative_absolute_code_vlg_tst ;
+; EDA_TEST_BENCH_NAME                  ; Modulator_CPSK_vlg_tst                        ; --            ; --          ; eda_simulation                 ;
+; EDA_TEST_BENCH_NAME                  ; relative_absolute_code_vlg_tst                ; --            ; --          ; eda_simulation                 ;
+; EDA_TEST_BENCH_NAME                  ; absolute_relative_code_vlg_tst                ; --            ; --          ; eda_simulation                 ;
+; EDA_TEST_BENCH_NAME                  ; Demodulator_CPSK_vlg_tst                      ; --            ; --          ; eda_simulation                 ;
+; EDA_TEST_BENCH_NAME                  ; PSK_top_vlg_tst                               ; --            ; --          ; eda_simulation                 ;
+; EDA_TEST_BENCH_NAME                  ; DPSK_top_vlg_tst                              ; --            ; --          ; eda_simulation                 ;
+; EDA_TIME_SCALE                       ; 1 ps                                          ; --            ; --          ; eda_simulation                 ;
+; MAX_CORE_JUNCTION_TEMP               ; 85                                            ; --            ; --          ; --                             ;
+; MIN_CORE_JUNCTION_TEMP               ; 0                                             ; --            ; --          ; --                             ;
+; NOMINAL_CORE_SUPPLY_VOLTAGE          ; 1.2V                                          ; --            ; --          ; --                             ;
+; PARTITION_COLOR                      ; 16764057                                      ; --            ; DPSK_top    ; Top                            ;
+; PARTITION_FITTER_PRESERVATION_LEVEL  ; PLACEMENT_AND_ROUTING                         ; --            ; DPSK_top    ; Top                            ;
+; PARTITION_NETLIST_TYPE               ; SOURCE                                        ; --            ; DPSK_top    ; Top                            ;
+; POWER_BOARD_THERMAL_MODEL            ; None (CONSERVATIVE)                           ; --            ; --          ; --                             ;
+; POWER_PRESET_COOLING_SOLUTION        ; 23 MM HEAT SINK WITH 200 LFPM AIRFLOW         ; --            ; --          ; --                             ;
+; PROJECT_OUTPUT_DIRECTORY             ; output_files                                  ; --            ; --          ; --                             ;
+; TOP_LEVEL_ENTITY                     ; DPSK_top                                      ; PSK           ; --          ; --                             ;
++--------------------------------------+-----------------------------------------------+---------------+-------------+--------------------------------+
+
+
++-------------------------------------------------------------------------------------------------------------------------------+
+; Flow Elapsed Time                                                                                                             ;
++---------------------------+--------------+-------------------------+---------------------+------------------------------------+
+; Module Name               ; Elapsed Time ; Average Processors Used ; Peak Virtual Memory ; Total CPU Time (on all processors) ;
++---------------------------+--------------+-------------------------+---------------------+------------------------------------+
+; Analysis & Synthesis      ; 00:00:11     ; 1.0                     ; 4830 MB             ; 00:00:24                           ;
+; Fitter                    ; 00:00:04     ; 1.0                     ; 5616 MB             ; 00:00:05                           ;
+; Assembler                 ; 00:00:01     ; 1.0                     ; 4740 MB             ; 00:00:01                           ;
+; TimeQuest Timing Analyzer ; 00:00:03     ; 1.0                     ; 4856 MB             ; 00:00:02                           ;
+; EDA Netlist Writer        ; 00:00:01     ; 1.0                     ; 4705 MB             ; 00:00:01                           ;
+; Total                     ; 00:00:20     ; --                      ; --                  ; 00:00:33                           ;
++---------------------------+--------------+-------------------------+---------------------+------------------------------------+
+
+
++----------------------------------------------------------------------------------------+
+; Flow OS Summary                                                                        ;
++---------------------------+------------------+-----------+------------+----------------+
+; Module Name               ; Machine Hostname ; OS Name   ; OS Version ; Processor type ;
++---------------------------+------------------+-----------+------------+----------------+
+; Analysis & Synthesis      ; DESKTOP-MVLIE0I  ; Windows 7 ; 6.2        ; x86_64         ;
+; Fitter                    ; DESKTOP-MVLIE0I  ; Windows 7 ; 6.2        ; x86_64         ;
+; Assembler                 ; DESKTOP-MVLIE0I  ; Windows 7 ; 6.2        ; x86_64         ;
+; TimeQuest Timing Analyzer ; DESKTOP-MVLIE0I  ; Windows 7 ; 6.2        ; x86_64         ;
+; EDA Netlist Writer        ; DESKTOP-MVLIE0I  ; Windows 7 ; 6.2        ; x86_64         ;
++---------------------------+------------------+-----------+------------+----------------+
+
+
+------------
+; Flow Log ;
+------------
+quartus_map --read_settings_files=on --write_settings_files=off PSK -c PSK
+quartus_fit --read_settings_files=off --write_settings_files=off PSK -c PSK
+quartus_asm --read_settings_files=off --write_settings_files=off PSK -c PSK
+quartus_sta PSK -c PSK
+quartus_eda --read_settings_files=off --write_settings_files=off PSK -c PSK
+
+
+

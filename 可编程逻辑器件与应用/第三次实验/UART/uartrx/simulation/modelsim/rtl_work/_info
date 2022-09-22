@@ -1,0 +1,60 @@
+m255
+K4
+z2
+13
+!s112 1.1
+!i10d 8192
+!i10e 25
+!i10f 100
+cModel Technology
+Z0 dE:/altera/15.0/Project/2020/uartrx/simulation/modelsim
+T_opt
+!s110 1607576913
+VFEU<S3FSJj>?<z=KDg?hl1
+04 14 4 work uartrx_vlg_tst fast 0
+=1-9829a647fc4e-5fd1ad51-20-f3c
+o-quiet -auto_acc_if_foreign -work work -L altera_ver -L lpm_ver -L sgate_ver -L altera_mf_ver -L altera_lnsim_ver -L cycloneive_ver -L rtl_work -L work +acc
+n@_opt
+OL;O;10.4;61
+vuartrx
+Z1 !s110 1607576912
+!i10b 1
+!s100 ;fHYZMefzb?MlWMUF_k;61
+IoJIj20=Ch5z0bRDNgdeN]1
+Z2 VDg1SIo80bB@j0V0VzS_@n1
+R0
+w1607575838
+8E:/altera/15.0/Project/2020/uartrx/uartrx.v
+FE:/altera/15.0/Project/2020/uartrx/uartrx.v
+L0 3
+Z3 OL;L;10.4;61
+r1
+!s85 0
+31
+!s108 1607576912.129000
+!s107 E:/altera/15.0/Project/2020/uartrx/uartrx.v|
+!s90 -reportprogress|300|-vlog01compat|-work|work|+incdir+E:/altera/15.0/Project/2020/uartrx|E:/altera/15.0/Project/2020/uartrx/uartrx.v|
+!i113 0
+Z4 o-vlog01compat -work work -L mtiAvm -L mtiRnm -L mtiOvm -L mtiUvm -L mtiUPF -L infact
+!s92 -vlog01compat -work work +incdir+E:/altera/15.0/Project/2020/uartrx -L mtiAvm -L mtiRnm -L mtiOvm -L mtiUvm -L mtiUPF -L infact
+vuartrx_vlg_tst
+R1
+!i10b 1
+!s100 _QNg;7LX:DdPTH?Vcej<W1
+IcWK[:DNd9ZOTIa>F04M`]3
+R2
+R0
+w1607576878
+8E:/altera/15.0/Project/2020/uartrx/simulation/modelsim/uartrx.vt
+FE:/altera/15.0/Project/2020/uartrx/simulation/modelsim/uartrx.vt
+L0 2
+R3
+r1
+!s85 0
+31
+!s108 1607576912.305000
+!s107 E:/altera/15.0/Project/2020/uartrx/simulation/modelsim/uartrx.vt|
+!s90 -reportprogress|300|-vlog01compat|-work|work|+incdir+E:/altera/15.0/Project/2020/uartrx/simulation/modelsim|E:/altera/15.0/Project/2020/uartrx/simulation/modelsim/uartrx.vt|
+!i113 0
+R4
+!s92 -vlog01compat -work work +incdir+E:/altera/15.0/Project/2020/uartrx/simulation/modelsim -L mtiAvm -L mtiRnm -L mtiOvm -L mtiUvm -L mtiUPF -L infact

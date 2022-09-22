@@ -1,0 +1,64 @@
+//凌智城 201806061211 通信工程1803
+`timescale 1 ps/ 1 ps
+module uart_top_vlg_tst();
+// constants                                           
+// test vector input registers
+reg clk;
+reg rst;
+reg rxd;
+// wires                                               
+wire clkout;
+wire [7:0]  data;
+wire dataerror;
+wire en;
+wire framerror;
+wire idle;
+wire txd;
+
+// assign statements (if any)                          
+uart_top i1 (
+// port map - connection between master ports and signals/registers   
+	.clk(clk),
+	.clkout(clkout),
+	.data(data),
+	.dataerror(dataerror),
+	.en(en),
+	.framerror(framerror),
+	.idle(idle),
+	.rst(rst),
+	.rxd(rxd),
+	.txd(txd)
+);
+initial clk=0;
+always
+	begin
+		#5 clk=1'b1;
+		#5 clk=1'b0;
+	end
+initial
+	begin
+		rst=0;
+		rxd=1;
+		#200 rst=1;
+			 rxd=1'b1;
+			 
+		#52160 rxd=1'b0;  //起始位，从高到低电平
+		
+		#52160 rxd=1'b1; //低位
+		#52160 rxd=1'b0;
+		#52160 rxd=1'b0;
+		#52160 rxd=1'b1;
+		#52160 rxd=1'b0;
+		#52160 rxd=1'b1;
+		#52160 rxd=1'b1;
+		#52160 rxd=1'b0;	//高位
+		
+		#52160 rxd=1'b1;	//奇偶校验位，学号11，奇校验
+
+		#52160 rxd=1'b1;  //停止位
+		
+		#2608000 $finish;
+	end                                                                     
+                                        
+endmodule
+

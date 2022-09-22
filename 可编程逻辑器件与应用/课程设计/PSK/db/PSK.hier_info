@@ -1,0 +1,61 @@
+|DPSK_top
+clk => clk.IN4
+start => start.IN4
+absolute_in => absolute_in.IN1
+absolute_out <= relative_absolute_code:b2v_inst3.y
+relative_in <= SYNTHESIZED_WIRE_1.DB_MAX_OUTPUT_PORT_TYPE
+relative_out <= SYNTHESIZED_WIRE_2.DB_MAX_OUTPUT_PORT_TYPE
+
+
+|DPSK_top|Demodulator_CPSK:b2v_inst
+clk => y~reg0.CLK
+clk => q[0].CLK
+clk => q[1].CLK
+start => q.OUTPUTSELECT
+start => q.OUTPUTSELECT
+start => y~reg0.ENA
+x => y.DATAB
+y <= y~reg0.DB_MAX_OUTPUT_PORT_TYPE
+
+
+|DPSK_top|Modulator_CPSK:b2v_inst1
+clk => y~reg0.CLK
+clk => f2.CLK
+clk => f1.CLK
+clk => q[0].CLK
+clk => q[1].CLK
+start => q.OUTPUTSELECT
+start => q.OUTPUTSELECT
+start => f1.OUTPUTSELECT
+start => f2.OUTPUTSELECT
+x => y.OUTPUTSELECT
+y <= y~reg0.DB_MAX_OUTPUT_PORT_TYPE
+
+
+|DPSK_top|absolute_relative_code:b2v_inst2
+clk => y~reg0.CLK
+clk => w.CLK
+clk => q[0].CLK
+clk => q[1].CLK
+start => q.OUTPUTSELECT
+start => q.OUTPUTSELECT
+start => w.OUTPUTSELECT
+start => y~reg0.ENA
+x => y.IN1
+y <= y~reg0.DB_MAX_OUTPUT_PORT_TYPE
+
+
+|DPSK_top|relative_absolute_code:b2v_inst3
+clk => w.CLK
+clk => y~reg0.CLK
+clk => q[0].CLK
+clk => q[1].CLK
+start => q.OUTPUTSELECT
+start => q.OUTPUTSELECT
+start => w.ENA
+start => y~reg0.ENA
+x => y.IN1
+x => w.DATAB
+y <= y~reg0.DB_MAX_OUTPUT_PORT_TYPE
+
+

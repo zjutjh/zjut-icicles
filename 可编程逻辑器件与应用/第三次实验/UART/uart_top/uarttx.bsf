@@ -1,0 +1,78 @@
+/*
+WARNING: Do NOT edit the input and output ports in this file in a text
+editor if you plan to continue editing the block that represents it in
+the Block Editor! File corruption is VERY likely to occur.
+*/
+/*
+Copyright (C) 1991-2015 Altera Corporation. All rights reserved.
+Your use of Altera Corporation's design tools, logic functions 
+and other software and tools, and its AMPP partner logic 
+functions, and any output files from any of the foregoing 
+(including device programming or simulation files), and any 
+associated documentation or information are expressly subject 
+to the terms and conditions of the Altera Program License 
+Subscription Agreement, the Altera Quartus II License Agreement,
+the Altera MegaCore Function License Agreement, or other 
+applicable license agreement, including, without limitation, 
+that your use is for the sole purpose of programming logic 
+devices manufactured by Altera and sold by Altera or its 
+authorized distributors.  Please refer to the applicable 
+agreement for further details.
+*/
+(header "symbol" (version "1.1"))
+(symbol
+	(rect 16 16 184 128)
+	(text "uarttx" (rect 5 0 27 12)(font "Arial" ))
+	(text "inst" (rect 8 96 20 108)(font "Arial" ))
+	(port
+		(pt 0 32)
+		(input)
+		(text "clk" (rect 0 0 10 12)(font "Arial" ))
+		(text "clk" (rect 21 27 31 39)(font "Arial" ))
+		(line (pt 0 32)(pt 16 32)(line_width 1))
+	)
+	(port
+		(pt 0 48)
+		(input)
+		(text "rst" (rect 0 0 10 12)(font "Arial" ))
+		(text "rst" (rect 21 43 31 55)(font "Arial" ))
+		(line (pt 0 48)(pt 16 48)(line_width 1))
+	)
+	(port
+		(pt 0 64)
+		(input)
+		(text "txd_data[7..0]" (rect 0 0 54 12)(font "Arial" ))
+		(text "txd_data[7..0]" (rect 21 59 75 71)(font "Arial" ))
+		(line (pt 0 64)(pt 16 64)(line_width 3))
+	)
+	(port
+		(pt 0 80)
+		(input)
+		(text "txd_en" (rect 0 0 27 12)(font "Arial" ))
+		(text "txd_en" (rect 21 75 48 87)(font "Arial" ))
+		(line (pt 0 80)(pt 16 80)(line_width 1))
+	)
+	(port
+		(pt 168 32)
+		(output)
+		(text "idle" (rect 0 0 11 12)(font "Arial" ))
+		(text "idle" (rect 136 27 147 39)(font "Arial" ))
+		(line (pt 168 32)(pt 152 32)(line_width 1))
+	)
+	(port
+		(pt 168 48)
+		(output)
+		(text "txd" (rect 0 0 11 12)(font "Arial" ))
+		(text "txd" (rect 136 43 147 55)(font "Arial" ))
+		(line (pt 168 48)(pt 152 48)(line_width 1))
+	)
+	(parameter
+		"paritymode"
+		"1"
+		""
+		(type "PARAMETER_UNSIGNED_BIN")	)
+	(drawing
+		(rectangle (rect 16 16 152 96)(line_width 1))
+	)
+	(annotation_block (parameter)(rect 184 -64 284 16))
+)

@@ -1,0 +1,92 @@
+Assembler report for traffic
+Thu Dec 17 03:48:46 2020
+Quartus II 64-Bit Version 15.0.0 Build 145 04/22/2015 SJ Full Version
+
+
+---------------------
+; Table of Contents ;
+---------------------
+  1. Legal Notice
+  2. Assembler Summary
+  3. Assembler Settings
+  4. Assembler Generated Files
+  5. Assembler Device Options: E:/altera/15.0/Project/2020/traffic/output_files/traffic.sof
+  6. Assembler Messages
+
+
+
+----------------
+; Legal Notice ;
+----------------
+Copyright (C) 1991-2015 Altera Corporation. All rights reserved.
+Your use of Altera Corporation's design tools, logic functions 
+and other software and tools, and its AMPP partner logic 
+functions, and any output files from any of the foregoing 
+(including device programming or simulation files), and any 
+associated documentation or information are expressly subject 
+to the terms and conditions of the Altera Program License 
+Subscription Agreement, the Altera Quartus II License Agreement,
+the Altera MegaCore Function License Agreement, or other 
+applicable license agreement, including, without limitation, 
+that your use is for the sole purpose of programming logic 
+devices manufactured by Altera and sold by Altera or its 
+authorized distributors.  Please refer to the applicable 
+agreement for further details.
+
+
+
++---------------------------------------------------------------+
+; Assembler Summary                                             ;
++-----------------------+---------------------------------------+
+; Assembler Status      ; Successful - Thu Dec 17 03:48:46 2020 ;
+; Revision Name         ; traffic                               ;
+; Top-level Entity Name ; traffic_top                           ;
+; Family                ; Cyclone IV E                          ;
+; Device                ; EP4CE6E22C8                           ;
++-----------------------+---------------------------------------+
+
+
++----------------------------------+
+; Assembler Settings               ;
++--------+---------+---------------+
+; Option ; Setting ; Default Value ;
++--------+---------+---------------+
+
+
++--------------------------------------------------------------+
+; Assembler Generated Files                                    ;
++--------------------------------------------------------------+
+; File Name                                                    ;
++--------------------------------------------------------------+
+; E:/altera/15.0/Project/2020/traffic/output_files/traffic.sof ;
++--------------------------------------------------------------+
+
+
++----------------------------------------------------------------------------------------+
+; Assembler Device Options: E:/altera/15.0/Project/2020/traffic/output_files/traffic.sof ;
++----------------+-----------------------------------------------------------------------+
+; Option         ; Setting                                                               ;
++----------------+-----------------------------------------------------------------------+
+; Device         ; EP4CE6E22C8                                                           ;
+; JTAG usercode  ; 0x000AC756                                                            ;
+; Checksum       ; 0x000AC756                                                            ;
++----------------+-----------------------------------------------------------------------+
+
+
++--------------------+
+; Assembler Messages ;
++--------------------+
+Info: *******************************************************************
+Info: Running Quartus II 64-Bit Assembler
+    Info: Version 15.0.0 Build 145 04/22/2015 SJ Full Version
+    Info: Processing started: Thu Dec 17 03:48:45 2020
+Info: Command: quartus_asm --read_settings_files=off --write_settings_files=off traffic -c traffic
+Info (115031): Writing out detailed assembly data for power analysis
+Info (115030): Assembler is generating device programming files
+Info: Quartus II 64-Bit Assembler was successful. 0 errors, 0 warnings
+    Info: Peak virtual memory: 4741 megabytes
+    Info: Processing ended: Thu Dec 17 03:48:46 2020
+    Info: Elapsed time: 00:00:01
+    Info: Total CPU time (on all processors): 00:00:01
+
+

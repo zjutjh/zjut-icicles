@@ -1,0 +1,606 @@
+# Reading E:/modeltech64_10.4/tcl/vsim/pref.tcl
+# //  ModelSim SE-64 10.4 Dec  3 2014 
+# //
+# //  Copyright 1991-2014 Mentor Graphics Corporation
+# //  All Rights Reserved.
+# //
+# //  THIS WORK CONTAINS TRADE SECRET AND PROPRIETARY INFORMATION
+# //  WHICH IS THE PROPERTY OF MENTOR GRAPHICS CORPORATION OR ITS
+# //  LICENSORS AND IS SUBJECT TO LICENSE TERMS.
+# //  THIS DOCUMENT CONTAINS TRADE SECRETS AND COMMERCIAL OR FINANCIAL
+# //  INFORMATION THAT ARE PRIVILEGED, CONFIDENTIAL, AND EXEMPT FROM
+# //  DISCLOSURE UNDER THE FREEDOM OF INFORMATION ACT, 5 U.S.C. SECTION 552.
+# //  FURTHERMORE, THIS INFORMATION IS PROHIBITED FROM DISCLOSURE UNDER
+# //  THE TRADE SECRETS ACT, 18 U.S.C. SECTION 1905.
+# //
+# do clkdiv_run_msim_rtl_verilog.do
+# if ![file isdirectory verilog_libs] {
+# 	file mkdir verilog_libs
+# }
+# 
+# vlib verilog_libs/altera_ver
+# ** Warning: (vlib-34) Library already exists at "verilog_libs/altera_ver".
+# 
+# vmap altera_ver ./verilog_libs/altera_ver
+# Model Technology ModelSim SE-64 vmap 10.4 Lib Mapping Utility 2014.12 Dec  3 2014
+# vmap -modelsim_quiet altera_ver ./verilog_libs/altera_ver 
+# Copying E:/modeltech64_10.4/win64/../modelsim.ini to modelsim.ini
+# Modifying modelsim.ini
+# ** Warning: Copied E:/modeltech64_10.4/win64/../modelsim.ini to modelsim.ini.
+#          Updated modelsim.ini.
+# vlog -vlog01compat -work altera_ver {e:/altera/15.0/quartus/eda/sim_lib/altera_primitives.v}
+# Model Technology ModelSim SE-64 vlog 10.4 Compiler 2014.12 Dec  3 2014
+# Start time: 09:41:08 on Dec 10,2020
+# vlog -reportprogress 300 -vlog01compat -work altera_ver e:/altera/15.0/quartus/eda/sim_lib/altera_primitives.v 
+# -- Compiling module global
+# -- Compiling module carry
+# -- Compiling module cascade
+# -- Compiling module carry_sum
+# -- Compiling module exp
+# -- Compiling module soft
+# -- Compiling module opndrn
+# -- Compiling module row_global
+# -- Compiling module TRI
+# -- Compiling module lut_input
+# -- Compiling module lut_output
+# -- Compiling module latch
+# -- Compiling module dlatch
+# -- Compiling module prim_gdff
+# -- Compiling module dff
+# -- Compiling module dffe
+# -- Compiling module dffea
+# -- Compiling module dffeas
+# -- Compiling module prim_gtff
+# -- Compiling module tff
+# -- Compiling module tffe
+# -- Compiling module prim_gjkff
+# -- Compiling module jkff
+# -- Compiling module jkffe
+# -- Compiling module prim_gsrff
+# -- Compiling module srff
+# -- Compiling module srffe
+# -- Compiling module clklock
+# -- Compiling module alt_inbuf
+# -- Compiling module alt_outbuf
+# -- Compiling module alt_outbuf_tri
+# -- Compiling module alt_iobuf
+# -- Compiling module alt_inbuf_diff
+# -- Compiling module alt_outbuf_diff
+# -- Compiling module alt_outbuf_tri_diff
+# -- Compiling module alt_iobuf_diff
+# -- Compiling module alt_bidir_diff
+# -- Compiling module alt_bidir_buf
+# -- Compiling UDP PRIM_GDFF_LOW
+# -- Compiling UDP PRIM_GDFF_HIGH
+# 
+# Top level modules:
+# 	global
+# 	carry
+# 	cascade
+# 	carry_sum
+# 	exp
+# 	soft
+# 	opndrn
+# 	row_global
+# 	TRI
+# 	lut_input
+# 	lut_output
+# 	latch
+# 	dlatch
+# 	dff
+# 	dffe
+# 	dffea
+# 	dffeas
+# 	tff
+# 	tffe
+# 	jkff
+# 	jkffe
+# 	srff
+# 	srffe
+# 	clklock
+# 	alt_inbuf
+# 	alt_outbuf
+# 	alt_outbuf_tri
+# 	alt_iobuf
+# 	alt_inbuf_diff
+# 	alt_outbuf_diff
+# 	alt_outbuf_tri_diff
+# 	alt_iobuf_diff
+# 	alt_bidir_diff
+# 	alt_bidir_buf
+# End time: 09:41:08 on Dec 10,2020, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0
+# 
+# vlib verilog_libs/lpm_ver
+# ** Warning: (vlib-34) Library already exists at "verilog_libs/lpm_ver".
+# 
+# vmap lpm_ver ./verilog_libs/lpm_ver
+# Model Technology ModelSim SE-64 vmap 10.4 Lib Mapping Utility 2014.12 Dec  3 2014
+# vmap -modelsim_quiet lpm_ver ./verilog_libs/lpm_ver 
+# Modifying modelsim.ini
+# vlog -vlog01compat -work lpm_ver {e:/altera/15.0/quartus/eda/sim_lib/220model.v}
+# Model Technology ModelSim SE-64 vlog 10.4 Compiler 2014.12 Dec  3 2014
+# Start time: 09:41:09 on Dec 10,2020
+# vlog -reportprogress 300 -vlog01compat -work lpm_ver e:/altera/15.0/quartus/eda/sim_lib/220model.v 
+# -- Compiling module LPM_MEMORY_INITIALIZATION
+# -- Compiling module LPM_HINT_EVALUATION
+# -- Compiling module LPM_DEVICE_FAMILIES
+# -- Compiling module lpm_constant
+# -- Compiling module lpm_inv
+# -- Compiling module lpm_and
+# -- Compiling module lpm_or
+# -- Compiling module lpm_xor
+# -- Compiling module lpm_bustri
+# -- Compiling module lpm_mux
+# -- Compiling module lpm_decode
+# -- Compiling module lpm_clshift
+# -- Compiling module lpm_add_sub
+# -- Compiling module lpm_compare
+# -- Compiling module lpm_mult
+# -- Compiling module lpm_divide
+# -- Compiling module lpm_abs
+# -- Compiling module lpm_counter
+# -- Compiling module lpm_latch
+# -- Compiling module lpm_ff
+# -- Compiling module lpm_shiftreg
+# -- Compiling module lpm_ram_dq
+# -- Compiling module lpm_ram_dp
+# -- Compiling module lpm_ram_io
+# -- Compiling module lpm_rom
+# -- Compiling module lpm_fifo
+# -- Compiling module lpm_fifo_dc_dffpipe
+# -- Compiling module lpm_fifo_dc_fefifo
+# -- Compiling module lpm_fifo_dc_async
+# -- Compiling module lpm_fifo_dc
+# -- Compiling module lpm_inpad
+# -- Compiling module lpm_outpad
+# -- Compiling module lpm_bipad
+# 
+# Top level modules:
+# 	lpm_constant
+# 	lpm_inv
+# 	lpm_and
+# 	lpm_or
+# 	lpm_xor
+# 	lpm_bustri
+# 	lpm_mux
+# 	lpm_decode
+# 	lpm_clshift
+# 	lpm_add_sub
+# 	lpm_compare
+# 	lpm_mult
+# 	lpm_divide
+# 	lpm_abs
+# 	lpm_counter
+# 	lpm_latch
+# 	lpm_ff
+# 	lpm_shiftreg
+# 	lpm_ram_dq
+# 	lpm_ram_dp
+# 	lpm_ram_io
+# 	lpm_rom
+# 	lpm_fifo
+# 	lpm_fifo_dc
+# 	lpm_inpad
+# 	lpm_outpad
+# 	lpm_bipad
+# End time: 09:41:09 on Dec 10,2020, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0
+# 
+# vlib verilog_libs/sgate_ver
+# ** Warning: (vlib-34) Library already exists at "verilog_libs/sgate_ver".
+# 
+# vmap sgate_ver ./verilog_libs/sgate_ver
+# Model Technology ModelSim SE-64 vmap 10.4 Lib Mapping Utility 2014.12 Dec  3 2014
+# vmap -modelsim_quiet sgate_ver ./verilog_libs/sgate_ver 
+# Modifying modelsim.ini
+# vlog -vlog01compat -work sgate_ver {e:/altera/15.0/quartus/eda/sim_lib/sgate.v}
+# Model Technology ModelSim SE-64 vlog 10.4 Compiler 2014.12 Dec  3 2014
+# Start time: 09:41:10 on Dec 10,2020
+# vlog -reportprogress 300 -vlog01compat -work sgate_ver e:/altera/15.0/quartus/eda/sim_lib/sgate.v 
+# -- Compiling module oper_add
+# -- Compiling module oper_addsub
+# -- Compiling module mux21
+# -- Compiling module io_buf_tri
+# -- Compiling module io_buf_opdrn
+# -- Compiling module oper_mult
+# -- Compiling module tri_bus
+# -- Compiling module oper_div
+# -- Compiling module oper_mod
+# -- Compiling module oper_left_shift
+# -- Compiling module oper_right_shift
+# -- Compiling module oper_rotate_left
+# -- Compiling module oper_rotate_right
+# -- Compiling module oper_less_than
+# -- Compiling module oper_mux
+# -- Compiling module oper_selector
+# -- Compiling module oper_decoder
+# -- Compiling module oper_bus_mux
+# -- Compiling module oper_latch
+# 
+# Top level modules:
+# 	oper_add
+# 	oper_addsub
+# 	mux21
+# 	io_buf_tri
+# 	io_buf_opdrn
+# 	oper_mult
+# 	tri_bus
+# 	oper_div
+# 	oper_mod
+# 	oper_left_shift
+# 	oper_right_shift
+# 	oper_rotate_left
+# 	oper_rotate_right
+# 	oper_less_than
+# 	oper_mux
+# 	oper_selector
+# 	oper_decoder
+# 	oper_bus_mux
+# 	oper_latch
+# End time: 09:41:10 on Dec 10,2020, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0
+# 
+# vlib verilog_libs/altera_mf_ver
+# ** Warning: (vlib-34) Library already exists at "verilog_libs/altera_mf_ver".
+# 
+# vmap altera_mf_ver ./verilog_libs/altera_mf_ver
+# Model Technology ModelSim SE-64 vmap 10.4 Lib Mapping Utility 2014.12 Dec  3 2014
+# vmap -modelsim_quiet altera_mf_ver ./verilog_libs/altera_mf_ver 
+# Modifying modelsim.ini
+# vlog -vlog01compat -work altera_mf_ver {e:/altera/15.0/quartus/eda/sim_lib/altera_mf.v}
+# Model Technology ModelSim SE-64 vlog 10.4 Compiler 2014.12 Dec  3 2014
+# Start time: 09:41:10 on Dec 10,2020
+# vlog -reportprogress 300 -vlog01compat -work altera_mf_ver e:/altera/15.0/quartus/eda/sim_lib/altera_mf.v 
+# -- Compiling module lcell
+# -- Compiling module ALTERA_MF_MEMORY_INITIALIZATION
+# -- Compiling module ALTERA_MF_HINT_EVALUATION
+# -- Compiling module ALTERA_DEVICE_FAMILIES
+# -- Compiling module dffp
+# -- Compiling module pll_iobuf
+# -- Compiling module stx_m_cntr
+# -- Compiling module stx_n_cntr
+# -- Compiling module stx_scale_cntr
+# -- Compiling module MF_pll_reg
+# -- Compiling module MF_stratix_pll
+# -- Compiling module arm_m_cntr
+# -- Compiling module arm_n_cntr
+# -- Compiling module arm_scale_cntr
+# -- Compiling module MF_stratixii_pll
+# -- Compiling module ttn_m_cntr
+# -- Compiling module ttn_n_cntr
+# -- Compiling module ttn_scale_cntr
+# -- Compiling module MF_stratixiii_pll
+# -- Compiling module cda_m_cntr
+# -- Compiling module cda_n_cntr
+# -- Compiling module cda_scale_cntr
+# -- Compiling module MF_cycloneiii_pll
+# -- Compiling module MF_cycloneiiigl_m_cntr
+# -- Compiling module MF_cycloneiiigl_n_cntr
+# -- Compiling module MF_cycloneiiigl_scale_cntr
+# -- Compiling module cycloneiiigl_post_divider
+# -- Compiling module MF_cycloneiiigl_pll
+# -- Compiling module altpll
+# -- Compiling module altlvds_rx
+# -- Compiling module stratix_lvds_rx
+# -- Compiling module stratixgx_dpa_lvds_rx
+# -- Compiling module stratixii_lvds_rx
+# -- Compiling module flexible_lvds_rx
+# -- Compiling module stratixiii_lvds_rx
+# -- Compiling module stratixiii_lvds_rx_channel
+# -- Compiling module stratixiii_lvds_rx_dpa
+# -- Compiling module altlvds_tx
+# -- Compiling module stratixv_local_clk_divider
+# -- Compiling module stratix_tx_outclk
+# -- Compiling module stratixii_tx_outclk
+# -- Compiling module flexible_lvds_tx
+# -- Compiling module dcfifo_dffpipe
+# -- Compiling module dcfifo_fefifo
+# -- Compiling module dcfifo_async
+# -- Compiling module dcfifo_sync
+# -- Compiling module dcfifo_low_latency
+# -- Compiling module dcfifo_mixed_widths
+# -- Compiling module dcfifo
+# -- Compiling module altera_syncram_derived
+# -- Compiling module altaccumulate
+# -- Compiling module altmult_accum
+# -- Compiling module altmult_add
+# -- Compiling module altfp_mult
+# -- Compiling module altsqrt
+# -- Compiling module altclklock
+# -- Compiling module altddio_in
+# -- Compiling module altddio_out
+# -- Compiling module altddio_bidir
+# -- Compiling module altdpram
+# -- Compiling module altsyncram
+# -- Compiling module altsyncram_body
+# -- Compiling module alt3pram
+# -- Compiling module parallel_add
+# -- Compiling module scfifo
+# -- Compiling module altshift_taps
+# -- Compiling module a_graycounter
+# -- Compiling module altsquare
+# -- Compiling module altera_std_synchronizer
+# -- Compiling module altera_std_synchronizer_bundle
+# -- Compiling module alt_cal
+# -- Compiling module alt_cal_mm
+# -- Compiling module alt_cal_c3gxb
+# -- Compiling module alt_cal_sv
+# -- Compiling module alt_cal_av
+# -- Compiling module alt_aeq_s4
+# -- Compiling module alt_eyemon
+# -- Compiling module alt_dfe
+# -- Compiling module signal_gen
+# -- Compiling module jtag_tap_controller
+# -- Compiling module dummy_hub
+# -- Compiling module sld_virtual_jtag
+# -- Compiling module sld_signaltap
+# -- Compiling module altstratixii_oct
+# -- Compiling module altparallel_flash_loader
+# -- Compiling module altserial_flash_loader
+# -- Compiling module sld_virtual_jtag_basic
+# -- Compiling module altsource_probe
+# 
+# Top level modules:
+# 	lcell
+# 	altpll
+# 	altlvds_rx
+# 	altlvds_tx
+# 	dcfifo
+# 	altaccumulate
+# 	altmult_accum
+# 	altmult_add
+# 	altfp_mult
+# 	altsqrt
+# 	altclklock
+# 	altddio_bidir
+# 	altdpram
+# 	alt3pram
+# 	parallel_add
+# 	scfifo
+# 	altshift_taps
+# 	a_graycounter
+# 	altsquare
+# 	altera_std_synchronizer_bundle
+# 	alt_cal
+# 	alt_cal_mm
+# 	alt_cal_c3gxb
+# 	alt_cal_sv
+# 	alt_cal_av
+# 	alt_aeq_s4
+# 	alt_eyemon
+# 	alt_dfe
+# 	sld_virtual_jtag
+# 	sld_signaltap
+# 	altstratixii_oct
+# 	altparallel_flash_loader
+# 	altserial_flash_loader
+# 	sld_virtual_jtag_basic
+# 	altsource_probe
+# End time: 09:41:11 on Dec 10,2020, Elapsed time: 0:00:01
+# Errors: 0, Warnings: 0
+# 
+# vlib verilog_libs/altera_lnsim_ver
+# ** Warning: (vlib-34) Library already exists at "verilog_libs/altera_lnsim_ver".
+# 
+# vmap altera_lnsim_ver ./verilog_libs/altera_lnsim_ver
+# Model Technology ModelSim SE-64 vmap 10.4 Lib Mapping Utility 2014.12 Dec  3 2014
+# vmap -modelsim_quiet altera_lnsim_ver ./verilog_libs/altera_lnsim_ver 
+# Modifying modelsim.ini
+# vlog -sv -work altera_lnsim_ver {e:/altera/15.0/quartus/eda/sim_lib/altera_lnsim.sv}
+# Model Technology ModelSim SE-64 vlog 10.4 Compiler 2014.12 Dec  3 2014
+# Start time: 09:41:12 on Dec 10,2020
+# vlog -reportprogress 300 -sv -work altera_lnsim_ver e:/altera/15.0/quartus/eda/sim_lib/altera_lnsim.sv 
+# -- Compiling package altera_lnsim_functions
+# -- Compiling package altera_generic_pll_functions
+# -- Compiling module generic_pll
+# -- Importing package altera_lnsim_functions
+# -- Importing package altera_generic_pll_functions
+# -- Compiling module generic_cdr
+# -- Compiling module common_28nm_ram_pulse_generator
+# -- Compiling module common_28nm_ram_register
+# -- Compiling module common_28nm_ram_block
+# -- Compiling module generic_m20k
+# -- Compiling module generic_m10k
+# -- Compiling module common_28nm_mlab_cell_pulse_generator
+# -- Compiling module common_28nm_mlab_latch
+# -- Compiling module common_28nm_mlab_cell_core
+# -- Compiling module common_porta_latches
+# -- Compiling module generic_28nm_hp_mlab_cell_impl
+# -- Compiling module common_porta_registers
+# -- Compiling module generic_28nm_lc_mlab_cell_impl
+# -- Compiling module generic_mux
+# -- Compiling module generic_device_pll
+# -- Compiling module common_14nm_ram_pulse_generator
+# -- Compiling module common_14nm_ram_register
+# -- Compiling module fourteennm_m20k
+# -- Compiling module nadder_m20k
+# -- Compiling module altera_mult_add
+# -- Compiling module altera_mult_add_rtl
+# -- Compiling module ama_signed_extension_function
+# -- Compiling module ama_dynamic_signed_function
+# -- Compiling module ama_register_function
+# -- Compiling module ama_register_with_ext_function
+# -- Compiling module ama_data_split_reg_ext_function
+# -- Compiling module ama_coef_reg_ext_function
+# -- Compiling module ama_adder_function
+# -- Compiling module ama_multiplier_function
+# -- Compiling module ama_preadder_function
+# -- Compiling module ama_chainout_adder_accumulator_function
+# -- Compiling module ama_systolic_adder_function
+# -- Compiling module ama_scanchain
+# -- Compiling module ama_latency_function
+# -- Compiling module altera_pll_reconfig_tasks
+# -- Compiling module altera_syncram
+# -- Compiling module ALTERA_LNSIM_MEMORY_INITIALIZATION
+# -- Compiling module altera_stratixv_pll
+# -- Compiling module altera_arriav_pll
+# -- Compiling module altera_arriavgz_pll
+# -- Compiling module altera_cyclonev_pll
+# -- Compiling module altera_pll
+# -- Compiling module dps_extra_kick
+# -- Compiling module dprio_init
+# -- Compiling module dps_pulse_gen
+# -- Compiling module twentynm_iopll_ip
+# -- Compiling module altera_pll_dps_lcell_comb
+# 
+# Top level modules:
+# 	generic_cdr
+# 	generic_m20k
+# 	generic_m10k
+# 	common_porta_latches
+# 	generic_28nm_hp_mlab_cell_impl
+# 	generic_28nm_lc_mlab_cell_impl
+# 	generic_mux
+# 	generic_device_pll
+# 	nadder_m20k
+# 	altera_mult_add
+# 	altera_pll_reconfig_tasks
+# 	altera_syncram
+# 	altera_pll
+# End time: 09:41:13 on Dec 10,2020, Elapsed time: 0:00:01
+# Errors: 0, Warnings: 0
+# 
+# vlib verilog_libs/cycloneive_ver
+# ** Warning: (vlib-34) Library already exists at "verilog_libs/cycloneive_ver".
+# 
+# vmap cycloneive_ver ./verilog_libs/cycloneive_ver
+# Model Technology ModelSim SE-64 vmap 10.4 Lib Mapping Utility 2014.12 Dec  3 2014
+# vmap -modelsim_quiet cycloneive_ver ./verilog_libs/cycloneive_ver 
+# Modifying modelsim.ini
+# vlog -vlog01compat -work cycloneive_ver {e:/altera/15.0/quartus/eda/sim_lib/cycloneive_atoms.v}
+# Model Technology ModelSim SE-64 vlog 10.4 Compiler 2014.12 Dec  3 2014
+# Start time: 09:41:14 on Dec 10,2020
+# vlog -reportprogress 300 -vlog01compat -work cycloneive_ver e:/altera/15.0/quartus/eda/sim_lib/cycloneive_atoms.v 
+# -- Compiling UDP CYCLONEIVE_PRIM_DFFE
+# -- Compiling UDP CYCLONEIVE_PRIM_DFFEAS
+# -- Compiling UDP CYCLONEIVE_PRIM_DFFEAS_HIGH
+# -- Compiling module cycloneive_dffe
+# -- Compiling module cycloneive_mux21
+# -- Compiling module cycloneive_mux41
+# -- Compiling module cycloneive_and1
+# -- Compiling module cycloneive_and16
+# -- Compiling module cycloneive_bmux21
+# -- Compiling module cycloneive_b17mux21
+# -- Compiling module cycloneive_nmux21
+# -- Compiling module cycloneive_b5mux21
+# -- Compiling module cycloneive_latch
+# -- Compiling module cycloneive_routing_wire
+# -- Compiling module cycloneive_m_cntr
+# -- Compiling module cycloneive_n_cntr
+# -- Compiling module cycloneive_scale_cntr
+# -- Compiling module cycloneive_pll_reg
+# -- Compiling module cycloneive_pll
+# -- Compiling module cycloneive_lcell_comb
+# -- Compiling module cycloneive_ff
+# -- Compiling module cycloneive_ram_pulse_generator
+# -- Compiling module cycloneive_ram_register
+# -- Compiling module cycloneive_ram_block
+# -- Compiling module cycloneive_mac_data_reg
+# -- Compiling module cycloneive_mac_sign_reg
+# -- Compiling module cycloneive_mac_mult_internal
+# -- Compiling module cycloneive_mac_mult
+# -- Compiling module cycloneive_mac_out
+# -- Compiling module cycloneive_io_ibuf
+# -- Compiling module cycloneive_io_obuf
+# -- Compiling module cycloneive_ddio_out
+# -- Compiling module cycloneive_ddio_oe
+# -- Compiling module cycloneive_pseudo_diff_out
+# -- Compiling module cycloneive_io_pad
+# -- Compiling module cycloneive_asmiblock
+# -- Compiling module cycloneive_ena_reg
+# -- Compiling module cycloneive_clkctrl
+# -- Compiling module cycloneive_rublock
+# -- Compiling module cycloneive_apfcontroller
+# -- Compiling module cycloneive_termination_ctrl
+# -- Compiling module cycloneive_termination_rupdn
+# -- Compiling module cycloneive_termination
+# -- Compiling module cycloneive_jtag
+# -- Compiling module cycloneive_crcblock
+# -- Compiling module cycloneive_oscillator
+# 
+# Top level modules:
+# 	cycloneive_dffe
+# 	cycloneive_and1
+# 	cycloneive_and16
+# 	cycloneive_bmux21
+# 	cycloneive_b17mux21
+# 	cycloneive_nmux21
+# 	cycloneive_b5mux21
+# 	cycloneive_pll_reg
+# 	cycloneive_pll
+# 	cycloneive_lcell_comb
+# 	cycloneive_ff
+# 	cycloneive_ram_block
+# 	cycloneive_mac_mult
+# 	cycloneive_mac_out
+# 	cycloneive_io_ibuf
+# 	cycloneive_io_obuf
+# 	cycloneive_ddio_out
+# 	cycloneive_ddio_oe
+# 	cycloneive_pseudo_diff_out
+# 	cycloneive_io_pad
+# 	cycloneive_asmiblock
+# 	cycloneive_clkctrl
+# 	cycloneive_rublock
+# 	cycloneive_apfcontroller
+# 	cycloneive_termination
+# 	cycloneive_jtag
+# 	cycloneive_crcblock
+# 	cycloneive_oscillator
+# End time: 09:41:14 on Dec 10,2020, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0
+# 
+# if {[file exists rtl_work]} {
+# 	vdel -lib rtl_work -all
+# }
+# vlib rtl_work
+# vmap work rtl_work
+# Model Technology ModelSim SE-64 vmap 10.4 Lib Mapping Utility 2014.12 Dec  3 2014
+# vmap -modelsim_quiet work rtl_work 
+# Modifying modelsim.ini
+# 
+# vlog -vlog01compat -work work +incdir+E:/altera/15.0/Project/2020/uartclk {E:/altera/15.0/Project/2020/uartclk/clkdiv.v}
+# Model Technology ModelSim SE-64 vlog 10.4 Compiler 2014.12 Dec  3 2014
+# Start time: 09:41:15 on Dec 10,2020
+# vlog -reportprogress 300 -vlog01compat -work work "+incdir+E:/altera/15.0/Project/2020/uartclk" E:/altera/15.0/Project/2020/uartclk/clkdiv.v 
+# -- Compiling module clkdiv
+# 
+# Top level modules:
+# 	clkdiv
+# End time: 09:41:15 on Dec 10,2020, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0
+# 
+# vlog -vlog01compat -work work +incdir+E:/altera/15.0/Project/2020/uartclk/simulation/modelsim {E:/altera/15.0/Project/2020/uartclk/simulation/modelsim/clkdiv.vt}
+# Model Technology ModelSim SE-64 vlog 10.4 Compiler 2014.12 Dec  3 2014
+# Start time: 09:41:15 on Dec 10,2020
+# vlog -reportprogress 300 -vlog01compat -work work "+incdir+E:/altera/15.0/Project/2020/uartclk/simulation/modelsim" E:/altera/15.0/Project/2020/uartclk/simulation/modelsim/clkdiv.vt 
+# -- Compiling module clkdiv_vlg_tst
+# 
+# Top level modules:
+# 	clkdiv_vlg_tst
+# End time: 09:41:15 on Dec 10,2020, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0
+# 
+# vsim -t 1ps -L altera_ver -L lpm_ver -L sgate_ver -L altera_mf_ver -L altera_lnsim_ver -L cycloneive_ver -L rtl_work -L work -voptargs="+acc"  clkdiv_vlg_tst
+# vsim -gui "+altera" -l msim_transcript -do "clkdiv_run_msim_rtl_verilog.do" 
+# Start time: 09:41:15 on Dec 10,2020
+# ** Note: (vsim-3812) Design is being optimized...
+# 
+# Loading work.clkdiv_vlg_tst(fast)
+# Loading work.clkdiv(fast)
+# 
+# add wave *
+# 
+# view structure
+# .main_pane.structure.interior.cs.body.struct
+# view signals
+# .main_pane.objects.interior.cs.body.tree
+# run -all
+# ** Note: $finish    : E:/altera/15.0/Project/2020/uartclk/simulation/modelsim/clkdiv.vt(51)
+#    Time: 8020 ps  Iteration: 0  Instance: /clkdiv_vlg_tst
+# 1
+# Break in Module clkdiv_vlg_tst at E:/altera/15.0/Project/2020/uartclk/simulation/modelsim/clkdiv.vt line 51
+# Causality operation skipped due to absence of debug database file
+# End time: 09:44:44 on Dec 10,2020, Elapsed time: 0:03:29
+# Errors: 0, Warnings: 1

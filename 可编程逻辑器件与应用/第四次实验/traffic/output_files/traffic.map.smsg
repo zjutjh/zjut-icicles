@@ -1,0 +1,1 @@
+Warning (10268): Verilog HDL information at traffic_con.v(38): always construct contains both blocking and non-blocking assignments

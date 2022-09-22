@@ -1,0 +1,146 @@
+# -------------------------------------------------------------------------- #
+#
+# Copyright (C) 1991-2015 Altera Corporation. All rights reserved.
+# Your use of Altera Corporation's design tools, logic functions
+# and other software and tools, and its AMPP partner logic
+# functions, and any output files from any of the foregoing
+# (including device programming or simulation files), and any
+# associated documentation or information are expressly subject
+# to the terms and conditions of the Altera Program License
+# Subscription Agreement, the Altera Quartus II License Agreement,
+# the Altera MegaCore Function License Agreement, or other
+# applicable license agreement, including, without limitation,
+# that your use is for the sole purpose of programming logic
+# devices manufactured by Altera and sold by Altera or its
+# authorized distributors.  Please refer to the applicable
+# agreement for further details.
+#
+# -------------------------------------------------------------------------- #
+#
+# Quartus II 64-Bit
+# Version 15.0.0 Build 145 04/22/2015 SJ Full Version
+# Date created = 21:51:22  December 02, 2020
+#
+# -------------------------------------------------------------------------- #
+#
+# Notes:
+#
+# 1) The default values for assignments are stored in the file:
+#		add_8_assignment_defaults.qdf
+#    If this file doesn't exist, see file:
+#		assignment_defaults.qdf
+#
+# 2) Altera recommends that you do not modify this file. This
+#    file is updated automatically by the Quartus II software
+#    and any changes you make may be lost or overwritten.
+#
+# -------------------------------------------------------------------------- #
+
+
+
+# Project-Wide Assignments
+# ========================
+set_global_assignment -name ORIGINAL_QUARTUS_VERSION 15.0.0
+set_global_assignment -name PROJECT_CREATION_TIME_DATE "21:52:30  DECEMBER 02, 2020"
+set_global_assignment -name LAST_QUARTUS_VERSION 15.0.0
+set_global_assignment -name PROJECT_OUTPUT_DIRECTORY output_files
+
+# Pin & Location Assignments
+# ==========================
+
+# Classic Timing Assignments
+# ==========================
+set_global_assignment -name MIN_CORE_JUNCTION_TEMP 0
+set_global_assignment -name MAX_CORE_JUNCTION_TEMP 85
+
+# Analysis & Synthesis Assignments
+# ================================
+set_global_assignment -name FAMILY "Cyclone IV E"
+set_global_assignment -name TOP_LEVEL_ENTITY add_8
+
+# Fitter Assignments
+# ==================
+set_global_assignment -name DEVICE EP4CE6E22C8
+set_global_assignment -name ERROR_CHECK_FREQUENCY_DIVISOR 1
+set_global_assignment -name CRC_ERROR_OPEN_DRAIN OFF
+set_global_assignment -name RESERVE_ALL_UNUSED_PINS_WEAK_PULLUP "AS INPUT TRI-STATED"
+set_global_assignment -name STRATIX_DEVICE_IO_STANDARD "2.5 V"
+
+# EDA Netlist Writer Assignments
+# ==============================
+set_global_assignment -name EDA_SIMULATION_TOOL "ModelSim (Verilog)"
+
+# Assembler Assignments
+# =====================
+set_global_assignment -name ENABLE_OCT_DONE OFF
+set_global_assignment -name USE_CONFIGURATION_DEVICE ON
+set_global_assignment -name CYCLONEIII_CONFIGURATION_DEVICE EPCS4
+
+# Power Estimation Assignments
+# ============================
+set_global_assignment -name POWER_PRESET_COOLING_SOLUTION "23 MM HEAT SINK WITH 200 LFPM AIRFLOW"
+set_global_assignment -name POWER_BOARD_THERMAL_MODEL "NONE (CONSERVATIVE)"
+
+# Advanced I/O Timing Assignments
+# ===============================
+set_global_assignment -name OUTPUT_IO_TIMING_NEAR_END_VMEAS "HALF VCCIO" -rise
+set_global_assignment -name OUTPUT_IO_TIMING_NEAR_END_VMEAS "HALF VCCIO" -fall
+set_global_assignment -name OUTPUT_IO_TIMING_FAR_END_VMEAS "HALF SIGNAL SWING" -rise
+set_global_assignment -name OUTPUT_IO_TIMING_FAR_END_VMEAS "HALF SIGNAL SWING" -fall
+
+# start EDA_TEST_BENCH_SETTINGS(h_add_vlg_tst)
+# --------------------------------------------
+
+# EDA Netlist Writer Assignments
+# ==============================
+set_global_assignment -name EDA_DESIGN_INSTANCE_NAME i1 -section_id h_add_vlg_tst
+set_global_assignment -name EDA_TEST_BENCH_MODULE_NAME h_add_vlg_tst -section_id h_add_vlg_tst
+
+# end EDA_TEST_BENCH_SETTINGS(h_add_vlg_tst)
+# ------------------------------------------
+
+# start EDA_TOOL_SETTINGS(eda_simulation)
+# ---------------------------------------
+
+# EDA Netlist Writer Assignments
+# ==============================
+set_global_assignment -name EDA_TIME_SCALE "1 ps" -section_id eda_simulation
+set_global_assignment -name EDA_OUTPUT_DATA_FORMAT "VERILOG HDL" -section_id eda_simulation
+set_global_assignment -name EDA_TEST_BENCH_ENABLE_STATUS TEST_BENCH_MODE -section_id eda_simulation
+set_global_assignment -name EDA_NATIVELINK_SIMULATION_TEST_BENCH add_8_vlg_tst -section_id eda_simulation
+set_global_assignment -name EDA_TEST_BENCH_NAME h_add_vlg_tst -section_id eda_simulation
+
+# end EDA_TOOL_SETTINGS(eda_simulation)
+# -------------------------------------
+
+# -------------------
+# start ENTITY(h_add)
+
+# start DESIGN_PARTITION(Top)
+# ---------------------------
+
+# Incremental Compilation Assignments
+# ===================================
+
+# end DESIGN_PARTITION(Top)
+# -------------------------
+
+# end ENTITY(h_add)
+# -----------------
+set_global_assignment -name EDA_TEST_BENCH_NAME add_8_vlg_tst -section_id eda_simulation
+set_global_assignment -name EDA_DESIGN_INSTANCE_NAME i1 -section_id add_8_vlg_tst
+set_global_assignment -name EDA_TEST_BENCH_MODULE_NAME add_8_vlg_tst -section_id add_8_vlg_tst
+set_global_assignment -name VERILOG_FILE add_1.v
+set_global_assignment -name VERILOG_FILE add_8.v
+set_global_assignment -name SDC_FILE h_add.out.sdc
+set_global_assignment -name VERILOG_FILE h_add.v
+set_global_assignment -name EDA_TEST_BENCH_NAME add_1_vlg_tst -section_id eda_simulation
+set_global_assignment -name EDA_DESIGN_INSTANCE_NAME i1 -section_id add_1_vlg_tst
+set_global_assignment -name EDA_TEST_BENCH_MODULE_NAME add_1_vlg_tst -section_id add_1_vlg_tst
+set_global_assignment -name PARTITION_NETLIST_TYPE SOURCE -section_id Top
+set_global_assignment -name PARTITION_FITTER_PRESERVATION_LEVEL PLACEMENT_AND_ROUTING -section_id Top
+set_global_assignment -name PARTITION_COLOR 16764057 -section_id Top
+set_global_assignment -name EDA_TEST_BENCH_FILE simulation/modelsim/h_add.vt -section_id h_add_vlg_tst
+set_global_assignment -name EDA_TEST_BENCH_FILE simulation/modelsim/add_8.vt -section_id add_8_vlg_tst
+set_global_assignment -name EDA_TEST_BENCH_FILE simulation/modelsim/add_1.vt -section_id add_1_vlg_tst
+set_instance_assignment -name PARTITION_HIERARCHY root_partition -to | -section_id Top

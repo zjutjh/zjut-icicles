@@ -1,0 +1,16 @@
+Fitter Status : Successful - Sat Dec 26 20:39:59 2020
+Quartus II 64-Bit Version : 15.0.0 Build 145 04/22/2015 SJ Full Version
+Revision Name : PSK
+Top-level Entity Name : DPSK_top
+Family : Cyclone IV E
+Device : EP4CE6E22C8
+Timing Models : Final
+Total logic elements : 16 / 6,272 ( < 1 % )
+    Total combinational functions : 15 / 6,272 ( < 1 % )
+    Dedicated logic registers : 12 / 6,272 ( < 1 % )
+Total registers : 12
+Total pins : 6 / 92 ( 7 % )
+Total virtual pins : 0
+Total memory bits : 0 / 276,480 ( 0 % )
+Embedded Multiplier 9-bit elements : 0 / 30 ( 0 % )
+Total PLLs : 0 / 2 ( 0 % )

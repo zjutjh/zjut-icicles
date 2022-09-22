@@ -1,0 +1,16 @@
+Fitter Status : Successful - Thu Dec 10 10:40:50 2020
+Quartus II 64-Bit Version : 15.0.0 Build 145 04/22/2015 SJ Full Version
+Revision Name : uarttx
+Top-level Entity Name : uarttx
+Family : Cyclone IV E
+Device : EP4CE6E22C8
+Timing Models : Final
+Total logic elements : 56 / 6,272 ( < 1 % )
+    Total combinational functions : 55 / 6,272 ( < 1 % )
+    Dedicated logic registers : 14 / 6,272 ( < 1 % )
+Total registers : 14
+Total pins : 13 / 92 ( 14 % )
+Total virtual pins : 0
+Total memory bits : 0 / 276,480 ( 0 % )
+Embedded Multiplier 9-bit elements : 0 / 30 ( 0 % )
+Total PLLs : 0 / 2 ( 0 % )

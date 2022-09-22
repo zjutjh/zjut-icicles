@@ -1,0 +1,15 @@
+E:/modeltech64_10.4/projects/count6/count6.v {1 {vlog -work work -vopt -stats=none E:/modeltech64_10.4/projects/count6/count6.v
+Model Technology ModelSim SE-64 vlog 10.4 Compiler 2014.12 Dec  3 2014
+-- Compiling module count6
+
+Top level modules:
+	count6
+
+} {} {}} E:/modeltech64_10.4/projects/count6/count6_tp.v {1 {vlog -work work -vopt -stats=none E:/modeltech64_10.4/projects/count6/count6_tp.v
+Model Technology ModelSim SE-64 vlog 10.4 Compiler 2014.12 Dec  3 2014
+-- Compiling module count6_tp
+
+Top level modules:
+	count6_tp
+
+} {} {}}

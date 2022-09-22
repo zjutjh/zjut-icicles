@@ -1,0 +1,156 @@
+// Copyright (C) 1991-2015 Altera Corporation. All rights reserved.
+// Your use of Altera Corporation's design tools, logic functions 
+// and other software and tools, and its AMPP partner logic 
+// functions, and any output files from any of the foregoing 
+// (including device programming or simulation files), and any 
+// associated documentation or information are expressly subject 
+// to the terms and conditions of the Altera Program License 
+// Subscription Agreement, the Altera Quartus II License Agreement,
+// the Altera MegaCore Function License Agreement, or other 
+// applicable license agreement, including, without limitation, 
+// that your use is for the sole purpose of programming logic 
+// devices manufactured by Altera and sold by Altera or its 
+// authorized distributors.  Please refer to the applicable 
+// agreement for further details.
+
+// VENDOR "Altera"
+// PROGRAM "Quartus II 64-Bit"
+// VERSION "Version 15.0.0 Build 145 04/22/2015 SJ Full Version"
+
+// DATE "12/02/2020 21:07:12"
+
+// 
+// Device: Altera EP4CE6E22C8 Package TQFP144
+// 
+
+// 
+// This Verilog file should be used for ModelSim (Verilog) only
+// 
+
+`timescale 1 ps/ 1 ps
+
+module h_add (
+	cout,
+	sum,
+	a,
+	b);
+output 	cout;
+output 	sum;
+input 	a;
+input 	b;
+
+// Design Ports Information
+// cout	=>  Location: PIN_86,	 I/O Standard: 2.5 V,	 Current Strength: Default
+// sum	=>  Location: PIN_87,	 I/O Standard: 2.5 V,	 Current Strength: Default
+// a	=>  Location: PIN_88,	 I/O Standard: 2.5 V,	 Current Strength: Default
+// b	=>  Location: PIN_89,	 I/O Standard: 2.5 V,	 Current Strength: Default
+
+
+wire gnd;
+wire vcc;
+wire unknown;
+
+assign gnd = 1'b0;
+assign vcc = 1'b1;
+assign unknown = 1'bx;
+
+tri1 devclrn;
+tri1 devpor;
+tri1 devoe;
+// synopsys translate_off
+initial $sdf_annotate("h_add_8_1200mv_85c_v_slow.sdo");
+// synopsys translate_on
+
+wire \cout~output_o ;
+wire \sum~output_o ;
+wire \b~input_o ;
+wire \a~input_o ;
+wire \Add0~0_combout ;
+wire \Add0~1_combout ;
+
+
+// Location: IOOBUF_X34_Y9_N2
+cycloneive_io_obuf \cout~output (
+	.i(\Add0~0_combout ),
+	.oe(vcc),
+	.seriesterminationcontrol(16'b0000000000000000),
+	.devoe(devoe),
+	.o(\cout~output_o ),
+	.obar());
+// synopsys translate_off
+defparam \cout~output .bus_hold = "false";
+defparam \cout~output .open_drain_output = "false";
+// synopsys translate_on
+
+// Location: IOOBUF_X34_Y10_N9
+cycloneive_io_obuf \sum~output (
+	.i(\Add0~1_combout ),
+	.oe(vcc),
+	.seriesterminationcontrol(16'b0000000000000000),
+	.devoe(devoe),
+	.o(\sum~output_o ),
+	.obar());
+// synopsys translate_off
+defparam \sum~output .bus_hold = "false";
+defparam \sum~output .open_drain_output = "false";
+// synopsys translate_on
+
+// Location: IOIBUF_X34_Y12_N15
+cycloneive_io_ibuf \b~input (
+	.i(b),
+	.ibar(gnd),
+	.o(\b~input_o ));
+// synopsys translate_off
+defparam \b~input .bus_hold = "false";
+defparam \b~input .simulate_z_as = "z";
+// synopsys translate_on
+
+// Location: IOIBUF_X34_Y12_N22
+cycloneive_io_ibuf \a~input (
+	.i(a),
+	.ibar(gnd),
+	.o(\a~input_o ));
+// synopsys translate_off
+defparam \a~input .bus_hold = "false";
+defparam \a~input .simulate_z_as = "z";
+// synopsys translate_on
+
+// Location: LCCOMB_X33_Y9_N8
+cycloneive_lcell_comb \Add0~0 (
+// Equation(s):
+// \Add0~0_combout  = (\b~input_o  & \a~input_o )
+
+	.dataa(gnd),
+	.datab(\b~input_o ),
+	.datac(gnd),
+	.datad(\a~input_o ),
+	.cin(gnd),
+	.combout(\Add0~0_combout ),
+	.cout());
+// synopsys translate_off
+defparam \Add0~0 .lut_mask = 16'hCC00;
+defparam \Add0~0 .sum_lutc_input = "datac";
+// synopsys translate_on
+
+// Location: LCCOMB_X29_Y10_N0
+cycloneive_lcell_comb \Add0~1 (
+// Equation(s):
+// \Add0~1_combout  = \b~input_o  $ (\a~input_o )
+
+	.dataa(gnd),
+	.datab(\b~input_o ),
+	.datac(\a~input_o ),
+	.datad(gnd),
+	.cin(gnd),
+	.combout(\Add0~1_combout ),
+	.cout());
+// synopsys translate_off
+defparam \Add0~1 .lut_mask = 16'h3C3C;
+defparam \Add0~1 .sum_lutc_input = "datac";
+// synopsys translate_on
+
+assign cout = \cout~output_o ;
+
+assign sum = \sum~output_o ;
+
+endmodule

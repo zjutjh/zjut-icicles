@@ -1,0 +1,113 @@
+------------------------------------------------------------
+TimeQuest Timing Analyzer Summary
+------------------------------------------------------------
+
+Type  : Slow 1200mV 85C Model Setup 'clk'
+Slack : -5.587
+TNS   : -169.922
+
+Type  : Slow 1200mV 85C Model Setup 'traffic_con:primary_light|state.11'
+Slack : -3.461
+TNS   : -49.030
+
+Type  : Slow 1200mV 85C Model Setup 'traffic_con:primary_light|s[0]'
+Slack : -2.906
+TNS   : -20.241
+
+Type  : Slow 1200mV 85C Model Hold 'traffic_con:primary_light|state.11'
+Slack : 0.256
+TNS   : 0.000
+
+Type  : Slow 1200mV 85C Model Hold 'traffic_con:primary_light|s[0]'
+Slack : 0.284
+TNS   : 0.000
+
+Type  : Slow 1200mV 85C Model Hold 'clk'
+Slack : 0.345
+TNS   : 0.000
+
+Type  : Slow 1200mV 85C Model Minimum Pulse Width 'clk'
+Slack : -3.000
+TNS   : -68.428
+
+Type  : Slow 1200mV 85C Model Minimum Pulse Width 'traffic_con:primary_light|s[0]'
+Slack : 0.254
+TNS   : 0.000
+
+Type  : Slow 1200mV 85C Model Minimum Pulse Width 'traffic_con:primary_light|state.11'
+Slack : 0.322
+TNS   : 0.000
+
+Type  : Slow 1200mV 0C Model Setup 'clk'
+Slack : -5.129
+TNS   : -152.645
+
+Type  : Slow 1200mV 0C Model Setup 'traffic_con:primary_light|state.11'
+Slack : -3.368
+TNS   : -47.317
+
+Type  : Slow 1200mV 0C Model Setup 'traffic_con:primary_light|s[0]'
+Slack : -2.787
+TNS   : -19.534
+
+Type  : Slow 1200mV 0C Model Hold 'traffic_con:primary_light|state.11'
+Slack : 0.199
+TNS   : 0.000
+
+Type  : Slow 1200mV 0C Model Hold 'traffic_con:primary_light|s[0]'
+Slack : 0.337
+TNS   : 0.000
+
+Type  : Slow 1200mV 0C Model Hold 'clk'
+Slack : 0.350
+TNS   : 0.000
+
+Type  : Slow 1200mV 0C Model Minimum Pulse Width 'clk'
+Slack : -3.000
+TNS   : -68.428
+
+Type  : Slow 1200mV 0C Model Minimum Pulse Width 'traffic_con:primary_light|state.11'
+Slack : 0.163
+TNS   : 0.000
+
+Type  : Slow 1200mV 0C Model Minimum Pulse Width 'traffic_con:primary_light|s[0]'
+Slack : 0.173
+TNS   : 0.000
+
+Type  : Fast 1200mV 0C Model Setup 'clk'
+Slack : -2.277
+TNS   : -63.584
+
+Type  : Fast 1200mV 0C Model Setup 'traffic_con:primary_light|state.11'
+Slack : -1.061
+TNS   : -14.467
+
+Type  : Fast 1200mV 0C Model Setup 'traffic_con:primary_light|s[0]'
+Slack : -0.568
+TNS   : -3.139
+
+Type  : Fast 1200mV 0C Model Hold 'traffic_con:primary_light|s[0]'
+Slack : -0.117
+TNS   : -0.411
+
+Type  : Fast 1200mV 0C Model Hold 'clk'
+Slack : -0.001
+TNS   : -0.001
+
+Type  : Fast 1200mV 0C Model Hold 'traffic_con:primary_light|state.11'
+Slack : 0.010
+TNS   : 0.000
+
+Type  : Fast 1200mV 0C Model Minimum Pulse Width 'clk'
+Slack : -3.000
+TNS   : -49.658
+
+Type  : Fast 1200mV 0C Model Minimum Pulse Width 'traffic_con:primary_light|state.11'
+Slack : 0.332
+TNS   : 0.000
+
+Type  : Fast 1200mV 0C Model Minimum Pulse Width 'traffic_con:primary_light|s[0]'
+Slack : 0.429
+TNS   : 0.000
+
+------------------------------------------------------------

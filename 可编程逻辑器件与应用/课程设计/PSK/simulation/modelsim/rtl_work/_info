@@ -1,0 +1,106 @@
+m255
+K4
+z2
+13
+!s112 1.1
+!i10d 8192
+!i10e 25
+!i10f 100
+cModel Technology
+Z0 dE:/altera/15.0/Project/2020/PSK/simulation/modelsim
+T_opt
+!s110 1608985779
+VW29f1V^>E2X:H<j`1hXk03
+04 15 4 work PSK_top_vlg_tst fast 0
+=1-9829a647fc4e-5fe72cb3-1d4-39e4
+o-quiet -auto_acc_if_foreign -work work -L altera_ver -L lpm_ver -L sgate_ver -L altera_mf_ver -L altera_lnsim_ver -L cycloneive_ver -L rtl_work -L work +acc
+n@_opt
+OL;O;10.4;61
+vDemodulator_CPSK
+Z1 !s110 1608985778
+!i10b 1
+!s100 o9[9]CW<4[lU@bWd2O5oh0
+IEiJm?VTMUdk^5`Aeo`6]82
+Z2 VDg1SIo80bB@j0V0VzS_@n1
+R0
+w1608977097
+8E:/altera/15.0/Project/2020/PSK/Demodulator_CPSK.v
+FE:/altera/15.0/Project/2020/PSK/Demodulator_CPSK.v
+L0 1
+Z3 OL;L;10.4;61
+r1
+!s85 0
+31
+!s108 1608985778.778000
+!s107 E:/altera/15.0/Project/2020/PSK/Demodulator_CPSK.v|
+!s90 -reportprogress|300|-vlog01compat|-work|work|+incdir+E:/altera/15.0/Project/2020/PSK|E:/altera/15.0/Project/2020/PSK/Demodulator_CPSK.v|
+!i113 0
+Z4 o-vlog01compat -work work -L mtiAvm -L mtiRnm -L mtiOvm -L mtiUvm -L mtiUPF -L infact
+Z5 !s92 -vlog01compat -work work +incdir+E:/altera/15.0/Project/2020/PSK -L mtiAvm -L mtiRnm -L mtiOvm -L mtiUvm -L mtiUPF -L infact
+n@demodulator_@c@p@s@k
+vModulator_CPSK
+R1
+!i10b 1
+!s100 F76h[VWle:OVPnE[6T33z0
+I=29djU<LTnHZg=ZWdf=X`2
+R2
+R0
+w1608975412
+8E:/altera/15.0/Project/2020/PSK/Modulator_CPSK.v
+FE:/altera/15.0/Project/2020/PSK/Modulator_CPSK.v
+L0 1
+R3
+r1
+!s85 0
+31
+!s108 1608985778.643000
+!s107 E:/altera/15.0/Project/2020/PSK/Modulator_CPSK.v|
+!s90 -reportprogress|300|-vlog01compat|-work|work|+incdir+E:/altera/15.0/Project/2020/PSK|E:/altera/15.0/Project/2020/PSK/Modulator_CPSK.v|
+!i113 0
+R4
+R5
+n@modulator_@c@p@s@k
+vPSK_top
+R1
+!i10b 1
+!s100 D4WT]aOnjO_O71Dh^cRc?0
+IiJ?_XQiM]IVRS]j5WgV251
+R2
+R0
+w1608985151
+8E:/altera/15.0/Project/2020/PSK/PSK_top.v
+FE:/altera/15.0/Project/2020/PSK/PSK_top.v
+L0 1
+R3
+r1
+!s85 0
+31
+!s108 1608985778.497000
+!s107 E:/altera/15.0/Project/2020/PSK/PSK_top.v|
+!s90 -reportprogress|300|-vlog01compat|-work|work|+incdir+E:/altera/15.0/Project/2020/PSK|E:/altera/15.0/Project/2020/PSK/PSK_top.v|
+!i113 0
+R4
+R5
+n@p@s@k_top
+vPSK_top_vlg_tst
+R1
+!i10b 1
+!s100 JQ[FnoY8<dY:F3MzRkQ_L3
+I^]giCKUf708^`I56`W;4S3
+R2
+R0
+w1608985169
+8E:/altera/15.0/Project/2020/PSK/simulation/modelsim/PSK_top.vt
+FE:/altera/15.0/Project/2020/PSK/simulation/modelsim/PSK_top.vt
+L0 3
+R3
+r1
+!s85 0
+31
+!s108 1608985778.916000
+!s107 E:/altera/15.0/Project/2020/PSK/simulation/modelsim/PSK_top.vt|
+!s90 -reportprogress|300|-vlog01compat|-work|work|+incdir+E:/altera/15.0/Project/2020/PSK/simulation/modelsim|E:/altera/15.0/Project/2020/PSK/simulation/modelsim/PSK_top.vt|
+!i113 0
+R4
+!s92 -vlog01compat -work work +incdir+E:/altera/15.0/Project/2020/PSK/simulation/modelsim -L mtiAvm -L mtiRnm -L mtiOvm -L mtiUvm -L mtiUPF -L infact
+n@p@s@k_top_vlg_tst

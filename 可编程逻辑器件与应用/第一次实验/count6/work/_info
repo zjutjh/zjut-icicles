@@ -1,0 +1,48 @@
+m255
+K4
+z2
+13
+!s112 1.1
+!i10d 8192
+!i10e 25
+!i10f 100
+cModel Technology
+dE:/modeltech64_10.4/projects/count4
+vcount6
+Z0 VDg1SIo80bB@j0V0VzS_@n1
+r1
+!s85 0
+31
+!i10b 1
+!s100 [Jegc6dRPo_7FICOXSz4m1
+IRD5BD2V3EIW`8BM@9DHaP3
+Z1 dE:/modeltech64_10.4/projects/count6
+w1606397945
+8E:/modeltech64_10.4/projects/count6/count6.v
+FE:/modeltech64_10.4/projects/count6/count6.v
+L0 1
+Z2 OL;L;10.4;61
+!s108 1606398083.541000
+!s107 E:/modeltech64_10.4/projects/count6/count6.v|
+!s90 -reportprogress|300|-work|work|-vopt|-stats=none|E:/modeltech64_10.4/projects/count6/count6.v|
+!i113 0
+Z3 o-work work -L mtiAvm -L mtiRnm -L mtiOvm -L mtiUvm -L mtiUPF -L infact
+vcount6_tp
+R0
+r1
+!s85 0
+31
+!i10b 1
+!s100 kMzDnWAFYnY?^lY3z1V5?2
+IfHokzA^SkU9L_9ZJ@JXDF1
+R1
+w1606393186
+8E:/modeltech64_10.4/projects/count6/count6_tp.v
+FE:/modeltech64_10.4/projects/count6/count6_tp.v
+L0 2
+R2
+!s108 1606398083.665000
+!s107 E:/modeltech64_10.4/projects/count6/count6_tp.v|
+!s90 -reportprogress|300|-work|work|-vopt|-stats=none|E:/modeltech64_10.4/projects/count6/count6_tp.v|
+!i113 0
+R3

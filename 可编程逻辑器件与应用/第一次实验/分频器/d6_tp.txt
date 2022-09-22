@@ -1,0 +1,18 @@
+`timescale 10ns/1ns
+module d6_tp;
+    reg clk,rst;
+    wire clk_odd;
+    division_6 myfp6(clk,rst,clk_odd);
+    initial clk=0;
+	always
+	    begin
+	        #5 clk=1'b1;
+	        #5 clk=1'b0;
+	    end
+	initial
+	    begin
+		rst=0;
+		#20 rst=1;
+		#800 $finish;
+	    end
+endmodule

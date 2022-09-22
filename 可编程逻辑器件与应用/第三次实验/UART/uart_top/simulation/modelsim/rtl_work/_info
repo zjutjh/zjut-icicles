@@ -1,0 +1,123 @@
+m255
+K4
+z2
+13
+!s112 1.1
+!i10d 8192
+!i10e 25
+!i10f 100
+cModel Technology
+Z0 dE:/altera/15.0/Project/2020/UART/uart_top/simulation/modelsim
+T_opt
+!s110 1607587742
+VfUK?Jd?20?iCRWgJoE6n:0
+04 16 4 work uart_top_vlg_tst fast 0
+=1-9829a647fc4e-5fd1d79e-8c-1e04
+o-quiet -auto_acc_if_foreign -work work -L altera_ver -L lpm_ver -L sgate_ver -L altera_mf_ver -L altera_lnsim_ver -L cycloneive_ver -L rtl_work -L work +acc
+n@_opt
+OL;O;10.4;61
+vclkdiv
+Z1 !s110 1607587741
+!i10b 1
+!s100 X[SdT^KTY:BIaO:oJ7KQJ1
+IH0JjTQU[n??d>0b@m`Haa3
+Z2 VDg1SIo80bB@j0V0VzS_@n1
+R0
+w1607577778
+8E:/altera/15.0/Project/2020/UART/uart_top/clkdiv.v
+FE:/altera/15.0/Project/2020/UART/uart_top/clkdiv.v
+L0 3
+Z3 OL;L;10.4;61
+r1
+!s85 0
+31
+!s108 1607587741.390000
+!s107 E:/altera/15.0/Project/2020/UART/uart_top/clkdiv.v|
+!s90 -reportprogress|300|-vlog01compat|-work|work|+incdir+E:/altera/15.0/Project/2020/UART/uart_top|E:/altera/15.0/Project/2020/UART/uart_top/clkdiv.v|
+!i113 0
+Z4 o-vlog01compat -work work -L mtiAvm -L mtiRnm -L mtiOvm -L mtiUvm -L mtiUPF -L infact
+Z5 !s92 -vlog01compat -work work +incdir+E:/altera/15.0/Project/2020/UART/uart_top -L mtiAvm -L mtiRnm -L mtiOvm -L mtiUvm -L mtiUPF -L infact
+vuart_top
+R1
+!i10b 1
+!s100 HC:mN`=`bZB`daZbmjDR^2
+I1>aMilzYDJ]7^6Id14V;=1
+R2
+R0
+w1607585664
+8E:/altera/15.0/Project/2020/UART/uart_top/uart_top.v
+FE:/altera/15.0/Project/2020/UART/uart_top/uart_top.v
+L0 1
+R3
+r1
+!s85 0
+31
+!s108 1607587741.079000
+!s107 E:/altera/15.0/Project/2020/UART/uart_top/uart_top.v|
+!s90 -reportprogress|300|-vlog01compat|-work|work|+incdir+E:/altera/15.0/Project/2020/UART/uart_top|E:/altera/15.0/Project/2020/UART/uart_top/uart_top.v|
+!i113 0
+R4
+R5
+vuart_top_vlg_tst
+R1
+!i10b 1
+!s100 DE?6FadH_eKCo63d;^ECh0
+IUmd^QQX6bS1FBVS0HX45<2
+R2
+R0
+w1607587708
+8E:/altera/15.0/Project/2020/UART/uart_top/simulation/modelsim/uart_top.vt
+FE:/altera/15.0/Project/2020/UART/uart_top/simulation/modelsim/uart_top.vt
+L0 3
+R3
+r1
+!s85 0
+31
+!s108 1607587741.492000
+!s107 E:/altera/15.0/Project/2020/UART/uart_top/simulation/modelsim/uart_top.vt|
+!s90 -reportprogress|300|-vlog01compat|-work|work|+incdir+E:/altera/15.0/Project/2020/UART/uart_top/simulation/modelsim|E:/altera/15.0/Project/2020/UART/uart_top/simulation/modelsim/uart_top.vt|
+!i113 0
+R4
+!s92 -vlog01compat -work work +incdir+E:/altera/15.0/Project/2020/UART/uart_top/simulation/modelsim -L mtiAvm -L mtiRnm -L mtiOvm -L mtiUvm -L mtiUPF -L infact
+vuartrx
+R1
+!i10b 1
+!s100 ;fHYZMefzb?MlWMUF_k;61
+I43G5kgaCJ:aWzIEe=2lD50
+R2
+R0
+w1607578185
+8E:/altera/15.0/Project/2020/UART/uart_top/uartrx.v
+FE:/altera/15.0/Project/2020/UART/uart_top/uartrx.v
+L0 3
+R3
+r1
+!s85 0
+31
+!s108 1607587741.286000
+!s107 E:/altera/15.0/Project/2020/UART/uart_top/uartrx.v|
+!s90 -reportprogress|300|-vlog01compat|-work|work|+incdir+E:/altera/15.0/Project/2020/UART/uart_top|E:/altera/15.0/Project/2020/UART/uart_top/uartrx.v|
+!i113 0
+R4
+R5
+vuarttx
+R1
+!i10b 1
+!s100 CidgHaYC5jRiikEPh9bDi3
+InSmK6k]Vhz;1UQIFJTX1`3
+R2
+R0
+w1607577943
+8E:/altera/15.0/Project/2020/UART/uart_top/uarttx.v
+FE:/altera/15.0/Project/2020/UART/uart_top/uarttx.v
+L0 3
+R3
+r1
+!s85 0
+31
+!s108 1607587741.185000
+!s107 E:/altera/15.0/Project/2020/UART/uart_top/uarttx.v|
+!s90 -reportprogress|300|-vlog01compat|-work|work|+incdir+E:/altera/15.0/Project/2020/UART/uart_top|E:/altera/15.0/Project/2020/UART/uart_top/uarttx.v|
+!i113 0
+R4
+R5

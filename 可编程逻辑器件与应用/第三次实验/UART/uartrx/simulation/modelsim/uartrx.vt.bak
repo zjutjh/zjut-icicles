@@ -1,0 +1,51 @@
+`timescale 1 ps/ 1 ps
+module uartrx_vlg_tst();
+// constants                                           
+
+// test vector input registers
+reg clk;
+reg rst;
+reg rxd;
+// wires                                               
+wire dataerror;
+wire frameerror;
+wire [7:0]  rxd_data;
+wire rxd_en;
+
+// assign statements (if any)                          
+uartrx i1 (
+// port map - connection between master ports and signals/registers   
+	.clk(clk),
+	.dataerror(dataerror),
+	.frameerror(frameerror),
+	.rst(rst),
+	.rxd(rxd),
+	.rxd_data(rxd_data),
+	.rxd_en(rxd_en)
+);
+initial clk=0;
+always
+	begin
+		#5 clk=1'b1;
+		#5 clk=1'b0;
+	end
+initial
+	begin
+		rst=0;
+		idle=1;
+		rxd=1;
+		#200 rst=1;
+			 idle=0;
+			 rxd=1'b1;
+		#10	rxd=1'b0;
+		#10	rxd=1'b1;
+		#10	rxd=1'b0;
+		#10	rxd=1'b0;
+		#10	rxd=1'b1;
+		#10	rxd=1'b0;
+		#10	rxd=1'b1;
+		#8000 $finish;
+	end                                                  
+                                                  
+endmodule
+

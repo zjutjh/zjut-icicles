@@ -1,0 +1,14 @@
+Analysis & Synthesis Status : Successful - Thu Dec 10 09:37:19 2020
+Quartus II 64-Bit Version : 15.0.0 Build 145 04/22/2015 SJ Full Version
+Revision Name : clkdiv
+Top-level Entity Name : clkdiv
+Family : Cyclone IV E
+Total logic elements : 23
+    Total combinational functions : 23
+    Dedicated logic registers : 17
+Total registers : 17
+Total pins : 3
+Total virtual pins : 0
+Total memory bits : 0
+Embedded Multiplier 9-bit elements : 0
+Total PLLs : 0

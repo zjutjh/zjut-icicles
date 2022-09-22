@@ -1,0 +1,16 @@
+Fitter Status : Successful - Thu Dec 17 03:48:42 2020
+Quartus II 64-Bit Version : 15.0.0 Build 145 04/22/2015 SJ Full Version
+Revision Name : traffic
+Top-level Entity Name : traffic_top
+Family : Cyclone IV E
+Device : EP4CE6E22C8
+Timing Models : Final
+Total logic elements : 152 / 6,272 ( 2 % )
+    Total combinational functions : 151 / 6,272 ( 2 % )
+    Dedicated logic registers : 44 / 6,272 ( < 1 % )
+Total registers : 44
+Total pins : 50 / 92 ( 54 % )
+Total virtual pins : 0
+Total memory bits : 0 / 276,480 ( 0 % )
+Embedded Multiplier 9-bit elements : 0 / 30 ( 0 % )
+Total PLLs : 0 / 2 ( 0 % )

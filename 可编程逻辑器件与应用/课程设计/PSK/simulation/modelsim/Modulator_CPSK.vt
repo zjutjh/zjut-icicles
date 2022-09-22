@@ -1,0 +1,34 @@
+//通信工程1803 凌智城201806061211
+`timescale 1 ps/ 1 ps
+module Modulator_CPSK_vlg_tst();
+// constants                                           
+// test vector input registers
+reg clk;
+reg start;
+reg x;
+// wires                                               
+wire y;
+
+// assign statements (if any)                          
+Modulator_CPSK i1 (
+// port map - connection between master ports and signals/registers   
+	.clk(clk),
+	.start(start),
+	.x(x),
+	.y(y)
+);
+
+always	#5 clk=~clk;
+
+initial                                  
+	begin
+	clk=0;
+	start=0;
+	#10 start=1;
+		x=1;
+	repeat(200)
+	#200 x=~x;
+end
+                                                
+endmodule
+

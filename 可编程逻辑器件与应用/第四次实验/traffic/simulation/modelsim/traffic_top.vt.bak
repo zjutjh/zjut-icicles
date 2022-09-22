@@ -1,0 +1,81 @@
+// Copyright (C) 1991-2015 Altera Corporation. All rights reserved.
+// Your use of Altera Corporation's design tools, logic functions 
+// and other software and tools, and its AMPP partner logic 
+// functions, and any output files from any of the foregoing 
+// (including device programming or simulation files), and any 
+// associated documentation or information are expressly subject 
+// to the terms and conditions of the Altera Program License 
+// Subscription Agreement, the Altera Quartus II License Agreement,
+// the Altera MegaCore Function License Agreement, or other 
+// applicable license agreement, including, without limitation, 
+// that your use is for the sole purpose of programming logic 
+// devices manufactured by Altera and sold by Altera or its 
+// authorized distributors.  Please refer to the applicable 
+// agreement for further details.
+
+// *****************************************************************************
+// This file contains a Verilog test bench template that is freely editable to  
+// suit user's needs .Comments are provided in each section to help the user    
+// fill out necessary details.                                                  
+// *****************************************************************************
+// Generated on "12/17/2020 02:54:29"
+                                                                                
+// Verilog Test Bench template for design : traffic_top
+// 
+// Simulation tool : ModelSim (Verilog)
+// 
+
+`timescale 1 ps/ 1 ps
+module traffic_top_vlg_tst();
+// constants                                           
+// general purpose registers
+reg eachvec;
+// test vector input registers
+reg clk;
+reg emergency;
+reg [7:0] prim_green_time;
+reg [7:0] prim_red_time;
+reg [7:0] prim_yellow_time;
+reg rst_n;
+reg test;
+// wires                                               
+wire [2:0]  prim_ryg_light;
+wire [7:0]  prim_wait_time;
+wire [2:0]  seco_ryg_light;
+wire [7:0]  seco_wait_time;
+
+// assign statements (if any)                          
+traffic_top i1 (
+// port map - connection between master ports and signals/registers   
+	.clk(clk),
+	.emergency(emergency),
+	.prim_green_time(prim_green_time),
+	.prim_red_time(prim_red_time),
+	.prim_ryg_light(prim_ryg_light),
+	.prim_wait_time(prim_wait_time),
+	.prim_yellow_time(prim_yellow_time),
+	.rst_n(rst_n),
+	.seco_ryg_light(seco_ryg_light),
+	.seco_wait_time(seco_wait_time),
+	.test(test)
+);
+initial                                                
+begin                                                  
+// code that executes only once                        
+// insert code here --> begin                          
+                                                       
+// --> end                                             
+$display("Running testbench");                       
+end                                                    
+always                                                 
+// optional sensitivity list                           
+// @(event1 or event2 or .... eventn)                  
+begin                                                  
+// code executes for every event on sensitivity list   
+// insert code here --> begin                          
+                                                       
+@eachvec;                                              
+// --> end                                             
+end                                                    
+endmodule
+

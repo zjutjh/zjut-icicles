@@ -1,0 +1,14 @@
+
+State Machine - |traffic_top|traffic_con:secondary_light|state
+Name state.11 state.10 state.01 state.00 
+state.00 0 0 0 0 
+state.01 0 0 1 1 
+state.10 0 1 0 1 
+state.11 1 0 0 1 
+
+State Machine - |traffic_top|traffic_con:primary_light|state
+Name state.11 state.10 state.01 state.00 
+state.00 0 0 0 0 
+state.01 0 0 1 1 
+state.10 0 1 0 1 
+state.11 1 0 0 1 

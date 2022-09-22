@@ -1,0 +1,147 @@
+`timescale 1ns / 1ps
+module uartrx(clk, rx, dataout, rdsig, dataerror, frameerror);
+input clk;             //采样时钟
+input rx;              //UART数据输入
+output dataout;        //接收数据输出
+output rdsig;          //接收数据有效，高说明接收到一个字节
+output dataerror;      //数据出错指示
+output frameerror;     //帧出错指示
+
+reg[7:0] dataout;
+reg rdsig, dataerror;
+reg frameerror;
+reg [7:0] cnt;
+reg rxbuf, rxfall, receive;
+parameter paritymode = 1'b0;
+reg presult, idle;
+
+always @(posedge clk)   
+begin
+  rxbuf <= rx;
+  rxfall <= rxbuf & (~rx);
+end
+
+always @(posedge clk)
+begin
+  if (rxfall && (~idle))  //检测到线路的下降沿并且原先线路为空闲，启动接收数据进程
+  begin
+    receive <= 1'b1;      //开始接收数据
+  end
+  else if(cnt == 8'd168)  //接收数据完成
+  begin
+   receive <= 1'b0;
+  end
+end
+
+/
+//使用176个时钟接收一个数据（起始位、8位数据、奇偶校验位、停止位），每位占用16个时钟//
+
+always @(posedge clk)
+begin
+  if(receive == 1'b1)
+  begin
+   case (cnt)
+   8'd0:                   //0~15个时钟为接收第一个比特，起始位
+     begin
+      idle <= 1'b1;
+      cnt <= cnt + 8'd1;
+      rdsig <= 1'b0;
+     end
+   8'd24:                  //16~31个时钟为第1个bit数据，取中间第24个时钟的采样值
+    begin
+      idle <= 1'b1;
+      dataout[0] <= rx;
+      presult <= paritymode^rx;
+      cnt <= cnt + 8'd1;
+      rdsig <= 1'b0;
+     end
+   8'd40:                 //47~32个时钟为第2个bit数据，取中间第40个时钟的采样值 
+    begin
+      idle <= 1'b1;
+      dataout[1] <= rx;
+      presult <= presult^rx;
+      cnt <= cnt + 8'd1;
+      rdsig <= 1'b0;
+     end
+   8'd56:                 //63~48个时钟为第3个bit数据，取中间第56个时钟的采样值   
+    begin
+      idle <= 1'b1;
+      dataout[2] <= rx;
+      presult <= presult^rx;
+      cnt <= cnt + 8'd1;
+      rdsig <= 1'b0;
+     end
+   8'd72:                //79~64个时钟为第4个bit数据，取中间第72个时钟的采样值   
+    begin
+      idle <= 1'b1;
+      dataout[3] <= rx;
+      presult <= presult^rx;
+      cnt <= cnt + 8'd1;
+      rdsig <= 1'b0;
+     end
+   8'd88:               //95~80个时钟为第5个bit数据，取中间第88个时钟的采样值    
+    begin
+      idle <= 1'b1;
+      dataout[4] <= rx;
+      presult <= presult^rx;
+      cnt <= cnt + 8'd1;
+      rdsig <= 1'b0;
+     end
+   8'd104:             //111~96个时钟为第6个bit数据，取中间第104个时钟的采样值    
+    begin
+      idle <= 1'b1;
+      dataout[5] <= rx;
+      presult <= presult^rx;
+      cnt <= cnt + 8'd1;
+      rdsig <= 1'b0;
+     end
+   8'd120:             //127~112个时钟为第7个bit数据，取中间第120个时钟的采样值     
+    begin
+      idle <= 1'b1;
+      dataout[6] <= rx;
+      presult <= presult^rx;
+      cnt <= cnt + 8'd1;
+      rdsig <= 1'b0;
+     end
+   8'd136:            //143~128个时钟为第8个bit数据，取中间第136个时钟的采样值   
+    begin
+      idle <= 1'b1;
+      dataout[7] <= rx;
+      presult <= presult^rx;
+      cnt <= cnt + 8'd1;
+      rdsig <= 1'b1;      //接收数据有效
+     end
+   8'd152:            //159~144个时钟为接收奇偶校验位，取中间第152个时钟的采样值     
+    begin
+      idle <= 1'b1;
+      if(presult == rx)
+        dataerror <= 1'b0;
+      else
+        dataerror <= 1'b1;       //如果奇偶校验位不对，表示数据出错
+      cnt <= cnt + 8'd1;
+      rdsig <= 1'b1;             
+      end
+   8'd168:            //160~175个时钟为接收停止位，取中间第168个时钟的采样值  
+     begin
+     idle <= 1'b1;
+     if(1'b1 == rx)
+       frameerror <= 1'b0;
+     else
+       frameerror <= 1'b1;      //如果没有接收到停止位，表示帧出错
+        cnt <= cnt + 8'd1;
+        rdsig <= 1'b1;
+     end
+   default:
+     begin
+      cnt <= cnt + 8'd1;
+     end
+   endcase
+  end
+  else
+  begin
+    cnt <= 8'd0;
+    idle <= 1'b0;
+    rdsig <= 1'b0;
+  end
+ end
+endmodule

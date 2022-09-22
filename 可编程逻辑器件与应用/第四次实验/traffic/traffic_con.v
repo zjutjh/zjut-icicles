@@ -1,0 +1,92 @@
+//凌智城 201806061211 通信工程1803班
+module  traffic_con(clk,rst_n,prim_flag,red_time,green_time,yellow_time,wait_time,ryg_light,emergency,test);
+
+parameter on=1'b1,off=1'b0;
+input clk,rst_n;				//1Hz时钟信号，低电平复位信号
+input prim_flag;				//主、次干道标志，1为主干道，0为次干道
+input [7:0]red_time,green_time,yellow_time;//红绿黄灯时间（秒）
+input emergency,test;			//紧急状态控制信号，信号灯测试控制信号
+output reg[7:0]wait_time;		//当前状态的倒计时时间输出
+output reg[2:0]ryg_light;		//红、黄、绿信号灯状态输出
+
+reg cnt;						//计数器
+reg [7:0]ticks,n;				//ticks当前状态会达到的最终计数值，n当前状态的时钟计数值
+reg [1:0]s,state;				//s子状态，00绿，01黄，10红；state工作状态，00紧急，01测试，10复位，11正常
+
+initial
+	begin
+		ryg_light<={on,off,off};
+		cnt<=1'b0;
+		s<=2'b00;
+		ticks<=8'b11111111;
+		n<=0;
+	end
+
+always@(s or state)
+begin
+if(state==2'b11)
+			case(s)				//当前子状态信号灯处理
+				2'b00:
+						ticks=green_time;
+				2'b01:
+						ticks=yellow_time;
+				2'b10:
+						ticks=red_time;
+			endcase
+end
+
+always@(posedge clk)
+begin
+	cnt<=~cnt;						//cnt实现闪烁处理功能
+	
+	begin
+	if(~rst_n)					//复位处理
+		begin
+			state<=2'b10;
+			ryg_light<={off,off,off};
+			cnt<=1'b0;
+			if(prim_flag)
+				s<=2'b00;
+			else
+				s<=2'b10;
+			n<=0;
+		end
+	else if(emergency)			//紧急状态处理
+		begin
+			state<=2'b00;
+			ryg_light<={on,on,off};
+		end
+	else if(test)				//测试状态处理
+		begin
+			state<=2'b01;
+			if(~cnt)
+				ryg_light<={on,on,on};
+			else
+				ryg_light<={off,off,off};
+		end
+	else						//正常工作状态处理
+		begin
+			state<=2'b11;
+			case(s)				//当前子状态信号灯处理
+				2'b00:
+						ryg_light<={off,off,on};
+				2'b01:
+						ryg_light<={off,on,off};
+				2'b10:
+						ryg_light<={on,off,off};
+			endcase
+			if(n==ticks)
+				begin
+					if(s==2'b10)		//子状态切换
+						s<=2'b00;
+					else
+						s<=s+1;
+					n<=1;
+				end
+			else
+				n<=n+1;					//当前时钟计时
+		end
+	end
+	wait_time=(state==2'b11)?ticks-n+1:8'h88;		//计算倒计时时间
+end
+endmodule

@@ -1,0 +1,24 @@
+`timescale 10ns/1ns
+module count6_tp;
+	reg[5:0]data;
+	reg load,clk,rst;
+	wire[5:0]out;
+	count6 mycount(.out(out),.data(data),.load(load),.clk(clk),.rst(rst));
+	initial clk=0;
+	always
+		begin
+		#5 clk=1'b1;
+		#5 clk=1'b0;
+		end
+	initial
+		begin
+			data=6'b000000;
+			load=0;
+			rst=0;
+			#20 rst=1;
+			#30 data=4'b1011;
+			load=1;
+			#10 load=0;
+			#800 $finish;
+		end
+endmodule

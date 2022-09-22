@@ -1,0 +1,35 @@
+//通信工程1803 凌智城201806061211
+`timescale 1 ps/ 1 ps
+module Demodulator_CPSK_vlg_tst();
+// constants                                           
+// test vector input registers
+reg clk;
+reg start;
+reg x;
+// wires                                               
+wire y;
+
+// assign statements (if any)                          
+Demodulator_CPSK i1 (
+// port map - connection between master ports and signals/registers   
+	.clk(clk),
+	.start(start),
+	.x(x),
+	.y(y)
+);
+always	#5 clk=~clk;
+initial                                  
+	begin
+	clk=0;
+	start=0;
+	#15 start=1;
+		x=1;
+	repeat(5)
+	#20 x=~x;
+	#20
+	repeat(5)
+	#20 x=~x;
+end
+                                                 
+endmodule
+

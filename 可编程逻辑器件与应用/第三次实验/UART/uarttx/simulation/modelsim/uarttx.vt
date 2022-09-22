@@ -1,0 +1,41 @@
+//凌智城 201806061211 通信工程1803
+`timescale 1 ps/ 1 ps
+module uarttx_vlg_tst();
+// constants                                           
+// test vector input registers
+reg clk;
+reg rst;
+reg [7:0] txd_data;
+reg txd_en;
+// wires                                               
+wire idle;
+wire txd;
+
+// assign statements (if any)                          
+uarttx i1 (
+// port map - connection between master ports and signals/registers   
+	.clk(clk),
+	.idle(idle),
+	.rst(rst),
+	.txd(txd),
+	.txd_data(txd_data),
+	.txd_en(txd_en)
+);
+initial clk=0;
+always
+	begin
+		#5 clk=1'b1;
+		#5 clk=1'b0;
+	end
+initial
+	begin
+		rst=0;
+		txd_en=0;
+		txd_data=8'b10100101;
+		#200 rst=1;
+		#200 txd_en =1;
+		#8000 $finish;
+	end
+                                                
+endmodule
+

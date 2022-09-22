@@ -1,0 +1,34 @@
+//通信工程1803 凌智城201806061211
+`timescale 1 ps/ 1 ps
+module PSK_top_vlg_tst();
+// constants                                           
+// test vector input registers
+reg absolute_in;
+reg clk;
+reg start;
+// wires                                               
+wire absolute_out;
+
+// assign statements (if any)                          
+PSK_top i1 (
+// port map - connection between master ports and signals/registers   
+	.absolute_in(absolute_in),
+	.absolute_out(absolute_out),
+	.clk(clk),
+	.start(start)
+);
+always	#5 clk=~clk;
+initial                                  
+	begin
+	clk=0;
+	start=0;
+	#15 start=1;
+		absolute_in=1;
+	repeat(5)
+	#20 absolute_in=~absolute_in;
+	#20
+	repeat(5)
+	#20 absolute_in=~absolute_in;
+end                                                                                           
+endmodule
+

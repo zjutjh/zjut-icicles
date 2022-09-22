@@ -1,0 +1,81 @@
+m255
+K4
+z2
+13
+!s112 1.1
+!i10d 8192
+!i10e 25
+!i10f 100
+cModel Technology
+Z0 dE:/altera/15.0/Project/2020/traffic/simulation/modelsim
+T_opt
+!s110 1608147899
+VG[A_kAh^L36nEnSmhIW3U1
+04 19 4 work traffic_top_vlg_tst fast 0
+=1-9829a647fc4e-5fda63ba-3c5-1380
+o-quiet -auto_acc_if_foreign -work work -L altera_ver -L lpm_ver -L sgate_ver -L altera_mf_ver -L altera_lnsim_ver -L cycloneive_ver -L rtl_work -L work +acc
+n@_opt
+OL;O;10.4;61
+vtraffic_con
+Z1 !s110 1608147898
+!i10b 1
+!s100 agzV2iOQWCc0C<C>UM>=m1
+IZ3MLC6<jT6Rl]QF1eX]E;3
+Z2 VDg1SIo80bB@j0V0VzS_@n1
+R0
+w1608142667
+8E:/altera/15.0/Project/2020/traffic/traffic_con.v
+FE:/altera/15.0/Project/2020/traffic/traffic_con.v
+L0 2
+Z3 OL;L;10.4;61
+r1
+!s85 0
+31
+!s108 1608147898.095000
+!s107 E:/altera/15.0/Project/2020/traffic/traffic_con.v|
+!s90 -reportprogress|300|-vlog01compat|-work|work|+incdir+E:/altera/15.0/Project/2020/traffic|E:/altera/15.0/Project/2020/traffic/traffic_con.v|
+!i113 0
+Z4 o-vlog01compat -work work -L mtiAvm -L mtiRnm -L mtiOvm -L mtiUvm -L mtiUPF -L infact
+Z5 !s92 -vlog01compat -work work +incdir+E:/altera/15.0/Project/2020/traffic -L mtiAvm -L mtiRnm -L mtiOvm -L mtiUvm -L mtiUPF -L infact
+vtraffic_top
+R1
+!i10b 1
+!s100 >9g]jLl>:0UbSACe:6d=A0
+IM[F<a>oPRC`GQiCCG^NZo0
+R2
+R0
+w1608147764
+8E:/altera/15.0/Project/2020/traffic/traffic_top.v
+FE:/altera/15.0/Project/2020/traffic/traffic_top.v
+L0 1
+R3
+r1
+!s85 0
+31
+!s108 1608147898.237000
+!s107 E:/altera/15.0/Project/2020/traffic/traffic_top.v|
+!s90 -reportprogress|300|-vlog01compat|-work|work|+incdir+E:/altera/15.0/Project/2020/traffic|E:/altera/15.0/Project/2020/traffic/traffic_top.v|
+!i113 0
+R4
+R5
+vtraffic_top_vlg_tst
+R1
+!i10b 1
+!s100 YCaBT0Q69T3zUGHTjJ6P40
+I8D`bd03b;`CDHif`XdbMk1
+R2
+R0
+w1608145431
+8E:/altera/15.0/Project/2020/traffic/simulation/modelsim/traffic_top.vt
+FE:/altera/15.0/Project/2020/traffic/simulation/modelsim/traffic_top.vt
+L0 3
+R3
+r1
+!s85 0
+31
+!s108 1608147898.376000
+!s107 E:/altera/15.0/Project/2020/traffic/simulation/modelsim/traffic_top.vt|
+!s90 -reportprogress|300|-vlog01compat|-work|work|+incdir+E:/altera/15.0/Project/2020/traffic/simulation/modelsim|E:/altera/15.0/Project/2020/traffic/simulation/modelsim/traffic_top.vt|
+!i113 0
+R4
+!s92 -vlog01compat -work work +incdir+E:/altera/15.0/Project/2020/traffic/simulation/modelsim -L mtiAvm -L mtiRnm -L mtiOvm -L mtiUvm -L mtiUPF -L infact

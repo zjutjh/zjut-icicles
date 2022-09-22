@@ -1,0 +1,7 @@
+|h_add
+cout << Add0.DB_MAX_OUTPUT_PORT_TYPE
+sum << Add0.DB_MAX_OUTPUT_PORT_TYPE
+a => Add0.IN1
+b => Add0.IN2
+
+

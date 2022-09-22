@@ -1,0 +1,11 @@
+vendor_name = ModelSim
+source_file = 1, E:/altera/15.0/Project/2020/h_add/h_add.out.sdc
+source_file = 1, E:/altera/15.0/Project/2020/h_add/h_add.v
+source_file = 1, E:/altera/15.0/Project/2020/h_add/db/h_add.cbx.xml
+design_name = h_add
+instance = comp, \cout~output , cout~output, h_add, 1
+instance = comp, \sum~output , sum~output, h_add, 1
+instance = comp, \b~input , b~input, h_add, 1
+instance = comp, \a~input , a~input, h_add, 1
+instance = comp, \Add0~0 , Add0~0, h_add, 1
+instance = comp, \Add0~1 , Add0~1, h_add, 1
