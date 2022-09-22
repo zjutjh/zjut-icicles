@@ -1,0 +1,59 @@
+A51 MACRO ASSEMBLER  LED                                                                  11/24/2020 13:16:00 PAGE     1
+
+
+MACRO ASSEMBLER A51 V8.02c
+OBJECT MODULE PLACED IN LED.OBJ
+ASSEMBLER INVOKED BY: E:\Keil_v5\C51\BIN\A51.EXE LED.asm SET(SMALL) DEBUG EP
+
+LOC  OBJ            LINE     SOURCE
+
+  0080                 1     led   EQU   P0.0;
+                       2     
+0000                   3               ORG   0000H
+0000 020050            4               LJMP  MAIN
+                       5     
+0050                   6               ORG   0050H
+0050                   7     MAIN:
+0050 758160            8               MOV   SP,#60H
+0053                   9     LOOP: 
+0053 D280             10               SETB  led
+0055 12005F           11               LCALL DELAY1S
+0058 C280             12               CLR   led
+005A 12005F           13               LCALL DELAY1S
+005D 80F4             14               SJMP  LOOP
+                      15     
+005F                  16     DELAY1S:
+005F 7FA7             17               MOV   R7,#0A7H
+0061                  18     DL1:
+0061 7EAB             19               MOV   R6,#0ABH
+0063                  20     DL0:
+0063 7D10             21               MOV   R5,#10H
+0065 DDFE             22               DJNZ  R5,$
+0067 DEFA             23               DJNZ  R6,DL0
+0069 DFF6             24               DJNZ  R7,DL1
+006B 00               25               NOP
+006C 22               26               RET
+                      27     
+                      28               END
+A51 MACRO ASSEMBLER  LED                                                                  11/24/2020 13:16:00 PAGE     2
+
+SYMBOL TABLE LISTING
+------ ----- -------
+
+
+N A M E             T Y P E  V A L U E   ATTRIBUTES
+
+DELAY1S. . . . . .  C ADDR   005FH   A   
+DL0. . . . . . . .  C ADDR   0063H   A   
+DL1. . . . . . . .  C ADDR   0061H   A   
+LED. . . . . . . .  B ADDR   0080H.0 A   
+LOOP . . . . . . .  C ADDR   0053H   A   
+MAIN . . . . . . .  C ADDR   0050H   A   
+P0 . . . . . . . .  D ADDR   0080H   A   
+SP . . . . . . . .  D ADDR   0081H   A   
+
+
+REGISTER BANK(S) USED: 0 
+
+
+ASSEMBLY COMPLETE.  0 WARNING(S), 0 ERROR(S)

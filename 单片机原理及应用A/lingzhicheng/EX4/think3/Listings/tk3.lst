@@ -1,0 +1,162 @@
+A51 MACRO ASSEMBLER  TK3                                                                  01/05/2021 11:08:33 PAGE     1
+
+
+MACRO ASSEMBLER A51 V8.02c
+OBJECT MODULE PLACED IN .\Objects\tk3.obj
+ASSEMBLER INVOKED BY: E:\Keil_v5\C51\BIN\A51.EXE tk3.asm SET(SMALL) DEBUG PRINT(.\Listings\tk3.lst) OBJECT(.\Objects\tk3
+                      .obj) EP
+
+LOC  OBJ            LINE     SOURCE
+
+                       1     
+0000                   2                     ORG             0000H
+0000 2100              3                     AJMP    START
+                       4                     
+0003                   5                     ORG             0003H
+0003 212D              6                     AJMP    INTT0
+                       7                     
+0013                   8                     ORG             0013H
+0013 2147              9                     AJMP    INTT1
+                      10                     
+0100                  11                     ORG             0100H
+0100 758160           12     START:  MOV             SP,#60H
+0103 75D000           13                     MOV             PSW,#00H
+0106 D2A8             14                     SETB    EX0
+0108 D288             15                     SETB    IT0
+010A D2AA             16                     SETB    EX1
+010C D28A             17                     SETB    IT1
+010E D2AF             18                     SETB    EA
+0110 75B801           19                     MOV             IP,#01H
+0113 75B0FF           20                     MOV             P3,#0FFH
+0116 90018C           21     MAIN:   MOV             DPTR,#TABLE
+0119 7803             22                     MOV             R0,#03H
+011B 7A08             23                     MOV             R2,#08H
+011D 3122             24                     ACALL   LOOP
+011F 020116           25                     LJMP    MAIN
+                      26     
+0122 E8               27     LOOP:   MOV             A,R0
+0123 F590             28                     MOV             P1,A
+0125 23               29                     RL              A
+0126 F8               30                     MOV             R0,A
+0127 1201A6           31                     LCALL   D1S
+012A DAF6             32                     DJNZ    R2,LOOP
+012C 22               33                     RET
+                      34                     
+012D C0D0             35     INTT0:  PUSH    PSW
+012F C0E0             36                     PUSH    ACC
+0131 75D008           37                     MOV             PSW,#08H
+0134 E5B0             38                     MOV             A,P3
+0136 F4               39                     CPL             A
+0137 604E             40                     JZ              RETURN
+0139 12019D           41                     LCALL   D10ms                    
+013C E5B0             42                     MOV             A,P3
+013E F4               43                     CPL             A
+013F 6046             44                     JZ              RETURN
+0141 20E21D           45                     JB              ACC.2,Pkey0
+0144 020187           46                     LJMP    RETURN
+                      47                     
+0147 C0D0             48     INTT1:  PUSH    PSW
+0149 C0E0             49                     PUSH    ACC
+014B 75D010           50                     MOV             PSW,#10H
+014E E5B0             51                     MOV             A,P3
+0150 F4               52                     CPL             A
+0151 6034             53                     JZ              RETURN
+0153 12019D           54                     LCALL   D10ms            
+0156 E5B0             55                     MOV             A,P3
+0158 F4               56                     CPL             A
+0159 602C             57                     JZ              RETURN
+A51 MACRO ASSEMBLER  TK3                                                                  01/05/2021 11:08:33 PAGE     2
+
+015B 20E315           58                     JB              ACC.3,Pkey2
+015E 020187           59                     LJMP    RETURN
+                      60             
+0161 7400             61     Pkey0:  MOV             A,#00H
+0163 93               62                     MOVC    A,@A+DPTR
+0164 B4FF03           63                     CJNE    A,#0FFH,Pkey1
+0167 020187           64                     LJMP    RETURN  
+016A F580             65     Pkey1:  MOV             P0,A
+016C 1201A6           66                     LCALL   D1S
+016F A3               67                     INC             DPTR
+0170 020161           68                     LJMP    Pkey0   
+                      69     
+0173 7901             70     Pkey2:  MOV             R1,#01H
+0175 7B08             71                     MOV             R3,#08H
+0177 317C             72                     ACALL   Pkey3
+0179 020187           73                     LJMP    RETURN
+017C E9               74     Pkey3:  MOV             A,R1
+017D F590             75                     MOV             P1,A
+017F 23               76                     RL              A
+0180 F9               77                     MOV             R1,A
+0181 1201A6           78                     LCALL   D1S
+0184 DBF6             79                     DJNZ    R3,Pkey3
+0186 22               80                     RET     
+                      81     
+0187                  82     RETURN: 
+0187 D0E0             83                     POP             ACC
+0189 D0D0             84                     POP             PSW
+018B 32               85                     RETI
+                      86                     
+018C C0F9A4B0         87     TABLE:  DB              0C0H,0F9H,0A4H,0B0H,99H,92H,82H,0F8H
+0190 999282F8                
+0194 80908883         88                     DB              80H,90H,88H,83H,0C6H,0A1H,86H,8EH
+0198 C6A1868E                
+019C FF               89                     DB              0FFH
+                      90     
+019D 7F19             91     D10ms:  MOV             R7,#25
+019F 7EC8             92     D4:             MOV             R6,#200
+01A1 DEFE             93                     DJNZ    R6,$
+01A3 DFFA             94                     DJNZ    R7,D4
+01A5 22               95                     RET
+                      96     
+01A6 7D14             97     D1S:    MOV             R5,#20
+01A8 7E64             98     D5:             MOV             R6,#100
+01AA 7FF8             99     D6:             MOV             R7,#248
+01AC DFFE            100     D7:             DJNZ    R7,D7
+01AE DEFA            101                     DJNZ    R6,D6
+01B0 DDF6            102                     DJNZ    R5,D5
+01B2 22              103                     RET     
+                     104                     
+                     105                     END
+A51 MACRO ASSEMBLER  TK3                                                                  01/05/2021 11:08:33 PAGE     3
+
+SYMBOL TABLE LISTING
+------ ----- -------
+
+
+N A M E             T Y P E  V A L U E   ATTRIBUTES
+
+ACC. . . . . . . .  D ADDR   00E0H   A   
+D10MS. . . . . . .  C ADDR   019DH   A   
+D1S. . . . . . . .  C ADDR   01A6H   A   
+D4 . . . . . . . .  C ADDR   019FH   A   
+D5 . . . . . . . .  C ADDR   01A8H   A   
+D6 . . . . . . . .  C ADDR   01AAH   A   
+D7 . . . . . . . .  C ADDR   01ACH   A   
+EA . . . . . . . .  B ADDR   00A8H.7 A   
+EX0. . . . . . . .  B ADDR   00A8H.0 A   
+EX1. . . . . . . .  B ADDR   00A8H.2 A   
+INTT0. . . . . . .  C ADDR   012DH   A   
+INTT1. . . . . . .  C ADDR   0147H   A   
+IP . . . . . . . .  D ADDR   00B8H   A   
+IT0. . . . . . . .  B ADDR   0088H.0 A   
+IT1. . . . . . . .  B ADDR   0088H.2 A   
+LOOP . . . . . . .  C ADDR   0122H   A   
+MAIN . . . . . . .  C ADDR   0116H   A   
+P0 . . . . . . . .  D ADDR   0080H   A   
+P1 . . . . . . . .  D ADDR   0090H   A   
+P3 . . . . . . . .  D ADDR   00B0H   A   
+PKEY0. . . . . . .  C ADDR   0161H   A   
+PKEY1. . . . . . .  C ADDR   016AH   A   
+PKEY2. . . . . . .  C ADDR   0173H   A   
+PKEY3. . . . . . .  C ADDR   017CH   A   
+PSW. . . . . . . .  D ADDR   00D0H   A   
+RETURN . . . . . .  C ADDR   0187H   A   
+SP . . . . . . . .  D ADDR   0081H   A   
+START. . . . . . .  C ADDR   0100H   A   
+TABLE. . . . . . .  C ADDR   018CH   A   
+
+
+REGISTER BANK(S) USED: 0 
+
+
+ASSEMBLY COMPLETE.  0 WARNING(S), 0 ERROR(S)

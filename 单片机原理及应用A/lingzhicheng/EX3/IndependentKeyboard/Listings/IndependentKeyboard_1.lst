@@ -1,0 +1,165 @@
+A51 MACRO ASSEMBLER  INDEPENDENTKEYBOARD_1                                                12/08/2020 09:43:18 PAGE     1
+
+
+MACRO ASSEMBLER A51 V8.02c
+OBJECT MODULE PLACED IN .\Objects\IndependentKeyboard_1.obj
+ASSEMBLER INVOKED BY: E:\Keil_v5\C51\BIN\A51.EXE IndependentKeyboard_1.asm SET(SMALL) DEBUG PRINT(.\Listings\Independent
+                      Keyboard_1.lst) OBJECT(.\Objects\IndependentKeyboard_1.obj) EP
+
+LOC  OBJ            LINE     SOURCE
+
+0000                   1                     ORG             0000H
+0000 2100              2                     AJMP    START
+0100                   3                     ORG     0100H
+                       4                             
+0100 758160            5     START:  MOV             SP,#60H
+0103 9001EA            6     MAIN:   MOV             DPTR,#TABLE
+0106 12010C            7                     LCALL   KEY1;跳转至KEY1
+0109 020103            8                     LJMP    MAIN;重复循环
+010C 7590FF            9     KEY1:   MOV             P1,#0FFH;P1口全写入1
+010F 74FF             10                     MOV             A,#0FFH
+0111 F5A0             11                     MOV             P2,A;
+0113 E590             12                     MOV             A,P1;读入八个按键的状态，有键按下则为0
+0115 F4               13                     CPL             A;全部取反，有键按下则为1
+0116 60F4             14                     JZ              KEY1;如果累加器A全为0，则无键按下，跳转至KEY1重新开始
+0118 1201E1           15                     LCALL   D10ms;去抖动
+011B E590             16                     MOV             A,P1;读入八个按键的状态，有键按下则为0
+011D F4               17                     CPL             A;全部取反，有键按下则为1
+011E 60EC             18                     JZ              KEY1;如果累加器A全为0，则无键按下，跳转至KEY1重新开始
+0120 20E016           19                     JB              ACC.0,PK0
+0123 20E119           20                     JB              ACC.1,PK1
+0126 20E21C           21                     JB              ACC.2,PK2
+0129 20E31F           22                     JB              ACC.3,PK3
+012C 20E422           23                     JB              ACC.4,PK4
+012F 20E525           24                     JB              ACC.5,PK5
+0132 20E628           25                     JB              ACC.6,PK6
+0135 20E72B           26                     JB              ACC.7,PK7
+0138 22               27                     RET
+                      28     
+0139 120169           29     PK0:    LCALL   PKEY0
+013C 02010C           30                     LJMP    KEY1
+013F 120178           31     PK1:    LCALL   PKEY1
+0142 02010C           32                     LJMP    KEY1
+0145 120187           33     PK2:    LCALL   PKEY2
+0148 02010C           34                     LJMP    KEY1
+014B 120196           35     PK3:    LCALL   PKEY3
+014E 02010C           36                     LJMP    KEY1            
+0151 1201A5           37     PK4:    LCALL   PKEY4
+0154 02010C           38                     LJMP    KEY1            
+0157 1201B4           39     PK5:    LCALL   PKEY5
+015A 02010C           40                     LJMP    KEY1
+015D 1201C3           41     PK6:    LCALL   PKEY6
+0160 02010C           42                     LJMP    KEY1
+0163 1201D2           43     PK7:    LCALL   PKEY7
+0166 02010C           44                     LJMP    KEY1    
+                      45                     
+0169 7401             46     PKEY0:  MOV             A,#01H
+016B 93               47                     MOVC    A,@A+DPTR;静态显示
+016C F5A0             48                     MOV             P2,A
+016E 3090F8           49                     JNB             P1.0,PKEY0
+0171 1201E1           50                     LCALL   D10ms
+0174 3090F2           51                     JNB             P1.0,PKEY0
+0177 22               52                     RET
+0178 7402             53     PKEY1:  MOV             A,#02H
+017A 93               54                     MOVC    A,@A+DPTR;静态显示
+017B F5A0             55                     MOV             P2,A
+017D 3091F8           56                     JNB             P1.1,PKEY1
+0180 1201E1           57                     LCALL   D10ms
+A51 MACRO ASSEMBLER  INDEPENDENTKEYBOARD_1                                                12/08/2020 09:43:18 PAGE     2
+
+0183 3091F2           58                     JNB             P1.1,PKEY1
+0186 22               59                     RET
+0187 7403             60     PKEY2:  MOV             A,#03H
+0189 93               61                     MOVC    A,@A+DPTR;静态显示
+018A F5A0             62                     MOV             P2,A
+018C 3092F8           63                     JNB             P1.2,PKEY2
+018F 1201E1           64                     LCALL   D10ms
+0192 3092F2           65                     JNB             P1.2,PKEY2
+0195 22               66                     RET
+0196 7404             67     PKEY3:  MOV             A,#04H
+0198 93               68                     MOVC    A,@A+DPTR;静态显示
+0199 F5A0             69                     MOV             P2,A
+019B 3093F8           70                     JNB             P1.3,PKEY3
+019E 1201E1           71                     LCALL   D10ms
+01A1 3093F2           72                     JNB             P1.3,PKEY3
+01A4 22               73                     RET
+01A5 7405             74     PKEY4:  MOV             A,#05H
+01A7 93               75                     MOVC    A,@A+DPTR;静态显示
+01A8 F5A0             76                     MOV             P2,A
+01AA 3094F8           77                     JNB             P1.4,PKEY4
+01AD 1201E1           78                     LCALL   D10ms
+01B0 3094F2           79                     JNB             P1.4,PKEY4
+01B3 22               80                     RET
+01B4 7406             81     PKEY5:  MOV             A,#06H
+01B6 93               82                     MOVC    A,@A+DPTR;静态显示
+01B7 F5A0             83                     MOV             P2,A
+01B9 3095F8           84                     JNB             P1.5,PKEY5
+01BC 1201E1           85                     LCALL   D10ms
+01BF 3095F2           86                     JNB             P1.5,PKEY5
+01C2 22               87                     RET
+01C3 7407             88     PKEY6:  MOV             A,#07H
+01C5 93               89                     MOVC    A,@A+DPTR;静态显示
+01C6 F5A0             90                     MOV             P2,A
+01C8 3096F8           91                     JNB             P1.6,PKEY6
+01CB 1201E1           92                     LCALL   D10ms
+01CE 3096F2           93                     JNB             P1.6,PKEY6
+01D1 22               94                     RET
+01D2 7408             95     PKEY7:  MOV             A,#08H
+01D4 93               96                     MOVC    A,@A+DPTR;静态显示
+01D5 F5A0             97                     MOV             P2,A
+01D7 3097F8           98                     JNB             P1.7,PKEY7
+01DA 1201E1           99                     LCALL   D10ms
+01DD 3097F2          100                     JNB             P1.7,PKEY7
+01E0 22              101                     RET
+                     102     
+01E1 7F19            103     D10ms:  MOV             R7,#25
+01E3 7EC8            104     D1:             MOV             R6,#200
+01E5 DEFE            105                     DJNZ    R6,$
+01E7 DFFA            106                     DJNZ    R7,D1
+01E9 22              107                     RET
+01EA C0F9A4B0        108     TABLE:  DB              0C0H,0F9H,0A4H,0B0H,99H,92H,82H,0F8H,80H,90H
+01EE 999282F8                
+01F2 8090                    
+                     109             
+                     110                     END
+                                                     
+A51 MACRO ASSEMBLER  INDEPENDENTKEYBOARD_1                                                12/08/2020 09:43:18 PAGE     3
+
+SYMBOL TABLE LISTING
+------ ----- -------
+
+
+N A M E             T Y P E  V A L U E   ATTRIBUTES
+
+ACC. . . . . . . .  D ADDR   00E0H   A   
+D1 . . . . . . . .  C ADDR   01E3H   A   
+D10MS. . . . . . .  C ADDR   01E1H   A   
+KEY1 . . . . . . .  C ADDR   010CH   A   
+MAIN . . . . . . .  C ADDR   0103H   A   
+P1 . . . . . . . .  D ADDR   0090H   A   
+P2 . . . . . . . .  D ADDR   00A0H   A   
+PK0. . . . . . . .  C ADDR   0139H   A   
+PK1. . . . . . . .  C ADDR   013FH   A   
+PK2. . . . . . . .  C ADDR   0145H   A   
+PK3. . . . . . . .  C ADDR   014BH   A   
+PK4. . . . . . . .  C ADDR   0151H   A   
+PK5. . . . . . . .  C ADDR   0157H   A   
+PK6. . . . . . . .  C ADDR   015DH   A   
+PK7. . . . . . . .  C ADDR   0163H   A   
+PKEY0. . . . . . .  C ADDR   0169H   A   
+PKEY1. . . . . . .  C ADDR   0178H   A   
+PKEY2. . . . . . .  C ADDR   0187H   A   
+PKEY3. . . . . . .  C ADDR   0196H   A   
+PKEY4. . . . . . .  C ADDR   01A5H   A   
+PKEY5. . . . . . .  C ADDR   01B4H   A   
+PKEY6. . . . . . .  C ADDR   01C3H   A   
+PKEY7. . . . . . .  C ADDR   01D2H   A   
+SP . . . . . . . .  D ADDR   0081H   A   
+START. . . . . . .  C ADDR   0100H   A   
+TABLE. . . . . . .  C ADDR   01EAH   A   
+
+
+REGISTER BANK(S) USED: 0 
+
+
+ASSEMBLY COMPLETE.  0 WARNING(S), 0 ERROR(S)

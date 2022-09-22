@@ -1,0 +1,70 @@
+A51 MACRO ASSEMBLER  LIUSHUI01                                                            12/22/2020 08:44:42 PAGE     1
+
+
+MACRO ASSEMBLER A51 V8.02c
+OBJECT MODULE PLACED IN .\Objects\liushui01.obj
+ASSEMBLER INVOKED BY: E:\Keil_v5\C51\BIN\A51.EXE liushui01.asm SET(SMALL) DEBUG PRINT(.\Listings\liushui01.lst) OBJECT(.
+                      \Objects\liushui01.obj) EP
+
+LOC  OBJ            LINE     SOURCE
+
+0000                   1                     ORG             0000H
+0000 2100              2                     AJMP    START
+0100                   3                     ORG     0100H
+0100                   4     START:
+0100 C290              5                     CLR     P1.0
+0102 3134              6                     ACALL   DELAY
+0104 D290              7                     SETB    P1.0
+0106 C291              8                     CLR     P1.1
+0108 3134              9                     ACALL   DELAY
+010A D291             10                     SETB    P1.1
+010C C292             11                     CLR     P1.2
+010E 3134             12                     ACALL   DELAY
+0110 D292             13                     SETB    P1.2
+0112 C293             14                     CLR     P1.3
+0114 3134             15                     ACALL   DELAY
+0116 D293             16                     SETB    P1.3
+0118 C294             17                     CLR     P1.4
+011A 3134             18                     ACALL   DELAY
+011C D294             19                     SETB    P1.4
+011E C295             20                     CLR     P1.5
+0120 3134             21                     ACALL   DELAY
+0122 D295             22                     SETB    P1.5
+0124 C296             23                     CLR     P1.6
+0126 3134             24                     ACALL   DELAY
+0128 D296             25                     SETB    P1.6
+012A C297             26                     CLR     P1.7
+012C 3134             27                     ACALL   DELAY
+012E D297             28                     SETB    P1.7
+0130 3134             29                     ACALL   DELAY
+0132 2100             30                     AJMP    START
+0134 7D14             31     DELAY:  MOV             R5,#20
+0136 7E14             32     D2:             MOV             R6,#20
+0138 7FF8             33     D1:             MOV             R7,#248
+013A DFFE             34     D3:             DJNZ    R7,D3
+013C DEFA             35                     DJNZ    R6,D1
+013E DDF6             36                     DJNZ    R5,D2
+0140 22               37                     RET
+                      38                     
+                      39                     END
+                                     
+A51 MACRO ASSEMBLER  LIUSHUI01                                                            12/22/2020 08:44:42 PAGE     2
+
+SYMBOL TABLE LISTING
+------ ----- -------
+
+
+N A M E             T Y P E  V A L U E   ATTRIBUTES
+
+D1 . . . . . . . .  C ADDR   0138H   A   
+D2 . . . . . . . .  C ADDR   0136H   A   
+D3 . . . . . . . .  C ADDR   013AH   A   
+DELAY. . . . . . .  C ADDR   0134H   A   
+P1 . . . . . . . .  D ADDR   0090H   A   
+START. . . . . . .  C ADDR   0100H   A   
+
+
+REGISTER BANK(S) USED: 0 
+
+
+ASSEMBLY COMPLETE.  0 WARNING(S), 0 ERROR(S)

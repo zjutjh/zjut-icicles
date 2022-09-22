@@ -1,0 +1,178 @@
+BL51 BANKED LINKER/LOCATER V6.22                                                        01/05/2021  10:58:28  PAGE 1
+
+
+BL51 BANKED LINKER/LOCATER V6.22, INVOKED BY:
+E:\KEIL_V5\C51\BIN\BL51.EXE .\Objects\traffic.obj TO .\Objects\traffic PRINT (.\Listings\traffic.m51) RAMSIZE (256)
+
+
+INPUT MODULES INCLUDED:
+  .\Objects\traffic.obj (TRAFFIC)
+
+
+LINK MAP OF MODULE:  .\Objects\traffic (TRAFFIC)
+
+
+            TYPE    BASE      LENGTH    RELOCATION   SEGMENT NAME
+            -----------------------------------------------------
+
+            * * * * * * *   D A T A   M E M O R Y   * * * * * * *
+            REG     0000H     0008H     ABSOLUTE     "REG BANK 0"
+
+            * * * * * * *   C O D E   M E M O R Y   * * * * * * *
+            CODE    0000H     01F4H     ABSOLUTE     
+
+
+
+SYMBOL TABLE OF MODULE:  .\Objects\traffic (TRAFFIC)
+
+  VALUE           TYPE          NAME
+  ----------------------------------
+
+  -------         MODULE        TRAFFIC
+  D:00E0H         SYMBOL        ACC
+  D:00F0H         SYMBOL        B
+  C:012DH         SYMBOL        CALCU
+  C:01E0H         SYMBOL        D04MS
+  C:01E2H         SYMBOL        D1
+  C:01E4H         SYMBOL        D2
+  C:0142H         SYMBOL        DISPLAY
+  B:00A8H.7       SYMBOL        EA
+  B:00A8H.1       SYMBOL        ET0
+  C:016EH         SYMBOL        INTI0
+  C:019BH         SYMBOL        JMP30EW
+  C:01C2H         SYMBOL        JMP30SN
+  C:01B0H         SYMBOL        JMP5EW
+  C:0189H         SYMBOL        JMP5SN
+  C:0100H         SYMBOL        MAIN
+  C:01D9H         SYMBOL        OUT
+  D:0080H         SYMBOL        P0
+  D:0090H         SYMBOL        P1
+  D:00A0H         SYMBOL        P2
+  D:00B0H         SYMBOL        P3
+  D:00D0H         SYMBOL        PSW
+  C:0000H         SYMBOL        RESET
+  D:0081H         SYMBOL        SP
+  C:01E9H         SYMBOL        TABLE
+  B:0088H.5       SYMBOL        TF0
+  D:008CH         SYMBOL        TH0
+  D:008AH         SYMBOL        TL0
+  D:0089H         SYMBOL        TMOD
+  B:0088H.4       SYMBOL        TR0
+  C:0000H         LINE#         8
+BL51 BANKED LINKER/LOCATER V6.22                                                      01/05/2021  10:58:28  PAGE 2
+
+
+  C:000BH         LINE#         10
+  C:0100H         LINE#         14
+  C:0103H         LINE#         15
+  C:0106H         LINE#         16
+  C:0109H         LINE#         18
+  C:010CH         LINE#         19
+  C:010FH         LINE#         20
+  C:0111H         LINE#         21
+  C:0113H         LINE#         22
+  C:0115H         LINE#         23
+  C:0117H         LINE#         24
+  C:011AH         LINE#         25
+  C:011DH         LINE#         26
+  C:0120H         LINE#         27
+  C:0123H         LINE#         28
+  C:0125H         LINE#         29
+  C:0127H         LINE#         30
+  C:012AH         LINE#         31
+  C:012DH         LINE#         35
+  C:012FH         LINE#         36
+  C:0131H         LINE#         37
+  C:0133H         LINE#         38
+  C:0134H         LINE#         39
+  C:0135H         LINE#         40
+  C:0137H         LINE#         42
+  C:0139H         LINE#         43
+  C:013BH         LINE#         44
+  C:013DH         LINE#         45
+  C:013EH         LINE#         46
+  C:013FH         LINE#         47
+  C:0141H         LINE#         48
+  C:0142H         LINE#         52
+  C:0144H         LINE#         53
+  C:0146H         LINE#         54
+  C:0148H         LINE#         55
+  C:0149H         LINE#         56
+  C:014AH         LINE#         57
+  C:014CH         LINE#         58
+  C:014FH         LINE#         60
+  C:0151H         LINE#         61
+  C:0152H         LINE#         62
+  C:0153H         LINE#         63
+  C:0155H         LINE#         65
+  C:0157H         LINE#         66
+  C:0159H         LINE#         67
+  C:015BH         LINE#         68
+  C:015EH         LINE#         69
+  C:015FH         LINE#         70
+  C:0160H         LINE#         71
+  C:0162H         LINE#         72
+  C:0165H         LINE#         74
+  C:0167H         LINE#         75
+  C:0168H         LINE#         76
+  C:0169H         LINE#         77
+  C:016BH         LINE#         79
+  C:016EH         LINE#         82
+  C:0170H         LINE#         83
+BL51 BANKED LINKER/LOCATER V6.22                                                      01/05/2021  10:58:28  PAGE 3
+
+
+  C:0172H         LINE#         84
+  C:0174H         LINE#         85
+  C:0177H         LINE#         86
+  C:017AH         LINE#         87
+  C:017CH         LINE#         88
+  C:017EH         LINE#         89
+  C:0181H         LINE#         90
+  C:0184H         LINE#         91
+  C:0185H         LINE#         92
+  C:0187H         LINE#         93
+  C:0189H         LINE#         98
+  C:018CH         LINE#         99
+  C:018FH         LINE#         100
+  C:0191H         LINE#         101
+  C:0193H         LINE#         102
+  C:0196H         LINE#         103
+  C:0199H         LINE#         104
+  C:019BH         LINE#         106
+  C:019EH         LINE#         107
+  C:01A1H         LINE#         108
+  C:01A3H         LINE#         109
+  C:01A5H         LINE#         110
+  C:01A8H         LINE#         111
+  C:01ABH         LINE#         112
+  C:01AEH         LINE#         113
+  C:01B0H         LINE#         115
+  C:01B3H         LINE#         116
+  C:01B6H         LINE#         117
+  C:01B8H         LINE#         118
+  C:01BAH         LINE#         119
+  C:01BDH         LINE#         120
+  C:01C0H         LINE#         121
+  C:01C2H         LINE#         123
+  C:01C5H         LINE#         124
+  C:01C7H         LINE#         125
+  C:01CAH         LINE#         126
+  C:01CCH         LINE#         127
+  C:01CEH         LINE#         128
+  C:01D1H         LINE#         129
+  C:01D4H         LINE#         130
+  C:01D7H         LINE#         131
+  C:01D9H         LINE#         134
+  C:01DBH         LINE#         135
+  C:01DDH         LINE#         136
+  C:01DFH         LINE#         137
+  C:01E0H         LINE#         140
+  C:01E2H         LINE#         142
+  C:01E4H         LINE#         144
+  C:01E6H         LINE#         145
+  C:01E8H         LINE#         146
+  -------         ENDMOD        TRAFFIC
+
+Program Size: data=8.0 xdata=0 code=500
+LINK/LOCATE RUN COMPLETE.  0 WARNING(S),  0 ERROR(S)

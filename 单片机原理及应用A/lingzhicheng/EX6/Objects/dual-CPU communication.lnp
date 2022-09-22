@@ -1,0 +1,4 @@
+".\Objects\rx.obj",
+".\Objects\tx.obj" 
+TO ".\Objects\dual-CPU communication" 
+PRINT(".\Listings\dual-CPU communication.m51") RAMSIZE(256) 

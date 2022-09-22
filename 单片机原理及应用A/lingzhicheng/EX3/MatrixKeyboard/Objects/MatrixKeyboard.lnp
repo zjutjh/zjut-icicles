@@ -1,0 +1,3 @@
+".\Objects\MatrixKeyboard_1.obj" 
+TO ".\Objects\MatrixKeyboard" 
+PRINT(".\Listings\MatrixKeyboard.m51") RAMSIZE(256) 

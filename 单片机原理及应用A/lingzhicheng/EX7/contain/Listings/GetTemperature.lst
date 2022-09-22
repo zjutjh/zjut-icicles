@@ -1,0 +1,220 @@
+A51 MACRO ASSEMBLER  GETTEMPERATURE                                                       01/05/2021 08:41:39 PAGE     1
+
+
+MACRO ASSEMBLER A51 V8.02c
+OBJECT MODULE PLACED IN .\Objects\GetTemperature.obj
+ASSEMBLER INVOKED BY: E:\Keil_v5\C51\BIN\A51.EXE GetTemperature.asm SET(SMALL) DEBUG PRINT(.\Listings\GetTemperature.lst
+                      ) OBJECT(.\Objects\GetTemperature.obj) EP
+
+LOC  OBJ            LINE     SOURCE
+
+0000                   1             ORG 0000H
+0000 02000E            2             LJMP MAIN
+000B                   3             ORG 000BH
+000B 020048            4             LJMP IT0P
+                       5             
+                       6     
+                       7     
+                       8     
+                       9     
+                      10     
+                      11     
+000E 758160           12     MAIN:   MOV SP,#60H
+0011 75D000           13             MOV PSW,#00H
+0014 758901           14             MOV TMOD,#01H
+0017 758A00           15             MOV TL0,#00H
+001A 758C00           16             MOV TH0,#00H     
+001D D2A9             17             SETB ET0
+001F D2AF             18             SETB EA
+0021 D28C             19             SETB TR0
+0023 9000EF           20             MOV DPTR,#TAB 
+0026 7F04             21             MOV R7,#4
+0028 012A             22             AJMP DISPLAY
+                      23     
+002A EA               24     DISPLAY:        MOV A,R2
+002B F5A0             25                     MOV P2,A
+002D EB               26                     MOV A,R3 
+002E 93               27                     MOVC A,@A+DPTR
+002F F580             28                     MOV P0,A 
+0031 0B               29                     INC R3       
+0032 12003F           30                     LCALL DELAY
+0035 0A               31                     INC R2       
+0036 DFF2             32                     DJNZ R7,DISPLAY
+0038 02003B           33                     LJMP LOOP 
+003B 7CF8             34     LOOP:   MOV R4,#0F8H  
+003D 7B40             35             MOV R3,#40H   
+003F 7D05             36     DELAY:  MOV R5,#5        
+0041 7E64             37     D1:     MOV R6,#100
+0043 DEFE             38             DJNZ R6,$
+0045 DDFA             39             DJNZ R5,D1
+0047 22               40             RET
+                      41     
+                      42     
+0048 C0E0             43     IT0P:   PUSH ACC
+004A C0D0             44             PUSH PSW
+004C C082             45             PUSH DPL
+004E C083             46             PUSH DPH
+0050 758A00           47             MOV TL0,#00H
+0053 758C00           48             MOV TH0,#00H
+0056 75D001           49             MOV PSW,#01H
+0059 11A0             50             ACALL READ_AD_DATA
+005B D083             51             POP DPH
+005D D082             52             POP DPL
+005F D0D0             53             POP PSW
+0061 D0E0             54             POP ACC
+0063 22               55             RET
+                      56     
+                      57     
+A51 MACRO ASSEMBLER  GETTEMPERATURE                                                       01/05/2021 08:41:39 PAGE     2
+
+0064 74D4             58     SPI_WRITE:  MOV A,#0D4H  
+0066 C2B6             59                 CLR P3.6
+0068 7808             60                 MOV R0,#08H  
+006A 116D             61                 ACALL LOOP1
+006C 22               62                 RET
+006D D801             63     LOOP1:   DJNZ R0,SEND
+006F 22               64              RET
+                      65     
+0070 13               66     SEND:   RRC A             
+0071 92B4             67             MOV P3.4,C        
+0073 C2B6             68             CLR P3.6
+0075 00               69             NOP
+0076 D2B6             70             SETB P3.6
+0078 22               71             RET
+                      72     
+0079 E4               73     SPI_READ:   CLR A
+007A C2B6             74                 CLR P3.6
+007C 758300           75                 MOV DPH,#00H 
+007F 758200           76                 MOV DPL,#00H
+0082 7804             77                 MOV R0,#04H
+0084 118E             78                 ACALL LOOP2
+0086 F583             79                 MOV DPH,A
+0088 E4               80                 CLR A
+0089 7808             81                 MOV R0,#08H
+008B F582             82                 MOV DPL,A    
+008D 22               83                 RET
+008E D801             84     LOOP2:  DJNZ R0,RECEIVE
+0090 22               85             RET
+0091 23               86     RECEIVE:    RL A
+0092 D2B6             87                 SETB P3.6
+0094 00               88                 NOP
+0095 C2B6             89                 CLR P3.6
+0097 85B050           90                 MOV 50H,P3
+009A 535001           91                 ANL 50H,#01H         
+009D 4550             92                 ORL A,50H     
+009F 22               93                 RET    
+                      94     
+00A0 C2B6             95     READ_AD_DATA:   CLR P3.6
+00A2 C2B5             96                     CLR P3.5         
+00A4 1164             97                     ACALL SPI_WRITE  
+00A6 113F             98                     ACALL DELAY      
+00A8 C2B6             99                     CLR P3.6
+00AA 00              100                     NOP
+00AB D2B6            101                     SETB P3.6
+00AD 00              102                     NOP
+00AE C2B6            103                     CLR P3.6
+00B0 00              104                     NOP
+00B1 00              105                     NOP              
+00B2 1179            106                     ACALL SPI_READ   
+00B4 D2B5            107                     SETB P3.5
+00B6 11B9            108                     ACALL HEX2BCD
+00B8 22              109                     RET        
+                     110     
+00B9 7900            111     HEX2BCD:        MOV R1,#0
+00BB 7A00            112                     MOV R2,#0
+00BD 7F10            113                     MOV R7,#16       
+00BF 11DA            114                     ACALL BYTS4D
+00C1 8941            115                     MOV 41H,R1
+00C3 8A43            116                     MOV 43H,R2
+00C5 E541            117                     MOV A,41H
+00C7 53410F          118                     ANL 41H,#0FH
+                     119     
+00CA C4              120                     SWAP A
+00CB 540F            121                     ANL A,#0FH
+00CD F540            122                     MOV 40H,A
+                     123     
+A51 MACRO ASSEMBLER  GETTEMPERATURE                                                       01/05/2021 08:41:39 PAGE     3
+
+00CF E543            124                     MOV A,43H
+00D1 53430F          125                     ANL 43H,#0FH
+                     126     
+00D4 C4              127                     SWAP A
+00D5 540F            128                     ANL A,#0FH
+00D7 F542            129                     MOV 42H,A
+                     130     
+00D9 22              131                     RET
+00DA E582            132     BYTS4D:         MOV A,DPL         
+00DC 33              133                     RLC A             
+00DD F582            134                     MOV DPL,A
+00DF E583            135                     MOV A,DPH
+00E1 33              136                     RLC A
+00E2 F583            137                     MOV DPH,A
+00E4 EA              138                     MOV A,R2 
+00E5 3A              139                     ADDC A,R2
+00E6 D4              140                     DA A 
+00E7 FA              141                     MOV R2,A
+00E8 E9              142                     MOV A,R1
+00E9 39              143                     ADDC A,R1
+00EA D4              144                     DA A
+00EB F9              145                     MOV R1,A 
+00EC DFEC            146                     DJNZ R7,BYTS4D   
+00EE 22              147                     RET
+                     148                                     
+                     149                                     
+                     150     
+                     151     
+                     152     
+00EF                 153     TAB:      
+00EF 3F065B4F        154             DB 3FH,06H,5BH,4FH,66H,6DH,7DH,07H,7FH,6FH,77H,7CH,39H,5EH,79H,71H,73H,3EH,6EH,76H,
+                             38H,40H
+00F3 666D7D07                
+00F7 7F6F777C                
+00FB 395E7971                
+00FF 733E6E76                
+0103 3840                    
+0105 00              155             DB 00H 
+                     156     END
+A51 MACRO ASSEMBLER  GETTEMPERATURE                                                       01/05/2021 08:41:39 PAGE     4
+
+SYMBOL TABLE LISTING
+------ ----- -------
+
+
+N A M E             T Y P E  V A L U E   ATTRIBUTES
+
+ACC. . . . . . . .  D ADDR   00E0H   A   
+BYTS4D . . . . . .  C ADDR   00DAH   A   
+D1 . . . . . . . .  C ADDR   0041H   A   
+DELAY. . . . . . .  C ADDR   003FH   A   
+DISPLAY. . . . . .  C ADDR   002AH   A   
+DPH. . . . . . . .  D ADDR   0083H   A   
+DPL. . . . . . . .  D ADDR   0082H   A   
+EA . . . . . . . .  B ADDR   00A8H.7 A   
+ET0. . . . . . . .  B ADDR   00A8H.1 A   
+HEX2BCD. . . . . .  C ADDR   00B9H   A   
+IT0P . . . . . . .  C ADDR   0048H   A   
+LOOP . . . . . . .  C ADDR   003BH   A   
+LOOP1. . . . . . .  C ADDR   006DH   A   
+LOOP2. . . . . . .  C ADDR   008EH   A   
+MAIN . . . . . . .  C ADDR   000EH   A   
+P0 . . . . . . . .  D ADDR   0080H   A   
+P2 . . . . . . . .  D ADDR   00A0H   A   
+P3 . . . . . . . .  D ADDR   00B0H   A   
+PSW. . . . . . . .  D ADDR   00D0H   A   
+READ_AD_DATA . . .  C ADDR   00A0H   A   
+RECEIVE. . . . . .  C ADDR   0091H   A   
+SEND . . . . . . .  C ADDR   0070H   A   
+SP . . . . . . . .  D ADDR   0081H   A   
+SPI_READ . . . . .  C ADDR   0079H   A   
+SPI_WRITE. . . . .  C ADDR   0064H   A   
+TAB. . . . . . . .  C ADDR   00EFH   A   
+TH0. . . . . . . .  D ADDR   008CH   A   
+TL0. . . . . . . .  D ADDR   008AH   A   
+TMOD . . . . . . .  D ADDR   0089H   A   
+TR0. . . . . . . .  B ADDR   0088H.4 A   
+
+
+REGISTER BANK(S) USED: 0 
+
+
+ASSEMBLY COMPLETE.  0 WARNING(S), 0 ERROR(S)

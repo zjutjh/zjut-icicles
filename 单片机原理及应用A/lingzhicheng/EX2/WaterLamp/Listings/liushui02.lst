@@ -1,0 +1,73 @@
+A51 MACRO ASSEMBLER  LIUSHUI02                                                            12/22/2020 08:44:42 PAGE     1
+
+
+MACRO ASSEMBLER A51 V8.02c
+OBJECT MODULE PLACED IN .\Objects\liushui02.obj
+ASSEMBLER INVOKED BY: E:\Keil_v5\C51\BIN\A51.EXE liushui02.asm SET(SMALL) DEBUG PRINT(.\Listings\liushui02.lst) OBJECT(.
+                      \Objects\liushui02.obj) EP
+
+LOC  OBJ            LINE     SOURCE
+
+  0080                 1     led     EQU     P0         
+0000                   2             ORG     0000H
+0000 020050            3             LJMP    MAIN
+0050                   4             ORG     0050H
+0050                   5     MAIN:
+0050 758160            6             MOV     SP,#60H 
+0053                   7     LOOP:
+0053 7401              8                     MOV     A,#01H
+0055 7808              9                 MOV     R0,#08H                      
+0057                  10     LEFTROTATE:
+0057 F580             11             MOV     led,A
+0059 12006B           12                     LCALL   DELAY1S          
+005C 23               13                     RL      A                
+005D D8F8             14                     DJNZ    R0,LEFTROTATE
+                      15     
+005F 7808             16                 MOV     R0,#08H                     
+0061                  17     RIGHTROTATE:
+0061 03               18                     RR      A              
+0062 F580             19             MOV     led,A
+0064 12006B           20                     LCALL   DELAY1S         
+0067 D8F8             21                     DJNZ    R0,RIGHTROTATE
+                      22     
+0069 80E8             23                     SJMP    LOOP
+                      24     
+                      25     
+006B                  26     DELAY1S:                                             
+006B 7FA7             27                 MOV R7,#0A7H
+006D                  28     DL1:
+006D 7EAB             29                 MOV R6,#0ABH
+006F                  30     DL0:
+006F 7D10             31                 MOV R5,#10H
+0071 DDFE             32                 DJNZ R5,$
+0073 DEFA             33                 DJNZ R6,DL0
+0075 DFF6             34                 DJNZ R7,DL1
+0077 00               35                 NOP
+0078 22               36                 RET
+                      37      
+                      38             END
+                             
+A51 MACRO ASSEMBLER  LIUSHUI02                                                            12/22/2020 08:44:42 PAGE     2
+
+SYMBOL TABLE LISTING
+------ ----- -------
+
+
+N A M E             T Y P E  V A L U E   ATTRIBUTES
+
+DELAY1S. . . . . .  C ADDR   006BH   A   
+DL0. . . . . . . .  C ADDR   006FH   A   
+DL1. . . . . . . .  C ADDR   006DH   A   
+LED. . . . . . . .  D ADDR   0080H   A   
+LEFTROTATE . . . .  C ADDR   0057H   A   
+LOOP . . . . . . .  C ADDR   0053H   A   
+MAIN . . . . . . .  C ADDR   0050H   A   
+P0 . . . . . . . .  D ADDR   0080H   A   
+RIGHTROTATE. . . .  C ADDR   0061H   A   
+SP . . . . . . . .  D ADDR   0081H   A   
+
+
+REGISTER BANK(S) USED: 0 
+
+
+ASSEMBLY COMPLETE.  0 WARNING(S), 0 ERROR(S)

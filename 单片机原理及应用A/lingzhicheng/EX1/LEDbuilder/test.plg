@@ -1,0 +1,19 @@
+<html>
+<body>
+<pre>
+<h1>µVision Build Log</h1>
+<h2>Project:</h2>
+C:\Users\Administrator\Desktop\builder\test.uvproj
+Project File Date:  11/24/2020
+
+<h2>Output:</h2>
+assembling LED.asm...
+LED.asm(22): error A9: SYNTAX ERROR
+LED.asm(22): error A9: SYNTAX ERROR
+LED.asm - 2 Error(s), 0 Warning(s).
+Build target 'Target 1'
+assembling LED.asm...
+linking...
+Program Size: data=8.0 xdata=0 code=109
+creating hex file from "test"...
+"test" - 0 Error(s), 0 Warning(s).

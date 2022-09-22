@@ -1,0 +1,115 @@
+A51 MACRO ASSEMBLER  MATRIXKEYBOARD_0                                                     12/08/2020 11:24:20 PAGE     1
+
+
+MACRO ASSEMBLER A51 V8.02c
+OBJECT MODULE PLACED IN .\Objects\MatrixKeyboard_0.obj
+ASSEMBLER INVOKED BY: E:\Keil_v5\C51\BIN\A51.EXE MatrixKeyboard_0.asm SET(SMALL) DEBUG PRINT(.\Listings\MatrixKeyboard_0
+                      .lst) OBJECT(.\Objects\MatrixKeyboard_0.obj) EP
+
+LOC  OBJ            LINE     SOURCE
+
+0000                   1                     ORG             0000H
+0000 2100              2                     AJMP    START
+0100                   3                     ORG     0100H
+0100 758160            4     START:  MOV             SP,#60H
+0103 90016E            5                     MOV             DPTR,#TABLE
+0106 12010C            6                     LCALL   KEY2
+0109 020100            7                     LJMP    START
+                       8                     
+010C 12015D            9     KEY2:   LCALL   KS;调用键盘检测子程序ks
+010F 7004             10                     JNZ             K1;无键按下则A为0，有键按下则跳转至K1
+0111 120165           11                     LCALL   D10ms
+0114 22               12                     RET
+0115 120165           13     K1:             LCALL   D10ms;去抖动10ms
+0118 12015D           14                     LCALL   KS;再次检测
+011B 7002             15                     JNZ             K2;仍然有键按下则跳转K2，否则回到KEY2重新开始第一遍检测
+011D 210C             16                     AJMP    KEY2
+                      17                     
+011F 7AEF             18     K2:             MOV             R2,#0EFH;1110'1111暂存进R2，列P1.4为0
+0121 7C00             19                     MOV     R4,#00H;0列号送入R4暂存
+0123 8A90             20     K3:             MOV             P1,R2;将列扫描值送入P1口，P1.4为0
+0125 209004           21     L0:             JB              P1.0,L1;判0行线电平，P1.0为1则无按下，跳转至L1检测1行
+0128 7400             22                     MOV             A,#00H;若检测出，则将0行首键盘号送进ACC
+012A 214A             23                     AJMP    LK;跳转至LK计算行号+列号
+012C 209104           24     L1:             JB      P1.1,L2
+012F 7404             25                     MOV             A,#04H
+0131 214A             26                     AJMP    LK
+0133 209204           27     L2:             JB              P1.2,L3
+0136 7408             28                     MOV             A,#08H
+0138 214A             29                     AJMP    LK
+013A 209304           30     L3:             JB              P1.3,NEXT;若0~3行均无检测出，跳入NEXT，准备检测下一列
+013D 740C             31                     MOV             A,#0CH
+013F 214A             32                     AJMP    LK
+                      33                     
+0141 0C               34     NEXT:   INC             R4;列号加1
+0142 EA               35                     MOV             A,R2;将R2扫描值送入A
+0143 30E7C6           36                     JNB             ACC.7,KEY2;判断A的最高位是否为0，即是已经0111’0000，若是则
+                             已扫描完，则返回KEY2
+0146 23               37                     RL              A;若不是，则A左移一位，扫描下一列
+0147 FA               38                     MOV             R2,A;下一列的A返还给R2
+0148 2123             39                     AJMP    K3;回到K3开始扫描下一列
+                      40                     
+014A 2C               41     LK:             ADD             A,R4;列号R4，行号ACC
+014B 93               42                     MOVC    A,@A+DPTR
+014C F5A0             43                     MOV             P2,A
+014E 3150             44                     ACALL   K4
+                      45                     
+0150 12015D           46     K4:             LCALL   KS;检测是否键已经松开
+0153 70FB             47                     JNZ             K4
+0155 120165           48                     LCALL   D10ms
+0158 70F6             49                     JNZ             K4
+015A 12010C           50                     LCALL   KEY2
+                      51                     
+015D 75900F           52     KS:             MOV             P1,#0FH
+0160 E590             53                     MOV             A,P1
+0162 640F             54                     XRL             A,#0FH
+0164 22               55                     RET
+                      56                     
+A51 MACRO ASSEMBLER  MATRIXKEYBOARD_0                                                     12/08/2020 11:24:20 PAGE     2
+
+0165 7F19             57     D10ms:  MOV             R7,#25
+0167 7EC8             58     D1:             MOV             R6,#200
+0169 DEFE             59                     DJNZ    R6,$
+016B DFFA             60                     DJNZ    R7,D1
+016D 22               61                     RET
+                      62                     
+016E C0F9A4B0         63     TABLE:  DB              0C0H,0F9H,0A4H,0B0H,99H,92H,82H,0F8H
+0172 999282F8                
+0176 80908883         64                     DB              80H,90H,88H,83H,0C6H,0A1H,86H,8EH
+017A C6A1868E                
+017E FF               65                     DB              0FFH
+                      66                     END
+A51 MACRO ASSEMBLER  MATRIXKEYBOARD_0                                                     12/08/2020 11:24:20 PAGE     3
+
+SYMBOL TABLE LISTING
+------ ----- -------
+
+
+N A M E             T Y P E  V A L U E   ATTRIBUTES
+
+ACC. . . . . . . .  D ADDR   00E0H   A   
+D1 . . . . . . . .  C ADDR   0167H   A   
+D10MS. . . . . . .  C ADDR   0165H   A   
+K1 . . . . . . . .  C ADDR   0115H   A   
+K2 . . . . . . . .  C ADDR   011FH   A   
+K3 . . . . . . . .  C ADDR   0123H   A   
+K4 . . . . . . . .  C ADDR   0150H   A   
+KEY2 . . . . . . .  C ADDR   010CH   A   
+KS . . . . . . . .  C ADDR   015DH   A   
+L0 . . . . . . . .  C ADDR   0125H   A   
+L1 . . . . . . . .  C ADDR   012CH   A   
+L2 . . . . . . . .  C ADDR   0133H   A   
+L3 . . . . . . . .  C ADDR   013AH   A   
+LK . . . . . . . .  C ADDR   014AH   A   
+NEXT . . . . . . .  C ADDR   0141H   A   
+P1 . . . . . . . .  D ADDR   0090H   A   
+P2 . . . . . . . .  D ADDR   00A0H   A   
+SP . . . . . . . .  D ADDR   0081H   A   
+START. . . . . . .  C ADDR   0100H   A   
+TABLE. . . . . . .  C ADDR   016EH   A   
+
+
+REGISTER BANK(S) USED: 0 
+
+
+ASSEMBLY COMPLETE.  0 WARNING(S), 0 ERROR(S)

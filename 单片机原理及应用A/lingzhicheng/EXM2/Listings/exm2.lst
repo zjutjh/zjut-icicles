@@ -1,0 +1,92 @@
+A51 MACRO ASSEMBLER  EXM2                                                                 01/12/2021 11:50:34 PAGE     1
+
+
+MACRO ASSEMBLER A51 V8.02c
+OBJECT MODULE PLACED IN .\Objects\exm2.obj
+ASSEMBLER INVOKED BY: E:\Keil_v5\C51\BIN\A51.EXE exm2.asm SET(SMALL) DEBUG PRINT(.\Listings\exm2.lst) OBJECT(.\Objects\e
+                      xm2.obj) EP
+
+LOC  OBJ            LINE     SOURCE
+
+0000                   1         ORG     0000H
+0000 020100            2         LJMP    MAIN
+0100                   3         ORG     0100H
+0100                   4     MAIN:
+0100 900500            5         MOV     DPTR,#0500H
+0103 7940              6         MOV     R1,#40H        
+0105 7B10              7         MOV     R3,#16         
+                       8     
+0107                   9     LOOP:
+0107 7400             10         MOV     A,#00H              
+0109 93               11         MOVC    A,@A+DPTR
+010A F7               12         MOV     @R1,A
+010B 09               13         INC     R1
+010C A3               14         INC     DPTR
+010D DBF8             15         DJNZ    R3,LOOP      
+010F 7A00             16         MOV     R2,#00H
+0111 7B00             17         MOV     R3,#00H
+                      18         
+0113                  19     PAIXU:
+0113 7840             20             MOV     R0,#40H
+0115 E6               21             MOV     A,@R0
+0116 FB               22             MOV     R3,A
+0117                  23     F1:     
+0117 08               24             INC     R0
+0118 E6               25             MOV     A,@R0
+0119 9B               26             SUBB    A,R3
+011A 500C             27             JNC     F2       
+011C E6               28             MOV     A,@R0    
+011D FA               29             MOV     R2,A
+011E EB               30             MOV     A,R3
+011F F6               31             MOV     @R0,A
+0120 18               32             DEC     R0
+0121 EA               33             MOV     A,R2
+0122 F6               34             MOV     @R0,A
+0123 08               35             INC     R0
+0124 C3               36             CLR     C
+0125 B84FEF           37             CJNE    R0,#4FH,F1
+0128                  38     F2:
+0128 E6               39             MOV     A,@R0
+0129 FB               40             MOV     R3,A
+012A C3               41             CLR     C
+012B B84FE9           42             CJNE    R0,#4FH,F1
+012E 09               43             INC     R1
+012F B94FE1           44             CJNE    R1,#4FH,PAIXU
+                      45         
+0132 784F             46         MOV     R0,#4FH      
+0134 E6               47         MOV     A,@R0
+0135 F8               48         MOV     R0,A
+0136 7940             49         MOV     R1,#40H
+0138 E7               50         MOV     A,@R1
+0139 F9               51         MOV     R1,A
+                      52         
+013A 80FE             53         SJMP    $
+                      54     
+0500                  55     ORG 0500H
+0500 2255A011         56     DB 22H,55H,0A0H,11H,0C0H,99H,12H,0B0H,44H,0F1H,77H,33H,0EFH,66H,88H,0D0H
+0504 C09912B0                
+A51 MACRO ASSEMBLER  EXM2                                                                 01/12/2021 11:50:34 PAGE     2
+
+0508 44F17733                
+050C EF6688D0                
+                      57         
+                      58     END
+A51 MACRO ASSEMBLER  EXM2                                                                 01/12/2021 11:50:34 PAGE     3
+
+SYMBOL TABLE LISTING
+------ ----- -------
+
+
+N A M E             T Y P E  V A L U E   ATTRIBUTES
+
+F1 . . . . . . . .  C ADDR   0117H   A   
+F2 . . . . . . . .  C ADDR   0128H   A   
+LOOP . . . . . . .  C ADDR   0107H   A   
+MAIN . . . . . . .  C ADDR   0100H   A   
+PAIXU. . . . . . .  C ADDR   0113H   A   
+
+
+REGISTER BANK(S) USED: 0 
+
+
+ASSEMBLY COMPLETE.  0 WARNING(S), 0 ERROR(S)

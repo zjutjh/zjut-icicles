@@ -1,0 +1,34 @@
+//R0入口，P2输出到静态数码管
+    ORG     0000H
+    LJMP    START
+    ORG     0100H
+START:	
+    MOV     SP,#60H
+    MOV     DPTR,#TABLE
+    MOV	R0,#00H		
+LOOP1:		
+    MOV     P2,#0FFH
+LOOP2:
+    MOV		A,R0
+	MOVC	A,@A+DPTR
+    MOV     P2,A
+    LCALL   DELAY
+    INC     R0
+    CJNE    R0,#4,LOOP2
+    MOV     R0,#00H
+    LJMP    LOOP1
+    
+
+DELAY:	MOV		R5,#100   //延时1s
+D2:		MOV		R6,#20
+D1:		MOV		R7,#248
+D3:		DJNZ	R7,D3
+		DJNZ	R6,D1
+		DJNZ	R5,D2
+		RET
+        
+TABLE:	DB 		0C0H,0F9H,0A4H,0B0H,99H,92H,82H,0F8H
+        DB		80H,90H,88H,83H,0C6H,0A1H,86H,8EH
+        DB 		0FFH
+            
+    END

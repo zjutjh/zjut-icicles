@@ -1,0 +1,64 @@
+A51 MACRO ASSEMBLER  TINK2                                                                01/11/2021 22:15:44 PAGE     1
+
+
+MACRO ASSEMBLER A51 V8.02c
+OBJECT MODULE PLACED IN .\Objects\tink2.obj
+ASSEMBLER INVOKED BY: E:\Keil_v5\C51\BIN\A51.EXE tink2.asm SET(SMALL) DEBUG PRINT(.\Listings\tink2.lst) OBJECT(.\Objects
+                      \tink2.obj) EP
+
+LOC  OBJ            LINE     SOURCE
+
+0000                   1             ORG     0000H
+0000 020100            2             LJMP    MAIN
+0100                   3             ORG             0100H
+0100                   4     MAIN:
+0100 758160            5             MOV     SP,#60H
+0103 C3                6             CLR             C
+0104 902000            7             MOV             DPTR,#2000H
+0107 755100            8             MOV             51H,#00H
+010A 7930              9             MOV             R1,#30H
+010C 7A04             10             MOV     R2,#04H
+010E 7B04             11             MOV             R3,#04H
+0110 120115           12             LCALL   BCD_ADD_BYTES
+0113 80FE             13             SJMP $
+                      14     
+0115                  15     BCD_ADD_BYTES:
+0115 7400             16             MOV     A,#00H
+0117 93               17             MOVC    A,@A+DPTR
+0118 F8               18             MOV     R0,A
+0119 EB               19             MOV     A,R3
+011A 93               20             MOVC    A,@A+DPTR
+011B 38               21             ADDC    A,R0
+011C D4               22             DA              A
+011D F7               23             MOV     @R1,A
+011E E9               24             MOV             A,R1
+011F 04               25             INC             A
+0120 F9               26             MOV             R1,A
+0121 A3               27             INC     DPTR
+0122 DAF1             28             DJNZ    R2,BCD_ADD_BYTES
+0124 4001             29             JC              S2
+0126 22               30             RET
+                      31     
+0127                  32     S2:
+0127 7601             33             MOV     @R0,#01H
+0129 22               34             RET
+                      35             
+                      36             END
+A51 MACRO ASSEMBLER  TINK2                                                                01/11/2021 22:15:44 PAGE     2
+
+SYMBOL TABLE LISTING
+------ ----- -------
+
+
+N A M E             T Y P E  V A L U E   ATTRIBUTES
+
+BCD_ADD_BYTES. . .  C ADDR   0115H   A   
+MAIN . . . . . . .  C ADDR   0100H   A   
+S2 . . . . . . . .  C ADDR   0127H   A   
+SP . . . . . . . .  D ADDR   0081H   A   
+
+
+REGISTER BANK(S) USED: 0 
+
+
+ASSEMBLY COMPLETE.  0 WARNING(S), 0 ERROR(S)

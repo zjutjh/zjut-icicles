@@ -1,0 +1,151 @@
+A51 MACRO ASSEMBLER  MATRIXKEYBOARD_1                                                     12/22/2020 00:48:31 PAGE     1
+
+
+MACRO ASSEMBLER A51 V8.02c
+OBJECT MODULE PLACED IN .\Objects\MatrixKeyboard_1.obj
+ASSEMBLER INVOKED BY: E:\Keil_v5\C51\BIN\A51.EXE MatrixKeyboard_1.asm SET(SMALL) DEBUG PRINT(.\Listings\MatrixKeyboard_1
+                      .lst) OBJECT(.\Objects\MatrixKeyboard_1.obj) EP
+
+LOC  OBJ            LINE     SOURCE
+
+                       1     
+0000                   2                     ORG             0000H
+0000 2100              3                     AJMP    RESET
+0100                   4                     ORG     0100H
+0100 758160            5     RESET:  MOV             SP,#60H
+0103 900187            6                     MOV             DPTR,#TABLE
+0106 7D80              7                     MOV             R5,#80H;8'b1000 0000
+0108 7808              8                     MOV             R0,#08H
+010A 75F000            9                     MOV             B,#00H
+010D 75A000           10     MAIN:   MOV             P2,#00H
+0110 120118           11                     LCALL   KEY2
+0113 D8F8             12                     DJNZ    R0,MAIN
+0115 020100           13                     LJMP    RESET
+                      14                     
+0118 120175           15     KEY2:   LCALL   KS;调用键盘检测子程序ks
+011B 7005             16                     JNZ             K1;无键按下则A为0，有键按下则跳转至K1(非0转移)
+011D 120198           17                     LCALL   D10ms
+0120 08               18                     INC             R0;如果无键按下，R0值需要恢复
+0121 22               19                     RET
+                      20                     
+0122 120198           21     K1:             LCALL   D10ms;去抖动10ms
+0125 120175           22                     LCALL   KS;再次检测
+0128 7002             23                     JNZ             K2;仍然有键按下则跳转K2，否则回到KEY2重新开始第一遍检测
+012A 2118             24                     AJMP    KEY2
+                      25                     
+012C 7AEF             26     K2:             MOV             R2,#0EFH;1110'1111暂存进R2，列P1.4为0
+012E 7C00             27                     MOV     R4,#00H;0列号送入R4暂存
+0130 8A90             28     K3:             MOV             P1,R2;将列扫描值送入P1口，P1.4为0
+0132 209004           29     L0:             JB              P1.0,L1;判0行线电平，P1.0为1则无按下，跳转至L1检测1行
+0135 7400             30                     MOV             A,#00H;若检测出，则将0行首键盘号送进ACC
+0137 2157             31                     AJMP    LK;跳转至LK计算行号+列号
+0139 209104           32     L1:             JB      P1.1,L2
+013C 7404             33                     MOV             A,#04H
+013E 2157             34                     AJMP    LK
+0140 209204           35     L2:             JB              P1.2,L3
+0143 7408             36                     MOV             A,#08H
+0145 2157             37                     AJMP    LK
+0147 209304           38     L3:             JB              P1.3,NEXT;若0~3行均无检测出，跳入NEXT，准备检测下一列
+014A 740C             39                     MOV             A,#0CH
+014C 2157             40                     AJMP    LK
+                      41                     
+014E 0C               42     NEXT:   INC             R4;列号加1
+014F EA               43                     MOV             A,R2;将R2扫描值送入A
+0150 30E7C5           44                     JNB             ACC.7,KEY2;判断A的最高位是否为0，即是已经0111’0000，若是则
+                             已扫描完，则返回KEY2
+0153 23               45                     RL              A;若不是，则A左移一位，扫描下一列
+0154 FA               46                     MOV             R2,A;下一列的A返还给R2
+0155 2130             47                     AJMP    K3;回到K3开始扫描下一列
+                      48                     
+0157 2C               49     LK:             ADD             A,R4;列号R4，行号ACC，加到A
+0158 317D             50                     ACALL   LEFT
+015A 93               51                     MOVC    A,@A+DPTR
+015B 85F080           52                     MOV             P0,B
+015E F5A0             53                     MOV             P2,A
+0160 316A             54                     ACALL   K4
+0162 1201A1           55                     LCALL   DELAY
+0165 D8B1             56                     DJNZ    R0,KEY2
+A51 MACRO ASSEMBLER  MATRIXKEYBOARD_1                                                     12/22/2020 00:48:31 PAGE     2
+
+0167 020100           57                     LJMP    RESET
+                      58                     
+016A 120175           59     K4:             LCALL   KS;检测是否键已经松开
+016D 70FB             60                     JNZ             K4
+016F 120198           61                     LCALL   D10ms
+0172 70F6             62                     JNZ             K4
+0174 22               63                     RET
+                      64     
+                      65                     
+0175 75900F           66     KS:             MOV             P1,#0FH
+0178 E590             67                     MOV             A,P1
+017A 640F             68                     XRL             A,#0FH
+017C 22               69                     RET
+                      70                     
+017D F5F0             71     LEFT:   MOV             B,A
+017F ED               72                     MOV             A,R5
+0180 23               73                     RL              A
+0181 FD               74                     MOV             R5,A
+0182 E5F0             75                     MOV             A,B
+0184 8DF0             76                     MOV             B,R5
+0186 22               77                     RET
+                      78                     
+0187 3F065B4F         79     TABLE:  DB              3FH,06H,5BH,4FH,66H,6DH,7DH,07H
+018B 666D7D07                
+018F 7F6F777C         80                     DB              7FH,6FH,77H,7CH,39H,5EH,79H,71H
+0193 395E7971                
+0197 00               81                     DB              00H
+                      82     
+0198 7F19             83     D10ms:  MOV             R7,#25
+019A 7EC8             84     D1:             MOV             R6,#200
+019C DEFE             85                     DJNZ    R6,$
+019E DFFA             86                     DJNZ    R7,D1
+01A0 22               87                     RET
+                      88     
+01A1 7F0A             89     DELAY:  MOV             R7,#10
+01A3 7E14             90     D2:             MOV             R6,#20
+01A5 DEFE             91     D3:             DJNZ    R6,D3
+01A7 DFFA             92                     DJNZ    R7,D2
+01A9 22               93                     RET
+                      94                     
+                      95                     END
+A51 MACRO ASSEMBLER  MATRIXKEYBOARD_1                                                     12/22/2020 00:48:31 PAGE     3
+
+SYMBOL TABLE LISTING
+------ ----- -------
+
+
+N A M E             T Y P E  V A L U E   ATTRIBUTES
+
+ACC. . . . . . . .  D ADDR   00E0H   A   
+B. . . . . . . . .  D ADDR   00F0H   A   
+D1 . . . . . . . .  C ADDR   019AH   A   
+D10MS. . . . . . .  C ADDR   0198H   A   
+D2 . . . . . . . .  C ADDR   01A3H   A   
+D3 . . . . . . . .  C ADDR   01A5H   A   
+DELAY. . . . . . .  C ADDR   01A1H   A   
+K1 . . . . . . . .  C ADDR   0122H   A   
+K2 . . . . . . . .  C ADDR   012CH   A   
+K3 . . . . . . . .  C ADDR   0130H   A   
+K4 . . . . . . . .  C ADDR   016AH   A   
+KEY2 . . . . . . .  C ADDR   0118H   A   
+KS . . . . . . . .  C ADDR   0175H   A   
+L0 . . . . . . . .  C ADDR   0132H   A   
+L1 . . . . . . . .  C ADDR   0139H   A   
+L2 . . . . . . . .  C ADDR   0140H   A   
+L3 . . . . . . . .  C ADDR   0147H   A   
+LEFT . . . . . . .  C ADDR   017DH   A   
+LK . . . . . . . .  C ADDR   0157H   A   
+MAIN . . . . . . .  C ADDR   010DH   A   
+NEXT . . . . . . .  C ADDR   014EH   A   
+P0 . . . . . . . .  D ADDR   0080H   A   
+P1 . . . . . . . .  D ADDR   0090H   A   
+P2 . . . . . . . .  D ADDR   00A0H   A   
+RESET. . . . . . .  C ADDR   0100H   A   
+SP . . . . . . . .  D ADDR   0081H   A   
+TABLE. . . . . . .  C ADDR   0187H   A   
+
+
+REGISTER BANK(S) USED: 0 
+
+
+ASSEMBLY COMPLETE.  0 WARNING(S), 0 ERROR(S)

@@ -1,0 +1,62 @@
+A51 MACRO ASSEMBLER  LIUSHUI03                                                            12/22/2020 08:45:23 PAGE     1
+
+
+MACRO ASSEMBLER A51 V8.02c
+OBJECT MODULE PLACED IN .\Objects\liushui03.obj
+ASSEMBLER INVOKED BY: E:\Keil_v5\C51\BIN\A51.EXE liushui03.asm SET(SMALL) DEBUG PRINT(.\Listings\liushui03.lst) OBJECT(.
+                      \Objects\liushui03.obj) EP
+
+LOC  OBJ            LINE     SOURCE
+
+0000                   1                     ORG     0000H
+0000 2100              2                     AJMP    START
+0100                   3                     ORG             0100H
+0100 758160            4     START:  MOV             SP,#60H
+0103 900122            5                     MOV             DPTR,#TAB
+0106 E4                6     LOOP:   CLR             A
+0107 93                7                     MOVC    A,@A+DPTR
+                       8             
+0108 B4FF02            9                     CJNE    A,#0FFH,SHOW
+010B 2100             10                     AJMP    START
+010D F5A0             11     SHOW:   MOV             P2,A
+010F 120115           12                     LCALL   DELAY
+0112 A3               13                     INC             DPTR
+0113 2106             14                     AJMP    LOOP
+                      15                     
+0115 7D14             16     DELAY:  MOV             R5,#20
+0117 7E14             17     D2:             MOV             R6,#20
+0119 7F32             18     D1:             MOV             R7,#50
+011B DFFE             19     D3:             DJNZ    R7,D3
+011D DEFA             20                     DJNZ    R6,D1
+011F DDF6             21                     DJNZ    R5,D2
+0121 22               22                     RET
+                      23                     
+0122 E7DBBD7E         24     TAB:    DB              0E7H,0DBH,0BDH,7EH,7EH,0BDH,0DBH,0E7H
+0126 7EBDDBE7                
+012A FF               25                     DB              0FFH
+                      26                             
+                      27                     END
+A51 MACRO ASSEMBLER  LIUSHUI03                                                            12/22/2020 08:45:23 PAGE     2
+
+SYMBOL TABLE LISTING
+------ ----- -------
+
+
+N A M E             T Y P E  V A L U E   ATTRIBUTES
+
+D1 . . . . . . . .  C ADDR   0119H   A   
+D2 . . . . . . . .  C ADDR   0117H   A   
+D3 . . . . . . . .  C ADDR   011BH   A   
+DELAY. . . . . . .  C ADDR   0115H   A   
+LOOP . . . . . . .  C ADDR   0106H   A   
+P2 . . . . . . . .  D ADDR   00A0H   A   
+SHOW . . . . . . .  C ADDR   010DH   A   
+SP . . . . . . . .  D ADDR   0081H   A   
+START. . . . . . .  C ADDR   0100H   A   
+TAB. . . . . . . .  C ADDR   0122H   A   
+
+
+REGISTER BANK(S) USED: 0 
+
+
+ASSEMBLY COMPLETE.  0 WARNING(S), 0 ERROR(S)

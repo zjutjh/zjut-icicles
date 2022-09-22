@@ -1,0 +1,200 @@
+A51 MACRO ASSEMBLER  AD                                                                   01/05/2021 09:45:33 PAGE     1
+
+
+MACRO ASSEMBLER A51 V8.02c
+OBJECT MODULE PLACED IN .\Objects\ad.obj
+ASSEMBLER INVOKED BY: E:\Keil_v5\C51\BIN\A51.EXE ad.asm SET(SMALL) DEBUG PRINT(.\Listings\ad.lst) OBJECT(.\Objects\ad.ob
+                      j) EP
+
+LOC  OBJ            LINE     SOURCE
+
+0000                   1     ORG 0000H
+0000 020200            2     LJMP MAIN
+0100                   3     ORG 0100H
+0100                   4     D_table:
+0100 3F065B4F          5         DB 3FH,06H,5BH,4FH,66H,6DH,7DH,07H,7FH,6FH
+0104 666D7D07                
+0108 7F6F                    
+0200                   6     ORG 0200H
+0200                   7     MAIN:
+0200 5139              8             ACALL ADCONV
+0202 5186              9             ACALL CHDATA
+0204 900100           10             MOV DPTR,#D_table
+0207 7400             11             MOV A,#00H
+0209 E8               12             MOV A,R0        
+020A 93               13             MOVC A,@A+DPTR
+020B 75A003           14             MOV P2,#03
+020E F580             15             MOV P0,A
+0210 51B7             16             ACALL Delay
+                      17     
+0212 7400             18             MOV A,#00H
+0214 E9               19             MOV A,R1        
+0215 93               20             MOVC A,@A+DPTR
+0216 75A002           21             MOV P2,#02
+0219 F580             22             MOV P0,A
+021B 51B7             23             ACALL Delay
+                      24     
+021D 7400             25             MOV A,#00H
+021F EA               26             MOV A,R2        
+0220 93               27             MOVC A,@A+DPTR
+0221 75A001           28             MOV P2,#01
+0224 F580             29             MOV P0,A
+0226 51B7             30             ACALL Delay
+                      31     
+0228 7400             32             MOV A,#00H
+022A EB               33             MOV A,R3        
+022B 93               34             MOVC A,@A+DPTR
+022C 75A000           35             MOV P2,#00
+022F F580             36             MOV P0,A
+0231 51B7             37             ACALL Delay
+0233 758000           38             MOV P0,#00H
+0236 020200           39             LJMP MAIN       
+0239                  40     ADCONV:       
+0239 0F               41             INC R7
+023A                  42     DELL: 
+023A DEFE             43             DJNZ R6,DELL
+023C BFFF46           44             CJNE R7,#0FFH,RETURN
+023F 7F00             45             MOV R7,#00H
+0241 7EFF             46             MOV R6,#0FFH
+0243 78D4             47             MOV R0,#0D4H        
+0245 C2B6             48             CLR P3.6
+0247 C2B5             49             CLR P3.5
+0249 7A08             50             MOV R2,#08H        
+024B E8               51             MOV A,R0
+024C                  52     LOOP0:
+                      53     
+024C 33               54             RLC A
+024D 92B4             55             MOV P3.4,C
+A51 MACRO ASSEMBLER  AD                                                                   01/05/2021 09:45:33 PAGE     2
+
+024F C2B6             56             CLR P3.6
+0251 00               57             NOP     
+0252 D2B6             58             SETB P3.6
+0254 00               59             NOP
+0255 DAF5             60             DJNZ R2,LOOP0
+0257 7400             61             MOV A,#00H
+0259 7A04             62             MOV R2,#04H
+025B 00               63             NOP
+025C 00               64             NOP
+025D 00               65             NOP
+025E 00               66             NOP
+025F                  67     LOOP1:
+025F A2B7             68             MOV C,P3.7
+0261 13               69             RRC A
+0262 D2B6             70             SETB P3.6
+0264 00               71             NOP
+0265 C2B6             72             CLR P3.6
+0267 00               73             NOP
+0268 DAF5             74             DJNZ R2,LOOP1
+026A 13               75             RRC A
+026B 13               76             RRC A
+026C 13               77             RRC A
+026D 13               78             RRC A
+026E F9               79             MOV R1,A 
+026F 7400             80             MOV A,#00H
+0271 7A08             81             MOV R2,#08H
+0273                  82     LOOP2:
+0273 A2B7             83             MOV C,P3.7
+0275 13               84             RRC A
+0276 C2B6             85             CLR P3.6
+0278 00               86             NOP
+0279 D2B6             87             SETB P3.6
+027B 00               88             NOP
+027C DAF5             89             DJNZ R2,LOOP2
+027E C4               90             SWAP A
+027F F8               91             MOV R0,A  
+0280 D2B6             92             SETB P3.6
+0282 120286           93             LCALL CHDATA
+0285                  94     RETURN:
+0285 22               95             RET
+0286                  96     CHDATA:          
+                      97     
+                      98     
+0286 E9               99             MOV A,R1
+0287 540F            100             ANL A,#0FH
+0289 F9              101             MOV R1,A
+028A E4              102         CLR A
+028B FA              103         MOV R2,A          ;ÏÈÇåÁã
+028C FB              104         MOV R3,A
+028D FC              105         MOV R4,A
+028E 7D10            106         MOV R5,#16          ;¹²×ª»»Ê®ÁùÎ»Ê   
+0290                 107     LOOP:
+0290 C3              108         CLR C
+0291 E8              109         MOV A,R0           ;´Ó´×ª»»ÊµÄ¸ß¶ËÒÆ³öÒ»Î»µ½Cy
+0292 33              110         RLC A
+0293 F8              111         MOV R0,A
+0294 E9              112         MOV A,R1
+0295 33              113         RLC A
+0296 F9              114         MOV R1,A
+0297 EC              115         MOV A,R4           ;ËÍµ½BCDÂëµÄµÍ¶Ë
+0298 3C              116         ADDC A,R4           ;´ø½øÎ»¼Ó¡£×ÔÉíÏà¼Ó£¬Ïàµ±ÓÚ×óÒÆÒ»Î»
+0299 D4              117         DA A                  ;Ê®½øÖÆµ÷Õû£¬±ä³ÉBCDÂë
+029A FC              118         MOV R4,A
+029B EB              119         MOV A,R3
+029C 3B              120         ADDC A,R3
+029D D4              121         DA A
+A51 MACRO ASSEMBLER  AD                                                                   01/05/2021 09:45:33 PAGE     3
+
+029E FB              122         MOV R3,A
+029F EA              123         MOV A,R2
+02A0 3A              124         ADDC A,R2
+02A1 FA              125         MOV R2,A
+02A2 DDEC            126         DJNZ R5,LOOP          ;¹²×ª»»Ê®ÁùÎ»Ê
+                     127     ;-------ÖÁ´Ë£¬ÒÑ¾­°ÑTH1 TL1ÖÐµÄÊ×Ö£¬×ª»»³ÉBCDÂë£¬ËÍµ½ÁËR2 R3 R4¡£
+                     128     ;-------ÏÂÃæ£¬·Ö±ð´æÈëR4 R3 R2 R1 R0¡£
+02A4 EC              129         MOV A,R4
+02A5 75F010          130         MOV B,#16
+02A8 84              131         DIV AB
+02A9 F9              132         MOV R1,A
+02AA A8F0            133         MOV R0,B
+                     134     
+02AC EA              135         MOV A,R2
+02AD FC              136         MOV R4,A
+                     137     
+02AE EB              138         MOV A,R3
+02AF 75F010          139         MOV B,#16
+02B2 84              140         DIV AB
+02B3 FB              141         MOV R3,A
+02B4 AAF0            142         MOV R2,B
+02B6 22              143         RET 
+02B7                 144     Delay:
+02B7 75200A          145           MOV 20H,#10
+02BA 752101          146     DEL0: MOV 21H,#1
+02BD 752214          147     DEL1: MOV 22H,#20
+02C0 D522FD          148     DEL2: DJNZ 22H,DEL2
+02C3 D521F7          149               DJNZ 21H,DEL1
+02C6 D520F1          150               DJNZ 20H,DEL0
+02C9 22              151         RET  
+                     152     END
+A51 MACRO ASSEMBLER  AD                                                                   01/05/2021 09:45:33 PAGE     4
+
+SYMBOL TABLE LISTING
+------ ----- -------
+
+
+N A M E             T Y P E  V A L U E   ATTRIBUTES
+
+ADCONV . . . . . .  C ADDR   0239H   A   
+B. . . . . . . . .  D ADDR   00F0H   A   
+CHDATA . . . . . .  C ADDR   0286H   A   
+DEL0 . . . . . . .  C ADDR   02BAH   A   
+DEL1 . . . . . . .  C ADDR   02BDH   A   
+DEL2 . . . . . . .  C ADDR   02C0H   A   
+DELAY. . . . . . .  C ADDR   02B7H   A   
+DELL . . . . . . .  C ADDR   023AH   A   
+D_TABLE. . . . . .  C ADDR   0100H   A   
+LOOP . . . . . . .  C ADDR   0290H   A   
+LOOP0. . . . . . .  C ADDR   024CH   A   
+LOOP1. . . . . . .  C ADDR   025FH   A   
+LOOP2. . . . . . .  C ADDR   0273H   A   
+MAIN . . . . . . .  C ADDR   0200H   A   
+P0 . . . . . . . .  D ADDR   0080H   A   
+P2 . . . . . . . .  D ADDR   00A0H   A   
+P3 . . . . . . . .  D ADDR   00B0H   A   
+RETURN . . . . . .  C ADDR   0285H   A   
+
+
+REGISTER BANK(S) USED: 0 
+
+
+ASSEMBLY COMPLETE.  0 WARNING(S), 0 ERROR(S)

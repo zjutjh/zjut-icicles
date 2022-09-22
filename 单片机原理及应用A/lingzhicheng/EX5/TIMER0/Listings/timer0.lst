@@ -1,0 +1,79 @@
+A51 MACRO ASSEMBLER  TIMER0                                                               01/05/2021 11:20:41 PAGE     1
+
+
+MACRO ASSEMBLER A51 V8.02c
+OBJECT MODULE PLACED IN .\Objects\timer0.obj
+ASSEMBLER INVOKED BY: E:\Keil_v5\C51\BIN\A51.EXE timer0.asm SET(SMALL) DEBUG PRINT(.\Listings\timer0.lst) OBJECT(.\Objec
+                      ts\timer0.obj) EP
+
+LOC  OBJ            LINE     SOURCE
+
+                       1     
+0000                   2             ORG             0000H
+0000                   3     RESET:
+0000 020100            4             LJMP    MAIN
+000B                   5             ORG             000BH;¶¨Ê±Æ÷ÖÐ¶Ï0Èë¿Ú
+000B 02011A            6             LJMP    T0_INT
+0100                   7             ORG             0100H
+                       8             
+0100                   9     MAIN:
+0100 758160           10             MOV             SP,#60H
+0103 758901           11             MOV             TMOD,#01H;¼ÆÊ±¹¤×÷·½Ê½1
+0106 753000           12             MOV             30H,#00H;¶¨Ê±Æ÷³¬Ê±Ò»°Ù´Î£¬´ïµ½64h¼´Ò»Ãë
+                      13             ;12MHz£¬»úÆ÷ÖÜÆÚ1¦Ìs£¬ÐèÒª10000¸ö¼ÆÊ£¬³õÖµ=65536-10000=55536=D8F0H
+0109 758CD8           14             MOV             TH0,#0D8H
+010C 758AF0           15             MOV             TL0,#0F0H
+010F D2A0             16             SETB    P2.0
+0111 D2A9             17             SETB    ET0;¿ª·ÅT0ÖÐ¶ÏºÍ×ÜÖÐ¶Ï
+0113 D2AF             18             SETB    EA
+0115 D28C             19             SETB    TR0;Æô¶¯T0
+0117 308DFD           20             JNB             TF0,$;wait for TF0
+                      21     
+011A                  22     T0_INT:
+011A C0D0             23             PUSH    PSW;±£»¤×´Ì¬×Ö¼Ä´æÆ÷
+011C C0E0             24             PUSH    ACC
+011E C2AF             25             CLR             EA;¹Ø±Õ×ÜÖÐ¶Ï
+0120 758CD8           26             MOV             TH0,#0D8H
+0123 758AF0           27             MOV             TL0,#0F0H
+0126 0530             28             INC             30H
+0128 E530             29             MOV             A,30H
+012A B46405           30             CJNE    A,#100,CONTINUE_T0
+012D 753000           31             MOV             30H,#00H;¶¨Ê±Æ÷³¬Ê±Ò»°Ù´Î£¬´ïµ½64h¼´Ò»Ãë
+0130 B2A0             32             CPL             P2.0
+                      33     
+0132                  34     CONTINUE_T0:
+0132 D2AF             35             SETB    EA;¿ª×ÜÖÐ¶Ï
+0134 D0E0             36             POP             ACC
+0136 D0D0             37             POP             PSW;±£»¤×´Ì¬×Ö¼Ä´æÆ÷
+0138 32               38             RETI
+                      39             
+                      40             END
+A51 MACRO ASSEMBLER  TIMER0                                                               01/05/2021 11:20:41 PAGE     2
+
+SYMBOL TABLE LISTING
+------ ----- -------
+
+
+N A M E             T Y P E  V A L U E   ATTRIBUTES
+
+ACC. . . . . . . .  D ADDR   00E0H   A   
+CONTINUE_T0. . . .  C ADDR   0132H   A   
+EA . . . . . . . .  B ADDR   00A8H.7 A   
+ET0. . . . . . . .  B ADDR   00A8H.1 A   
+MAIN . . . . . . .  C ADDR   0100H   A   
+P2 . . . . . . . .  D ADDR   00A0H   A   
+PSW. . . . . . . .  D ADDR   00D0H   A   
+RESET. . . . . . .  C ADDR   0000H   A   
+SP . . . . . . . .  D ADDR   0081H   A   
+T0_INT . . . . . .  C ADDR   011AH   A   
+TF0. . . . . . . .  B ADDR   0088H.5 A   
+TH0. . . . . . . .  D ADDR   008CH   A   
+TL0. . . . . . . .  D ADDR   008AH   A   
+TMOD . . . . . . .  D ADDR   0089H   A   
+TR0. . . . . . . .  B ADDR   0088H.4 A   
+
+
+REGISTER BANK(S) USED: 0 
+
+
+ASSEMBLY COMPLETE.  0 WARNING(S), 0 ERROR(S)

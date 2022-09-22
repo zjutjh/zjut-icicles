@@ -1,0 +1,3 @@
+".\Objects\AD_HEX_DEC.obj" 
+TO ".\Objects\contain" 
+PRINT(".\Listings\contain.m51") RAMSIZE(256) 

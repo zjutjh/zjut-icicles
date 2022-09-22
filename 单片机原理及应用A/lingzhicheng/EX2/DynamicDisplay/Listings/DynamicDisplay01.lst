@@ -1,0 +1,68 @@
+A51 MACRO ASSEMBLER  DYNAMICDISPLAY01                                                     01/05/2021 09:12:41 PAGE     1
+
+
+MACRO ASSEMBLER A51 V8.02c
+OBJECT MODULE PLACED IN .\Objects\DynamicDisplay01.obj
+ASSEMBLER INVOKED BY: E:\Keil_v5\C51\BIN\A51.EXE DynamicDisplay01.asm SET(SMALL) DEBUG PRINT(.\Listings\DynamicDisplay01
+                      .lst) OBJECT(.\Objects\DynamicDisplay01.obj) EP
+
+LOC  OBJ            LINE     SOURCE
+
+0000                   1                     ORG     0000H
+0000 2100              2                     AJMP    START
+0100                   3                     ORG             0100H
+0100                   4     START:  
+0100 758160            5                     MOV             SP,#60H
+                       6                     
+0103 7F08              7     MAIN:   MOV     R7,#08H; 显示八位
+                       8                     
+0105 7E00              9                     MOV             R6,#0
+0107 7830             10                     MOV             R0,#30H;显示缓存区30H
+0109                  11     LOOP:
+                      12                     
+                      13                     
+                      14                     
+                      15                     
+0109 8EA0             16                     MOV             P2,R6
+010B 0E               17                     INC             R6
+010C E6               18                     MOV             A,@R0;读取显示值
+010D F580             19                     MOV             P0,A;输出送入P0口
+010F 120117           20                     LCALL   DELAY;调用延时子程序
+0112 08               21                     INC             R0;显示缓存区+1
+0113 DFF4             22                     DJNZ    R7,LOOP;判断是否显示完八位，未完则继续loop
+0115 2103             23                     AJMP    MAIN
+                      24                     
+0117 7A0A             25     DELAY:  MOV             R2,#10;延时子程序10*1*20*2=0.4ms
+0119 7B01             26     D2:             MOV             R3,#1
+011B 7C14             27     D1:             MOV             R4,#20
+011D DCFE             28     D3:             DJNZ    R4,D3
+011F DBFA             29                     DJNZ    R3,D1
+0121 DAF6             30                     DJNZ    R2,D2
+0123 22               31                     RET
+                      32     
+                      33                     END
+                                             
+A51 MACRO ASSEMBLER  DYNAMICDISPLAY01                                                     01/05/2021 09:12:41 PAGE     2
+
+SYMBOL TABLE LISTING
+------ ----- -------
+
+
+N A M E             T Y P E  V A L U E   ATTRIBUTES
+
+D1 . . . . . . . .  C ADDR   011BH   A   
+D2 . . . . . . . .  C ADDR   0119H   A   
+D3 . . . . . . . .  C ADDR   011DH   A   
+DELAY. . . . . . .  C ADDR   0117H   A   
+LOOP . . . . . . .  C ADDR   0109H   A   
+MAIN . . . . . . .  C ADDR   0103H   A   
+P0 . . . . . . . .  D ADDR   0080H   A   
+P2 . . . . . . . .  D ADDR   00A0H   A   
+SP . . . . . . . .  D ADDR   0081H   A   
+START. . . . . . .  C ADDR   0100H   A   
+
+
+REGISTER BANK(S) USED: 0 
+
+
+ASSEMBLY COMPLETE.  0 WARNING(S), 0 ERROR(S)

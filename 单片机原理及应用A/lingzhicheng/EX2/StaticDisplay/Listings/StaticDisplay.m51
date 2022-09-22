@@ -1,0 +1,67 @@
+BL51 BANKED LINKER/LOCATER V6.22                                                        12/01/2020  14:25:57  PAGE 1
+
+
+BL51 BANKED LINKER/LOCATER V6.22, INVOKED BY:
+E:\KEIL_V5\C51\BIN\BL51.EXE .\Objects\StaticDisplay01.obj TO .\Objects\StaticDisplay PRINT (.\Listings\StaticDisplay.m51
+>> ) RAMSIZE (256)
+
+
+INPUT MODULES INCLUDED:
+  .\Objects\StaticDisplay01.obj (STATICDISPLAY01)
+
+
+LINK MAP OF MODULE:  .\Objects\StaticDisplay (STATICDISPLAY01)
+
+
+            TYPE    BASE      LENGTH    RELOCATION   SEGMENT NAME
+            -----------------------------------------------------
+
+            * * * * * * *   D A T A   M E M O R Y   * * * * * * *
+            REG     0000H     0008H     ABSOLUTE     "REG BANK 0"
+
+            * * * * * * *   C O D E   M E M O R Y   * * * * * * *
+            CODE    0000H     012FH     ABSOLUTE     
+
+
+
+SYMBOL TABLE OF MODULE:  .\Objects\StaticDisplay (STATICDISPLAY01)
+
+  VALUE           TYPE          NAME
+  ----------------------------------
+
+  -------         MODULE        STATICDISPLAY01
+  C:011CH         SYMBOL        D1
+  C:011AH         SYMBOL        D2
+  C:011EH         SYMBOL        D3
+  C:0118H         SYMBOL        DELAY
+  D:00A0H         SYMBOL        P2
+  C:0105H         SYMBOL        S1
+  C:0108H         SYMBOL        S2
+  C:0100H         SYMBOL        START
+  C:0125H         SYMBOL        TAB
+  C:0000H         LINE#         2
+  C:0100H         LINE#         5
+  C:0103H         LINE#         6
+  C:0105H         LINE#         7
+  C:0108H         LINE#         8
+  C:0109H         LINE#         9
+  C:010AH         LINE#         10
+  C:010CH         LINE#         11
+  C:010FH         LINE#         12
+  C:0110H         LINE#         13
+  C:0113H         LINE#         14
+  C:0115H         LINE#         15
+  C:0118H         LINE#         17
+  C:011AH         LINE#         18
+  C:011CH         LINE#         19
+  C:011EH         LINE#         20
+  C:0120H         LINE#         21
+  C:0122H         LINE#         22
+  C:0124H         LINE#         23
+  -------         ENDMOD        STATICDISPLAY01
+BL51 BANKED LINKER/LOCATER V6.22                                                      12/01/2020  14:25:57  PAGE 2
+
+
+
+Program Size: data=8.0 xdata=0 code=303
+LINK/LOCATE RUN COMPLETE.  0 WARNING(S),  0 ERROR(S)

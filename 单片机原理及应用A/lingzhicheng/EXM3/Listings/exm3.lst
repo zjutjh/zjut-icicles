@@ -1,0 +1,356 @@
+A51 MACRO ASSEMBLER  EXM3                                                                 01/12/2021 12:12:37 PAGE     1
+
+
+MACRO ASSEMBLER A51 V8.02c
+OBJECT MODULE PLACED IN .\Objects\exm3.obj
+ASSEMBLER INVOKED BY: E:\Keil_v5\C51\BIN\A51.EXE exm3.asm SET(SMALL) DEBUG PRINT(.\Listings\exm3.lst) OBJECT(.\Objects\e
+                      xm3.obj) EP
+
+LOC  OBJ            LINE     SOURCE
+
+0000                   1         ORG     0000H   
+0000 020100            2         LJMP    MAIN
+                       3         
+0003                   4         ORG     0003H    
+0003 217A              5         AJMP    INTT0
+                       6         
+0013                   7         ORG     0013H    
+0013 2199              8         AJMP    INTT1
+                       9         
+0100                  10         ORG     0100H
+0100                  11     MAIN:
+0100 758160           12         MOV     SP,#60H
+0103 900500           13         MOV     DPTR,#0500H
+0106 7940             14         MOV     R1,#40H        
+0108 7B10             15         MOV     R3,#16         
+010A 120146           16         LCALL   LOOP
+                      17         
+010D D2A8             18         SETB    EX0      
+010F D288             19             SETB    IT0      
+0111 D2AA             20             SETB    EX1
+0113 D28A             21             SETB    IT1
+0115 D2AF             22         SETB    EA       
+0117 75B801           23         MOV         IP,#01H  
+011A 75B0FF           24         MOV     P3,#0FFH
+011D 758000           25         MOV     P0,#00H
+                      26         
+0120                  27     SHOW:
+0120 7400             28         MOV         A,#00H                           
+0122 EA               29             MOV     A,R2
+0123 93               30             MOVC    A,@A+DPTR    
+0124 75A000           31             MOV     P2,#00
+0127 F580             32             MOV     P0,A
+0129 512B             33             ACALL   DELAY
+                      34         
+012B 7400             35         MOV         A,#00H                           
+012D E9               36             MOV     A,R1    
+012E 93               37             MOVC    A,@A+DPTR        
+012F 75A001           38             MOV     P2,#01
+0132 F580             39             MOV     P0,A
+0134 512B             40             ACALL   DELAY
+                      41         
+0136 7400             42         MOV         A,#00H                           
+0138 E8               43             MOV     A,R0    
+0139 93               44             MOVC    A,@A+DPTR        
+013A 75A002           45             MOV     P2,#02
+013D F580             46             MOV     P0,A
+013F 512B             47             ACALL   DELAY
+                      48     
+0141 020120           49             LJMP    SHOW    
+                      50     
+0144 80FE             51         SJMP    $
+                      52     
+0146                  53     LOOP:
+0146 7400             54         MOV     A,#00H              
+0148 93               55         MOVC    A,@A+DPTR
+0149 F7               56         MOV     @R1,A
+014A 09               57         INC     R1
+A51 MACRO ASSEMBLER  EXM3                                                                 01/12/2021 12:12:37 PAGE     2
+
+014B A3               58         INC     DPTR
+014C DBF8             59         DJNZ    R3,LOOP      
+014E 7A00             60         MOV     R2,#00H
+0150 7B00             61         MOV     R3,#00H
+                      62         
+0152                  63     PAIXU:
+0152 7840             64             MOV     R0,#40H
+0154 E6               65             MOV     A,@R0
+0155 FB               66             MOV     R3,A
+0156                  67     F1:     
+0156 08               68             INC     R0
+0157 E6               69             MOV     A,@R0
+0158 9B               70             SUBB    A,R3
+0159 500C             71             JNC     F2       
+015B E6               72             MOV     A,@R0    
+015C FA               73             MOV     R2,A
+015D EB               74             MOV     A,R3
+015E F6               75             MOV     @R0,A
+015F 18               76             DEC     R0
+0160 EA               77             MOV     A,R2
+0161 F6               78             MOV     @R0,A
+0162 08               79             INC     R0
+0163 C3               80             CLR     C
+0164 B84FEF           81             CJNE    R0,#4FH,F1
+0167                  82     F2:
+0167 E6               83             MOV     A,@R0
+0168 FB               84             MOV     R3,A
+0169 C3               85             CLR     C
+016A B84FE9           86             CJNE    R0,#4FH,F1
+016D 09               87             INC     R1
+016E B94FE1           88             CJNE    R1,#4FH,PAIXU
+                      89         
+0171 784F             90         MOV     R0,#4FH      
+0173 E6               91         MOV     A,@R0
+0174 F8               92         MOV     R0,A
+0175 7940             93         MOV     R1,#40H
+0177 E7               94         MOV     A,@R1
+0178 F9               95         MOV     R1,A
+0179 22               96         RET
+                      97     
+017A                  98     INTT0:
+017A C2AF             99         CLR     EA
+017C C0E0            100         PUSH    ACC
+017E D2AF            101         SETB    EA
+                     102         
+0180 E5B0            103         MOV     A,P3
+0182 F4              104         CPL     A
+0183 6033            105         JZ      RETURN
+0185 12023E          106         LCALL   D10ms
+0188 E5B0            107         MOV     A,P3
+018A F4              108         CPL     A   
+018B 602B            109         JZ      RETURN
+018D 7BFF            110         MOV     R3,#0FFH
+018F 20E229          111         JB      ACC.2,Pkey1
+                     112         
+0192 C2AF            113         CLR     EA
+0194 D0E0            114         POP     ACC
+0196 D2AF            115         SETB    EA
+0198 32              116         RETI
+                     117     
+                     118     
+                     119     
+0199                 120     INTT1:
+0199 C2AF            121         CLR     EA
+019B C0E0            122         PUSH    ACC
+019D D2AF            123         SETB    EA
+A51 MACRO ASSEMBLER  EXM3                                                                 01/12/2021 12:12:37 PAGE     3
+
+                     124         
+019F E5B0            125         MOV     A,P3
+01A1 F4              126         CPL     A
+01A2 6014            127         JZ      RETURN
+01A4 12023E          128         LCALL   D10ms
+01A7 E5B0            129         MOV     A,P3
+01A9 F4              130         CPL     A   
+01AA 600C            131         JZ      RETURN
+01AC 7BFF            132         MOV     R3,#0FFH
+01AE 20E341          133         JB      ACC.3,Pkey4
+                     134         
+01B1 C2AF            135         CLR     EA
+01B3 D0E0            136         POP     ACC
+01B5 D2AF            137         SETB    EA
+01B7 32              138         RETI
+                     139     
+01B8                 140     RETURN:
+01B8 D0E0            141         POP     ACC
+01BA 32              142         RETI
+                     143     
+01BB                 144     Pkey1:
+01BB 900510          145         MOV     DPTR,#TABLE
+01BE 7900            146         MOV     R1,#00H
+01C0 E9              147         MOV         A,R1
+01C1 540F            148             ANL     A,#0FH
+01C3 F9              149             MOV     R1,A
+01C4 E4              150         CLR         A
+                     151             
+01C5 FA              152         MOV         R2,A             
+01C6 FB              153         MOV         R3,A
+01C7 FC              154         MOV         R4,A
+01C8 7D10            155         MOV         R5,#16           
+01CA                 156     LOOP1:
+01CA C3              157         CLR         C
+01CB E8              158         MOV         A,R0             
+01CC 33              159         RLC         A
+01CD F8              160         MOV         R0,A
+                     161             
+01CE E9              162         MOV         A,R1
+01CF 33              163         RLC         A
+01D0 F9              164         MOV         R1,A
+                     165             
+01D1 EC              166         MOV         A,R4             
+01D2 3C              167         ADDC        A,R4             
+01D3 D4              168         DA          A                
+01D4 FC              169         MOV         R4,A
+                     170             
+01D5 EB              171         MOV         A,R3
+01D6 3B              172         ADDC        A,R3
+01D7 D4              173         DA          A
+01D8 FB              174         MOV         R3,A
+                     175             
+01D9 EA              176         MOV         A,R2
+01DA 3A              177         ADDC        A,R2
+01DB FA              178         MOV         R2,A
+                     179             
+01DC DDEC            180         DJNZ        R5,LOOP1
+                     181     
+                     182     
+                     183     
+01DE EC              184         MOV         A,R4
+01DF 75F010          185         MOV         B,#16
+01E2 84              186         DIV         AB
+01E3 F9              187         MOV         R1,A
+01E4 A8F0            188         MOV         R0,B
+                     189     
+A51 MACRO ASSEMBLER  EXM3                                                                 01/12/2021 12:12:37 PAGE     4
+
+01E6 EA              190         MOV         A,R2
+01E7 FC              191         MOV         R4,A
+                     192     
+01E8 EB              193         MOV         A,R3
+01E9 75F010          194         MOV         B,#16
+01EC 84              195         DIV         AB
+01ED FB              196         MOV         R3,A
+01EE AAF0            197         MOV         R2,B
+                     198         
+01F0 80C6            199         SJMP    RETURN
+                     200         
+01F2                 201     Pkey4:
+01F2 900510          202         MOV     DPTR,#TABLE
+01F5 7900            203         MOV     R1,#00H
+01F7 E9              204         MOV         A,R1
+01F8 540F            205             ANL     A,#0FH
+01FA F9              206             MOV     R1,A
+01FB E4              207         CLR         A
+                     208             
+01FC FA              209         MOV         R2,A             
+01FD FB              210         MOV         R3,A
+01FE FC              211         MOV         R4,A
+01FF 7D10            212         MOV         R5,#16           
+0201                 213     LOOP4:
+0201 C3              214         CLR         C
+0202 E8              215         MOV         A,R0             
+0203 33              216         RLC         A
+0204 F8              217         MOV         R0,A
+                     218             
+0205 E9              219         MOV         A,R1
+0206 33              220         RLC         A
+0207 F9              221         MOV         R1,A
+                     222             
+0208 EC              223         MOV         A,R4             
+0209 3C              224         ADDC        A,R4             
+020A D4              225         DA          A                
+020B FC              226         MOV         R4,A
+                     227             
+020C EB              228         MOV         A,R3
+020D 3B              229         ADDC        A,R3
+020E D4              230         DA          A
+020F FB              231         MOV         R3,A
+                     232             
+0210 EA              233         MOV         A,R2
+0211 3A              234         ADDC        A,R2
+0212 FA              235         MOV         R2,A
+                     236             
+0213 DDEC            237         DJNZ        R5,LOOP4
+                     238     
+                     239     
+                     240     
+0215 EC              241         MOV         A,R4
+0216 75F010          242         MOV         B,#16
+0219 84              243         DIV         AB
+021A F9              244         MOV         R1,A
+021B A8F0            245         MOV         R0,B
+                     246     
+021D EA              247         MOV         A,R2
+021E FC              248         MOV         R4,A
+                     249     
+021F EB              250         MOV         A,R3
+0220 75F010          251         MOV         B,#16
+0223 84              252         DIV         AB
+0224 FB              253         MOV         R3,A
+0225 AAF0            254         MOV         R2,B
+                     255         
+A51 MACRO ASSEMBLER  EXM3                                                                 01/12/2021 12:12:37 PAGE     5
+
+0227 DBC9            256         DJNZ    R3,Pkey4
+0229 808D            257         SJMP    RETURN
+                     258     
+                     259     
+                     260     
+022B                 261     DELAY:                           
+022B 75300A          262         MOV     30H,#10
+022E 753101          263     DEL0:MOV    31H,#1
+0231 753214          264     DEL1:MOV    32H,#20
+0234                 265     DEL2: 
+0234 D532FD          266         DJNZ    32H,DEL2
+0237 D531F7          267         DJNZ    31H,DEL1
+023A D530F1          268         DJNZ    30H,DEL0
+023D 22              269         RET
+                     270         
+023E 753219          271     D10ms:  MOV         32H,#25
+0241 7531C8          272     D1:         MOV     31H,#200
+0244 D531FD          273             DJNZ    31H,$
+0247 D532F7          274             DJNZ    32H,D1
+024A 22              275             RET
+                     276             
+                     277             
+0500                 278     ORG 0500H
+0500 2255A011        279     DB 22H,55H,0A0H,11H,0C0H,99H,12H,0B0H,44H,0F1H,77H,33H,0EFH,66H,88H,0D0H
+0504 C09912B0                
+0508 44F17733                
+050C EF6688D0                
+                     280     
+                     281     
+                     282     
+0510 3F065B4F        283     TABLE:  DB              3FH,06H,5BH,4FH,66H,6DH,7DH,07H 
+0514 666D7D07                
+0518 7F6F777C        284             DB              7FH,6FH,77H,7CH,39H,5EH,79H,71H
+051C 395E7971                
+0520 00              285             DB              00H
+                     286         
+                     287     END
+A51 MACRO ASSEMBLER  EXM3                                                                 01/12/2021 12:12:37 PAGE     6
+
+SYMBOL TABLE LISTING
+------ ----- -------
+
+
+N A M E             T Y P E  V A L U E   ATTRIBUTES
+
+ACC. . . . . . . .  D ADDR   00E0H   A   
+B. . . . . . . . .  D ADDR   00F0H   A   
+D1 . . . . . . . .  C ADDR   0241H   A   
+D10MS. . . . . . .  C ADDR   023EH   A   
+DEL0 . . . . . . .  C ADDR   022EH   A   
+DEL1 . . . . . . .  C ADDR   0231H   A   
+DEL2 . . . . . . .  C ADDR   0234H   A   
+DELAY. . . . . . .  C ADDR   022BH   A   
+EA . . . . . . . .  B ADDR   00A8H.7 A   
+EX0. . . . . . . .  B ADDR   00A8H.0 A   
+EX1. . . . . . . .  B ADDR   00A8H.2 A   
+F1 . . . . . . . .  C ADDR   0156H   A   
+F2 . . . . . . . .  C ADDR   0167H   A   
+INTT0. . . . . . .  C ADDR   017AH   A   
+INTT1. . . . . . .  C ADDR   0199H   A   
+IP . . . . . . . .  D ADDR   00B8H   A   
+IT0. . . . . . . .  B ADDR   0088H.0 A   
+IT1. . . . . . . .  B ADDR   0088H.2 A   
+LOOP . . . . . . .  C ADDR   0146H   A   
+LOOP1. . . . . . .  C ADDR   01CAH   A   
+LOOP4. . . . . . .  C ADDR   0201H   A   
+MAIN . . . . . . .  C ADDR   0100H   A   
+P0 . . . . . . . .  D ADDR   0080H   A   
+P2 . . . . . . . .  D ADDR   00A0H   A   
+P3 . . . . . . . .  D ADDR   00B0H   A   
+PAIXU. . . . . . .  C ADDR   0152H   A   
+PKEY1. . . . . . .  C ADDR   01BBH   A   
+PKEY4. . . . . . .  C ADDR   01F2H   A   
+RETURN . . . . . .  C ADDR   01B8H   A   
+SHOW . . . . . . .  C ADDR   0120H   A   
+SP . . . . . . . .  D ADDR   0081H   A   
+TABLE. . . . . . .  C ADDR   0510H   A   
+
+
+REGISTER BANK(S) USED: 0 
+
+
+ASSEMBLY COMPLETE.  0 WARNING(S), 0 ERROR(S)

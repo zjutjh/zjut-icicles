@@ -1,0 +1,98 @@
+A51 MACRO ASSEMBLER  SEND                                                                 12/29/2020 10:27:22 PAGE     1
+
+
+MACRO ASSEMBLER A51 V8.02c
+OBJECT MODULE PLACED IN .\Objects\send.obj
+ASSEMBLER INVOKED BY: E:\Keil_v5\C51\BIN\A51.EXE send.asm SET(SMALL) DEBUG PRINT(.\Listings\send.lst) OBJECT(.\Objects\s
+                      end.obj) EP
+
+LOC  OBJ            LINE     SOURCE
+
+0000                   1                     ORG 0000h
+0000 020100            2                     LJMP MAIN
+0100                   3                     ORG 0100H
+0100 758160            4     MAIN:   MOV     SP,#60H 
+0103 758920            5                     MOV TMOD,#20H
+0106 758DF4            6                     MOV TH1,#0F4H
+0109 758BF4            7                     MOV TL1,#0F4H
+010C 758780            8                     MOV PCON,#80H
+010F D28E              9                     SETB TR1
+0111 759850           10                     MOV SCON,#50H
+0114 7830             11                     MOV R0,#30H
+0116 7F08             12                     MOV R7,#08H
+0118 7E00             13                     MOV R6,#00H
+                      14     
+011A 7406             15     SEND:   MOV A,#06H
+011C F599             16                     MOV SBUF,A
+011E 3099FD           17     WAIT4:  JNB TI,WAIT4
+0121 C299             18                     CLR TI
+                      19                     
+0123 3098FD           20     REC:    JNB RI,REC
+0126 C298             21                     CLR RI
+0128 E599             22                     MOV A,SBUF
+012A B400ED           23                     CJNE A,#00H,SEND
+                      24             
+                      25                
+                      26             
+012D EF               27     SEND1:  MOV A,R7
+012E F599             28                     MOV SBUF,A
+0130 2E               29                     ADD A,R6
+0131 FE               30                     MOV R6,A        
+0132 3099FD           31     WAIT1:  JNB TI,WAIT1
+0135 C299             32                     CLR     TI
+0137 E6               33     SEND2:  MOV A,@R0
+0138 F599             34                     MOV SBUF,A
+013A 3099FD           35     WAIT2:  JNB TI,WAIT2
+013D C299             36                     CLR TI
+013F 2E               37                     ADD A,R6
+0140 FE               38                     MOV R6,A
+0141 08               39                     INC R0
+0142 DFF3             40                     DJNZ R7,SEND2
+0144 EE               41                     MOV A,R6
+0145 F599             42                     MOV SBUF,A
+0147 3099FD           43     WAIT3:  JNB TI,WAIT3
+014A C299             44                     CLR TI
+                      45     
+014C 3098FD           46     REC2:   JNB RI,REC2
+014F C298             47                     CLR RI
+0151 E599             48                     MOV A,SBUF
+0153 B40FC4           49                     CJNE A,#0FH,SEND
+0156 7540FF           50                     MOV 40H,#0FFH
+                      51     
+0159 020159           52                     LJMP $
+                      53     
+                      54     END
+A51 MACRO ASSEMBLER  SEND                                                                 12/29/2020 10:27:22 PAGE     2
+
+SYMBOL TABLE LISTING
+------ ----- -------
+
+
+N A M E             T Y P E  V A L U E   ATTRIBUTES
+
+MAIN . . . . . . .  C ADDR   0100H   A   
+PCON . . . . . . .  D ADDR   0087H   A   
+REC. . . . . . . .  C ADDR   0123H   A   
+REC2 . . . . . . .  C ADDR   014CH   A   
+RI . . . . . . . .  B ADDR   0098H.0 A   
+SBUF . . . . . . .  D ADDR   0099H   A   
+SCON . . . . . . .  D ADDR   0098H   A   
+SEND . . . . . . .  C ADDR   011AH   A   
+SEND1. . . . . . .  C ADDR   012DH   A   
+SEND2. . . . . . .  C ADDR   0137H   A   
+SP . . . . . . . .  D ADDR   0081H   A   
+TH1. . . . . . . .  D ADDR   008DH   A   
+TI . . . . . . . .  B ADDR   0098H.1 A   
+TL1. . . . . . . .  D ADDR   008BH   A   
+TMOD . . . . . . .  D ADDR   0089H   A   
+TR1. . . . . . . .  B ADDR   0088H.6 A   
+WAIT1. . . . . . .  C ADDR   0132H   A   
+WAIT2. . . . . . .  C ADDR   013AH   A   
+WAIT3. . . . . . .  C ADDR   0147H   A   
+WAIT4. . . . . . .  C ADDR   011EH   A   
+
+
+REGISTER BANK(S) USED: 0 
+
+
+ASSEMBLY COMPLETE.  0 WARNING(S), 0 ERROR(S)

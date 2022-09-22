@@ -1,0 +1,139 @@
+A51 MACRO ASSEMBLER  RX                                                                   12/30/2020 23:12:04 PAGE     1
+
+
+MACRO ASSEMBLER A51 V8.02c
+OBJECT MODULE PLACED IN .\Objects\rx.obj
+ASSEMBLER INVOKED BY: E:\Keil_v5\C51\BIN\A51.EXE rx.asm SET(SMALL) DEBUG PRINT(.\Listings\rx.lst) OBJECT(.\Objects\rx.ob
+                      j) EP
+
+LOC  OBJ            LINE     SOURCE
+
+0000                   1                     ORG             0000H
+0000 021000            2                     LJMP    START
+0023                   3                     ORG             0023H
+0023 02101F            4                     LJMP    IF_06H
+1000                   5                     ORG             1000H
+                       6                             
+1000                   7     START:
+1000 758160            8                     MOV             SP,#60H
+1003 758920            9                     MOV             TMOD,#20H                
+1006 758DFA           10                     MOV             TH1,#0FAH                
+1009 758DFA           11                     MOV             TH1,#0FAH
+100C D28E             12                     SETB    TR1                              
+100E 759850           13                     MOV             SCON,#50H                
+1011 758700           14                     MOV             PCON,#00H                
+1014 75A890           15                     MOV             IE,#90H
+1017 A830             16                     MOV             R0,30H                   
+1019 7F00             17                     MOV             R7,#00H                  
+101B 7E00             18                     MOV             R6,#00H                  
+                      19                     
+101D                  20     HERE:
+101D 80FE             21                     SJMP    HERE
+                      22                     
+101F                  23     IF_06H:
+101F C0E0             24                     PUSH    ACC
+1021 C0D0             25                     PUSH    PSW
+1023 C298             26                     CLR             RI                               
+1025 E599             27                     MOV             A,SBUF                   
+1027 B40607           28                     CJNE    A,#06H,TX_15H    
+                      29     
+102A                  30     TX_00H:
+102A 7400             31                     MOV             A,#00H                  
+102C F599             32                     MOV             SBUF,A                   
+102E 021038           33                     LJMP    HERE_RE
+                      34                     
+1031                  35     TX_15H:
+1031 7415             36                     MOV             A,#15H                   
+1033 F599             37                     MOV             SBUF,A
+1035 021070           38                     LJMP    RETURN
+                      39                             
+1038                  40     HERE_RE:
+1038 3099FD           41                     JNB             TI,HERE_RE               
+103B C299             42                     CLR             TI
+                      43                     
+103D                  44     HAVE1:
+103D 3098FD           45                     JNB             RI,HAVE1                 
+1040 C298             46                     CLR             RI
+1042 E599             47                     MOV             A,SBUF
+1044 FF               48                     MOV             R7,A                     
+1045 FE               49                     MOV             R6,A                     
+                      50     
+1046                  51     HAVE2:
+1046 3098FD           52                     JNB             RI,HAVE2                 
+1049 C298             53                     CLR             RI
+104B E599             54                     MOV             A,SBUF
+104D F6               55                     MOV             @R0,A
+104E EE               56                     MOV             A,R6
+104F 26               57                     ADD             A,@R0
+A51 MACRO ASSEMBLER  RX                                                                   12/30/2020 23:12:04 PAGE     2
+
+1050 FE               58                     MOV             R6,A
+1051 06               59                     INC             @R0
+1052 DFF2             60                     DJNZ    R7,HAVE2                 
+                      61                     
+1054                  62     RX_CHECK:                                                
+1054 3098FD           63                     JNB             RI,RX_CHECK
+1057 C298             64                     CLR             RI              
+1059 E599             65                     MOV             A,SBUF
+105B F539             66                     MOV             39H,A
+105D B53907           67                     CJNE    A,39H,TX_ERR     
+                      68                     
+1060                  69     TX_OK:                                                   
+1060 740F             70                     MOV             A,#0FH
+1062 F599             71                     MOV             SBUF,A
+1064 02106B           72                     LJMP    HERE_END
+                      73                             
+1067                  74     TX_ERR:                                                  
+1067 74F0             75                     MOV             A,#0F0H
+1069 F599             76                     MOV             SBUF,A                  
+                      77                     
+106B                  78     HERE_END:                                                
+106B 3099FD           79                     JNB TI,HERE_END         
+106E C299             80                     CLR TI
+                      81     
+1070                  82     RETURN:
+1070 D0D0             83                     POP             PSW
+1072 D0E0             84                     POP             ACC
+1074 32               85                     RETI
+                      86     
+                      87                     END
+                                                     
+A51 MACRO ASSEMBLER  RX                                                                   12/30/2020 23:12:04 PAGE     3
+
+SYMBOL TABLE LISTING
+------ ----- -------
+
+
+N A M E             T Y P E  V A L U E   ATTRIBUTES
+
+ACC. . . . . . . .  D ADDR   00E0H   A   
+HAVE1. . . . . . .  C ADDR   103DH   A   
+HAVE2. . . . . . .  C ADDR   1046H   A   
+HERE . . . . . . .  C ADDR   101DH   A   
+HERE_END . . . . .  C ADDR   106BH   A   
+HERE_RE. . . . . .  C ADDR   1038H   A   
+IE . . . . . . . .  D ADDR   00A8H   A   
+IF_06H . . . . . .  C ADDR   101FH   A   
+PCON . . . . . . .  D ADDR   0087H   A   
+PSW. . . . . . . .  D ADDR   00D0H   A   
+RETURN . . . . . .  C ADDR   1070H   A   
+RI . . . . . . . .  B ADDR   0098H.0 A   
+RX_CHECK . . . . .  C ADDR   1054H   A   
+SBUF . . . . . . .  D ADDR   0099H   A   
+SCON . . . . . . .  D ADDR   0098H   A   
+SP . . . . . . . .  D ADDR   0081H   A   
+START. . . . . . .  C ADDR   1000H   A   
+TH1. . . . . . . .  D ADDR   008DH   A   
+TI . . . . . . . .  B ADDR   0098H.1 A   
+TMOD . . . . . . .  D ADDR   0089H   A   
+TR1. . . . . . . .  B ADDR   0088H.6 A   
+TX_00H . . . . . .  C ADDR   102AH   A   
+TX_15H . . . . . .  C ADDR   1031H   A   
+TX_ERR . . . . . .  C ADDR   1067H   A   
+TX_OK. . . . . . .  C ADDR   1060H   A   
+
+
+REGISTER BANK(S) USED: 0 
+
+
+ASSEMBLY COMPLETE.  0 WARNING(S), 0 ERROR(S)

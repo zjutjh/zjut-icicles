@@ -1,0 +1,48 @@
+BL51 BANKED LINKER/LOCATER V6.22                                                        01/14/2021  23:53:07  PAGE 1
+
+
+BL51 BANKED LINKER/LOCATER V6.22, INVOKED BY:
+E:\KEIL_V5\C51\BIN\BL51.EXE .\Objects\exm1.obj TO .\Objects\exm PRINT (.\Listings\exm.m51) RAMSIZE (256)
+
+
+INPUT MODULES INCLUDED:
+  .\Objects\exm1.obj (EXM1)
+
+
+LINK MAP OF MODULE:  .\Objects\exm (EXM1)
+
+
+            TYPE    BASE      LENGTH    RELOCATION   SEGMENT NAME
+            -----------------------------------------------------
+
+            * * * * * * *   D A T A   M E M O R Y   * * * * * * *
+            REG     0000H     0008H     ABSOLUTE     "REG BANK 0"
+
+            * * * * * * *   C O D E   M E M O R Y   * * * * * * *
+            CODE    0000H     0510H     ABSOLUTE     
+
+
+
+SYMBOL TABLE OF MODULE:  .\Objects\exm (EXM1)
+
+  VALUE           TYPE          NAME
+  ----------------------------------
+
+  -------         MODULE        EXM1
+  C:0107H         SYMBOL        LOOP
+  C:0100H         SYMBOL        MAIN
+  C:0000H         LINE#         2
+  C:0100H         LINE#         5
+  C:0103H         LINE#         6
+  C:0105H         LINE#         7
+  C:0107H         LINE#         10
+  C:0109H         LINE#         11
+  C:010AH         LINE#         12
+  C:010BH         LINE#         13
+  C:010CH         LINE#         14
+  C:010DH         LINE#         15
+  C:010FH         LINE#         16
+  -------         ENDMOD        EXM1
+
+Program Size: data=8.0 xdata=0 code=1296
+LINK/LOCATE RUN COMPLETE.  0 WARNING(S),  0 ERROR(S)

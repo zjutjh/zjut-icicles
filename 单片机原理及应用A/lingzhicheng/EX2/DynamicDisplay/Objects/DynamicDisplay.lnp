@@ -1,0 +1,3 @@
+".\Objects\DynamicDisplay01.obj" 
+TO ".\Objects\DynamicDisplay" 
+PRINT(".\Listings\DynamicDisplay.m51") RAMSIZE(256) 

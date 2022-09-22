@@ -1,0 +1,26 @@
+    ORG     0000H
+    LJMP    START
+    ORG     0100H
+START:	
+    MOV     SP,#60H
+    MOV     DPTR,#TABLE
+    MOV     R2,#08H
+    MOV     R0,#30H
+    LCALL   MAIN
+    SJMP    $
+    
+LOOP:
+    MOV     A,#00H
+    MOVC    A,@A+DPTR
+    MOV     @R0,A
+    INC     R0
+    INC     DPTR
+    DJNZ    R2,LOOP
+    RET
+            
+TABLE:	
+    DB		3FH,06H,5BH,4FH,66H,6DH,7DH,07H	
+    DB		7FH,6FH
+    DB		00H
+        
+    END			

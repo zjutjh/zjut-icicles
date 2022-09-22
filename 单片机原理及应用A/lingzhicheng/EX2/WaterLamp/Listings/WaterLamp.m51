@@ -1,0 +1,67 @@
+BL51 BANKED LINKER/LOCATER V6.22                                                        12/22/2020  08:45:23  PAGE 1
+
+
+BL51 BANKED LINKER/LOCATER V6.22, INVOKED BY:
+E:\KEIL_V5\C51\BIN\BL51.EXE .\Objects\liushui03.obj TO .\Objects\WaterLamp PRINT (.\Listings\WaterLamp.m51) RAMSIZE (256
+>> )
+
+
+INPUT MODULES INCLUDED:
+  .\Objects\liushui03.obj (LIUSHUI03)
+
+
+LINK MAP OF MODULE:  .\Objects\WaterLamp (LIUSHUI03)
+
+
+            TYPE    BASE      LENGTH    RELOCATION   SEGMENT NAME
+            -----------------------------------------------------
+
+            * * * * * * *   D A T A   M E M O R Y   * * * * * * *
+            REG     0000H     0008H     ABSOLUTE     "REG BANK 0"
+
+            * * * * * * *   C O D E   M E M O R Y   * * * * * * *
+            CODE    0000H     012BH     ABSOLUTE     
+
+
+
+SYMBOL TABLE OF MODULE:  .\Objects\WaterLamp (LIUSHUI03)
+
+  VALUE           TYPE          NAME
+  ----------------------------------
+
+  -------         MODULE        LIUSHUI03
+  C:0119H         SYMBOL        D1
+  C:0117H         SYMBOL        D2
+  C:011BH         SYMBOL        D3
+  C:0115H         SYMBOL        DELAY
+  C:0106H         SYMBOL        LOOP
+  D:00A0H         SYMBOL        P2
+  C:010DH         SYMBOL        SHOW
+  D:0081H         SYMBOL        SP
+  C:0100H         SYMBOL        START
+  C:0122H         SYMBOL        TAB
+  C:0000H         LINE#         2
+  C:0100H         LINE#         4
+  C:0103H         LINE#         5
+  C:0106H         LINE#         6
+  C:0107H         LINE#         7
+  C:0108H         LINE#         9
+  C:010BH         LINE#         10
+  C:010DH         LINE#         11
+  C:010FH         LINE#         12
+  C:0112H         LINE#         13
+  C:0113H         LINE#         14
+  C:0115H         LINE#         16
+  C:0117H         LINE#         17
+  C:0119H         LINE#         18
+  C:011BH         LINE#         19
+  C:011DH         LINE#         20
+  C:011FH         LINE#         21
+  C:0121H         LINE#         22
+  -------         ENDMOD        LIUSHUI03
+BL51 BANKED LINKER/LOCATER V6.22                                                      12/22/2020  08:45:23  PAGE 2
+
+
+
+Program Size: data=8.0 xdata=0 code=299
+LINK/LOCATE RUN COMPLETE.  0 WARNING(S),  0 ERROR(S)

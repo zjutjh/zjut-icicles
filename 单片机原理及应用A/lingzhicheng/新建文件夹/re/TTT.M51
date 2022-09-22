@@ -1,0 +1,114 @@
+BL51 BANKED LINKER/LOCATER V6.22                                                        08/31/2017  09:36:51  PAGE 1
+
+
+BL51 BANKED LINKER/LOCATER V6.22, INVOKED BY:
+C:\KEIL\C51\BIN\BL51.EXE receieve.obj TO TTT RAMSIZE (256)
+
+
+INPUT MODULES INCLUDED:
+  receieve.obj (RECEIEVE)
+
+
+LINK MAP OF MODULE:  TTT (RECEIEVE)
+
+
+            TYPE    BASE      LENGTH    RELOCATION   SEGMENT NAME
+            -----------------------------------------------------
+
+            * * * * * * *   D A T A   M E M O R Y   * * * * * * *
+            REG     0000H     0008H     ABSOLUTE     "REG BANK 0"
+
+            * * * * * * *   C O D E   M E M O R Y   * * * * * * *
+            CODE    0000H     0174H     ABSOLUTE     
+
+
+
+SYMBOL TABLE OF MODULE:  TTT (RECEIEVE)
+
+  VALUE           TYPE          NAME
+  ----------------------------------
+
+  -------         MODULE        RECEIEVE
+  C:0100H         SYMBOL        MAIN
+  D:0087H         SYMBOL        PCON
+  C:011AH         SYMBOL        REC
+  C:013CH         SYMBOL        REC1
+  C:0145H         SYMBOL        REC2
+  C:0152H         SYMBOL        REC3
+  B:0098H.0       SYMBOL        RI
+  D:0099H         SYMBOL        SBUF
+  D:0098H         SYMBOL        SCON
+  C:0127H         SYMBOL        SEND
+  C:0133H         SYMBOL        SEND2
+  D:0081H         SYMBOL        SP
+  D:008DH         SYMBOL        TH1
+  B:0098H.1       SYMBOL        TI
+  D:008BH         SYMBOL        TL1
+  D:0089H         SYMBOL        TMOD
+  C:015EH         SYMBOL        TR
+  B:0088H.6       SYMBOL        TR1
+  C:012BH         SYMBOL        WAIT1
+  C:0137H         SYMBOL        WAIT2
+  C:0162H         SYMBOL        WAIT3
+  C:016DH         SYMBOL        WAIT4
+  C:0169H         SYMBOL        WRO
+  C:0000H         LINE#         2
+  C:0100H         LINE#         4
+  C:0103H         LINE#         5
+  C:0106H         LINE#         6
+  C:0109H         LINE#         7
+  C:010CH         LINE#         8
+  C:010FH         LINE#         9
+BL51 BANKED LINKER/LOCATER V6.22                                                      08/31/2017  09:36:51  PAGE 2
+
+
+  C:0111H         LINE#         10
+  C:0114H         LINE#         11
+  C:0116H         LINE#         12
+  C:0118H         LINE#         13
+  C:011AH         LINE#         15
+  C:011DH         LINE#         16
+  C:011FH         LINE#         17
+  C:0121H         LINE#         18
+  C:0124H         LINE#         19
+  C:0127H         LINE#         21
+  C:0129H         LINE#         22
+  C:012BH         LINE#         23
+  C:012EH         LINE#         24
+  C:0130H         LINE#         25
+  C:0133H         LINE#         27
+  C:0135H         LINE#         28
+  C:0137H         LINE#         29
+  C:013AH         LINE#         30
+  C:013CH         LINE#         32
+  C:013FH         LINE#         33
+  C:0141H         LINE#         34
+  C:0143H         LINE#         35
+  C:0144H         LINE#         36
+  C:0145H         LINE#         37
+  C:0148H         LINE#         38
+  C:014AH         LINE#         39
+  C:014CH         LINE#         40
+  C:014DH         LINE#         41
+  C:014EH         LINE#         42
+  C:014FH         LINE#         43
+  C:0150H         LINE#         44
+  C:0152H         LINE#         46
+  C:0155H         LINE#         47
+  C:0157H         LINE#         48
+  C:0159H         LINE#         49
+  C:015BH         LINE#         50
+  C:015EH         LINE#         52
+  C:0160H         LINE#         53
+  C:0162H         LINE#         54
+  C:0165H         LINE#         55
+  C:0167H         LINE#         56
+  C:0169H         LINE#         58
+  C:016BH         LINE#         59
+  C:016DH         LINE#         60
+  C:0170H         LINE#         61
+  C:0172H         LINE#         62
+  -------         ENDMOD        RECEIEVE
+
+Program Size: data=8.0 xdata=0 code=372
+LINK/LOCATE RUN COMPLETE.  0 WARNING(S),  0 ERROR(S)

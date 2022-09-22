@@ -1,0 +1,193 @@
+A51 MACRO ASSEMBLER  EXP2                                                                 12/15/2020 10:36:50 PAGE     1
+
+
+MACRO ASSEMBLER A51 V8.02c
+OBJECT MODULE PLACED IN .\Objects\exp2.obj
+ASSEMBLER INVOKED BY: E:\Keil_v5\C51\BIN\A51.EXE exp2.asm SET(SMALL) DEBUG PRINT(.\Listings\exp2.lst) OBJECT(.\Objects\e
+                      xp2.obj) EP
+
+LOC  OBJ            LINE     SOURCE
+
+0000                   1     ORG 0000H
+0000 2100              2             AJMP K
+0100                   3     ORG 0100H
+0100                   4             K:
+0100 758160            5             MOV SP,#60H
+0103 7830              6             MOV R0,#30H
+0105 7A08              7             MOV R2,#08H
+0107                   8             S:
+0107 7610              9             MOV @R0,#10H
+0109 08               10             INC R0
+010A DAFB             11             DJNZ R2,S
+010C                  12             START:
+010C 7830             13             MOV R0,#30H
+010E 7A00             14             MOV R2,#00H
+0110 7B08             15             MOV R3,#08H
+0112 901000           16             MOV DPTR,#TAB
+0115 75A000           17             MOV P2,#00H
+0118                  18             MAIN:
+0118 8AA0             19             MOV P2,R2
+011A 8680             20             MOV P0,@R0
+011C 12012F           21             LCALL DELAY
+011F 0A               22             INC R2
+0120 08               23             INC R0
+0121 DBF5             24             DJNZ R3,MAIN 
+0123 12018A           25             LCALL KS
+0126 701E             26             JNZ K1
+0128 120192           27             LCALL D10ms
+012B 210C             28             AJMP START 
+012D 80FE             29             SJMP $
+012F                  30             DELAY:
+012F 7D14             31             MOV R5,#20
+0131                  32             DEL0:
+0131 7E01             33             MOV R6,#1
+0133                  34             DEL1:
+0133 7F14             35             MOV R7,#20
+0135                  36             DEL2:
+0135 DFFE             37             DJNZ R7,DEL2
+0137 DEFA             38             DJNZ R6,DEL1
+0139 DDF6             39             DJNZ R5,DEL0
+013B                  40             RETURN:
+013B 22               41             RET
+                      42     
+                      43                     
+013C                  44             KEY2:
+013C 12018A           45             LCALL KS
+013F 7005             46             JNZ K1
+0141 120192           47             LCALL D10ms
+0144 213C             48             AJMP KEY2
+0146                  49             K1:
+0146 120192           50             LCALL D10ms
+0149 12018A           51             LCALL KS
+014C 7002             52             JNZ K2
+014E 213C             53             AJMP KEY2
+0150                  54             K2:
+0150 7AEF             55             MOV R2,#0EFH
+0152 7C00             56             MOV R4,#00H
+0154                  57             K3:
+A51 MACRO ASSEMBLER  EXP2                                                                 12/15/2020 10:36:50 PAGE     2
+
+0154 8A90             58             MOV P1,R2
+0156                  59             L6:
+0156 209004           60             JB P1.0,L1
+0159 7400             61             MOV A,#00H
+015B 2170             62             AJMP LK
+015D                  63             L1:
+015D 209104           64             JB P1.1,L2
+0160 7404             65             MOV A,#04H
+0162 2170             66             AJMP LK
+0164                  67             L2:
+0164 209204           68             JB P1.2,L3
+0167 7408             69             MOV A,#08H
+0169 2170             70             AJMP LK
+016B                  71             L3:
+016B 20930C           72             JB P1.3,NEXT
+016E 740C             73             MOV A,#0CH
+0170                  74             LK:
+0170 2C               75             ADD A,R4
+0171 FD               76             MOV R5,A
+0172 120183           77             LCALL K4
+0175 12019B           78             LCALL LEFT
+0178 210C             79             AJMP START
+017A                  80             NEXT:
+017A 0C               81             INC R4
+017B EA               82             MOV A,R2
+017C 30E7BD           83             JNB ACC.7,KEY2
+017F 23               84             RL A
+0180 FA               85             MOV R2,A
+0181 2154             86             AJMP K3
+0183                  87             K4:
+0183 12018A           88             LCALL KS
+0186 70FB             89             JNZ K4
+0188 ED               90             MOV A,R5
+0189 22               91             RET
+018A                  92             KS:
+018A 75900F           93             MOV P1,#0FH
+018D E590             94             MOV A,P1
+018F 640F             95             XRL A,#0FH
+0191 22               96             RET
+                      97             
+                      98             
+0192                  99             D10ms:
+0192 7F19            100             MOV R7,#25
+0194                 101             D1:
+0194 7EC8            102             MOV R6,#200
+0196 DEFE            103             DJNZ R6,$
+0198 DFFA            104             DJNZ R7,D1
+019A 22              105             RET
+                     106             
+019B                 107             LEFT:
+019B 901000          108             MOV DPTR,#TAB
+019E FE              109             MOV R6,A
+019F 7830            110             MOV R0,#30H
+01A1 7931            111             MOV R1,#31H
+01A3 7D07            112             MOV R5,#07H
+01A5                 113             S1:
+01A5 E7              114             MOV A,@R1
+01A6 F6              115             MOV @R0,A
+01A7 08              116             INC R0
+01A8 09              117             INC R1
+01A9 DDFA            118             DJNZ R5,S1
+01AB EE              119             MOV A,R6
+01AC 93              120             MOVC A,@A+DPTR
+01AD F6              121             MOV @R0,A
+01AE 22              122             RET
+                     123             
+A51 MACRO ASSEMBLER  EXP2                                                                 12/15/2020 10:36:50 PAGE     3
+
+1000                 124     ORG 1000H
+1000                 125             TAB:
+1000 3F065B4F        126             DB 3FH,06H,5BH,4FH,66H
+1004 66                      
+1005 6D7D077F        127             DB 6DH,7DH,07H,7FH,6FH
+1009 6F                      
+100A 777C395E        128             DB 77H,7CH,39H,5EH,79H
+100E 79                      
+100F 7100            129             DB 71H,00H
+                     130                     
+                     131             END
+A51 MACRO ASSEMBLER  EXP2                                                                 12/15/2020 10:36:50 PAGE     4
+
+SYMBOL TABLE LISTING
+------ ----- -------
+
+
+N A M E             T Y P E  V A L U E   ATTRIBUTES
+
+ACC. . . . . . . .  D ADDR   00E0H   A   
+D1 . . . . . . . .  C ADDR   0194H   A   
+D10MS. . . . . . .  C ADDR   0192H   A   
+DEL0 . . . . . . .  C ADDR   0131H   A   
+DEL1 . . . . . . .  C ADDR   0133H   A   
+DEL2 . . . . . . .  C ADDR   0135H   A   
+DELAY. . . . . . .  C ADDR   012FH   A   
+K. . . . . . . . .  C ADDR   0100H   A   
+K1 . . . . . . . .  C ADDR   0146H   A   
+K2 . . . . . . . .  C ADDR   0150H   A   
+K3 . . . . . . . .  C ADDR   0154H   A   
+K4 . . . . . . . .  C ADDR   0183H   A   
+KEY2 . . . . . . .  C ADDR   013CH   A   
+KS . . . . . . . .  C ADDR   018AH   A   
+L1 . . . . . . . .  C ADDR   015DH   A   
+L2 . . . . . . . .  C ADDR   0164H   A   
+L3 . . . . . . . .  C ADDR   016BH   A   
+L6 . . . . . . . .  C ADDR   0156H   A   
+LEFT . . . . . . .  C ADDR   019BH   A   
+LK . . . . . . . .  C ADDR   0170H   A   
+MAIN . . . . . . .  C ADDR   0118H   A   
+NEXT . . . . . . .  C ADDR   017AH   A   
+P0 . . . . . . . .  D ADDR   0080H   A   
+P1 . . . . . . . .  D ADDR   0090H   A   
+P2 . . . . . . . .  D ADDR   00A0H   A   
+RETURN . . . . . .  C ADDR   013BH   A   
+S. . . . . . . . .  C ADDR   0107H   A   
+S1 . . . . . . . .  C ADDR   01A5H   A   
+SP . . . . . . . .  D ADDR   0081H   A   
+START. . . . . . .  C ADDR   010CH   A   
+TAB. . . . . . . .  C ADDR   1000H   A   
+
+
+REGISTER BANK(S) USED: 0 
+
+
+ASSEMBLY COMPLETE.  0 WARNING(S), 0 ERROR(S)

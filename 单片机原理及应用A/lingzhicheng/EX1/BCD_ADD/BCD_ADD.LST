@@ -1,0 +1,58 @@
+A51 MACRO ASSEMBLER  BCD_ADD                                                              01/11/2021 21:55:31 PAGE     1
+
+
+MACRO ASSEMBLER A51 V8.02c
+OBJECT MODULE PLACED IN BCD_ADD.OBJ
+ASSEMBLER INVOKED BY: E:\Keil_v5\C51\BIN\A51.EXE BCD_ADD.asm SET(SMALL) DEBUG EP
+
+LOC  OBJ            LINE     SOURCE
+
+0000                   1             ORG             0000H
+0000 020100            2             LJMP    MAIN
+0100                   3             ORG             0100H
+0100                   4     MAIN:
+0100 758160            5             MOV             SP,#60H
+0103 C3                6             CLR             C
+0104 7A50              7             MOV             R2,#50H
+0106 755100            8             MOV             51H,#00H;ºÍµÄ×Ö½ÚÊÇåÁã
+0109 7830              9             MOV             R0,#30H
+010B 7940             10             MOV     R1,#40H
+010D 120112           11             LCALL   BCD_ADD_BYTES
+0110 80FE             12             SJMP    $
+                      13             
+0112                  14     BCD_ADD_BYTES:
+0112 E6               15             MOV             A,@R0;È¡±»¼ÓÊ
+0113 37               16             ADDC    A,@R1;ÇóºÍ
+0114 D4               17             DA              A;Ê®½øÖÆµ÷Õû
+0115 F6               18             MOV         @R0,A;±£´æ
+0116 0551             19             INC             51H;×Ö½ÚÔö1
+0118 08               20             INC             R0;µØÖ·Ôö1
+0119 09               21             INC     R1
+011A D550F5           22             DJNZ    50H     ,BCD_ADD_BYTES;ËùÓÐ×Ö½ÚÎ´¼ÓÍê¼ÌÐø£¬·ñÔòÏòÏÂÖ´ÐÐ
+011D 4001             23             JC              NEXT;ºÍµÄ×î¸ß×Ö½ÚÓÐ½øÎ»Ôò×ªÒÆnext
+011F 22               24             RET
+                      25             
+0120                  26     NEXT:
+0120 0551             27             INC     51H
+0122 7601             28             MOV     @R0,#01H
+0124 22               29             RET
+                      30             
+                      31             END
+A51 MACRO ASSEMBLER  BCD_ADD                                                              01/11/2021 21:55:31 PAGE     2
+
+SYMBOL TABLE LISTING
+------ ----- -------
+
+
+N A M E             T Y P E  V A L U E   ATTRIBUTES
+
+BCD_ADD_BYTES. . .  C ADDR   0112H   A   
+MAIN . . . . . . .  C ADDR   0100H   A   
+NEXT . . . . . . .  C ADDR   0120H   A   
+SP . . . . . . . .  D ADDR   0081H   A   
+
+
+REGISTER BANK(S) USED: 0 
+
+
+ASSEMBLY COMPLETE.  0 WARNING(S), 0 ERROR(S)

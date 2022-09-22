@@ -1,0 +1,208 @@
+A51 MACRO ASSEMBLER  EXAM                                                                 01/12/2021 08:58:01 PAGE     1
+
+
+MACRO ASSEMBLER A51 V8.02c
+OBJECT MODULE PLACED IN .\Objects\exam.obj
+ASSEMBLER INVOKED BY: E:\Keil_v5\C51\BIN\A51.EXE exam.asm SET(SMALL) DEBUG PRINT(.\Listings\exam.lst) OBJECT(.\Objects\e
+                      xam.obj) EP
+
+LOC  OBJ            LINE     SOURCE
+
+0000                   1     ORG     0000H
+0000 020100            2     LJMP    MAIN
+0003                   3     ORG     0003H    
+0003 215A              4     AJMP    INTT0
+0100                   5     ORG     0100H
+0100                   6     MAIN:
+0100 902000            7     MOV     DPTR,#2000H
+0103 A882              8     MOV     R0,DPL
+0105 A983              9     MOV     R1,DPH
+0107 7A00             10     MOV     R2,#00H     
+0109 7B0F             11     MOV     R3,#15         
+010B 7E00             12     MOV     R6,#0
+010D 7F00             13     MOV     R7,#0
+010F 900500           14     MOV     DPTR,#0500H
+0112 3127             15     ACALL   LOOP
+0114 75D000           16     MOV     PSW,#00H
+0117 D2A8             17     SETB    EX0      
+0119 D288             18     SETB    IT0      
+011B D2AF             19     SETB    EA
+011D 75B801           20     MOV     IP,#01H  
+0120 75B0FF           21     MOV         P3,#0FFH
+                      22     
+                      23     
+0123                  24     SHOW:
+0123 8FA0             25         MOV P2,R7
+0125 80FE             26         SJMP $
+                      27     
+                      28     
+0127                  29     LOOP:
+0127 7400             30     MOV     A,#00H          
+0129 C082             31     PUSH    DPL
+012B C083             32     PUSH    DPH
+012D 93               33     MOVC    A,@A+DPTR
+012E 8882             34     MOV     DPL,R0
+0130 8983             35     MOV     DPH,R1
+0132 F0               36     MOVX    @DPTR,A
+0133 A3               37     INC     DPTR
+0134 A882             38     MOV     R0,DPL
+0136 A983             39     MOV     R1,DPH
+0138 D083             40     POP     DPH
+013A D082             41     POP     DPL
+013C A3               42     INC     DPTR
+013D DBE8             43     DJNZ    R3,LOOP     
+013F 7B0F             44     MOV     R3,#15  
+0141 902000           45     MOV     DPTR,#2000H
+                      46     
+0144                  47     COUNT:
+0144 75F002           48     MOV     B,#2
+0147 E0               49     MOVX    A,@DPTR
+0148 A3               50     INC     DPTR
+0149 84               51     DIV     AB
+014A E5F0             52     MOV     A,B
+014C 6006             53     JZ      COUNT_ODD
+                      54     
+014E                  55     COUNT_EVEN:
+014E 0E               56     INC     R6
+014F DBF3             57     DJNZ    R3,COUNT
+A51 MACRO ASSEMBLER  EXAM                                                                 01/12/2021 08:58:01 PAGE     2
+
+0151 0201A5           58     LJMP    WAIT
+                      59     
+0154                  60     COUNT_ODD:
+0154 0F               61     INC     R7
+0155 DBED             62     DJNZ    R3,COUNT
+0157 0201A5           63     LJMP    WAIT
+                      64     
+                      65     
+015A                  66     INTT0:
+015A C2AF             67         CLR     EA
+015C C0D0             68         PUSH    PSW
+015E C0E0             69         PUSH    ACC
+0160 D2AF             70         SETB    EA
+                      71         
+0162 E5B0             72         MOV     A,P3
+0164 F4               73         CPL     A
+0165 603D             74         JZ      RETURN
+0167 1201B8           75         LCALL   D10ms
+016A E5B0             76         MOV     A,P3
+016C F4               77         CPL     A   
+016D 6035             78         JZ      RETURN
+016F FC               79         MOV     R4,A
+0170 EF               80         MOV     A,R7
+0171 75F00A           81         MOV     B,#10
+0174 84               82         DIV     AB
+0175 F8               83         MOV     R0,A
+0176 A9F0             84         MOV     R1,B
+0178 EC               85         MOV     A,R4
+0179 7BFF             86         MOV     R3,#0FFH
+017B 20E209           87         JB      ACC.2,Pkey0
+                      88         
+017E C2AF             89         CLR     EA
+0180 D0E0             90         POP     ACC
+0182 D0D0             91         POP     PSW
+0184 D2AF             92         SETB    EA
+0186 32               93         RETI
+                      94     
+0187                  95     Pkey0:
+0187 90050F           96         MOV     DPTR,#TABLE
+                      97         
+018A 7400             98         MOV         A,#00H                           
+018C E8               99             MOV     A,R0
+018D 93              100             MOVC    A,@A+DPTR    
+018E 75A000          101             MOV     P2,#00
+0191 F580            102             MOV     P0,A
+0193 31A6            103             ACALL   DELAY
+                     104         
+0195 7400            105         MOV         A,#00H                           
+0197 E9              106             MOV     A,R1    
+0198 93              107             MOVC    A,@A+DPTR        
+0199 75A001          108             MOV     P2,#01
+019C F580            109             MOV     P0,A
+019E 31A6            110             ACALL   DELAY
+                     111         
+01A0 DBE5            112         DJNZ    R3,Pkey0
+01A2 8000            113         SJMP    RETURN
+                     114         
+01A4                 115     RETURN:
+01A4 32              116         RETI
+                     117         
+01A5                 118     WAIT:
+01A5 22              119         RET
+                     120         
+01A6                 121     DELAY:                           
+01A6 75300A          122         MOV     30H,#10
+01A9 753101          123     DEL0:MOV    31H,#1
+A51 MACRO ASSEMBLER  EXAM                                                                 01/12/2021 08:58:01 PAGE     3
+
+01AC 753214          124     DEL1:MOV    32H,#20
+01AF                 125     DEL2: 
+01AF D532FD          126         DJNZ    32H,DEL2
+01B2 D531F7          127         DJNZ    31H,DEL1
+01B5 D530F1          128         DJNZ    30H,DEL0
+                     129     
+01B8 753219          130     D10ms:  MOV             32H,#25
+01BB 7531C8          131     D1:             MOV             31H,#200
+01BE D531FD          132                     DJNZ    31H,$
+01C1 D532F7          133                     DJNZ    32H,D1
+01C4 22              134                     RET
+                     135         
+                     136         
+0500                 137     ORG 0500H
+0500 21556011        138     DB 21H,55H,60H,11H,0C0H,98H,00H,0B0H,44H,50H,77H,33H,0E0H,66H,88H
+0504 C09800B0                
+0508 44507733                
+050C E06688                  
+                     139     
+                     140     
+                     141     
+050F                 142     TABLE:
+050F 3F065B4F        143         DB      3FH,06H,5BH,4FH,66H,6DH,7DH,07H     
+0513 666D7D07                
+0517 7F6F            144         DB      7FH,6FH
+0519 00              145         DB          00H
+                     146             
+                     147         END
+A51 MACRO ASSEMBLER  EXAM                                                                 01/12/2021 08:58:01 PAGE     4
+
+SYMBOL TABLE LISTING
+------ ----- -------
+
+
+N A M E             T Y P E  V A L U E   ATTRIBUTES
+
+ACC. . . . . . . .  D ADDR   00E0H   A   
+B. . . . . . . . .  D ADDR   00F0H   A   
+COUNT. . . . . . .  C ADDR   0144H   A   
+COUNT_EVEN . . . .  C ADDR   014EH   A   
+COUNT_ODD. . . . .  C ADDR   0154H   A   
+D1 . . . . . . . .  C ADDR   01BBH   A   
+D10MS. . . . . . .  C ADDR   01B8H   A   
+DEL0 . . . . . . .  C ADDR   01A9H   A   
+DEL1 . . . . . . .  C ADDR   01ACH   A   
+DEL2 . . . . . . .  C ADDR   01AFH   A   
+DELAY. . . . . . .  C ADDR   01A6H   A   
+DPH. . . . . . . .  D ADDR   0083H   A   
+DPL. . . . . . . .  D ADDR   0082H   A   
+EA . . . . . . . .  B ADDR   00A8H.7 A   
+EX0. . . . . . . .  B ADDR   00A8H.0 A   
+INTT0. . . . . . .  C ADDR   015AH   A   
+IP . . . . . . . .  D ADDR   00B8H   A   
+IT0. . . . . . . .  B ADDR   0088H.0 A   
+LOOP . . . . . . .  C ADDR   0127H   A   
+MAIN . . . . . . .  C ADDR   0100H   A   
+P0 . . . . . . . .  D ADDR   0080H   A   
+P2 . . . . . . . .  D ADDR   00A0H   A   
+P3 . . . . . . . .  D ADDR   00B0H   A   
+PKEY0. . . . . . .  C ADDR   0187H   A   
+PSW. . . . . . . .  D ADDR   00D0H   A   
+RETURN . . . . . .  C ADDR   01A4H   A   
+SHOW . . . . . . .  C ADDR   0123H   A   
+TABLE. . . . . . .  C ADDR   050FH   A   
+WAIT . . . . . . .  C ADDR   01A5H   A   
+
+
+REGISTER BANK(S) USED: 0 
+
+
+ASSEMBLY COMPLETE.  0 WARNING(S), 0 ERROR(S)

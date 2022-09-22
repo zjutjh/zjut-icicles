@@ -1,0 +1,57 @@
+    ORG     0000H
+    LJMP    START
+    
+    ORG     0003H   //INT0
+    AJMP    INTT0
+    
+    ORG     0013H   //INT1
+    AJMP    INTT1
+    
+    ORG     0100H
+START:	
+    MOV     SP,#60H
+    MOV     PSW,#00H
+    SETB    EX0     //允许中断
+	SETB    IT0     //跳沿触发
+	SETB    EX1
+	SETB    IT1
+    SETB    EA      //开总中断，或者用IE设置
+    MOV		IP,#01H //中断优先级设置
+    
+MAIN:
+
+
+INTT0:	PUSH	PSW
+        PUSH	ACC
+        MOV		PSW,#08H
+        
+        LJMP	RETURN
+		
+INTT1:	PUSH	PSW
+        PUSH	ACC
+        MOV		PSW,#10H
+        
+        LJMP	RETURN
+    
+RETURN:	
+		POP		ACC
+		POP		PSW
+		RETI
+        
+D10ms:	MOV		R7,#25
+D4:		MOV		R6,#200
+		DJNZ	R6,$
+		DJNZ	R7,D4
+		RET
+
+D1S:	MOV		R5,#20
+D5:		MOV		R6,#100
+D6:		MOV		R7,#248
+D7:		DJNZ	R7,D7
+		DJNZ	R6,D6
+		DJNZ	R5,D5
+		RET	
+        
+TABLE:	
+            
+    END

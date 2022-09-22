@@ -1,0 +1,221 @@
+A51 MACRO ASSEMBLER  TRAFFIC                                                              01/05/2021 10:58:28 PAGE     1
+
+
+MACRO ASSEMBLER A51 V8.02c
+OBJECT MODULE PLACED IN .\Objects\traffic.obj
+ASSEMBLER INVOKED BY: E:\Keil_v5\C51\BIN\A51.EXE traffic.asm SET(SMALL) DEBUG PRINT(.\Listings\traffic.lst) OBJECT(.\Obj
+                      ects\traffic.obj) EP
+
+LOC  OBJ            LINE     SOURCE
+
+                       1     
+                       2     
+                       3     
+                       4     
+                       5     
+0000                   6             ORG             0000H
+0000                   7     RESET:
+0000 2100              8             AJMP            MAIN
+000B                   9             ORG             000BH                    
+000B 216E             10             AJMP            INTI0
+0100                  11             ORG             0100H
+                      12                     
+0100                  13     MAIN:
+0100 758160           14             MOV                     SP,#60H                  
+0103 758901           15             MOV                     TMOD,#01H
+0106 9001E9           16             MOV                     DPTR,#TABLE
+                      17     
+0109 758CD8           18             MOV                     TH0,#0D8H
+010C 758AF0           19             MOV                     TL0,#0F0H
+010F D2A9             20             SETB            ET0                              
+0111 D2AF             21             SETB            EA
+0113 D28C             22             SETB            TR0                      
+0115 7801             23             MOV             R0,#01                   
+0117 753000           24             MOV                     30H,#00H                 
+011A 75311E           25             MOV                     31H,#30                  
+011D 753223           26             MOV                     32H,#35                  
+0120 7590CD           27             MOV             P1,#11001101B    
+0123 C2B0             28             CLR             P3.0                     
+0125 D2B1             29             SETB            P3.1
+0127 12012D           30             LCALL           CALCU
+012A 020142           31             LJMP            DISPLAY
+                      32     
+012D                  33     CALCU:
+                      34     
+012D 790A             35             MOV             R1,#10                   
+012F E531             36             MOV             A,31H                    
+0131 89F0             37             MOV             B,R1                     
+0133 84               38             DIV             AB                               
+0134 FC               39             MOV             R4,A                     
+0135 ADF0             40             MOV             R5,B                     
+                      41     
+0137 790A             42             MOV             R1,#10                   
+0139 E532             43             MOV             A,32H                    
+013B 89F0             44             MOV             B,R1                     
+013D 84               45             DIV             AB                               
+013E FE               46             MOV             R6,A                     
+013F AFF0             47             MOV             R7,B                     
+0141 22               48             RET
+                      49             
+0142                  50     DISPLAY:
+                      51     
+0142 C2A2             52             CLR                     P2.2
+0144 C2A3             53             CLR                     P2.3
+0146 C2A4             54             CLR                     P2.4
+0148 EC               55             MOV             A,R4                     
+0149 93               56             MOVC            A,@A+DPTR
+014A F580             57             MOV             P0,A
+A51 MACRO ASSEMBLER  TRAFFIC                                                              01/05/2021 10:58:28 PAGE     2
+
+014C 1201E0           58             LCALL           D04MS
+                      59             
+014F D2A2             60             SETB            P2.2
+0151 ED               61             MOV             A,R5                     
+0152 93               62             MOVC            A,@A+DPTR
+0153 F580             63             MOV             P0,A
+                      64     
+0155 C2A2             65             CLR                     P2.2
+0157 C2A3             66             CLR                     P2.3
+0159 D2A4             67             SETB            P2.4
+015B 1201E0           68             LCALL           D04MS 
+015E EE               69             MOV             A,R6                     
+015F 93               70             MOVC            A,@A+DPTR
+0160 F580             71             MOV             P0,A
+0162 1201E0           72             LCALL           D04MS
+                      73             
+0165 D2A2             74             SETB            P2.2
+0167 EF               75             MOV             A,R7                     
+0168 93               76             MOVC            A,@A+DPTR
+0169 F580             77             MOV             P0,A
+                      78     
+016B 308DD4           79             JNB                     TF0,DISPLAY              
+                      80     
+016E                  81     INTI0:
+016E C0D0             82             PUSH            PSW                              
+0170 C0E0             83             PUSH            ACC
+0172 C2AF             84             CLR                     EA                               
+0174 758CD8           85             MOV                     TH0,#0D8H                
+0177 758AF0           86             MOV                     TL0,#0F0H
+017A 0530             87             INC                     30H
+017C E530             88             MOV                     A,30H
+017E B46458           89             CJNE            A,#100,OUT
+0181 753000           90             MOV                     30H,#00H                 
+0184 08               91             INC             R0                               
+0185 1531             92             DEC                     31H
+0187 1532             93             DEC                     32H
+                      94             
+                      95     
+                      96     
+0189                  97     JMP5SN:
+0189 B81F0F           98             CJNE            R0,#31,JMP30EW
+018C 7590D6           99             MOV             P1,#11010110B    
+018F C2B0            100             CLR             P3.0                     
+0191 D2B1            101             SETB            P3.1
+0193 753105          102             MOV                     31H,#5  
+0196 12012D          103             LCALL           CALCU
+0199 803E            104             SJMP            OUT
+019B                 105     JMP30EW:
+019B B82412          106             CJNE            R0,#36,JMP5EW
+019E 75907A          107             MOV             P1,#01111010B    
+01A1 D2B0            108             SETB            P3.0                     
+01A3 C2B1            109             CLR             P3.1
+01A5 75311E          110             MOV                     31H,#30
+01A8 753219          111             MOV                     32H,#25
+01AB 12012D          112             LCALL           CALCU
+01AE 8029            113             SJMP            OUT
+01B0                 114     JMP5EW:
+01B0 B8420F          115             CJNE            R0,#66,JMP30SN
+01B3 7590BA          116             MOV             P1,#10111010B    
+01B6 D2B0            117             SETB            P3.0                     
+01B8 C2B1            118             CLR             P3.1
+01BA 753205          119             MOV                     32H,#5
+01BD 12012D          120             LCALL           CALCU
+01C0 8017            121             SJMP            OUT
+01C2                 122     JMP30SN:
+01C2 B84714          123             CJNE            R0,#71,OUT
+A51 MACRO ASSEMBLER  TRAFFIC                                                              01/05/2021 10:58:28 PAGE     3
+
+01C5 7801            124             MOV             R0,#1
+01C7 7590CD          125             MOV             P1,#11001101B    
+01CA C2B0            126             CLR             P3.0                     
+01CC D2B1            127             SETB            P3.1
+01CE 75311E          128             MOV                     31H,#30
+01D1 753223          129             MOV                     32H,#35                 
+01D4 12012D          130             LCALL           CALCU
+01D7 8000            131             SJMP            OUT
+                     132     
+01D9                 133     OUT:
+01D9 D2AF            134             SETB            EA                               
+01DB D0E0            135             POP                     ACC
+01DD D0D0            136             POP                     PSW                              
+01DF 32              137             RETI
+                     138     
+01E0                 139     D04MS:                                                   
+01E0 7B02            140             MOV             R3,#2
+01E2                 141     D1:                      
+01E2 7A0A            142             MOV             R2,#10
+01E4                 143     D2:
+01E4 DAFE            144             DJNZ            R2,D2
+01E6 DBFA            145             DJNZ            R3,D1
+01E8 22              146             RET
+                     147     
+01E9 3F065B4F        148     TABLE:  DB              3FH,06H,5BH,4FH,66H,6DH,7DH,07H  
+01ED 666D7D07                
+01F1 7F6F            149                     DB              7FH,6FH
+01F3 00              150                     DB              00H
+                     151     
+                     152     
+                     153     
+                     154                             
+                     155     
+                     156     
+                     157                
+                     158     
+                     159     
+                     160     
+                     161     
+                     162                             
+                     163                     END
+A51 MACRO ASSEMBLER  TRAFFIC                                                              01/05/2021 10:58:28 PAGE     4
+
+SYMBOL TABLE LISTING
+------ ----- -------
+
+
+N A M E             T Y P E  V A L U E   ATTRIBUTES
+
+ACC. . . . . . . .  D ADDR   00E0H   A   
+B. . . . . . . . .  D ADDR   00F0H   A   
+CALCU. . . . . . .  C ADDR   012DH   A   
+D04MS. . . . . . .  C ADDR   01E0H   A   
+D1 . . . . . . . .  C ADDR   01E2H   A   
+D2 . . . . . . . .  C ADDR   01E4H   A   
+DISPLAY. . . . . .  C ADDR   0142H   A   
+EA . . . . . . . .  B ADDR   00A8H.7 A   
+ET0. . . . . . . .  B ADDR   00A8H.1 A   
+INTI0. . . . . . .  C ADDR   016EH   A   
+JMP30EW. . . . . .  C ADDR   019BH   A   
+JMP30SN. . . . . .  C ADDR   01C2H   A   
+JMP5EW . . . . . .  C ADDR   01B0H   A   
+JMP5SN . . . . . .  C ADDR   0189H   A   
+MAIN . . . . . . .  C ADDR   0100H   A   
+OUT. . . . . . . .  C ADDR   01D9H   A   
+P0 . . . . . . . .  D ADDR   0080H   A   
+P1 . . . . . . . .  D ADDR   0090H   A   
+P2 . . . . . . . .  D ADDR   00A0H   A   
+P3 . . . . . . . .  D ADDR   00B0H   A   
+PSW. . . . . . . .  D ADDR   00D0H   A   
+RESET. . . . . . .  C ADDR   0000H   A   
+SP . . . . . . . .  D ADDR   0081H   A   
+TABLE. . . . . . .  C ADDR   01E9H   A   
+TF0. . . . . . . .  B ADDR   0088H.5 A   
+TH0. . . . . . . .  D ADDR   008CH   A   
+TL0. . . . . . . .  D ADDR   008AH   A   
+TMOD . . . . . . .  D ADDR   0089H   A   
+TR0. . . . . . . .  B ADDR   0088H.4 A   
+
+
+REGISTER BANK(S) USED: 0 
+
+
+ASSEMBLY COMPLETE.  0 WARNING(S), 0 ERROR(S)

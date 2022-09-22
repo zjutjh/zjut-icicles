@@ -1,0 +1,144 @@
+BL51 BANKED LINKER/LOCATER V6.22                                                        12/22/2020  00:48:31  PAGE 1
+
+
+BL51 BANKED LINKER/LOCATER V6.22, INVOKED BY:
+E:\KEIL_V5\C51\BIN\BL51.EXE .\Objects\MatrixKeyboard_1.obj TO .\Objects\MatrixKeyboard PRINT (.\Listings\MatrixKeyboard.
+>> m51) RAMSIZE (256)
+
+
+INPUT MODULES INCLUDED:
+  .\Objects\MatrixKeyboard_1.obj (MATRIXKEYBOARD_1)
+
+
+LINK MAP OF MODULE:  .\Objects\MatrixKeyboard (MATRIXKEYBOARD_1)
+
+
+            TYPE    BASE      LENGTH    RELOCATION   SEGMENT NAME
+            -----------------------------------------------------
+
+            * * * * * * *   D A T A   M E M O R Y   * * * * * * *
+            REG     0000H     0008H     ABSOLUTE     "REG BANK 0"
+
+            * * * * * * *   C O D E   M E M O R Y   * * * * * * *
+            CODE    0000H     01AAH     ABSOLUTE     
+
+
+
+SYMBOL TABLE OF MODULE:  .\Objects\MatrixKeyboard (MATRIXKEYBOARD_1)
+
+  VALUE           TYPE          NAME
+  ----------------------------------
+
+  -------         MODULE        MATRIXKEYBOARD_1
+  D:00E0H         SYMBOL        ACC
+  D:00F0H         SYMBOL        B
+  C:019AH         SYMBOL        D1
+  C:0198H         SYMBOL        D10MS
+  C:01A3H         SYMBOL        D2
+  C:01A5H         SYMBOL        D3
+  C:01A1H         SYMBOL        DELAY
+  C:0122H         SYMBOL        K1
+  C:012CH         SYMBOL        K2
+  C:0130H         SYMBOL        K3
+  C:016AH         SYMBOL        K4
+  C:0118H         SYMBOL        KEY2
+  C:0175H         SYMBOL        KS
+  C:0132H         SYMBOL        L0
+  C:0139H         SYMBOL        L1
+  C:0140H         SYMBOL        L2
+  C:0147H         SYMBOL        L3
+  C:017DH         SYMBOL        LEFT
+  C:0157H         SYMBOL        LK
+  C:010DH         SYMBOL        MAIN
+  C:014EH         SYMBOL        NEXT
+  D:0080H         SYMBOL        P0
+  D:0090H         SYMBOL        P1
+  D:00A0H         SYMBOL        P2
+  C:0100H         SYMBOL        RESET
+  D:0081H         SYMBOL        SP
+  C:0187H         SYMBOL        TABLE
+  C:0000H         LINE#         3
+  C:0100H         LINE#         5
+BL51 BANKED LINKER/LOCATER V6.22                                                      12/22/2020  00:48:31  PAGE 2
+
+
+  C:0103H         LINE#         6
+  C:0106H         LINE#         7
+  C:0108H         LINE#         8
+  C:010AH         LINE#         9
+  C:010DH         LINE#         10
+  C:0110H         LINE#         11
+  C:0113H         LINE#         12
+  C:0115H         LINE#         13
+  C:0118H         LINE#         15
+  C:011BH         LINE#         16
+  C:011DH         LINE#         17
+  C:0120H         LINE#         18
+  C:0121H         LINE#         19
+  C:0122H         LINE#         21
+  C:0125H         LINE#         22
+  C:0128H         LINE#         23
+  C:012AH         LINE#         24
+  C:012CH         LINE#         26
+  C:012EH         LINE#         27
+  C:0130H         LINE#         28
+  C:0132H         LINE#         29
+  C:0135H         LINE#         30
+  C:0137H         LINE#         31
+  C:0139H         LINE#         32
+  C:013CH         LINE#         33
+  C:013EH         LINE#         34
+  C:0140H         LINE#         35
+  C:0143H         LINE#         36
+  C:0145H         LINE#         37
+  C:0147H         LINE#         38
+  C:014AH         LINE#         39
+  C:014CH         LINE#         40
+  C:014EH         LINE#         42
+  C:014FH         LINE#         43
+  C:0150H         LINE#         44
+  C:0153H         LINE#         45
+  C:0154H         LINE#         46
+  C:0155H         LINE#         47
+  C:0157H         LINE#         49
+  C:0158H         LINE#         50
+  C:015AH         LINE#         51
+  C:015BH         LINE#         52
+  C:015EH         LINE#         53
+  C:0160H         LINE#         54
+  C:0162H         LINE#         55
+  C:0165H         LINE#         56
+  C:0167H         LINE#         57
+  C:016AH         LINE#         59
+  C:016DH         LINE#         60
+  C:016FH         LINE#         61
+  C:0172H         LINE#         62
+  C:0174H         LINE#         63
+  C:0175H         LINE#         66
+  C:0178H         LINE#         67
+  C:017AH         LINE#         68
+  C:017CH         LINE#         69
+  C:017DH         LINE#         71
+BL51 BANKED LINKER/LOCATER V6.22                                                      12/22/2020  00:48:31  PAGE 3
+
+
+  C:017FH         LINE#         72
+  C:0180H         LINE#         73
+  C:0181H         LINE#         74
+  C:0182H         LINE#         75
+  C:0184H         LINE#         76
+  C:0186H         LINE#         77
+  C:0198H         LINE#         83
+  C:019AH         LINE#         84
+  C:019CH         LINE#         85
+  C:019EH         LINE#         86
+  C:01A0H         LINE#         87
+  C:01A1H         LINE#         89
+  C:01A3H         LINE#         90
+  C:01A5H         LINE#         91
+  C:01A7H         LINE#         92
+  C:01A9H         LINE#         93
+  -------         ENDMOD        MATRIXKEYBOARD_1
+
+Program Size: data=8.0 xdata=0 code=426
+LINK/LOCATE RUN COMPLETE.  0 WARNING(S),  0 ERROR(S)

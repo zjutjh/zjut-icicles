@@ -1,0 +1,42 @@
+    ORG     0000H
+    LJMP    START
+    ORG     0100H
+START:	
+    MOV     SP,#60H
+    MOV     R7,#15
+    MOV     DPTR,#2200H
+    MOV     R0,DPL
+    MOV     R1,DPH
+    MOV     DPTR,#2100H
+    MOV     R2,DPL
+    MOV     R3,DPH
+    MOV     DPTR,#2000H
+    LCALL   LOOP
+    SJMP    $
+        
+LOOP:
+    MOVX    A,@DPTR
+    INC     DPTR
+    PUSH    DPH
+    PUSH    DPL
+    MOV     DPL,R2
+    MOV     DPH,R3
+    MOV     B,A
+    MOVX    A,@DPTR
+    ADD     A,B
+    INC     DPTR
+    MOV     R2,DPL
+    MOV     R3,DPH
+    MOV     DPL,R0
+    MOV     DPH,R1
+    MOVX    @DPTR,A
+    INC     DPTR
+    MOV     R0,DPL
+    MOV     R1,DPH
+    POP     DPL
+    POP     DPH
+    DJNZ    R7,LOOP
+
+    RET
+
+    END

@@ -1,0 +1,62 @@
+A51 MACRO ASSEMBLER  STATICDISPLAY01                                                      12/01/2020 14:25:57 PAGE     1
+
+
+MACRO ASSEMBLER A51 V8.02c
+OBJECT MODULE PLACED IN .\Objects\StaticDisplay01.obj
+ASSEMBLER INVOKED BY: E:\Keil_v5\C51\BIN\A51.EXE StaticDisplay01.asm SET(SMALL) DEBUG PRINT(.\Listings\StaticDisplay01.l
+                      st) OBJECT(.\Objects\StaticDisplay01.obj) EP
+
+LOC  OBJ            LINE     SOURCE
+
+0000                   1                     ORG             0000H
+0000 2100              2                     AJMP    START
+0100                   3                     ORG     0100H
+0100                   4     START:  
+0100 900125            5                     MOV             DPTR,#TAB
+0103 7800              6                     MOV             R0,#00H         ;COUNT
+0105 75A0FF            7     S1:             MOV             P2,#0FFH        ;≥ı º
+0108 E8                8     S2:             MOV             A,R0
+0109 93                9                     MOVC    A,@A+DPTR
+010A F5A0             10                     MOV             P2,A
+010C 120118           11                     LCALL   DELAY
+010F 08               12                     INC             R0;
+0110 B80AF5           13                     CJNE    R0,#10,S2
+0113 7800             14                     MOV             R0,#00H
+0115 020105           15                     LJMP    S1
+                      16                     
+0118 7D64             17     DELAY:  MOV             R5,#100
+011A 7E14             18     D2:             MOV             R6,#20
+011C 7FF8             19     D1:             MOV             R7,#248
+011E DFFE             20     D3:             DJNZ    R7,D3
+0120 DEFA             21                     DJNZ    R6,D1
+0122 DDF6             22                     DJNZ    R5,D2
+0124 22               23                     RET
+                      24                     
+0125 F9A4B099         25     TAB:    DB              0F9H,0A4H,0B0H,99H,92H,82H,0F8H,80H,90H
+0129 9282F880                
+012D 90                      
+012E 00               26                     DB              00H
+                      27                     END
+A51 MACRO ASSEMBLER  STATICDISPLAY01                                                      12/01/2020 14:25:57 PAGE     2
+
+SYMBOL TABLE LISTING
+------ ----- -------
+
+
+N A M E             T Y P E  V A L U E   ATTRIBUTES
+
+D1 . . . . . . . .  C ADDR   011CH   A   
+D2 . . . . . . . .  C ADDR   011AH   A   
+D3 . . . . . . . .  C ADDR   011EH   A   
+DELAY. . . . . . .  C ADDR   0118H   A   
+P2 . . . . . . . .  D ADDR   00A0H   A   
+S1 . . . . . . . .  C ADDR   0105H   A   
+S2 . . . . . . . .  C ADDR   0108H   A   
+START. . . . . . .  C ADDR   0100H   A   
+TAB. . . . . . . .  C ADDR   0125H   A   
+
+
+REGISTER BANK(S) USED: 0 
+
+
+ASSEMBLY COMPLETE.  0 WARNING(S), 0 ERROR(S)

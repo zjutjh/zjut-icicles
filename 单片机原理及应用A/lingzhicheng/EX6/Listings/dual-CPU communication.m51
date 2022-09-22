@@ -1,0 +1,203 @@
+BL51 BANKED LINKER/LOCATER V6.22                                                        12/30/2020  23:12:04  PAGE 1
+
+
+BL51 BANKED LINKER/LOCATER V6.22, INVOKED BY:
+E:\KEIL_V5\C51\BIN\BL51.EXE .\Objects\rx.obj, .\Objects\tx.obj TO .\Objects\dual-CPU communication PRINT (.\Listings\dua
+>> l-CPU communication.m51) RAMSIZE (256)
+
+
+INPUT MODULES INCLUDED:
+  .\Objects\rx.obj (RX)
+  .\Objects\tx.obj (TX)
+
+
+LINK MAP OF MODULE:  .\Objects\dual-CPU communication (RX)
+
+
+            TYPE    BASE      LENGTH    RELOCATION   SEGMENT NAME
+            -----------------------------------------------------
+
+            * * * * * * *   D A T A   M E M O R Y   * * * * * * *
+            REG     0000H     0008H     ABSOLUTE     "REG BANK 0"
+
+            * * * * * * *   C O D E   M E M O R Y   * * * * * * *
+            CODE    0000H     1075H     ABSOLUTE     
+* OVERLAP * CODE    0000H     105BH     ABSOLUTE     
+
+
+
+SYMBOL TABLE OF MODULE:  .\Objects\dual-CPU communication (RX)
+
+  VALUE           TYPE          NAME
+  ----------------------------------
+
+  -------         MODULE        RX
+  D:00E0H         SYMBOL        ACC
+  C:103DH         SYMBOL        HAVE1
+  C:1046H         SYMBOL        HAVE2
+  C:101DH         SYMBOL        HERE
+  C:106BH         SYMBOL        HERE_END
+  C:1038H         SYMBOL        HERE_RE
+  D:00A8H         SYMBOL        IE
+  C:101FH         SYMBOL        IF_06H
+  D:0087H         SYMBOL        PCON
+  D:00D0H         SYMBOL        PSW
+  C:1070H         SYMBOL        RETURN
+  B:0098H.0       SYMBOL        RI
+  C:1054H         SYMBOL        RX_CHECK
+  D:0099H         SYMBOL        SBUF
+  D:0098H         SYMBOL        SCON
+  D:0081H         SYMBOL        SP
+  C:1000H         SYMBOL        START
+  D:008DH         SYMBOL        TH1
+  B:0098H.1       SYMBOL        TI
+  D:0089H         SYMBOL        TMOD
+  B:0088H.6       SYMBOL        TR1
+  C:102AH         SYMBOL        TX_00H
+  C:1031H         SYMBOL        TX_15H
+  C:1067H         SYMBOL        TX_ERR
+  C:1060H         SYMBOL        TX_OK
+  C:0000H         LINE#         2
+  C:0023H         LINE#         4
+BL51 BANKED LINKER/LOCATER V6.22                                                      12/30/2020  23:12:04  PAGE 2
+
+
+  C:1000H         LINE#         8
+  C:1003H         LINE#         9
+  C:1006H         LINE#         10
+  C:1009H         LINE#         11
+  C:100CH         LINE#         12
+  C:100EH         LINE#         13
+  C:1011H         LINE#         14
+  C:1014H         LINE#         15
+  C:1017H         LINE#         16
+  C:1019H         LINE#         17
+  C:101BH         LINE#         18
+  C:101DH         LINE#         21
+  C:101FH         LINE#         24
+  C:1021H         LINE#         25
+  C:1023H         LINE#         26
+  C:1025H         LINE#         27
+  C:1027H         LINE#         28
+  C:102AH         LINE#         31
+  C:102CH         LINE#         32
+  C:102EH         LINE#         33
+  C:1031H         LINE#         36
+  C:1033H         LINE#         37
+  C:1035H         LINE#         38
+  C:1038H         LINE#         41
+  C:103BH         LINE#         42
+  C:103DH         LINE#         45
+  C:1040H         LINE#         46
+  C:1042H         LINE#         47
+  C:1044H         LINE#         48
+  C:1045H         LINE#         49
+  C:1046H         LINE#         52
+  C:1049H         LINE#         53
+  C:104BH         LINE#         54
+  C:104DH         LINE#         55
+  C:104EH         LINE#         56
+  C:104FH         LINE#         57
+  C:1050H         LINE#         58
+  C:1051H         LINE#         59
+  C:1052H         LINE#         60
+  C:1054H         LINE#         63
+  C:1057H         LINE#         64
+  C:1059H         LINE#         65
+  C:105BH         LINE#         66
+  C:105DH         LINE#         67
+  C:1060H         LINE#         70
+  C:1062H         LINE#         71
+  C:1064H         LINE#         72
+  C:1067H         LINE#         75
+  C:1069H         LINE#         76
+  C:106BH         LINE#         79
+  C:106EH         LINE#         80
+  C:1070H         LINE#         83
+  C:1072H         LINE#         84
+  C:1074H         LINE#         85
+  -------         ENDMOD        RX
+
+  -------         MODULE        TX
+BL51 BANKED LINKER/LOCATER V6.22                                                      12/30/2020  23:12:04  PAGE 3
+
+
+  C:1059H         SYMBOL        HERE
+  C:1054H         SYMBOL        IF_0FH
+  C:1028H         SYMBOL        NEXT1
+  D:0087H         SYMBOL        PCON
+  B:0098H.0       SYMBOL        RI
+  C:1023H         SYMBOL        RX_YES
+  D:0099H         SYMBOL        SBUF
+  D:0098H         SYMBOL        SCON
+  D:0081H         SYMBOL        SP
+  C:1000H         SYMBOL        START
+  D:008DH         SYMBOL        TH1
+  B:0098H.1       SYMBOL        TI
+  D:0089H         SYMBOL        TMOD
+  B:0088H.6       SYMBOL        TR1
+  C:101AH         SYMBOL        TX_ACK
+  C:1044H         SYMBOL        TX_CHECK
+  C:102DH         SYMBOL        TX_LENGTH
+  C:1036H         SYMBOL        TX_NEWS
+  C:1039H         SYMBOL        TX_NEWS_WAIT
+  C:101EH         SYMBOL        WAIT1
+  C:1030H         SYMBOL        WAIT2
+  C:104AH         SYMBOL        WAIT3
+  C:104FH         SYMBOL        WAIT4
+  C:0000H         LINE#         2
+  C:1000H         LINE#         6
+  C:1003H         LINE#         7
+  C:1006H         LINE#         8
+  C:1009H         LINE#         9
+  C:100CH         LINE#         10
+  C:100EH         LINE#         11
+  C:1011H         LINE#         12
+  C:1014H         LINE#         13
+  C:1016H         LINE#         14
+  C:1018H         LINE#         15
+  C:101AH         LINE#         18
+  C:101CH         LINE#         19
+  C:101EH         LINE#         22
+  C:1021H         LINE#         23
+  C:1023H         LINE#         26
+  C:1026H         LINE#         27
+  C:1028H         LINE#         30
+  C:102AH         LINE#         31
+  C:102DH         LINE#         34
+  C:102EH         LINE#         35
+  C:1030H         LINE#         38
+  C:1033H         LINE#         39
+  C:1035H         LINE#         40
+  C:1036H         LINE#         43
+  C:1037H         LINE#         44
+  C:1039H         LINE#         47
+  C:103CH         LINE#         48
+  C:103EH         LINE#         49
+  C:103FH         LINE#         50
+  C:1040H         LINE#         51
+  C:1041H         LINE#         52
+  C:1042H         LINE#         53
+  C:1044H         LINE#         56
+BL51 BANKED LINKER/LOCATER V6.22                                                      12/30/2020  23:12:04  PAGE 4
+
+
+  C:1045H         LINE#         57
+  C:1046H         LINE#         58
+  C:1047H         LINE#         59
+  C:1048H         LINE#         60
+  C:104AH         LINE#         63
+  C:104DH         LINE#         64
+  C:104FH         LINE#         67
+  C:1052H         LINE#         68
+  C:1054H         LINE#         71
+  C:1056H         LINE#         72
+  C:1059H         LINE#         75
+  -------         ENDMOD        TX
+
+*** WARNING L5: CODE SPACE MEMORY OVERLAP
+    FROM:    0000H
+    TO:      1074H
+
+Program Size: data=8.0 xdata=0 code=8400
+LINK/LOCATE RUN COMPLETE.  1 WARNING(S),  0 ERROR(S)

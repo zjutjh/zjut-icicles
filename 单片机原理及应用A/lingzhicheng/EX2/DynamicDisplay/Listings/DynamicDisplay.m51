@@ -1,0 +1,69 @@
+BL51 BANKED LINKER/LOCATER V6.22                                                        01/05/2021  09:12:41  PAGE 1
+
+
+BL51 BANKED LINKER/LOCATER V6.22, INVOKED BY:
+E:\KEIL_V5\C51\BIN\BL51.EXE .\Objects\DynamicDisplay01.obj TO .\Objects\DynamicDisplay PRINT (.\Listings\DynamicDisplay.
+>> m51) RAMSIZE (256)
+
+
+INPUT MODULES INCLUDED:
+  .\Objects\DynamicDisplay01.obj (DYNAMICDISPLAY01)
+
+
+LINK MAP OF MODULE:  .\Objects\DynamicDisplay (DYNAMICDISPLAY01)
+
+
+            TYPE    BASE      LENGTH    RELOCATION   SEGMENT NAME
+            -----------------------------------------------------
+
+            * * * * * * *   D A T A   M E M O R Y   * * * * * * *
+            REG     0000H     0008H     ABSOLUTE     "REG BANK 0"
+
+            * * * * * * *   C O D E   M E M O R Y   * * * * * * *
+            CODE    0000H     0124H     ABSOLUTE     
+
+
+
+SYMBOL TABLE OF MODULE:  .\Objects\DynamicDisplay (DYNAMICDISPLAY01)
+
+  VALUE           TYPE          NAME
+  ----------------------------------
+
+  -------         MODULE        DYNAMICDISPLAY01
+  C:011BH         SYMBOL        D1
+  C:0119H         SYMBOL        D2
+  C:011DH         SYMBOL        D3
+  C:0117H         SYMBOL        DELAY
+  C:0109H         SYMBOL        LOOP
+  C:0103H         SYMBOL        MAIN
+  D:0080H         SYMBOL        P0
+  D:00A0H         SYMBOL        P2
+  D:0081H         SYMBOL        SP
+  C:0100H         SYMBOL        START
+  C:0000H         LINE#         2
+  C:0100H         LINE#         5
+  C:0103H         LINE#         7
+  C:0105H         LINE#         9
+  C:0107H         LINE#         10
+  C:0109H         LINE#         16
+  C:010BH         LINE#         17
+  C:010CH         LINE#         18
+  C:010DH         LINE#         19
+  C:010FH         LINE#         20
+  C:0112H         LINE#         21
+  C:0113H         LINE#         22
+  C:0115H         LINE#         23
+  C:0117H         LINE#         25
+  C:0119H         LINE#         26
+  C:011BH         LINE#         27
+  C:011DH         LINE#         28
+  C:011FH         LINE#         29
+  C:0121H         LINE#         30
+BL51 BANKED LINKER/LOCATER V6.22                                                      01/05/2021  09:12:41  PAGE 2
+
+
+  C:0123H         LINE#         31
+  -------         ENDMOD        DYNAMICDISPLAY01
+
+Program Size: data=8.0 xdata=0 code=292
+LINK/LOCATE RUN COMPLETE.  0 WARNING(S),  0 ERROR(S)

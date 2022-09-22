@@ -1,0 +1,3 @@
+".\Objects\liushui03.obj" 
+TO ".\Objects\WaterLamp" 
+PRINT(".\Listings\WaterLamp.m51") RAMSIZE(256) 

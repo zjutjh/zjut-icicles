@@ -1,0 +1,85 @@
+BL51 BANKED LINKER/LOCATER V6.22                                                        01/12/2021  11:50:34  PAGE 1
+
+
+BL51 BANKED LINKER/LOCATER V6.22, INVOKED BY:
+E:\KEIL_V5\C51\BIN\BL51.EXE .\Objects\exm2.obj TO .\Objects\exm PRINT (.\Listings\exm.m51) RAMSIZE (256)
+
+
+INPUT MODULES INCLUDED:
+  .\Objects\exm2.obj (EXM2)
+
+
+LINK MAP OF MODULE:  .\Objects\exm (EXM2)
+
+
+            TYPE    BASE      LENGTH    RELOCATION   SEGMENT NAME
+            -----------------------------------------------------
+
+            * * * * * * *   D A T A   M E M O R Y   * * * * * * *
+            REG     0000H     0008H     ABSOLUTE     "REG BANK 0"
+
+            * * * * * * *   C O D E   M E M O R Y   * * * * * * *
+            CODE    0000H     0510H     ABSOLUTE     
+
+
+
+SYMBOL TABLE OF MODULE:  .\Objects\exm (EXM2)
+
+  VALUE           TYPE          NAME
+  ----------------------------------
+
+  -------         MODULE        EXM2
+  C:0117H         SYMBOL        F1
+  C:0128H         SYMBOL        F2
+  C:0107H         SYMBOL        LOOP
+  C:0100H         SYMBOL        MAIN
+  C:0113H         SYMBOL        PAIXU
+  C:0000H         LINE#         2
+  C:0100H         LINE#         5
+  C:0103H         LINE#         6
+  C:0105H         LINE#         7
+  C:0107H         LINE#         10
+  C:0109H         LINE#         11
+  C:010AH         LINE#         12
+  C:010BH         LINE#         13
+  C:010CH         LINE#         14
+  C:010DH         LINE#         15
+  C:010FH         LINE#         16
+  C:0111H         LINE#         17
+  C:0113H         LINE#         20
+  C:0115H         LINE#         21
+  C:0116H         LINE#         22
+  C:0117H         LINE#         24
+  C:0118H         LINE#         25
+  C:0119H         LINE#         26
+  C:011AH         LINE#         27
+  C:011CH         LINE#         28
+  C:011DH         LINE#         29
+  C:011EH         LINE#         30
+  C:011FH         LINE#         31
+  C:0120H         LINE#         32
+  C:0121H         LINE#         33
+BL51 BANKED LINKER/LOCATER V6.22                                                      01/12/2021  11:50:34  PAGE 2
+
+
+  C:0122H         LINE#         34
+  C:0123H         LINE#         35
+  C:0124H         LINE#         36
+  C:0125H         LINE#         37
+  C:0128H         LINE#         39
+  C:0129H         LINE#         40
+  C:012AH         LINE#         41
+  C:012BH         LINE#         42
+  C:012EH         LINE#         43
+  C:012FH         LINE#         44
+  C:0132H         LINE#         46
+  C:0134H         LINE#         47
+  C:0135H         LINE#         48
+  C:0136H         LINE#         49
+  C:0138H         LINE#         50
+  C:0139H         LINE#         51
+  C:013AH         LINE#         53
+  -------         ENDMOD        EXM2
+
+Program Size: data=8.0 xdata=0 code=1296
+LINK/LOCATE RUN COMPLETE.  0 WARNING(S),  0 ERROR(S)

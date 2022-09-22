@@ -1,0 +1,62 @@
+A51 MACRO ASSEMBLER  LED                                                                  12/19/2020 21:04:31 PAGE     1
+
+
+MACRO ASSEMBLER A51 V8.02c
+OBJECT MODULE PLACED IN .\Objects\led.obj
+ASSEMBLER INVOKED BY: E:\Keil_v5\C51\BIN\A51.EXE led.asm SET(SMALL) DEBUG PRINT(.\Listings\led.lst) OBJECT(.\Objects\led
+                      .obj) EP
+
+LOC  OBJ            LINE     SOURCE
+
+0000                   1                     ORG     0000H
+0000 0102              2                     AJMP    START
+                       3     
+0002                   4     START:
+0002 900020            5                     MOV             DPTR,#TAB
+0005                   6     LOOP1:
+0005 E4                7                     CLR             A
+0006 93                8                     MOVC    A,@A+DPTR
+0007 B40002            9                     CJNE    A,#00H,SHOW
+000A 0102             10                     AJMP    START
+000C                  11     SHOW:   
+000C F590             12                     MOV     P1,A
+000E 1113             13                     ACALL   DELAY
+0010 A3               14                     INC             DPTR
+0011 0105             15                     AJMP    LOOP1
+0013 7D19             16     DELAY:  MOV             R5,#25
+0015 7E64             17     D1:             MOV             R6,#100
+0017 7F64             18     D2:             MOV             R7,#100
+0019 DFFE             19     D3:             DJNZ    R7,D3
+001B DEFA             20                     DJNZ    R6,D2
+001D DDF6             21                     DJNZ    R5,D1
+001F 22               22                     RET
+                      23                     
+0020 01020408         24     TAB:    DB              01H,02H,04H,08H,10H,20H,40H,80H,40H,20H,10H,08H,04H,02H,01H
+0024 10204080                
+0028 40201008                
+002C 040201                  
+002F 00               25                     DB              00H
+                      26                     END
+A51 MACRO ASSEMBLER  LED                                                                  12/19/2020 21:04:31 PAGE     2
+
+SYMBOL TABLE LISTING
+------ ----- -------
+
+
+N A M E             T Y P E  V A L U E   ATTRIBUTES
+
+D1 . . . . . . . .  C ADDR   0015H   A   
+D2 . . . . . . . .  C ADDR   0017H   A   
+D3 . . . . . . . .  C ADDR   0019H   A   
+DELAY. . . . . . .  C ADDR   0013H   A   
+LOOP1. . . . . . .  C ADDR   0005H   A   
+P1 . . . . . . . .  D ADDR   0090H   A   
+SHOW . . . . . . .  C ADDR   000CH   A   
+START. . . . . . .  C ADDR   0002H   A   
+TAB. . . . . . . .  C ADDR   0020H   A   
+
+
+REGISTER BANK(S) USED: 0 
+
+
+ASSEMBLY COMPLETE.  0 WARNING(S), 0 ERROR(S)

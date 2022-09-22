@@ -1,0 +1,207 @@
+A51 MACRO ASSEMBLER  AAA                                                                  12/22/2020 15:15:29 PAGE     1
+
+
+MACRO ASSEMBLER A51 V8.02c
+OBJECT MODULE PLACED IN .\Objects\aaa.obj
+ASSEMBLER INVOKED BY: E:\Keil_v5\C51\BIN\A51.EXE aaa.asm SET(SMALL) DEBUG PRINT(.\Listings\aaa.lst) OBJECT(.\Objects\aaa
+                      .obj) EP
+
+LOC  OBJ            LINE     SOURCE
+
+                       1     
+                       2     
+                       3     
+                       4     
+                       5     
+0000                   6             ORG             0000H
+0000                   7     RESET:
+0000 2100              8             AJMP            MAIN
+000B                   9             ORG             000BH;定时器中断0入口
+000B 216A             10             AJMP            INTI0
+0100                  11             ORG             0100H
+                      12                     
+0100                  13     MAIN:
+0100 758160           14             MOV                     SP,#60H;计时工作方式1
+0103 758901           15             MOV                     TMOD,#01H
+0106 9001E5           16             MOV                     DPTR,#TABLE
+0109 7801             17             MOV             R0,#01                   
+010B 753000           18             MOV                     30H,#00H 
+010E 75311E           19             MOV                     31H,#30 
+0111 753223           20             MOV                     32H,#35 
+                      21     
+0114 758CD8           22             MOV                     TH0,#0D8H
+0117 758AF0           23             MOV                     TL0,#0F0H
+011A D28C             24             SETB            TR0 ;启动T0
+011C 7590CD           25             MOV             P1,#11001101B                    
+011F C2B0             26             CLR             P3.0                                     
+0121 D2B1             27             SETB            P3.1
+0123 120129           28             LCALL           CALCU
+0126 02013E           29             LJMP            DISPLAY
+                      30     
+0129                  31     CALCU:
+                      32     
+0129 790A             33             MOV             R1,#10                   
+012B E531             34             MOV             A,31H                    
+012D 89F0             35             MOV             B,R1                     
+012F 84               36             DIV             AB                               
+0130 FC               37             MOV             R4,A                     
+0131 ADF0             38             MOV             R5,B                     
+                      39     
+0133 790A             40             MOV             R1,#10                   
+0135 E532             41             MOV             A,32H                    
+0137 89F0             42             MOV             B,R1                     
+0139 84               43             DIV             AB                               
+013A FE               44             MOV             R6,A                     
+013B AFF0             45             MOV             R7,B                     
+013D 22               46             RET
+                      47             
+013E                  48     DISPLAY:
+                      49     
+013E C2A2             50             CLR                     P2.2
+0140 C2A3             51             CLR                     P2.3
+0142 C2A4             52             CLR                     P2.4
+0144 EC               53             MOV             A,R4                     
+0145 93               54             MOVC            A,@A+DPTR
+0146 F580             55             MOV             P0,A
+0148 1201DC           56             LCALL           D04MS
+                      57             
+A51 MACRO ASSEMBLER  AAA                                                                  12/22/2020 15:15:29 PAGE     2
+
+014B D2A2             58             SETB            P2.2
+014D ED               59             MOV             A,R5                     
+014E 93               60             MOVC            A,@A+DPTR
+014F F580             61             MOV             P0,A
+                      62     
+0151 C2A2             63             CLR                     P2.2
+0153 C2A3             64             CLR                     P2.3
+0155 D2A4             65             SETB            P2.4
+0157 1201DC           66             LCALL           D04MS 
+015A EE               67             MOV             A,R6                     
+015B 93               68             MOVC            A,@A+DPTR
+015C F580             69             MOV             P0,A
+015E 1201DC           70             LCALL           D04MS
+                      71             
+0161 D2A2             72             SETB            P2.2
+0163 EF               73             MOV             A,R7                     
+0164 93               74             MOVC            A,@A+DPTR
+0165 F580             75             MOV             P0,A
+                      76     
+0167 308DD4           77             JNB                     TF0,DISPLAY;wait for TF0
+                      78     
+016A                  79     INTI0:
+016A C0D0             80             PUSH            PSW;保护状态字寄存器
+016C C0E0             81             PUSH            ACC
+016E C2AF             82             CLR                     EA;关闭总中断
+0170 758CD8           83             MOV                     TH0,#0D8H;定时10ms
+0173 758AF0           84             MOV                     TL0,#0F0H
+0176 0530             85             INC                     30H
+0178 E530             86             MOV                     A,30H
+017A B46458           87             CJNE            A,#100,OUT
+017D 753000           88             MOV                     30H,#00H;定时器超时一百次，达到64h即一秒
+0180 08               89             INC             R0 
+0181 1531             90             DEC                     31H
+0183 1532             91             DEC                     32H
+                      92             
+                      93     
+                      94     
+0185                  95     JMP5SN:
+0185 B81F0F           96             CJNE            R0,#31,JMP30EW
+0188 7590D6           97             MOV             P1,#11010110B                    
+018B C2B0             98             CLR             P3.0                                     
+018D D2B1             99             SETB            P3.1
+018F 753105          100             MOV                     31H,#5  
+0192 120129          101             LCALL           CALCU
+0195 803E            102             SJMP            OUT
+0197                 103     JMP30EW:
+0197 B82412          104             CJNE            R0,#36,JMP5EW
+019A 75907A          105             MOV             P1,#01111010B                    
+019D D2B0            106             SETB            P3.0                                     
+019F C2B1            107             CLR             P3.1
+01A1 75311E          108             MOV                     31H,#30
+01A4 753219          109             MOV                     32H,#25
+01A7 120129          110             LCALL           CALCU
+01AA 8029            111             SJMP            OUT
+01AC                 112     JMP5EW:
+01AC B8420F          113             CJNE            R0,#66,JMP30SN
+01AF 7590BA          114             MOV             P1,#10111010B                    
+01B2 D2B0            115             SETB            P3.0                                     
+01B4 C2B1            116             CLR             P3.1
+01B6 753205          117             MOV                     32H,#5
+01B9 120129          118             LCALL           CALCU
+01BC 8017            119             SJMP            OUT
+01BE                 120     JMP30SN:
+01BE B84714          121             CJNE            R0,#71,OUT
+01C1 7801            122             MOV             R0,#1
+01C3 7590CD          123             MOV             P1,#11001101B                    
+A51 MACRO ASSEMBLER  AAA                                                                  12/22/2020 15:15:29 PAGE     3
+
+01C6 C2B0            124             CLR             P3.0                                     
+01C8 D2B1            125             SETB            P3.1
+01CA 75311E          126             MOV                     31H,#30
+01CD 753223          127             MOV                     32H,#35                 
+01D0 120129          128             LCALL           CALCU
+01D3 8000            129             SJMP            OUT
+                     130     
+01D5                 131     OUT:
+01D5 D2AF            132             SETB            EA;开总中断
+01D7 D0E0            133             POP                     ACC
+01D9 D0D0            134             POP                     PSW;保护状态字寄存器
+01DB 32              135             RETI
+                     136     
+01DC                 137     D04MS:                   
+01DC 7B02            138             MOV             R3,#2
+01DE                 139     D1:                      
+01DE 7A0A            140             MOV             R2,#10
+01E0                 141     D2:
+01E0 DAFE            142             DJNZ            R2,D2
+01E2 DBFA            143             DJNZ            R3,D1
+01E4 22              144             RET
+                     145     
+01E5 3F065B4F        146     TABLE:  DB              3FH,06H,5BH,4FH,66H,6DH,7DH,07H;共阴极
+01E9 666D7D07                
+01ED 7F6F            147                     DB              7FH,6FH
+01EF 00              148                     DB              00H
+                     149     
+                     150                     END
+A51 MACRO ASSEMBLER  AAA                                                                  12/22/2020 15:15:29 PAGE     4
+
+SYMBOL TABLE LISTING
+------ ----- -------
+
+
+N A M E             T Y P E  V A L U E   ATTRIBUTES
+
+ACC. . . . . . . .  D ADDR   00E0H   A   
+B. . . . . . . . .  D ADDR   00F0H   A   
+CALCU. . . . . . .  C ADDR   0129H   A   
+D04MS. . . . . . .  C ADDR   01DCH   A   
+D1 . . . . . . . .  C ADDR   01DEH   A   
+D2 . . . . . . . .  C ADDR   01E0H   A   
+DISPLAY. . . . . .  C ADDR   013EH   A   
+EA . . . . . . . .  B ADDR   00A8H.7 A   
+INTI0. . . . . . .  C ADDR   016AH   A   
+JMP30EW. . . . . .  C ADDR   0197H   A   
+JMP30SN. . . . . .  C ADDR   01BEH   A   
+JMP5EW . . . . . .  C ADDR   01ACH   A   
+JMP5SN . . . . . .  C ADDR   0185H   A   
+MAIN . . . . . . .  C ADDR   0100H   A   
+OUT. . . . . . . .  C ADDR   01D5H   A   
+P0 . . . . . . . .  D ADDR   0080H   A   
+P1 . . . . . . . .  D ADDR   0090H   A   
+P2 . . . . . . . .  D ADDR   00A0H   A   
+P3 . . . . . . . .  D ADDR   00B0H   A   
+PSW. . . . . . . .  D ADDR   00D0H   A   
+RESET. . . . . . .  C ADDR   0000H   A   
+SP . . . . . . . .  D ADDR   0081H   A   
+TABLE. . . . . . .  C ADDR   01E5H   A   
+TF0. . . . . . . .  B ADDR   0088H.5 A   
+TH0. . . . . . . .  D ADDR   008CH   A   
+TL0. . . . . . . .  D ADDR   008AH   A   
+TMOD . . . . . . .  D ADDR   0089H   A   
+TR0. . . . . . . .  B ADDR   0088H.4 A   
+
+
+REGISTER BANK(S) USED: 0 
+
+
+ASSEMBLY COMPLETE.  0 WARNING(S), 0 ERROR(S)

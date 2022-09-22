@@ -1,0 +1,37 @@
+//P3.2½Ók1£¬P2.0½ÓJ12µÄA
+	ORG 	0000H
+		LJMP 	MAIN
+		ORG		0003H
+		LJMP	INTT0
+		ORG		0100H
+		
+MAIN:	MOV		SP,#60H
+		SETB	EA
+		SETB	EX0
+		SETB	IT0
+		MOV		IP,#01H
+		CLR		P2.0
+		MOV		P3,#0FFH
+		SJMP	$
+		
+INTT0:	MOV		A,P3
+		CPL		A
+		JZ		RETURN
+		LCALL	D10ms
+		MOV		A,P3
+		CPL		A
+		JZ		RETURN
+		JB		ACC.2,Pkey0
+		RETI
+		
+Pkey0:	CPL		P2.0
+		LJMP	RETURN
+RETURN:	RETI
+D10ms:	MOV		R7,#25
+D1:		MOV		R6,#200
+		DJNZ	R6,$
+		DJNZ	R7,D1
+		RET
+		
+		END
+			

@@ -1,0 +1,3 @@
+".\Objects\IndependentKeyboard_1.obj" 
+TO ".\Objects\IndependentKeyboard" 
+PRINT(".\Listings\IndependentKeyboard.m51") RAMSIZE(256) 

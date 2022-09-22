@@ -1,0 +1,69 @@
+BL51 BANKED LINKER/LOCATER V6.22                                                        01/11/2021  22:15:44  PAGE 1
+
+
+BL51 BANKED LINKER/LOCATER V6.22, INVOKED BY:
+E:\KEIL_V5\C51\BIN\BL51.EXE .\Objects\tink2.obj TO .\Objects\TK2 PRINT (.\Listings\TK2.m51) RAMSIZE (256)
+
+
+INPUT MODULES INCLUDED:
+  .\Objects\tink2.obj (TINK2)
+
+
+LINK MAP OF MODULE:  .\Objects\TK2 (TINK2)
+
+
+            TYPE    BASE      LENGTH    RELOCATION   SEGMENT NAME
+            -----------------------------------------------------
+
+            * * * * * * *   D A T A   M E M O R Y   * * * * * * *
+            REG     0000H     0008H     ABSOLUTE     "REG BANK 0"
+
+            * * * * * * *   C O D E   M E M O R Y   * * * * * * *
+            CODE    0000H     012AH     ABSOLUTE     
+
+
+
+SYMBOL TABLE OF MODULE:  .\Objects\TK2 (TINK2)
+
+  VALUE           TYPE          NAME
+  ----------------------------------
+
+  -------         MODULE        TINK2
+  C:0115H         SYMBOL        BCD_ADD_BYTES
+  C:0100H         SYMBOL        MAIN
+  C:0127H         SYMBOL        S2
+  D:0081H         SYMBOL        SP
+  C:0000H         LINE#         2
+  C:0100H         LINE#         5
+  C:0103H         LINE#         6
+  C:0104H         LINE#         7
+  C:0107H         LINE#         8
+  C:010AH         LINE#         9
+  C:010CH         LINE#         10
+  C:010EH         LINE#         11
+  C:0110H         LINE#         12
+  C:0113H         LINE#         13
+  C:0115H         LINE#         16
+  C:0117H         LINE#         17
+  C:0118H         LINE#         18
+  C:0119H         LINE#         19
+  C:011AH         LINE#         20
+  C:011BH         LINE#         21
+  C:011CH         LINE#         22
+  C:011DH         LINE#         23
+  C:011EH         LINE#         24
+  C:011FH         LINE#         25
+  C:0120H         LINE#         26
+  C:0121H         LINE#         27
+  C:0122H         LINE#         28
+  C:0124H         LINE#         29
+  C:0126H         LINE#         30
+  C:0127H         LINE#         33
+BL51 BANKED LINKER/LOCATER V6.22                                                      01/11/2021  22:15:44  PAGE 2
+
+
+  C:0129H         LINE#         34
+  -------         ENDMOD        TINK2
+
+Program Size: data=8.0 xdata=0 code=298
+LINK/LOCATE RUN COMPLETE.  0 WARNING(S),  0 ERROR(S)

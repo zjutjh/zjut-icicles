@@ -1,0 +1,119 @@
+A51 MACRO ASSEMBLER  TK1                                                                  01/05/2021 11:04:41 PAGE     1
+
+
+MACRO ASSEMBLER A51 V8.02c
+OBJECT MODULE PLACED IN .\Objects\tk1.obj
+ASSEMBLER INVOKED BY: E:\Keil_v5\C51\BIN\A51.EXE tk1.asm SET(SMALL) DEBUG PRINT(.\Listings\tk1.lst) OBJECT(.\Objects\tk1
+                      .obj) EP
+
+LOC  OBJ            LINE     SOURCE
+
+                       1     
+0000                   2                     ORG             0000H
+0000 2100              3                     AJMP    START
+0003                   4                     ORG             0003H;外部中断0的入口是0003H
+0003 2126              5                     AJMP    INTT0
+0100                   6                     ORG             0100H
+                       7             
+0100 758160            8     START:  MOV             SP,#60H
+0103 D2A8              9                     SETB    EX0;开中断
+0105 D288             10                     SETB    IT0
+0107 D2AF             11                     SETB    EA
+0109 75B801           12                     MOV             IP,#01H;设置优先级
+010C 75B0FF           13                     MOV             P3,#0FFH;先将P3全部置为高电平
+010F 90014A           14     MAIN:   MOV             DPTR,#TABLE
+0112 7803             15                     MOV             R0,#03H
+0114 7A08             16                     MOV             R2,#08H
+0116 311B             17                     ACALL   LOOP
+0118 02010F           18                     LJMP    MAIN
+                      19     
+011B E8               20     LOOP:   MOV             A,R0
+011C F590             21                     MOV             P1,A
+011E 23               22                     RL              A
+011F F8               23                     MOV             R0,A
+0120 120164           24                     LCALL   D1S
+0123 DAF6             25                     DJNZ    R2,LOOP
+0125 22               26                     RET
+                      27                     
+0126 E5B0             28     INTT0:  MOV             A,P3
+0128 F4               29                     CPL             A
+0129 601E             30                     JZ              RETURN
+012B 12015B           31                     LCALL   D10ms   ;去抖动
+012E E5B0             32                     MOV             A,P3
+0130 F4               33                     CPL             A
+0131 6016             34                     JZ              RETURN
+0133 20E201           35                     JB              ACC.2,Pkey0
+0136 32               36                     RETI
+                      37                     
+0137 7400             38     Pkey0:  MOV             A,#00H
+0139 93               39                     MOVC    A,@A+DPTR
+013A B4FF03           40                     CJNE    A,#0FFH,Pkey1
+013D 020149           41                     LJMP    RETURN
+                      42                     
+0140 F580             43     Pkey1:  MOV             P0,A
+0142 120164           44                     LCALL   D1S
+0145 A3               45                     INC             DPTR
+0146 020137           46                     LJMP    Pkey0           
+                      47                     
+0149 32               48     RETURN: RETI
+                      49                     
+014A C0F9A4B0         50     TABLE:  DB              0C0H,0F9H,0A4H,0B0H,99H,92H,82H,0F8H
+014E 999282F8                
+0152 80908883         51                     DB              80H,90H,88H,83H,0C6H,0A1H,86H,8EH
+0156 C6A1868E                
+015A FF               52                     DB              0FFH
+                      53     
+015B 7F19             54     D10ms:  MOV             R7,#25
+015D 7EC8             55     D4:             MOV             R6,#200
+A51 MACRO ASSEMBLER  TK1                                                                  01/05/2021 11:04:41 PAGE     2
+
+015F DEFE             56                     DJNZ    R6,$
+0161 DFFA             57                     DJNZ    R7,D4
+0163 22               58                     RET
+                      59     
+0164 7D14             60     D1S:    MOV             R5,#20
+0166 7E64             61     D5:             MOV             R6,#100
+0168 7FF8             62     D6:             MOV             R7,#248
+016A DFFE             63     D7:             DJNZ    R7,D7
+016C DEFA             64                     DJNZ    R6,D6
+016E DDF6             65                     DJNZ    R5,D5
+0170 22               66                     RET     
+                      67                     
+                      68                     END
+A51 MACRO ASSEMBLER  TK1                                                                  01/05/2021 11:04:41 PAGE     3
+
+SYMBOL TABLE LISTING
+------ ----- -------
+
+
+N A M E             T Y P E  V A L U E   ATTRIBUTES
+
+ACC. . . . . . . .  D ADDR   00E0H   A   
+D10MS. . . . . . .  C ADDR   015BH   A   
+D1S. . . . . . . .  C ADDR   0164H   A   
+D4 . . . . . . . .  C ADDR   015DH   A   
+D5 . . . . . . . .  C ADDR   0166H   A   
+D6 . . . . . . . .  C ADDR   0168H   A   
+D7 . . . . . . . .  C ADDR   016AH   A   
+EA . . . . . . . .  B ADDR   00A8H.7 A   
+EX0. . . . . . . .  B ADDR   00A8H.0 A   
+INTT0. . . . . . .  C ADDR   0126H   A   
+IP . . . . . . . .  D ADDR   00B8H   A   
+IT0. . . . . . . .  B ADDR   0088H.0 A   
+LOOP . . . . . . .  C ADDR   011BH   A   
+MAIN . . . . . . .  C ADDR   010FH   A   
+P0 . . . . . . . .  D ADDR   0080H   A   
+P1 . . . . . . . .  D ADDR   0090H   A   
+P3 . . . . . . . .  D ADDR   00B0H   A   
+PKEY0. . . . . . .  C ADDR   0137H   A   
+PKEY1. . . . . . .  C ADDR   0140H   A   
+RETURN . . . . . .  C ADDR   0149H   A   
+SP . . . . . . . .  D ADDR   0081H   A   
+START. . . . . . .  C ADDR   0100H   A   
+TABLE. . . . . . .  C ADDR   014AH   A   
+
+
+REGISTER BANK(S) USED: 0 
+
+
+ASSEMBLY COMPLETE.  0 WARNING(S), 0 ERROR(S)

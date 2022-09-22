@@ -1,0 +1,93 @@
+A51 MACRO ASSEMBLER  THINK3                                                               01/12/2021 10:43:15 PAGE     1
+
+
+MACRO ASSEMBLER A51 V8.02c
+OBJECT MODULE PLACED IN .\Objects\think3.obj
+ASSEMBLER INVOKED BY: E:\Keil_v5\C51\BIN\A51.EXE think3.asm SET(SMALL) DEBUG PRINT(.\Listings\think3.lst) OBJECT(.\Objec
+                      ts\think3.obj) EP
+
+LOC  OBJ            LINE     SOURCE
+
+0000                   1     ORG 0000H
+                       2     
+0000 020050            3     LJMP MAIN
+0050                   4     ORG 0050H
+0050                   5             MAIN:
+0050 758160            6                     MOV SP,#60H
+0053 900200            7                     MOV DPTR,#0200H
+0056 7840              8                     MOV R0,#40H
+0058 7A00              9                     MOV R2,#00H
+005A 7B00             10                     MOV R3,#00H
+005C                  11             F1:
+005C EA               12                     MOV A,R2
+005D 93               13                     MOVC A,@A+DPTR
+005E F6               14                     MOV @R0,A
+005F 9B               15                     SUBB A,R3
+0060 4003             16                     JC F2
+                      17                     
+0062 EA               18                     MOV A,R2
+0063 93               19                     MOVC A,@A+DPTR
+0064 FB               20                     MOV R3,A;»Áπ˚√ª”–ΩËŒª‘Ú∞—◊Ó¥Û ‘›¥ÊR3
+0065                  21             F2:     
+0065 C3               22                     CLR C;—≠ª∑ Æ¡˘¥Œ£¨œ»’“≥ˆ◊Ó¥Û £¨≤¢œ»¥Ê»Î40H--4FH
+0066 08               23                     INC R0
+0067 0A               24                     INC R2
+0068 BA10F1           25                     CJNE R2,#10H,F1
+                      26                     
+006B 7940             27                     MOV R1,#40H
+006D                  28             PAIXU:
+006D 7840             29                     MOV R0,#40H
+006F E6               30                     MOV A,@R0
+0070 FB               31                     MOV R3,A
+0071                  32             F3:     
+0071 08               33                     INC R0
+0072 E6               34                     MOV A,@R0
+0073 9B               35                     SUBB A,R3
+0074 500C             36                     JNC F4;»ÙŒﬁΩËŒª£¨‘Ú∏ﬂŒª±»µÕŒª¥Û£¨Œﬁ–ËΩªªª
+0076 E6               37                     MOV A,@R0;»Ù”–ΩËŒª£¨Ωªªª≤Ÿ◊˜
+0077 FA               38                     MOV R2,A
+0078 EB               39                     MOV A,R3
+0079 F6               40                     MOV @R0,A
+007A 18               41                     DEC R0
+007B EA               42                     MOV A,R2
+007C F6               43                     MOV @R0,A
+007D 08               44                     INC R0
+007E C3               45                     CLR C
+007F B84FEF           46                     CJNE R0,#4FH,F3
+0082                  47             F4:
+0082 E6               48                     MOV A,@R0
+0083 FB               49                     MOV R3,A
+0084 C3               50                     CLR C
+0085 B84FE9           51                     CJNE R0,#4FH,F3
+                      52                     
+0088 09               53                     INC R1
+0089 B94FE1           54                     CJNE R1,#4FH,PAIXU
+                      55                     
+008C 80FE             56                     SJMP $
+                      57                     END     
+A51 MACRO ASSEMBLER  THINK3                                                               01/12/2021 10:43:15 PAGE     2
+
+                                             
+                                             
+                                             
+A51 MACRO ASSEMBLER  THINK3                                                               01/12/2021 10:43:15 PAGE     3
+
+SYMBOL TABLE LISTING
+------ ----- -------
+
+
+N A M E             T Y P E  V A L U E   ATTRIBUTES
+
+F1 . . . . . . . .  C ADDR   005CH   A   
+F2 . . . . . . . .  C ADDR   0065H   A   
+F3 . . . . . . . .  C ADDR   0071H   A   
+F4 . . . . . . . .  C ADDR   0082H   A   
+MAIN . . . . . . .  C ADDR   0050H   A   
+PAIXU. . . . . . .  C ADDR   006DH   A   
+SP . . . . . . . .  D ADDR   0081H   A   
+
+
+REGISTER BANK(S) USED: 0 
+
+
+ASSEMBLY COMPLETE.  0 WARNING(S), 0 ERROR(S)

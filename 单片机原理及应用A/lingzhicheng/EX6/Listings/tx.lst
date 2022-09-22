@@ -1,0 +1,127 @@
+A51 MACRO ASSEMBLER  TX                                                                   12/30/2020 23:12:04 PAGE     1
+
+
+MACRO ASSEMBLER A51 V8.02c
+OBJECT MODULE PLACED IN .\Objects\tx.obj
+ASSEMBLER INVOKED BY: E:\Keil_v5\C51\BIN\A51.EXE tx.asm SET(SMALL) DEBUG PRINT(.\Listings\tx.lst) OBJECT(.\Objects\tx.ob
+                      j) EP
+
+LOC  OBJ            LINE     SOURCE
+
+0000                   1                     ORG             0000H
+0000 021000            2                     LJMP    START
+1000                   3                     ORG             1000H
+                       4                             
+1000                   5     START:
+1000 758160            6                     MOV             SP,#60H
+1003 758920            7                     MOV             TMOD,#20H                
+1006 758DFA            8                     MOV             TH1,#0FAH                
+1009 758DFA            9                     MOV             TH1,#0FAH
+100C D28E             10                     SETB    TR1                              
+100E 759850           11                     MOV             SCON,#50H                
+1011 758700           12                     MOV             PCON,#00H                
+1014 A830             13                     MOV             R0,30H                   
+1016 7F20             14                     MOV             R7,#20H                  
+1018 7E00             15                     MOV             R6,#00H                  
+                      16                     
+101A                  17     TX_ACK: 
+101A 7406             18                     MOV             A,#06H                   
+101C F599             19                     MOV             SBUF,A
+                      20                     
+101E                  21     WAIT1:  
+101E 3099FD           22                     JNB             TI,WAIT1                 
+1021 C299             23                     CLR             TI                               
+                      24     
+1023                  25     RX_YES: 
+1023 3098FD           26                     JNB             RI,RX_YES                
+1026 C298             27                     CLR             RI                               
+                      28                     
+1028                  29     NEXT1:  
+1028 E599             30                     MOV             A,SBUF                   
+102A B400ED           31                     CJNE    A,#00H,TX_ACK    
+                      32                     
+102D                  33     TX_LENGTH:
+102D EF               34                     MOV             A,R7                     
+102E F599             35                     MOV             SBUF,A
+                      36                     
+1030                  37     WAIT2:
+1030 3099FD           38                     JNB             TI,WAIT2                 
+1033 C299             39                     CLR             TI                               
+1035 FE               40                     MOV             R6,A                     
+                      41     
+1036                  42     TX_NEWS:                                                 
+1036 E6               43                     MOV             A,@R0
+1037 F599             44                     MOV             SBUF,A
+                      45                     
+1039                  46     TX_NEWS_WAIT:
+1039 3099FD           47                     JNB             TI,TX_NEWS_WAIT
+103C C299             48                     CLR             TI                               
+103E EE               49                     MOV             A,R6
+103F 26               50                     ADD             A,@R0
+1040 FE               51                     MOV             R6,A
+1041 06               52                     INC             @R0
+1042 DFF2             53                     DJNZ    R7,TX_NEWS               
+                      54                     
+1044                  55     TX_CHECK:
+1044 EE               56                     MOV             A,R6
+1045 26               57                     ADD             A,@R0
+A51 MACRO ASSEMBLER  TX                                                                   12/30/2020 23:12:04 PAGE     2
+
+1046 FE               58                     MOV             R6,A
+1047 EE               59                     MOV             A,R6                     
+1048 F599             60                     MOV             SBUF,A
+                      61                     
+104A                  62     WAIT3:                                                   
+104A 3099FD           63                     JNB             TI,WAIT3
+104D C299             64                     CLR             TI
+                      65                     
+104F                  66     WAIT4:                                                   
+104F 3098FD           67                     JNB             RI,WAIT4
+1052 C298             68                     CLR             RI
+                      69                     
+1054                  70     IF_0FH:
+1054 E599             71                     MOV             A,SBUF                   
+1056 B40FA7           72                     CJNE    A,#0FH,START
+                      73     
+1059                  74     HERE:   
+1059 80FE             75                     SJMP    HERE
+                      76     
+                      77                     END
+                                             
+A51 MACRO ASSEMBLER  TX                                                                   12/30/2020 23:12:04 PAGE     3
+
+SYMBOL TABLE LISTING
+------ ----- -------
+
+
+N A M E             T Y P E  V A L U E   ATTRIBUTES
+
+HERE . . . . . . .  C ADDR   1059H   A   
+IF_0FH . . . . . .  C ADDR   1054H   A   
+NEXT1. . . . . . .  C ADDR   1028H   A   
+PCON . . . . . . .  D ADDR   0087H   A   
+RI . . . . . . . .  B ADDR   0098H.0 A   
+RX_YES . . . . . .  C ADDR   1023H   A   
+SBUF . . . . . . .  D ADDR   0099H   A   
+SCON . . . . . . .  D ADDR   0098H   A   
+SP . . . . . . . .  D ADDR   0081H   A   
+START. . . . . . .  C ADDR   1000H   A   
+TH1. . . . . . . .  D ADDR   008DH   A   
+TI . . . . . . . .  B ADDR   0098H.1 A   
+TMOD . . . . . . .  D ADDR   0089H   A   
+TR1. . . . . . . .  B ADDR   0088H.6 A   
+TX_ACK . . . . . .  C ADDR   101AH   A   
+TX_CHECK . . . . .  C ADDR   1044H   A   
+TX_LENGTH. . . . .  C ADDR   102DH   A   
+TX_NEWS. . . . . .  C ADDR   1036H   A   
+TX_NEWS_WAIT . . .  C ADDR   1039H   A   
+WAIT1. . . . . . .  C ADDR   101EH   A   
+WAIT2. . . . . . .  C ADDR   1030H   A   
+WAIT3. . . . . . .  C ADDR   104AH   A   
+WAIT4. . . . . . .  C ADDR   104FH   A   
+
+
+REGISTER BANK(S) USED: 0 
+
+
+ASSEMBLY COMPLETE.  0 WARNING(S), 0 ERROR(S)

@@ -1,0 +1,61 @@
+BL51 BANKED LINKER/LOCATER V6.22                                                        12/19/2020  21:04:31  PAGE 1
+
+
+BL51 BANKED LINKER/LOCATER V6.22, INVOKED BY:
+E:\KEIL_V5\C51\BIN\BL51.EXE .\Objects\led.obj TO .\Objects\led PRINT (.\Listings\led.m51) RAMSIZE (256)
+
+
+INPUT MODULES INCLUDED:
+  .\Objects\led.obj (LED)
+
+
+LINK MAP OF MODULE:  .\Objects\led (LED)
+
+
+            TYPE    BASE      LENGTH    RELOCATION   SEGMENT NAME
+            -----------------------------------------------------
+
+            * * * * * * *   D A T A   M E M O R Y   * * * * * * *
+            REG     0000H     0008H     ABSOLUTE     "REG BANK 0"
+
+            * * * * * * *   C O D E   M E M O R Y   * * * * * * *
+            CODE    0000H     0030H     ABSOLUTE     
+
+
+
+SYMBOL TABLE OF MODULE:  .\Objects\led (LED)
+
+  VALUE           TYPE          NAME
+  ----------------------------------
+
+  -------         MODULE        LED
+  C:0015H         SYMBOL        D1
+  C:0017H         SYMBOL        D2
+  C:0019H         SYMBOL        D3
+  C:0013H         SYMBOL        DELAY
+  C:0005H         SYMBOL        LOOP1
+  D:0090H         SYMBOL        P1
+  C:000CH         SYMBOL        SHOW
+  C:0002H         SYMBOL        START
+  C:0020H         SYMBOL        TAB
+  C:0000H         LINE#         2
+  C:0002H         LINE#         5
+  C:0005H         LINE#         7
+  C:0006H         LINE#         8
+  C:0007H         LINE#         9
+  C:000AH         LINE#         10
+  C:000CH         LINE#         12
+  C:000EH         LINE#         13
+  C:0010H         LINE#         14
+  C:0011H         LINE#         15
+  C:0013H         LINE#         16
+  C:0015H         LINE#         17
+  C:0017H         LINE#         18
+  C:0019H         LINE#         19
+  C:001BH         LINE#         20
+  C:001DH         LINE#         21
+  C:001FH         LINE#         22
+  -------         ENDMOD        LED
+
+Program Size: data=8.0 xdata=0 code=48
+LINK/LOCATE RUN COMPLETE.  0 WARNING(S),  0 ERROR(S)

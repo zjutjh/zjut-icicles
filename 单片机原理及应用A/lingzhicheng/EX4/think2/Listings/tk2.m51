@@ -1,0 +1,111 @@
+BL51 BANKED LINKER/LOCATER V6.22                                                        12/15/2020  09:09:57  PAGE 1
+
+
+BL51 BANKED LINKER/LOCATER V6.22, INVOKED BY:
+E:\KEIL_V5\C51\BIN\BL51.EXE .\Objects\tk2.obj TO .\Objects\tk2 PRINT (.\Listings\tk2.m51) RAMSIZE (256)
+
+
+INPUT MODULES INCLUDED:
+  .\Objects\tk2.obj (TK2)
+
+
+LINK MAP OF MODULE:  .\Objects\tk2 (TK2)
+
+
+            TYPE    BASE      LENGTH    RELOCATION   SEGMENT NAME
+            -----------------------------------------------------
+
+            * * * * * * *   D A T A   M E M O R Y   * * * * * * *
+            REG     0000H     0008H     ABSOLUTE     "REG BANK 0"
+
+            * * * * * * *   C O D E   M E M O R Y   * * * * * * *
+            CODE    0000H     015FH     ABSOLUTE     
+
+
+
+SYMBOL TABLE OF MODULE:  .\Objects\tk2 (TK2)
+
+  VALUE           TYPE          NAME
+  ----------------------------------
+
+  -------         MODULE        TK2
+  D:00E0H         SYMBOL        ACC
+  C:0149H         SYMBOL        D10MS
+  C:0152H         SYMBOL        D1S
+  C:014BH         SYMBOL        D4
+  C:0154H         SYMBOL        D5
+  C:0156H         SYMBOL        D6
+  C:0158H         SYMBOL        D7
+  B:00A8H.7       SYMBOL        EA
+  B:00A8H.2       SYMBOL        EX1
+  C:0123H         SYMBOL        INTT1
+  D:00B8H         SYMBOL        IP
+  B:0088H.2       SYMBOL        IT1
+  C:0118H         SYMBOL        LOOP
+  C:010FH         SYMBOL        MAIN
+  D:0090H         SYMBOL        P1
+  D:00B0H         SYMBOL        P3
+  C:0134H         SYMBOL        PKEY0
+  C:013DH         SYMBOL        PKEY1
+  C:0148H         SYMBOL        RETURN
+  D:0081H         SYMBOL        SP
+  C:0100H         SYMBOL        START
+  C:0000H         LINE#         3
+  C:0013H         LINE#         5
+  C:0100H         LINE#         8
+  C:0103H         LINE#         9
+  C:0105H         LINE#         10
+  C:0107H         LINE#         11
+  C:0109H         LINE#         12
+  C:010CH         LINE#         13
+  C:010FH         LINE#         14
+BL51 BANKED LINKER/LOCATER V6.22                                                      12/15/2020  09:09:57  PAGE 2
+
+
+  C:0111H         LINE#         15
+  C:0113H         LINE#         16
+  C:0115H         LINE#         17
+  C:0118H         LINE#         19
+  C:0119H         LINE#         20
+  C:011BH         LINE#         21
+  C:011CH         LINE#         22
+  C:011DH         LINE#         23
+  C:0120H         LINE#         24
+  C:0122H         LINE#         25
+  C:0123H         LINE#         27
+  C:0125H         LINE#         28
+  C:0126H         LINE#         29
+  C:0128H         LINE#         30
+  C:012BH         LINE#         31
+  C:012DH         LINE#         32
+  C:012EH         LINE#         33
+  C:0130H         LINE#         34
+  C:0133H         LINE#         35
+  C:0134H         LINE#         38
+  C:0136H         LINE#         39
+  C:0138H         LINE#         40
+  C:013AH         LINE#         41
+  C:013DH         LINE#         43
+  C:013EH         LINE#         44
+  C:0140H         LINE#         45
+  C:0141H         LINE#         46
+  C:0142H         LINE#         47
+  C:0145H         LINE#         48
+  C:0147H         LINE#         49
+  C:0148H         LINE#         51
+  C:0149H         LINE#         53
+  C:014BH         LINE#         54
+  C:014DH         LINE#         55
+  C:014FH         LINE#         56
+  C:0151H         LINE#         57
+  C:0152H         LINE#         59
+  C:0154H         LINE#         60
+  C:0156H         LINE#         61
+  C:0158H         LINE#         62
+  C:015AH         LINE#         63
+  C:015CH         LINE#         64
+  C:015EH         LINE#         65
+  -------         ENDMOD        TK2
+
+Program Size: data=8.0 xdata=0 code=351
+LINK/LOCATE RUN COMPLETE.  0 WARNING(S),  0 ERROR(S)

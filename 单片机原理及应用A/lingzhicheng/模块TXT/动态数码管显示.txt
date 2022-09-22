@@ -1,0 +1,45 @@
+//R0,R1,R2入口，P2输出位选，P0输出显示值到动态数码管
+    ORG     0000H
+    LJMP    START
+    ORG     0100H
+START:	
+    MOV     SP,#60H
+LOOP:
+    MOV     DPTR,#TABLE
+    MOV		A,#00H				//38译码器动态显示左起第1个
+	MOV 	A,R0				
+	MOVC 	A,@A+DPTR
+	MOV 	P2,#00
+	MOV 	P0,A
+	ACALL 	DELAY
+    
+    MOV		A,#00H				//38译码器动态显示左起第2个
+	MOV 	A,R0				
+	MOVC 	A,@A+DPTR
+	MOV 	P2,#01
+	MOV 	P0,A
+	ACALL 	DELAY
+    
+    MOV		A,#00H				//38译码器动态显示左起第3个
+	MOV 	A,R0				
+	MOVC 	A,@A+DPTR
+	MOV 	P2,#02
+	MOV 	P0,A
+	ACALL 	DELAY
+    
+    LJMP    LOOP
+    
+DELAY:				//定时0.4ms
+    MOV     30H,#10
+DEL0:MOV    31H,#1
+DEL1:MOV    32H,#20
+DEL2: 
+    DJNZ    32H,DEL2
+    DJNZ    31H,DEL1
+    DJNZ    30H,DEL0
+        
+TABLE:	DB		3FH,06H,5BH,4FH,66H,6DH,7DH,07H	
+        DB		7FH,6FH,77H,7CH,39H,5EH,79H,71H
+        DB		00H
+            
+    END

@@ -1,0 +1,105 @@
+A51 MACRO ASSEMBLER  TIMER1                                                               12/22/2020 13:33:53 PAGE     1
+
+
+MACRO ASSEMBLER A51 V8.02c
+OBJECT MODULE PLACED IN .\Objects\timer1.obj
+ASSEMBLER INVOKED BY: E:\Keil_v5\C51\BIN\A51.EXE timer1.asm SET(SMALL) DEBUG PRINT(.\Listings\timer1.lst) OBJECT(.\Objec
+                      ts\timer1.obj) EP
+
+LOC  OBJ            LINE     SOURCE
+
+                       1     
+0000                   2             ORG             0000H
+0000                   3     RESET:
+0000 020100            4             LJMP    MAIN
+001B                   5             ORG             001BH;¶¨Ê±Æ÷ÖÐ¶Ï1Èë¿Ú
+001B 020120            6             LJMP    T1_INT
+0100                   7             ORG             0100H
+                       8             
+0100                   9     MAIN:
+0100 758160           10             MOV             SP,#60H
+0103 90014B           11             MOV             DPTR,#TABLE
+0106 758910           12             MOV             TMOD,#10H;¼ÆÊ±¹¤×÷·½Ê½1
+0109 7580FF           13             MOV             P0,#0FFH
+010C 7800             14             MOV             R0,#00H
+010E 753000           15             MOV             30H,#00H;¶¨Ê±Æ÷³¬Ê±Ò»°Ù´Î£¬´ïµ½64h¼´Ò»Ãë
+                      16             ;12MHz£¬»úÆ÷ÖÜÆÚ1¦Ìs£¬ÐèÒª10000¸ö¼ÆÊ£¬³õÖµ=65536-10000=55536=D8F0H
+0111 758DD8           17             MOV             TH1,#0D8H
+0114 758BF0           18             MOV             TL1,#0F0H
+0117 D2AB             19             SETB    ET1;¿ª·ÅT1ÖÐ¶ÏºÍ×ÜÖÐ¶Ï
+0119 D2AF             20             SETB    EA
+011B D28E             21             SETB    TR1;Æô¶¯T1
+011D 308FFD           22             JNB             TF1,$;wait for TF1
+                      23     
+0120                  24     T1_INT:
+0120 C0D0             25             PUSH    PSW;±£»¤×´Ì¬×Ö¼Ä´æÆ÷
+0122 C0E0             26             PUSH    ACC
+0124 C2AF             27             CLR             EA;¹Ø±Õ×ÜÖÐ¶Ï
+0126 758DD8           28             MOV             TH1,#0D8H
+0129 758BF0           29             MOV             TL1,#0F0H
+012C 0530             30             INC             30H
+012E E530             31             MOV             A,30H   
+0130 B46411           32             CJNE    A,#100,CONTINUE_T0
+0133 E8               33             MOV             A,R0
+0134 93               34             MOVC    A,@A+DPTR
+0135 B4FF02           35             CJNE    A,#0FFH,SHOW
+0138 7800             36             MOV             R0,#00H
+                      37     
+013A                  38     SHOW:
+013A F580             39             MOV             P0,A
+013C 08               40             INC             R0
+013D D2AF             41             SETB    EA;¿ª×ÜÖÐ¶Ï
+013F D0E0             42             POP             ACC
+0141 D0D0             43             POP             PSW;±£»¤×´Ì¬×Ö¼Ä´æÆ÷
+0143 32               44             RETI
+                      45     
+0144                  46     CONTINUE_T0:
+0144 D2AF             47             SETB    EA;¿ª×ÜÖÐ¶Ï
+0146 D0E0             48             POP             ACC
+0148 D0D0             49             POP             PSW;±£»¤×´Ì¬×Ö¼Ä´æÆ÷
+014A 32               50             RETI
+                      51             
+014B                  52     TABLE:  
+014B C0F9A4B0         53             DB              0C0H,0F9H,0A4H,0B0H,99H,92H,82H,0F8H
+014F 999282F8                
+0153 80908883         54             DB              80H,90H,88H,83H,0C6H,0A1H,86H,8EH
+0157 C6A1868E                
+015B FF               55             DB              0FFH
+A51 MACRO ASSEMBLER  TIMER1                                                               12/22/2020 13:33:53 PAGE     2
+
+                      56     
+                      57             END
+                                     
+                                     
+                                     
+A51 MACRO ASSEMBLER  TIMER1                                                               12/22/2020 13:33:53 PAGE     3
+
+SYMBOL TABLE LISTING
+------ ----- -------
+
+
+N A M E             T Y P E  V A L U E   ATTRIBUTES
+
+ACC. . . . . . . .  D ADDR   00E0H   A   
+CONTINUE_T0. . . .  C ADDR   0144H   A   
+EA . . . . . . . .  B ADDR   00A8H.7 A   
+ET1. . . . . . . .  B ADDR   00A8H.3 A   
+MAIN . . . . . . .  C ADDR   0100H   A   
+P0 . . . . . . . .  D ADDR   0080H   A   
+PSW. . . . . . . .  D ADDR   00D0H   A   
+RESET. . . . . . .  C ADDR   0000H   A   
+SHOW . . . . . . .  C ADDR   013AH   A   
+SP . . . . . . . .  D ADDR   0081H   A   
+T1_INT . . . . . .  C ADDR   0120H   A   
+TABLE. . . . . . .  C ADDR   014BH   A   
+TF1. . . . . . . .  B ADDR   0088H.7 A   
+TH1. . . . . . . .  D ADDR   008DH   A   
+TL1. . . . . . . .  D ADDR   008BH   A   
+TMOD . . . . . . .  D ADDR   0089H   A   
+TR1. . . . . . . .  B ADDR   0088H.6 A   
+
+
+REGISTER BANK(S) USED: 0 
+
+
+ASSEMBLY COMPLETE.  0 WARNING(S), 0 ERROR(S)

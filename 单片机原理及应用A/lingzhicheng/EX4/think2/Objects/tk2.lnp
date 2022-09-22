@@ -1,0 +1,3 @@
+".\Objects\tk2.obj" 
+TO ".\Objects\tk2" 
+PRINT(".\Listings\tk2.m51") RAMSIZE(256) 
