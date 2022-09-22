@@ -1,0 +1,7 @@
+Error: L6411E: No compatible library exists with a definition of startup symbol __main.
+之前装过ADS，ADS与MDK冲突，依据网友提供的资料，最终的解决办法如下
+在系统变量中>新建环境变量
+变量名： ARMCC5LIB       
+变量值：E:\Keil_v5\ARM\ARMCC\lib
+（变量值是keil的安装目录，本人安装目录在E:\Keil_v5，剩下的目录是安装时系统自己建立，直接相同即可）
+

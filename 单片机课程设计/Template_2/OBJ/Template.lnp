@@ -1,0 +1,24 @@
+--cpu=Cortex-M4.fp.sp
+"..\obj\main.o"
+"..\obj\stm32f4xx_it.o"
+"..\obj\system_stm32f4xx.o"
+"..\obj\delay.o"
+"..\obj\sys.o"
+"..\obj\usart.o"
+"..\obj\startup_stm32f429xx.o"
+"..\obj\stm32f4xx_hal.o"
+"..\obj\stm32f4xx_hal_cortex.o"
+"..\obj\stm32f4xx_hal_dma.o"
+"..\obj\stm32f4xx_hal_dma_ex.o"
+"..\obj\stm32f4xx_hal_gpio.o"
+"..\obj\stm32f4xx_hal_pwr.o"
+"..\obj\stm32f4xx_hal_pwr_ex.o"
+"..\obj\stm32f4xx_hal_rcc.o"
+"..\obj\stm32f4xx_hal_rcc_ex.o"
+"..\obj\stm32f4xx_hal_uart.o"
+"..\obj\stm32f4xx_hal_usart.o"
+"..\obj\led.o"
+--strict --scatter "..\OBJ\Template.sct"
+--summary_stderr --info summarysizes --map --load_addr_map_info --xref --callgraph --symbols
+--info sizes --info totals --info unused --info veneers
+--list ".\Template.map" -o ..\OBJ\Template.axf

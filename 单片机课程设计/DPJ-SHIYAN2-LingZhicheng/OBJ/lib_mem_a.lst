@@ -1,0 +1,677 @@
+
+
+
+ARM Macro Assembler    Page 1 
+
+
+    1 00000000         ;*******************************************************
+                       *************************************************
+    2 00000000         ;                                                uC/LIB
+    3 00000000         ;                                        CUSTOM LIBRARY 
+                       MODULES
+    4 00000000         ;
+    5 00000000         ;                          (c) Copyright 2004-2011; Micr
+                       ium, Inc.; Weston, FL
+    6 00000000         ;
+    7 00000000         ;               All rights reserved.  Protected by inter
+                       national copyright laws.
+    8 00000000         ;
+    9 00000000         ;               uC/LIB is provided in source form to reg
+                       istered licensees ONLY.  It is
+   10 00000000         ;               illegal to distribute this source code t
+                       o any third party unless you receive
+   11 00000000         ;               written permission by an authorized Micr
+                       ium representative.  Knowledge of
+   12 00000000         ;               the source code may NOT be used to devel
+                       op a similar product.
+   13 00000000         ;
+   14 00000000         ;               Please help us continue to provide the E
+                       mbedded community with the finest
+   15 00000000         ;               software available.  Your honesty is gre
+                       atly appreciated.
+   16 00000000         ;
+   17 00000000         ;               You can contact us at www.micrium.com.
+   18 00000000         ;*******************************************************
+                       *************************************************
+   19 00000000         
+   20 00000000         
+   21 00000000         ;*******************************************************
+                       *************************************************
+   22 00000000         ;
+   23 00000000         ;                                     STANDARD MEMORY OP
+                       ERATIONS
+   24 00000000         ;
+   25 00000000         ;                                           ARM-Cortex-M
+                       4
+   26 00000000         ;                                     RealView Developme
+                       nt Suite
+   27 00000000         ;                            RealView Microcontroller De
+                       velopment Kit (MDK)
+   28 00000000         ;                                      ARM Developer Sui
+                       te (ADS)
+   29 00000000         ;                                           Keil uVision
+                       
+   30 00000000         ;
+   31 00000000         ; Filename      : lib_mem_a.asm
+   32 00000000         ; Version       : V1.38.01.00
+   33 00000000         ; Programmer(s) : JDH
+   34 00000000         ;                 BAN
+   35 00000000         ;*******************************************************
+                       *************************************************
+   36 00000000         ; Note(s)       : (1) NO compiler-supplied standard libr
+                       ary functions are used in library or product software.
+   37 00000000         ;
+   38 00000000         ;                     (a) ALL standard library functions
+                        are implemented in the custom library modules :
+
+
+
+ARM Macro Assembler    Page 2 
+
+
+   39 00000000         ;
+   40 00000000         ;                         (1) \<Custom Library Directory
+                       >\lib*.*
+   41 00000000         ;
+   42 00000000         ;                         (2) \<Custom Library Directory
+                       >\Ports\<cpu>\<compiler>\lib*_a.*
+   43 00000000         ;
+   44 00000000         ;                               where
+   45 00000000         ;                                       <Custom Library 
+                       Directory>      directory path for custom library softwa
+                       re
+   46 00000000         ;                                       <cpu>           
+                                       directory name for specific processor (C
+                       PU)
+   47 00000000         ;                                       <compiler>      
+                                       directory name for specific compiler
+   48 00000000         ;
+   49 00000000         ;                     (b) Product-specific library funct
+                       ions are implemented in individual products.
+   50 00000000         ;
+   51 00000000         ;                 (2) Assumes ARM CPU mode configured fo
+                       r Little Endian.
+   52 00000000         ;*******************************************************
+                       *************************************************
+   53 00000000         
+   54 00000000         
+   55 00000000         ;*******************************************************
+                       *************************************************
+   56 00000000         ;                                           PUBLIC FUNCT
+                       IONS
+   57 00000000         ;*******************************************************
+                       *************************************************
+   58 00000000         
+   59 00000000                 EXPORT           Mem_Copy
+   60 00000000         
+   61 00000000         
+   62 00000000         ;*******************************************************
+                       *************************************************
+   63 00000000         ;                                      CODE GENERATION D
+                       IRECTIVES
+   64 00000000         ;*******************************************************
+                       *************************************************
+   65 00000000         
+   66 00000000                 AREA             |.text|, CODE, READONLY, ALIGN=
+2
+   67 00000000                 THUMB
+   68 00000000                 REQUIRE8
+   69 00000000                 PRESERVE8
+   70 00000000         
+   71 00000000         
+   72 00000000         ;$PAGE
+   73 00000000         ;*******************************************************
+                       *************************************************
+   74 00000000         ;                                             Mem_Copy()
+                       
+   75 00000000         ;
+   76 00000000         ; Description : Copy data octets from one buffer to anot
+                       her buffer.
+   77 00000000         ;
+
+
+
+ARM Macro Assembler    Page 3 
+
+
+   78 00000000         ; Argument(s) : pdest       Pointer to destination memor
+                       y buffer.
+   79 00000000         ;
+   80 00000000         ;               psrc        Pointer to source      memor
+                       y buffer.
+   81 00000000         ;
+   82 00000000         ;               size        Number of data buffer octets
+                        to copy.
+   83 00000000         ;
+   84 00000000         ; Return(s)   : none.
+   85 00000000         ;
+   86 00000000         ; Caller(s)   : Application.
+   87 00000000         ;
+   88 00000000         ; Note(s)     : (1) Null copies allowed (i.e. 0-octet si
+                       ze).
+   89 00000000         ;
+   90 00000000         ;               (2) Memory buffers NOT checked for overl
+                       apping.
+   91 00000000         ;
+   92 00000000         ;               (3) Modulo arithmetic is used to determi
+                       ne whether a memory buffer starts on a 'CPU_ALIGN'
+   93 00000000         ;                   address boundary.
+   94 00000000         ;
+   95 00000000         ;               (4) ARM Cortex-M3 processors use a subse
+                       t of the ARM Thumb-2 instruction set which does
+   96 00000000         ;                   NOT support 16-bit conditional branc
+                       h instructions but ONLY supports 8-bit conditional
+   97 00000000         ;                   branch instructions.
+   98 00000000         ;
+   99 00000000         ;                   Therefore, branches exceeding 8-bit,
+                        signed, relative offsets :
+  100 00000000         ;
+  101 00000000         ;                   (a) CANNOT be implemented with     c
+                       onditional branches; but ...
+  102 00000000         ;                   (b) MUST   be implemented with non-c
+                       onditional branches.
+  103 00000000         ;*******************************************************
+                       *************************************************
+  104 00000000         
+  105 00000000         ; void  Mem_Copy (void        *pdest,       ;  ==>  R0
+  106 00000000         ;                 void        *psrc,        ;  ==>  R1
+  107 00000000         ;                 CPU_SIZE_T   size)        ;  ==>  R2
+  108 00000000         
+  109 00000000         Mem_Copy
+  110 00000000 2800            CMP              R0, #0
+  111 00000002 D100            BNE              Mem_Copy_1
+  112 00000004 4770            BX               LR          ; return if pdest =
+                                                            = NULL
+  113 00000006         
+  114 00000006         Mem_Copy_1
+  115 00000006 2900            CMP              R1, #0
+  116 00000008 D100            BNE              Mem_Copy_2
+  117 0000000A 4770            BX               LR          ; return if psrc  =
+                                                            = NULL
+  118 0000000C         
+  119 0000000C         Mem_Copy_2
+  120 0000000C 2A00            CMP              R2, #0
+  121 0000000E D100            BNE              Mem_Copy_3
+  122 00000010 4770            BX               LR          ; return if size  =
+
+
+
+ARM Macro Assembler    Page 4 
+
+
+                                                            = 0
+  123 00000012         
+  124 00000012         Mem_Copy_3
+  125 00000012 E92D 1FF8       STMFD            SP!, {R3-R12} ; save registers 
+                                                            on stack
+  126 00000016         
+  127 00000016         
+  128 00000016         ;$PAGE
+  129 00000016         Chk_Align_32                         ; check if both des
+                                                            t & src 32-bit alig
+                                                            ned
+  130 00000016 F000 0303       AND              R3, R0, #0x03
+  131 0000001A F001 0403       AND              R4, R1, #0x03
+  132 0000001E 42A3            CMP              R3, R4
+  133 00000020 D111            BNE              Chk_Align_16 ; not 32-bit align
+                                                            ed, check for 16-bi
+                                                            t alignment
+  134 00000022         
+  135 00000022 F1C3 0304       RSB              R3, R3, #0x04 ; compute 1-2-3 p
+                                                            re-copy bytes (to a
+                                                            lign to the next 32
+                                                            -bit boundary)
+  136 00000026 F003 0303       AND              R3, R3, #0x03
+  137 0000002A         
+  138 0000002A         Pre_Copy_1
+  139 0000002A 2B01            CMP              R3, #1      ; copy 1-2-3 bytes 
+                                                            (to align to the ne
+                                                            xt 32-bit boundary)
+                                                            
+  140 0000002C D31D            BCC              Copy_32_1   ; start real 32-bit
+                                                             copy
+  141 0000002E 2A01            CMP              R2, #1      ; check if any more
+                                                             data to copy
+  142 00000030 D200            BCS              Pre_Copy_1_Cont
+  143 00000032 E0F2            B                Mem_Copy_END ;           no mor
+                                                            e data to copy (see
+                                                             Note #4b)
+  144 00000034         
+  145 00000034         Pre_Copy_1_Cont
+  146 00000034 F811 4B01       LDRB             R4, [R1], #1
+  147 00000038 F800 4B01       STRB             R4, [R0], #1
+  148 0000003C F1A3 0301       SUB              R3, R3, #1
+  149 00000040 F1A2 0201       SUB              R2, R2, #1
+  150 00000044 E7F1            B                Pre_Copy_1
+  151 00000046         
+  152 00000046         
+  153 00000046         Chk_Align_16                         ; check if both des
+                                                            t & src 16-bit alig
+                                                            ned
+  154 00000046 F000 0301       AND              R3, R0, #0x01
+  155 0000004A F001 0401       AND              R4, R1, #0x01
+  156 0000004E 42A3            CMP              R3, R4
+  157 00000050 D000            BEQ              Pre_Copy_2
+  158 00000052 E094            B                Copy_08_1   ; not 16-bit aligne
+                                                            d, start 8-bit copy
+                                                             (see Note #4b)
+  159 00000054         
+  160 00000054         Pre_Copy_2
+  161 00000054 2B01            CMP              R3, #1      ; copy 1 byte (to a
+
+
+
+ARM Macro Assembler    Page 5 
+
+
+                                                            lign to the next 16
+                                                            -bit boundary)
+  162 00000056 D344            BCC              Copy_16_1   ; start real 16-bit
+                                                             copy
+  163 00000058         
+  164 00000058 F811 4B01       LDRB             R4, [R1], #1
+  165 0000005C F800 4B01       STRB             R4, [R0], #1
+  166 00000060 F1A3 0301       SUB              R3, R3, #1
+  167 00000064 F1A2 0201       SUB              R2, R2, #1
+  168 00000068 E7F4            B                Pre_Copy_2
+  169 0000006A         
+  170 0000006A         
+  171 0000006A         Copy_32_1
+  172 0000006A F5B2 7FB4       CMP              R2, #(04*10*09) ; Copy 9 chunks
+                                                             of 10 32-bit words
+                                                             (360 octets per lo
+                                                            op)
+  173 0000006E D326            BCC              Copy_32_2
+  174 00000070 E8B1 1FF8       LDMIA            R1!, {R3-R12}
+  175 00000074 E8A0 1FF8       STMIA            R0!, {R3-R12}
+  176 00000078 E8B1 1FF8       LDMIA            R1!, {R3-R12}
+  177 0000007C E8A0 1FF8       STMIA            R0!, {R3-R12}
+  178 00000080 E8B1 1FF8       LDMIA            R1!, {R3-R12}
+  179 00000084 E8A0 1FF8       STMIA            R0!, {R3-R12}
+  180 00000088 E8B1 1FF8       LDMIA            R1!, {R3-R12}
+  181 0000008C E8A0 1FF8       STMIA            R0!, {R3-R12}
+  182 00000090 E8B1 1FF8       LDMIA            R1!, {R3-R12}
+  183 00000094 E8A0 1FF8       STMIA            R0!, {R3-R12}
+  184 00000098 E8B1 1FF8       LDMIA            R1!, {R3-R12}
+  185 0000009C E8A0 1FF8       STMIA            R0!, {R3-R12}
+  186 000000A0 E8B1 1FF8       LDMIA            R1!, {R3-R12}
+  187 000000A4 E8A0 1FF8       STMIA            R0!, {R3-R12}
+  188 000000A8 E8B1 1FF8       LDMIA            R1!, {R3-R12}
+  189 000000AC E8A0 1FF8       STMIA            R0!, {R3-R12}
+  190 000000B0 E8B1 1FF8       LDMIA            R1!, {R3-R12}
+  191 000000B4 E8A0 1FF8       STMIA            R0!, {R3-R12}
+  192 000000B8 F5A2 72B4       SUB              R2, R2, #(04*10*09)
+  193 000000BC E7D5            B                Copy_32_1
+  194 000000BE         
+  195 000000BE         Copy_32_2
+  196 000000BE 2A28            CMP              R2, #(04*10*01) ; Copy chunks o
+                                                            f 10 32-bit words (
+                                                            40 octets per loop)
+                                                            
+  197 000000C0 D306            BCC              Copy_32_3
+  198 000000C2 E8B1 1FF8       LDMIA            R1!, {R3-R12}
+  199 000000C6 E8A0 1FF8       STMIA            R0!, {R3-R12}
+  200 000000CA F1A2 0228       SUB              R2, R2, #(04*10*01)
+  201 000000CE E7F6            B                Copy_32_2
+  202 000000D0         
+  203 000000D0         Copy_32_3
+  204 000000D0 2A04            CMP              R2, #(04*01*01) ; Copy remainin
+                                                            g 32-bit words
+  205 000000D2 D306            BCC              Copy_16_1
+  206 000000D4 F851 3B04       LDR              R3, [R1], #4
+  207 000000D8 F840 3B04       STR              R3, [R0], #4
+  208 000000DC F1A2 0204       SUB              R2, R2, #(04*01*01)
+  209 000000E0 E7F6            B                Copy_32_3
+  210 000000E2         
+
+
+
+ARM Macro Assembler    Page 6 
+
+
+  211 000000E2         ;$PAGE
+  212 000000E2         Copy_16_1
+  213 000000E2 2A20            CMP              R2, #(02*01*16) ; Copy chunks o
+                                                            f 16 16-bit words (
+                                                            32 bytes per loop)
+  214 000000E4 D342            BCC              Copy_16_2
+  215 000000E6 F831 3B02       LDRH             R3, [R1], #2
+  216 000000EA F820 3B02       STRH             R3, [R0], #2
+  217 000000EE F831 3B02       LDRH             R3, [R1], #2
+  218 000000F2 F820 3B02       STRH             R3, [R0], #2
+  219 000000F6 F831 3B02       LDRH             R3, [R1], #2
+  220 000000FA F820 3B02       STRH             R3, [R0], #2
+  221 000000FE F831 3B02       LDRH             R3, [R1], #2
+  222 00000102 F820 3B02       STRH             R3, [R0], #2
+  223 00000106 F831 3B02       LDRH             R3, [R1], #2
+  224 0000010A F820 3B02       STRH             R3, [R0], #2
+  225 0000010E F831 3B02       LDRH             R3, [R1], #2
+  226 00000112 F820 3B02       STRH             R3, [R0], #2
+  227 00000116 F831 3B02       LDRH             R3, [R1], #2
+  228 0000011A F820 3B02       STRH             R3, [R0], #2
+  229 0000011E F831 3B02       LDRH             R3, [R1], #2
+  230 00000122 F820 3B02       STRH             R3, [R0], #2
+  231 00000126 F831 3B02       LDRH             R3, [R1], #2
+  232 0000012A F820 3B02       STRH             R3, [R0], #2
+  233 0000012E F831 3B02       LDRH             R3, [R1], #2
+  234 00000132 F820 3B02       STRH             R3, [R0], #2
+  235 00000136 F831 3B02       LDRH             R3, [R1], #2
+  236 0000013A F820 3B02       STRH             R3, [R0], #2
+  237 0000013E F831 3B02       LDRH             R3, [R1], #2
+  238 00000142 F820 3B02       STRH             R3, [R0], #2
+  239 00000146 F831 3B02       LDRH             R3, [R1], #2
+  240 0000014A F820 3B02       STRH             R3, [R0], #2
+  241 0000014E F831 3B02       LDRH             R3, [R1], #2
+  242 00000152 F820 3B02       STRH             R3, [R0], #2
+  243 00000156 F831 3B02       LDRH             R3, [R1], #2
+  244 0000015A F820 3B02       STRH             R3, [R0], #2
+  245 0000015E F831 3B02       LDRH             R3, [R1], #2
+  246 00000162 F820 3B02       STRH             R3, [R0], #2
+  247 00000166 F1A2 0220       SUB              R2, R2, #(02*01*16)
+  248 0000016A E7BA            B                Copy_16_1
+  249 0000016C         
+  250 0000016C         Copy_16_2
+  251 0000016C 2A02            CMP              R2, #(02*01*01) ; Copy remainin
+                                                            g 16-bit words
+  252 0000016E D306            BCC              Copy_08_1
+  253 00000170 F831 3B02       LDRH             R3, [R1], #2
+  254 00000174 F820 3B02       STRH             R3, [R0], #2
+  255 00000178 F1A2 0202       SUB              R2, R2, #(02*01*01)
+  256 0000017C E7F6            B                Copy_16_2
+  257 0000017E         
+  258 0000017E         ;$PAGE
+  259 0000017E         Copy_08_1
+  260 0000017E 2A10            CMP              R2, #(01*01*16) ; Copy chunks o
+                                                            f 16 8-bit words (1
+                                                            6 bytes per loop)
+  261 00000180 D342            BCC              Copy_08_2
+  262 00000182 F811 3B01       LDRB             R3, [R1], #1
+  263 00000186 F800 3B01       STRB             R3, [R0], #1
+  264 0000018A F811 3B01       LDRB             R3, [R1], #1
+
+
+
+ARM Macro Assembler    Page 7 
+
+
+  265 0000018E F800 3B01       STRB             R3, [R0], #1
+  266 00000192 F811 3B01       LDRB             R3, [R1], #1
+  267 00000196 F800 3B01       STRB             R3, [R0], #1
+  268 0000019A F811 3B01       LDRB             R3, [R1], #1
+  269 0000019E F800 3B01       STRB             R3, [R0], #1
+  270 000001A2 F811 3B01       LDRB             R3, [R1], #1
+  271 000001A6 F800 3B01       STRB             R3, [R0], #1
+  272 000001AA F811 3B01       LDRB             R3, [R1], #1
+  273 000001AE F800 3B01       STRB             R3, [R0], #1
+  274 000001B2 F811 3B01       LDRB             R3, [R1], #1
+  275 000001B6 F800 3B01       STRB             R3, [R0], #1
+  276 000001BA F811 3B01       LDRB             R3, [R1], #1
+  277 000001BE F800 3B01       STRB             R3, [R0], #1
+  278 000001C2 F811 3B01       LDRB             R3, [R1], #1
+  279 000001C6 F800 3B01       STRB             R3, [R0], #1
+  280 000001CA F811 3B01       LDRB             R3, [R1], #1
+  281 000001CE F800 3B01       STRB             R3, [R0], #1
+  282 000001D2 F811 3B01       LDRB             R3, [R1], #1
+  283 000001D6 F800 3B01       STRB             R3, [R0], #1
+  284 000001DA F811 3B01       LDRB             R3, [R1], #1
+  285 000001DE F800 3B01       STRB             R3, [R0], #1
+  286 000001E2 F811 3B01       LDRB             R3, [R1], #1
+  287 000001E6 F800 3B01       STRB             R3, [R0], #1
+  288 000001EA F811 3B01       LDRB             R3, [R1], #1
+  289 000001EE F800 3B01       STRB             R3, [R0], #1
+  290 000001F2 F811 3B01       LDRB             R3, [R1], #1
+  291 000001F6 F800 3B01       STRB             R3, [R0], #1
+  292 000001FA F811 3B01       LDRB             R3, [R1], #1
+  293 000001FE F800 3B01       STRB             R3, [R0], #1
+  294 00000202 F1A2 0210       SUB              R2, R2, #(01*01*16)
+  295 00000206 E7BA            B                Copy_08_1
+  296 00000208         
+  297 00000208         Copy_08_2
+  298 00000208 2A01            CMP              R2, #(01*01*01) ; Copy remainin
+                                                            g 8-bit words
+  299 0000020A D306            BCC              Mem_Copy_END
+  300 0000020C F811 3B01       LDRB             R3, [R1], #1
+  301 00000210 F800 3B01       STRB             R3, [R0], #1
+  302 00000214 F1A2 0201       SUB              R2, R2, #(01*01*01)
+  303 00000218 E7F6            B                Copy_08_2
+  304 0000021A         
+  305 0000021A         
+  306 0000021A         Mem_Copy_END
+  307 0000021A E8BD 1FF8       LDMFD            SP!, {R3-R12} ; restore registe
+                                                            rs from stack
+  308 0000021E 4770            BX               LR          ; return
+  309 00000220         
+  310 00000220         
+  311 00000220                 END
+Command Line: --debug --xref --diag_suppress=9931 --cpu=Cortex-M4.fp.sp --apcs=
+interwork --depend=..\obj\lib_mem_a.d -o..\obj\lib_mem_a.o -I.\RTE\_STemWin_MCU
+LCD -IE:\Keil_v5\ArmPacks\Keil\STM32F4xx_DFP\2.15.0\Drivers\CMSIS\Device\ST\STM
+32F4xx\Include -IE:\Keil_v5\ARM\CMSIS\Include --predefine="__EVAL SETA 1" --pre
+define="__UVISION_VERSION SETA 529" --predefine="STM32F429xx SETA 1" --list=..\
+obj\lib_mem_a.lst ..\UCOSIII\uC-LIB\Ports\ARM-Cortex-M4\RealView\lib_mem_a.asm
+
+
+
+ARM Macro Assembler    Page 1 Alphabetic symbol ordering
+Relocatable symbols
+
+.text 00000000
+
+Symbol: .text
+   Definitions
+      At line 66 in file ..\UCOSIII\uC-LIB\Ports\ARM-Cortex-M4\RealView\lib_mem
+_a.asm
+   Uses
+      None
+Comment: .text unused
+Chk_Align_16 00000046
+
+Symbol: Chk_Align_16
+   Definitions
+      At line 153 in file ..\UCOSIII\uC-LIB\Ports\ARM-Cortex-M4\RealView\lib_me
+m_a.asm
+   Uses
+      At line 133 in file ..\UCOSIII\uC-LIB\Ports\ARM-Cortex-M4\RealView\lib_me
+m_a.asm
+Comment: Chk_Align_16 used once
+Chk_Align_32 00000016
+
+Symbol: Chk_Align_32
+   Definitions
+      At line 129 in file ..\UCOSIII\uC-LIB\Ports\ARM-Cortex-M4\RealView\lib_me
+m_a.asm
+   Uses
+      None
+Comment: Chk_Align_32 unused
+Copy_08_1 0000017E
+
+Symbol: Copy_08_1
+   Definitions
+      At line 259 in file ..\UCOSIII\uC-LIB\Ports\ARM-Cortex-M4\RealView\lib_me
+m_a.asm
+   Uses
+      At line 158 in file ..\UCOSIII\uC-LIB\Ports\ARM-Cortex-M4\RealView\lib_me
+m_a.asm
+      At line 252 in file ..\UCOSIII\uC-LIB\Ports\ARM-Cortex-M4\RealView\lib_me
+m_a.asm
+      At line 295 in file ..\UCOSIII\uC-LIB\Ports\ARM-Cortex-M4\RealView\lib_me
+m_a.asm
+
+Copy_08_2 00000208
+
+Symbol: Copy_08_2
+   Definitions
+      At line 297 in file ..\UCOSIII\uC-LIB\Ports\ARM-Cortex-M4\RealView\lib_me
+m_a.asm
+   Uses
+      At line 261 in file ..\UCOSIII\uC-LIB\Ports\ARM-Cortex-M4\RealView\lib_me
+m_a.asm
+      At line 303 in file ..\UCOSIII\uC-LIB\Ports\ARM-Cortex-M4\RealView\lib_me
+m_a.asm
+
+Copy_16_1 000000E2
+
+Symbol: Copy_16_1
+   Definitions
+      At line 212 in file ..\UCOSIII\uC-LIB\Ports\ARM-Cortex-M4\RealView\lib_me
+
+
+
+ARM Macro Assembler    Page 2 Alphabetic symbol ordering
+Relocatable symbols
+
+m_a.asm
+   Uses
+      At line 162 in file ..\UCOSIII\uC-LIB\Ports\ARM-Cortex-M4\RealView\lib_me
+m_a.asm
+      At line 205 in file ..\UCOSIII\uC-LIB\Ports\ARM-Cortex-M4\RealView\lib_me
+m_a.asm
+      At line 248 in file ..\UCOSIII\uC-LIB\Ports\ARM-Cortex-M4\RealView\lib_me
+m_a.asm
+
+Copy_16_2 0000016C
+
+Symbol: Copy_16_2
+   Definitions
+      At line 250 in file ..\UCOSIII\uC-LIB\Ports\ARM-Cortex-M4\RealView\lib_me
+m_a.asm
+   Uses
+      At line 214 in file ..\UCOSIII\uC-LIB\Ports\ARM-Cortex-M4\RealView\lib_me
+m_a.asm
+      At line 256 in file ..\UCOSIII\uC-LIB\Ports\ARM-Cortex-M4\RealView\lib_me
+m_a.asm
+
+Copy_32_1 0000006A
+
+Symbol: Copy_32_1
+   Definitions
+      At line 171 in file ..\UCOSIII\uC-LIB\Ports\ARM-Cortex-M4\RealView\lib_me
+m_a.asm
+   Uses
+      At line 140 in file ..\UCOSIII\uC-LIB\Ports\ARM-Cortex-M4\RealView\lib_me
+m_a.asm
+      At line 193 in file ..\UCOSIII\uC-LIB\Ports\ARM-Cortex-M4\RealView\lib_me
+m_a.asm
+
+Copy_32_2 000000BE
+
+Symbol: Copy_32_2
+   Definitions
+      At line 195 in file ..\UCOSIII\uC-LIB\Ports\ARM-Cortex-M4\RealView\lib_me
+m_a.asm
+   Uses
+      At line 173 in file ..\UCOSIII\uC-LIB\Ports\ARM-Cortex-M4\RealView\lib_me
+m_a.asm
+      At line 201 in file ..\UCOSIII\uC-LIB\Ports\ARM-Cortex-M4\RealView\lib_me
+m_a.asm
+
+Copy_32_3 000000D0
+
+Symbol: Copy_32_3
+   Definitions
+      At line 203 in file ..\UCOSIII\uC-LIB\Ports\ARM-Cortex-M4\RealView\lib_me
+m_a.asm
+   Uses
+      At line 197 in file ..\UCOSIII\uC-LIB\Ports\ARM-Cortex-M4\RealView\lib_me
+m_a.asm
+      At line 209 in file ..\UCOSIII\uC-LIB\Ports\ARM-Cortex-M4\RealView\lib_me
+m_a.asm
+
+Mem_Copy 00000000
+
+
+
+
+ARM Macro Assembler    Page 3 Alphabetic symbol ordering
+Relocatable symbols
+
+Symbol: Mem_Copy
+   Definitions
+      At line 109 in file ..\UCOSIII\uC-LIB\Ports\ARM-Cortex-M4\RealView\lib_me
+m_a.asm
+   Uses
+      At line 59 in file ..\UCOSIII\uC-LIB\Ports\ARM-Cortex-M4\RealView\lib_mem
+_a.asm
+Comment: Mem_Copy used once
+Mem_Copy_1 00000006
+
+Symbol: Mem_Copy_1
+   Definitions
+      At line 114 in file ..\UCOSIII\uC-LIB\Ports\ARM-Cortex-M4\RealView\lib_me
+m_a.asm
+   Uses
+      At line 111 in file ..\UCOSIII\uC-LIB\Ports\ARM-Cortex-M4\RealView\lib_me
+m_a.asm
+Comment: Mem_Copy_1 used once
+Mem_Copy_2 0000000C
+
+Symbol: Mem_Copy_2
+   Definitions
+      At line 119 in file ..\UCOSIII\uC-LIB\Ports\ARM-Cortex-M4\RealView\lib_me
+m_a.asm
+   Uses
+      At line 116 in file ..\UCOSIII\uC-LIB\Ports\ARM-Cortex-M4\RealView\lib_me
+m_a.asm
+Comment: Mem_Copy_2 used once
+Mem_Copy_3 00000012
+
+Symbol: Mem_Copy_3
+   Definitions
+      At line 124 in file ..\UCOSIII\uC-LIB\Ports\ARM-Cortex-M4\RealView\lib_me
+m_a.asm
+   Uses
+      At line 121 in file ..\UCOSIII\uC-LIB\Ports\ARM-Cortex-M4\RealView\lib_me
+m_a.asm
+Comment: Mem_Copy_3 used once
+Mem_Copy_END 0000021A
+
+Symbol: Mem_Copy_END
+   Definitions
+      At line 306 in file ..\UCOSIII\uC-LIB\Ports\ARM-Cortex-M4\RealView\lib_me
+m_a.asm
+   Uses
+      At line 143 in file ..\UCOSIII\uC-LIB\Ports\ARM-Cortex-M4\RealView\lib_me
+m_a.asm
+      At line 299 in file ..\UCOSIII\uC-LIB\Ports\ARM-Cortex-M4\RealView\lib_me
+m_a.asm
+
+Pre_Copy_1 0000002A
+
+Symbol: Pre_Copy_1
+   Definitions
+      At line 138 in file ..\UCOSIII\uC-LIB\Ports\ARM-Cortex-M4\RealView\lib_me
+m_a.asm
+   Uses
+      At line 150 in file ..\UCOSIII\uC-LIB\Ports\ARM-Cortex-M4\RealView\lib_me
+m_a.asm
+
+
+
+ARM Macro Assembler    Page 4 Alphabetic symbol ordering
+Relocatable symbols
+
+Comment: Pre_Copy_1 used once
+Pre_Copy_1_Cont 00000034
+
+Symbol: Pre_Copy_1_Cont
+   Definitions
+      At line 145 in file ..\UCOSIII\uC-LIB\Ports\ARM-Cortex-M4\RealView\lib_me
+m_a.asm
+   Uses
+      At line 142 in file ..\UCOSIII\uC-LIB\Ports\ARM-Cortex-M4\RealView\lib_me
+m_a.asm
+Comment: Pre_Copy_1_Cont used once
+Pre_Copy_2 00000054
+
+Symbol: Pre_Copy_2
+   Definitions
+      At line 160 in file ..\UCOSIII\uC-LIB\Ports\ARM-Cortex-M4\RealView\lib_me
+m_a.asm
+   Uses
+      At line 157 in file ..\UCOSIII\uC-LIB\Ports\ARM-Cortex-M4\RealView\lib_me
+m_a.asm
+      At line 168 in file ..\UCOSIII\uC-LIB\Ports\ARM-Cortex-M4\RealView\lib_me
+m_a.asm
+
+18 symbols
+352 symbols in table
