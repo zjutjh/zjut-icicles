@@ -1,0 +1,218 @@
+// Copyright (C) 1991-2015 Altera Corporation. All rights reserved.
+// Your use of Altera Corporation's design tools, logic functions 
+// and other software and tools, and its AMPP partner logic 
+// functions, and any output files from any of the foregoing 
+// (including device programming or simulation files), and any 
+// associated documentation or information are expressly subject 
+// to the terms and conditions of the Altera Program License 
+// Subscription Agreement, the Altera Quartus II License Agreement,
+// the Altera MegaCore Function License Agreement, or other 
+// applicable license agreement, including, without limitation, 
+// that your use is for the sole purpose of programming logic 
+// devices manufactured by Altera and sold by Altera or its 
+// authorized distributors.  Please refer to the applicable 
+// agreement for further details.
+
+// *****************************************************************************
+// This file contains a Verilog test bench with test vectors .The test vectors  
+// are exported from a vector file in the Quartus Waveform Editor and apply to  
+// the top level entity of the current Quartus project .The user can use this   
+// testbench to simulate his design using a third-party simulation tool .       
+// *****************************************************************************
+// Generated on "07/13/2020 09:57:23"
+                                                                        
+// Verilog Self-Checking Test Bench (with test vectors) for design :    JUDGE
+// 
+// Simulation tool : 3rd Party
+// 
+
+`timescale 1 ps/ 1 ps
+module JUDGE_vlg_sample_tst(
+	A,
+	B,
+	C,
+	sampler_tx
+);
+input  A;
+input  B;
+input  C;
+output sampler_tx;
+
+reg sample;
+time current_time;
+always @(A or B or C)
+                                                                                
+begin                                                 
+ if ($realtime > 0)                                   
+ begin                                                
+    if ($realtime == 0 || $realtime != current_time)  
+    begin                                             
+        if (sample === 1'bx)                          
+            sample = 0;                               
+        else                                          
+            sample = ~sample;                         
+    end                                               
+    current_time = $realtime;                         
+ end                                                  
+end                                                   
+
+assign sampler_tx = sample;
+endmodule
+
+module JUDGE_vlg_check_tst (
+	Y,
+	sampler_rx
+);
+input  Y;
+input sampler_rx;
+
+reg  Y_expected;
+
+reg  Y_prev;
+
+reg  Y_expected_prev;
+
+reg  last_Y_exp;
+
+reg trigger;
+
+integer i;
+integer nummismatches;
+
+reg [1:1] on_first_change ;
+
+
+initial
+begin
+trigger = 0;
+i = 0;
+nummismatches = 0;
+on_first_change = 1'b1;
+end
+
+// update real /o prevs
+
+always @(trigger)
+begin
+	Y_prev = Y;
+end
+
+// update expected /o prevs
+
+always @(trigger)
+begin
+	Y_expected_prev = Y_expected;
+end
+
+
+
+// expected Y
+initial
+begin
+	Y_expected = 1'bX;
+	Y_expected = #999000 1'b0;
+end 
+// generate trigger
+always @(Y_expected or Y)
+begin
+	trigger <= ~trigger;
+end
+
+always @(posedge sampler_rx or negedge sampler_rx)
+begin
+`ifdef debug_tbench
+	$display("Scanning pattern %d @time = %t",i,$realtime );
+	i = i + 1;
+	$display("| expected Y = %b | ",Y_expected_prev);
+	$display("| real Y = %b | ",Y_prev);
+`endif
+	if (
+		( Y_expected_prev !== 1'bx ) && ( Y_prev !== Y_expected_prev )
+		&& ((Y_expected_prev !== last_Y_exp) ||
+			on_first_change[1])
+	)
+	begin
+		$display ("ERROR! Vector Mismatch for output port Y :: @time = %t",  $realtime);
+		$display ("     Expected value = %b", Y_expected_prev);
+		$display ("     Real value = %b", Y_prev);
+		nummismatches = nummismatches + 1;
+		on_first_change[1] = 1'b0;
+		last_Y_exp = Y_expected_prev;
+	end
+
+	trigger <= ~trigger;
+end
+initial 
+
+begin 
+$timeformat(-12,3," ps",6);
+#100000000;
+if (nummismatches > 0)
+	$display ("%d mismatched vectors : Simulation failed !",nummismatches);
+else
+	$display ("Simulation passed !");
+$finish;
+end 
+endmodule
+
+module JUDGE_vlg_vec_tst();
+// constants                                           
+// general purpose registers
+reg A;
+reg B;
+reg C;
+// wires                                               
+wire Y;
+
+wire sampler;                             
+
+// assign statements (if any)                          
+JUDGE i1 (
+// port map - connection between master ports and signals/registers   
+	.A(A),
+	.B(B),
+	.C(C),
+	.Y(Y)
+);
+
+// A
+always
+begin
+	A = 1'b0;
+	A = #10000000 1'b1;
+	#10000000;
+end 
+
+// B
+initial
+begin
+	repeat(2)
+	begin
+		B = 1'b0;
+		B = #20000000 1'b1;
+		# 20000000;
+	end
+	B = 1'b0;
+end 
+
+// C
+initial
+begin
+	C = 1'b0;
+	C = #40000000 1'b1;
+	C = #40000000 1'b0;
+end 
+
+JUDGE_vlg_sample_tst tb_sample (
+	.A(A),
+	.B(B),
+	.C(C),
+	.sampler_tx(sampler)
+);
+
+JUDGE_vlg_check_tst tb_out(
+	.Y(Y),
+	.sampler_rx(sampler)
+);
+endmodule
+

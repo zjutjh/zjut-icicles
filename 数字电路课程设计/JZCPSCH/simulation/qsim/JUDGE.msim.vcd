@@ -1,0 +1,122 @@
+$comment
+	File created using the following command:
+		vcd file JUDGE.msim.vcd -direction
+$end
+$date
+	Mon Jul 13 09:57:28 2020
+$end
+$version
+	ModelSim Version 10.3d
+$end
+$timescale
+	1ps
+$end
+
+$scope module JUDGE_vlg_vec_tst $end
+$var reg 1 ! A $end
+$var reg 1 " B $end
+$var reg 1 # C $end
+$var wire 1 $ Y $end
+$var wire 1 % sampler $end
+
+$scope module i1 $end
+$var wire 1 & gnd $end
+$var wire 1 ' vcc $end
+$var wire 1 ( unknown $end
+$var tri1 1 ) devclrn $end
+$var tri1 1 * devpor $end
+$var tri1 1 + devoe $end
+$var wire 1 , Y~output_o $end
+$var wire 1 - B~input_o $end
+$var wire 1 . A~input_o $end
+$var wire 1 / C~input_o $end
+$var wire 1 0 inst3~0_combout $end
+$upscope $end
+$upscope $end
+$enddefinitions $end
+#0
+$dumpvars
+0!
+0"
+0#
+0$
+x%
+0&
+1'
+x(
+1)
+1*
+1+
+0,
+0-
+0.
+0/
+00
+$end
+#10000000
+1!
+1.
+0%
+#20000000
+1"
+0!
+1-
+0.
+1%
+#30000000
+1!
+1.
+0%
+10
+1,
+1$
+#40000000
+1#
+0"
+0!
+1/
+0-
+0.
+1%
+00
+0,
+0$
+#50000000
+1!
+1.
+0%
+10
+1,
+1$
+#60000000
+1"
+0!
+1-
+0.
+1%
+00
+0,
+0$
+#70000000
+1!
+1.
+0%
+10
+1,
+1$
+#80000000
+0#
+0"
+0!
+0/
+0-
+0.
+1%
+00
+0,
+0$
+#90000000
+1!
+1.
+0%
+#100000000

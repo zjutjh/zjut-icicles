@@ -1,0 +1,94 @@
+m255
+K4
+z2
+13
+!s112 1.1
+!i10d 8192
+!i10e 25
+!i10f 100
+cModel Technology
+Z0 dE:/altera/15.0/Project/sawtooth/simulation/qsim
+vCNT5
+Z1 !s110 1594685420
+!i10b 1
+!s100 E^OXI=OhC1F2m[AAncZlT1
+I_Ba7LESTmc6>9DL=0Pk7:1
+Z2 V`JN@9S9cnhjKRR_L]QIcM3
+R0
+w1594685413
+8sawtooth.vo
+Fsawtooth.vo
+L0 32
+Z3 OV;L;10.3d;59
+r1
+!s85 0
+31
+!s108 1594685420.691000
+!s107 sawtooth.vo|
+!s90 -work|work|sawtooth.vo|
+!i113 1
+Z4 o-work work
+n@c@n@t5
+vCNT5_vlg_check_tst
+R1
+!i10b 1
+!s100 LBWOP5YZ<N?n58MCETO6F0
+ImPTEEZn@DnKOUPQ765G=A0
+R2
+R0
+Z5 w1594685411
+Z6 8CNT5.vwf.vt
+Z7 FCNT5.vwf.vt
+L0 58
+R3
+r1
+!s85 0
+31
+Z8 !s108 1594685420.880000
+Z9 !s107 CNT5.vwf.vt|
+Z10 !s90 -work|work|CNT5.vwf.vt|
+!i113 1
+R4
+n@c@n@t5_vlg_check_tst
+vCNT5_vlg_sample_tst
+R1
+!i10b 1
+!s100 YXVSJcmN]g=E;cj8PNEFC2
+IiP64hV>Dm]cNFM=8Qe^7T1
+R2
+R0
+R5
+R6
+R7
+L0 30
+R3
+r1
+!s85 0
+31
+R8
+R9
+R10
+!i113 1
+R4
+n@c@n@t5_vlg_sample_tst
+vCNT5_vlg_vec_tst
+R1
+!i10b 1
+!s100 zZaoTPjCcJYlZ8bag6][b0
+IgV]5D_<zW99>Z;EO5kEU;2
+R2
+R0
+R5
+R6
+R7
+L0 153
+R3
+r1
+!s85 0
+31
+R8
+R9
+R10
+!i113 1
+R4
+n@c@n@t5_vlg_vec_tst

@@ -1,0 +1,14 @@
+Analysis & Synthesis Status : Successful - Tue Jul 14 08:18:02 2020
+Quartus II 64-Bit Version : 15.0.0 Build 145 04/22/2015 SJ Full Version
+Revision Name : sawtooth
+Top-level Entity Name : sawtooth
+Family : Cyclone IV E
+Total logic elements : 12
+    Total combinational functions : 12
+    Dedicated logic registers : 11
+Total registers : 11
+Total pins : 10
+Total virtual pins : 0
+Total memory bits : 0
+Embedded Multiplier 9-bit elements : 0
+Total PLLs : 0

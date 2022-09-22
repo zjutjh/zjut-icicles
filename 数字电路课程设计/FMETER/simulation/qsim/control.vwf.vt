@@ -1,0 +1,60 @@
+// Copyright (C) 1991-2015 Altera Corporation. All rights reserved.
+// Your use of Altera Corporation's design tools, logic functions 
+// and other software and tools, and its AMPP partner logic 
+// functions, and any output files from any of the foregoing 
+// (including device programming or simulation files), and any 
+// associated documentation or information are expressly subject 
+// to the terms and conditions of the Altera Program License 
+// Subscription Agreement, the Altera Quartus II License Agreement,
+// the Altera MegaCore Function License Agreement, or other 
+// applicable license agreement, including, without limitation, 
+// that your use is for the sole purpose of programming logic 
+// devices manufactured by Altera and sold by Altera or its 
+// authorized distributors.  Please refer to the applicable 
+// agreement for further details.
+
+// *****************************************************************************
+// This file contains a Verilog test bench with test vectors .The test vectors  
+// are exported from a vector file in the Quartus Waveform Editor and apply to  
+// the top level entity of the current Quartus project .The user can use this   
+// testbench to simulate his design using a third-party simulation tool .       
+// *****************************************************************************
+// Generated on "07/13/2020 13:46:21"
+                                                                        
+// Verilog Self-Checking Test Bench (with test vectors) for design :    FMETER
+// 
+// Simulation tool : 3rd Party
+// 
+
+`timescale 1 ps/ 1 ps
+module FMETER_vlg_vec_tst();
+// constants                                           
+// general purpose registers
+reg CLK1;
+reg CLKIN;
+// wires                                               
+wire [6:0] A;
+wire [6:0] B;
+wire [6:0] C;
+wire [6:0] D;
+
+// assign statements (if any)                          
+FMETER i1 (
+// port map - connection between master ports and signals/registers   
+	.A(A),
+	.B(B),
+	.C(C),
+	.CLK1(CLK1),
+	.CLKIN(CLKIN),
+	.D(D)
+);
+initial 
+begin 
+#1000000 $finish;
+end 
+initial 
+begin 
+#1000000 $stop;
+end 
+endmodule
+

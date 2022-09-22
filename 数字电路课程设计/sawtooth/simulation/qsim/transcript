@@ -1,0 +1,40 @@
+# do sawtooth.do
+# Model Technology ModelSim ALTERA vlog 10.3d Compiler 2014.10 Oct  7 2014
+# Start time: 08:10:20 on Jul 14,2020
+# vlog -work work sawtooth.vo 
+# -- Compiling module CNT5
+# 
+# Top level modules:
+# 	CNT5
+# End time: 08:10:20 on Jul 14,2020, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0
+# Model Technology ModelSim ALTERA vlog 10.3d Compiler 2014.10 Oct  7 2014
+# Start time: 08:10:20 on Jul 14,2020
+# vlog -work work CNT5.vwf.vt 
+# -- Compiling module CNT5_vlg_sample_tst
+# -- Compiling module CNT5_vlg_check_tst
+# -- Compiling module CNT5_vlg_vec_tst
+# 
+# Top level modules:
+# 	CNT5_vlg_vec_tst
+# End time: 08:10:20 on Jul 14,2020, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0
+# vsim -c -do "sawtooth.do" 
+# Start time: 08:10:21 on Jul 14,2020
+# Loading work.CNT5_vlg_vec_tst
+# Loading work.CNT5
+# Loading cycloneive_ver.cycloneive_io_obuf
+# Loading cycloneive_ver.cycloneive_io_ibuf
+# Loading cycloneive_ver.cycloneive_clkctrl
+# Loading cycloneive_ver.cycloneive_mux41
+# Loading cycloneive_ver.cycloneive_ena_reg
+# Loading cycloneive_ver.cycloneive_lcell_comb
+# Loading altera_ver.dffeas
+# Loading work.CNT5_vlg_sample_tst
+# Loading work.CNT5_vlg_check_tst
+# Loading altera_ver.PRIM_GDFF_LOW
+# Simulation passed !
+# ** Note: $finish    : CNT5.vwf.vt(149)
+#    Time: 1 us  Iteration: 0  Instance: /CNT5_vlg_vec_tst/tb_out
+# End time: 08:10:23 on Jul 14,2020, Elapsed time: 0:00:02
+# Errors: 0, Warnings: 0

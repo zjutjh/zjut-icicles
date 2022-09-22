@@ -1,0 +1,37 @@
+# do FMETER.do
+# ** Warning: (vlib-34) Library already exists at "work".
+# 
+# Model Technology ModelSim ALTERA vlog 10.3d Compiler 2014.10 Oct  7 2014
+# Start time: 15:06:58 on Jul 13,2020
+# vlog -work work FMETER.vo 
+# -- Compiling module LED7S
+# 
+# Top level modules:
+# 	LED7S
+# End time: 15:06:58 on Jul 13,2020, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0
+# Model Technology ModelSim ALTERA vlog 10.3d Compiler 2014.10 Oct  7 2014
+# Start time: 15:06:58 on Jul 13,2020
+# vlog -work work LED7S.vwf.vt 
+# -- Compiling module LED7S_vlg_sample_tst
+# -- Compiling module LED7S_vlg_check_tst
+# -- Compiling module LED7S_vlg_vec_tst
+# 
+# Top level modules:
+# 	LED7S_vlg_vec_tst
+# End time: 15:06:58 on Jul 13,2020, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0
+# vsim -c -do "FMETER.do" 
+# Start time: 15:06:59 on Jul 13,2020
+# Loading work.LED7S_vlg_vec_tst
+# Loading work.LED7S
+# Loading cycloneive_ver.cycloneive_io_obuf
+# Loading cycloneive_ver.cycloneive_io_ibuf
+# Loading cycloneive_ver.cycloneive_lcell_comb
+# Loading work.LED7S_vlg_sample_tst
+# Loading work.LED7S_vlg_check_tst
+# Simulation passed !
+# ** Note: $finish    : LED7S.vwf.vt(256)
+#    Time: 1 us  Iteration: 0  Instance: /LED7S_vlg_vec_tst/tb_out
+# End time: 15:06:59 on Jul 13,2020, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0

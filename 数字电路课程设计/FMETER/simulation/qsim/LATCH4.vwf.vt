@@ -1,0 +1,277 @@
+// Copyright (C) 1991-2015 Altera Corporation. All rights reserved.
+// Your use of Altera Corporation's design tools, logic functions 
+// and other software and tools, and its AMPP partner logic 
+// functions, and any output files from any of the foregoing 
+// (including device programming or simulation files), and any 
+// associated documentation or information are expressly subject 
+// to the terms and conditions of the Altera Program License 
+// Subscription Agreement, the Altera Quartus II License Agreement,
+// the Altera MegaCore Function License Agreement, or other 
+// applicable license agreement, including, without limitation, 
+// that your use is for the sole purpose of programming logic 
+// devices manufactured by Altera and sold by Altera or its 
+// authorized distributors.  Please refer to the applicable 
+// agreement for further details.
+
+// *****************************************************************************
+// This file contains a Verilog test bench with test vectors .The test vectors  
+// are exported from a vector file in the Quartus Waveform Editor and apply to  
+// the top level entity of the current Quartus project .The user can use this   
+// testbench to simulate his design using a third-party simulation tool .       
+// *****************************************************************************
+// Generated on "07/13/2020 15:33:07"
+                                                                        
+// Verilog Self-Checking Test Bench (with test vectors) for design :    LATCH4
+// 
+// Simulation tool : 3rd Party
+// 
+
+`timescale 1 ps/ 1 ps
+module LATCH4_vlg_sample_tst(
+	d,
+	le,
+	sampler_tx
+);
+input [3:0] d;
+input  le;
+output sampler_tx;
+
+reg sample;
+time current_time;
+always @(d or le)
+                                                                                
+begin                                                 
+ if ($realtime > 0)                                   
+ begin                                                
+    if ($realtime == 0 || $realtime != current_time)  
+    begin                                             
+        if (sample === 1'bx)                          
+            sample = 0;                               
+        else                                          
+            sample = ~sample;                         
+    end                                               
+    current_time = $realtime;                         
+ end                                                  
+end                                                   
+
+assign sampler_tx = sample;
+endmodule
+
+module LATCH4_vlg_check_tst (
+	q,
+	sampler_rx
+);
+input [3:0] q;
+input sampler_rx;
+
+reg [3:0] q_expected;
+
+reg [3:0] q_prev;
+
+reg [3:0] q_expected_prev;
+
+reg [3:0] last_q_exp;
+
+reg trigger;
+
+integer i;
+integer nummismatches;
+
+reg [1:1] on_first_change ;
+
+
+initial
+begin
+trigger = 0;
+i = 0;
+nummismatches = 0;
+on_first_change = 1'b1;
+end
+
+// update real /o prevs
+
+always @(trigger)
+begin
+	q_prev = q;
+end
+
+// update expected /o prevs
+
+always @(trigger)
+begin
+	q_expected_prev = q_expected;
+end
+
+
+// expected q[ 3 ]
+initial
+begin
+	q_expected[3] = 1'bX;
+end 
+// expected q[ 2 ]
+initial
+begin
+	q_expected[2] = 1'bX;
+end 
+// expected q[ 1 ]
+initial
+begin
+	q_expected[1] = 1'bX;
+end 
+// expected q[ 0 ]
+initial
+begin
+	q_expected[0] = 1'bX;
+end 
+// generate trigger
+always @(q_expected or q)
+begin
+	trigger <= ~trigger;
+end
+
+always @(posedge sampler_rx or negedge sampler_rx)
+begin
+`ifdef debug_tbench
+	$display("Scanning pattern %d @time = %t",i,$realtime );
+	i = i + 1;
+	$display("| expected q = %b | ",q_expected_prev);
+	$display("| real q = %b | ",q_prev);
+`endif
+	if (
+		( q_expected_prev[0] !== 1'bx ) && ( q_prev[0] !== q_expected_prev[0] )
+		&& ((q_expected_prev[0] !== last_q_exp[0]) ||
+			on_first_change[1])
+	)
+	begin
+		$display ("ERROR! Vector Mismatch for output port q[0] :: @time = %t",  $realtime);
+		$display ("     Expected value = %b", q_expected_prev);
+		$display ("     Real value = %b", q_prev);
+		nummismatches = nummismatches + 1;
+		on_first_change[1] = 1'b0;
+		last_q_exp[0] = q_expected_prev[0];
+	end
+	if (
+		( q_expected_prev[1] !== 1'bx ) && ( q_prev[1] !== q_expected_prev[1] )
+		&& ((q_expected_prev[1] !== last_q_exp[1]) ||
+			on_first_change[1])
+	)
+	begin
+		$display ("ERROR! Vector Mismatch for output port q[1] :: @time = %t",  $realtime);
+		$display ("     Expected value = %b", q_expected_prev);
+		$display ("     Real value = %b", q_prev);
+		nummismatches = nummismatches + 1;
+		on_first_change[1] = 1'b0;
+		last_q_exp[1] = q_expected_prev[1];
+	end
+	if (
+		( q_expected_prev[2] !== 1'bx ) && ( q_prev[2] !== q_expected_prev[2] )
+		&& ((q_expected_prev[2] !== last_q_exp[2]) ||
+			on_first_change[1])
+	)
+	begin
+		$display ("ERROR! Vector Mismatch for output port q[2] :: @time = %t",  $realtime);
+		$display ("     Expected value = %b", q_expected_prev);
+		$display ("     Real value = %b", q_prev);
+		nummismatches = nummismatches + 1;
+		on_first_change[1] = 1'b0;
+		last_q_exp[2] = q_expected_prev[2];
+	end
+	if (
+		( q_expected_prev[3] !== 1'bx ) && ( q_prev[3] !== q_expected_prev[3] )
+		&& ((q_expected_prev[3] !== last_q_exp[3]) ||
+			on_first_change[1])
+	)
+	begin
+		$display ("ERROR! Vector Mismatch for output port q[3] :: @time = %t",  $realtime);
+		$display ("     Expected value = %b", q_expected_prev);
+		$display ("     Real value = %b", q_prev);
+		nummismatches = nummismatches + 1;
+		on_first_change[1] = 1'b0;
+		last_q_exp[3] = q_expected_prev[3];
+	end
+
+	trigger <= ~trigger;
+end
+initial 
+
+begin 
+$timeformat(-12,3," ps",6);
+#1000000;
+if (nummismatches > 0)
+	$display ("%d mismatched vectors : Simulation failed !",nummismatches);
+else
+	$display ("Simulation passed !");
+$stop;
+end 
+endmodule
+
+module LATCH4_vlg_vec_tst();
+// constants                                           
+// general purpose registers
+reg [3:0] d;
+reg le;
+// wires                                               
+wire [3:0] q;
+
+wire sampler;                             
+
+// assign statements (if any)                          
+LATCH4 i1 (
+// port map - connection between master ports and signals/registers   
+	.d(d),
+	.le(le),
+	.q(q)
+);
+
+// d[3]
+always
+begin
+	d[3] = 1'b0;
+	d[3] = #5000 1'b1;
+	#5000;
+end 
+
+// d[2]
+always
+begin
+	d[2] = 1'b0;
+	d[2] = #5000 1'b1;
+	#5000;
+end 
+
+// d[1]
+always
+begin
+	d[1] = 1'b0;
+	d[1] = #5000 1'b1;
+	#5000;
+end 
+
+// d[0]
+always
+begin
+	d[0] = 1'b0;
+	d[0] = #5000 1'b1;
+	#5000;
+end 
+
+// le
+initial
+begin
+	le = 1'b0;
+	le = #90000 1'b1;
+	le = #400000 1'b0;
+end 
+
+LATCH4_vlg_sample_tst tb_sample (
+	.d(d),
+	.le(le),
+	.sampler_tx(sampler)
+);
+
+LATCH4_vlg_check_tst tb_out(
+	.q(q),
+	.sampler_rx(sampler)
+);
+endmodule
+

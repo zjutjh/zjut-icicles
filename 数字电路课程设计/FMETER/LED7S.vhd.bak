@@ -1,0 +1,34 @@
+library ieee;
+use ieee.std_logic_1164.all;
+
+entity LED7S is
+port(DIN: in std_logic_vector(3 downto 0);
+	  Y: out std_logic_vector(6 downto 0)
+);
+end;
+
+architecture one of LED7S is
+begin
+	process(DIN)
+		begin
+			case DIN is
+				when "0000" => Y <= "0111111";  --显示0；
+				when "0000" => Y <= "0111111";  --显示0；
+				when "0000" => Y <= "0111111";  --显示0；
+				when "0000" => Y <= "0111111";  --显示0；
+				when "0000" => Y <= "0111111";  --显示0；
+				when "0000" => Y <= "0111111";  --显示0；
+				when "0000" => Y <= "0111111";  --显示0；
+				when "0000" => Y <= "0111111";  --显示0；
+				when "0000" => Y <= "0111111";  --显示0；
+				when "0000" => Y <= "0111111";  --显示0；
+				when "0000" => Y <= "0111111";  --显示0；
+				when "0000" => Y <= "0111111";  --显示0；
+				when "0000" => Y <= "0111111";  --显示0；
+				when "0000" => Y <= "0111111";  --显示0；
+				when "0000" => Y <= "0111111";  --显示0；
+				when "0000" => Y <= "0111111";  --显示0；
+				when others => Y <= null;
+		end case;
+	end process;
+end one;

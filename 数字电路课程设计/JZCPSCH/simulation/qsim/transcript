@@ -1,0 +1,40 @@
+# do JUDGE.do
+# ** Warning: (vlib-34) Library already exists at "work".
+# 
+# Model Technology ModelSim ALTERA vlog 10.3d Compiler 2014.10 Oct  7 2014
+# Start time: 09:57:27 on Jul 13,2020
+# vlog -work work JUDGE.vo 
+# -- Compiling module JUDGE
+# 
+# Top level modules:
+# 	JUDGE
+# End time: 09:57:27 on Jul 13,2020, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0
+# Model Technology ModelSim ALTERA vlog 10.3d Compiler 2014.10 Oct  7 2014
+# Start time: 09:57:27 on Jul 13,2020
+# vlog -work work Waveform.vwf.vt 
+# -- Compiling module JUDGE_vlg_sample_tst
+# -- Compiling module JUDGE_vlg_check_tst
+# -- Compiling module JUDGE_vlg_vec_tst
+# 
+# Top level modules:
+# 	JUDGE_vlg_vec_tst
+# End time: 09:57:27 on Jul 13,2020, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0
+# vsim -c -do "JUDGE.do" 
+# Start time: 09:57:27 on Jul 13,2020
+# Loading work.JUDGE_vlg_vec_tst
+# Loading work.JUDGE
+# Loading cycloneive_ver.cycloneive_io_obuf
+# Loading cycloneive_ver.cycloneive_io_ibuf
+# Loading cycloneive_ver.cycloneive_lcell_comb
+# Loading work.JUDGE_vlg_sample_tst
+# Loading work.JUDGE_vlg_check_tst
+# ERROR! Vector Mismatch for output port Y :: @time = 40000000.000 ps
+#      Expected value = 0
+#      Real value = 1
+#           1 mismatched vectors : Simulation failed !
+# ** Note: $finish    : Waveform.vwf.vt(154)
+#    Time: 100 us  Iteration: 0  Instance: /JUDGE_vlg_vec_tst/tb_out
+# End time: 09:57:28 on Jul 13,2020, Elapsed time: 0:00:01
+# Errors: 0, Warnings: 0

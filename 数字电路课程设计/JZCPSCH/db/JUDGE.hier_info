@@ -1,0 +1,15 @@
+|JZVHDL
+Y <= jz:inst.Y
+A => jz:inst.A
+B => jz:inst.B
+C => jz:inst.C
+
+
+|JZVHDL|jz:inst
+A => Y.IN0
+A => Y.IN0
+B => Y.IN1
+C => Y.IN1
+Y <= Y.DB_MAX_OUTPUT_PORT_TYPE
+
+

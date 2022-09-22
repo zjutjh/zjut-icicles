@@ -1,0 +1,322 @@
+// Copyright (C) 1991-2015 Altera Corporation. All rights reserved.
+// Your use of Altera Corporation's design tools, logic functions 
+// and other software and tools, and its AMPP partner logic 
+// functions, and any output files from any of the foregoing 
+// (including device programming or simulation files), and any 
+// associated documentation or information are expressly subject 
+// to the terms and conditions of the Altera Program License 
+// Subscription Agreement, the Altera Quartus II License Agreement,
+// the Altera MegaCore Function License Agreement, or other 
+// applicable license agreement, including, without limitation, 
+// that your use is for the sole purpose of programming logic 
+// devices manufactured by Altera and sold by Altera or its 
+// authorized distributors.  Please refer to the applicable 
+// agreement for further details.
+
+// *****************************************************************************
+// This file contains a Verilog test bench with test vectors .The test vectors  
+// are exported from a vector file in the Quartus Waveform Editor and apply to  
+// the top level entity of the current Quartus project .The user can use this   
+// testbench to simulate his design using a third-party simulation tool .       
+// *****************************************************************************
+// Generated on "07/13/2020 15:06:55"
+                                                                        
+// Verilog Self-Checking Test Bench (with test vectors) for design :    LED7S
+// 
+// Simulation tool : 3rd Party
+// 
+
+`timescale 1 ps/ 1 ps
+module LED7S_vlg_sample_tst(
+	DIN,
+	sampler_tx
+);
+input [3:0] DIN;
+output sampler_tx;
+
+reg sample;
+time current_time;
+always @(DIN)
+                                                                                
+begin                                                 
+ if ($realtime > 0)                                   
+ begin                                                
+    if ($realtime == 0 || $realtime != current_time)  
+    begin                                             
+        if (sample === 1'bx)                          
+            sample = 0;                               
+        else                                          
+            sample = ~sample;                         
+    end                                               
+    current_time = $realtime;                         
+ end                                                  
+end                                                   
+
+assign sampler_tx = sample;
+endmodule
+
+module LED7S_vlg_check_tst (
+	Y,
+	sampler_rx
+);
+input [6:0] Y;
+input sampler_rx;
+
+reg [6:0] Y_expected;
+
+reg [6:0] Y_prev;
+
+reg [6:0] Y_expected_prev;
+
+reg [6:0] last_Y_exp;
+
+reg trigger;
+
+integer i;
+integer nummismatches;
+
+reg [1:1] on_first_change ;
+
+
+initial
+begin
+trigger = 0;
+i = 0;
+nummismatches = 0;
+on_first_change = 1'b1;
+end
+
+// update real /o prevs
+
+always @(trigger)
+begin
+	Y_prev = Y;
+end
+
+// update expected /o prevs
+
+always @(trigger)
+begin
+	Y_expected_prev = Y_expected;
+end
+
+
+// expected Y[ 6 ]
+initial
+begin
+	Y_expected[6] = 1'bX;
+end 
+// expected Y[ 5 ]
+initial
+begin
+	Y_expected[5] = 1'bX;
+end 
+// expected Y[ 4 ]
+initial
+begin
+	Y_expected[4] = 1'bX;
+end 
+// expected Y[ 3 ]
+initial
+begin
+	Y_expected[3] = 1'bX;
+end 
+// expected Y[ 2 ]
+initial
+begin
+	Y_expected[2] = 1'bX;
+end 
+// expected Y[ 1 ]
+initial
+begin
+	Y_expected[1] = 1'bX;
+end 
+// expected Y[ 0 ]
+initial
+begin
+	Y_expected[0] = 1'bX;
+end 
+// generate trigger
+always @(Y_expected or Y)
+begin
+	trigger <= ~trigger;
+end
+
+always @(posedge sampler_rx or negedge sampler_rx)
+begin
+`ifdef debug_tbench
+	$display("Scanning pattern %d @time = %t",i,$realtime );
+	i = i + 1;
+	$display("| expected Y = %b | ",Y_expected_prev);
+	$display("| real Y = %b | ",Y_prev);
+`endif
+	if (
+		( Y_expected_prev[0] !== 1'bx ) && ( Y_prev[0] !== Y_expected_prev[0] )
+		&& ((Y_expected_prev[0] !== last_Y_exp[0]) ||
+			on_first_change[1])
+	)
+	begin
+		$display ("ERROR! Vector Mismatch for output port Y[0] :: @time = %t",  $realtime);
+		$display ("     Expected value = %b", Y_expected_prev);
+		$display ("     Real value = %b", Y_prev);
+		nummismatches = nummismatches + 1;
+		on_first_change[1] = 1'b0;
+		last_Y_exp[0] = Y_expected_prev[0];
+	end
+	if (
+		( Y_expected_prev[1] !== 1'bx ) && ( Y_prev[1] !== Y_expected_prev[1] )
+		&& ((Y_expected_prev[1] !== last_Y_exp[1]) ||
+			on_first_change[1])
+	)
+	begin
+		$display ("ERROR! Vector Mismatch for output port Y[1] :: @time = %t",  $realtime);
+		$display ("     Expected value = %b", Y_expected_prev);
+		$display ("     Real value = %b", Y_prev);
+		nummismatches = nummismatches + 1;
+		on_first_change[1] = 1'b0;
+		last_Y_exp[1] = Y_expected_prev[1];
+	end
+	if (
+		( Y_expected_prev[2] !== 1'bx ) && ( Y_prev[2] !== Y_expected_prev[2] )
+		&& ((Y_expected_prev[2] !== last_Y_exp[2]) ||
+			on_first_change[1])
+	)
+	begin
+		$display ("ERROR! Vector Mismatch for output port Y[2] :: @time = %t",  $realtime);
+		$display ("     Expected value = %b", Y_expected_prev);
+		$display ("     Real value = %b", Y_prev);
+		nummismatches = nummismatches + 1;
+		on_first_change[1] = 1'b0;
+		last_Y_exp[2] = Y_expected_prev[2];
+	end
+	if (
+		( Y_expected_prev[3] !== 1'bx ) && ( Y_prev[3] !== Y_expected_prev[3] )
+		&& ((Y_expected_prev[3] !== last_Y_exp[3]) ||
+			on_first_change[1])
+	)
+	begin
+		$display ("ERROR! Vector Mismatch for output port Y[3] :: @time = %t",  $realtime);
+		$display ("     Expected value = %b", Y_expected_prev);
+		$display ("     Real value = %b", Y_prev);
+		nummismatches = nummismatches + 1;
+		on_first_change[1] = 1'b0;
+		last_Y_exp[3] = Y_expected_prev[3];
+	end
+	if (
+		( Y_expected_prev[4] !== 1'bx ) && ( Y_prev[4] !== Y_expected_prev[4] )
+		&& ((Y_expected_prev[4] !== last_Y_exp[4]) ||
+			on_first_change[1])
+	)
+	begin
+		$display ("ERROR! Vector Mismatch for output port Y[4] :: @time = %t",  $realtime);
+		$display ("     Expected value = %b", Y_expected_prev);
+		$display ("     Real value = %b", Y_prev);
+		nummismatches = nummismatches + 1;
+		on_first_change[1] = 1'b0;
+		last_Y_exp[4] = Y_expected_prev[4];
+	end
+	if (
+		( Y_expected_prev[5] !== 1'bx ) && ( Y_prev[5] !== Y_expected_prev[5] )
+		&& ((Y_expected_prev[5] !== last_Y_exp[5]) ||
+			on_first_change[1])
+	)
+	begin
+		$display ("ERROR! Vector Mismatch for output port Y[5] :: @time = %t",  $realtime);
+		$display ("     Expected value = %b", Y_expected_prev);
+		$display ("     Real value = %b", Y_prev);
+		nummismatches = nummismatches + 1;
+		on_first_change[1] = 1'b0;
+		last_Y_exp[5] = Y_expected_prev[5];
+	end
+	if (
+		( Y_expected_prev[6] !== 1'bx ) && ( Y_prev[6] !== Y_expected_prev[6] )
+		&& ((Y_expected_prev[6] !== last_Y_exp[6]) ||
+			on_first_change[1])
+	)
+	begin
+		$display ("ERROR! Vector Mismatch for output port Y[6] :: @time = %t",  $realtime);
+		$display ("     Expected value = %b", Y_expected_prev);
+		$display ("     Real value = %b", Y_prev);
+		nummismatches = nummismatches + 1;
+		on_first_change[1] = 1'b0;
+		last_Y_exp[6] = Y_expected_prev[6];
+	end
+
+	trigger <= ~trigger;
+end
+initial 
+
+begin 
+$timeformat(-12,3," ps",6);
+#1000000;
+if (nummismatches > 0)
+	$display ("%d mismatched vectors : Simulation failed !",nummismatches);
+else
+	$display ("Simulation passed !");
+$finish;
+end 
+endmodule
+
+module LED7S_vlg_vec_tst();
+// constants                                           
+// general purpose registers
+reg [3:0] DIN;
+// wires                                               
+wire [6:0] Y;
+
+wire sampler;                             
+
+// assign statements (if any)                          
+LED7S i1 (
+// port map - connection between master ports and signals/registers   
+	.DIN(DIN),
+	.Y(Y)
+);
+// DIN[ 3 ]
+initial
+begin
+	repeat(6)
+	begin
+		DIN[3] = 1'b0;
+		DIN[3] = #80000 1'b1;
+		# 80000;
+	end
+	DIN[3] = 1'b0;
+end 
+// DIN[ 2 ]
+initial
+begin
+	repeat(12)
+	begin
+		DIN[2] = 1'b0;
+		DIN[2] = #40000 1'b1;
+		# 40000;
+	end
+	DIN[2] = 1'b0;
+end 
+// DIN[ 1 ]
+always
+begin
+	DIN[1] = 1'b0;
+	DIN[1] = #20000 1'b1;
+	#20000;
+end 
+// DIN[ 0 ]
+always
+begin
+	DIN[0] = 1'b0;
+	DIN[0] = #10000 1'b1;
+	#10000;
+end 
+
+LED7S_vlg_sample_tst tb_sample (
+	.DIN(DIN),
+	.sampler_tx(sampler)
+);
+
+LED7S_vlg_check_tst tb_out(
+	.Y(Y),
+	.sampler_rx(sampler)
+);
+endmodule
+

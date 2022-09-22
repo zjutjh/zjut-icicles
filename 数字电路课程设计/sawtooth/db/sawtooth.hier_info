@@ -1,0 +1,56 @@
+|sawtooth
+Z <= inst4.DB_MAX_OUTPUT_PORT_TYPE
+CLK0 => CNT5:inst.CLK
+A[0] <= CNT8:inst2.Q[0]
+A[1] <= CNT8:inst2.Q[1]
+A[2] <= CNT8:inst2.Q[2]
+A[3] <= CNT8:inst2.Q[3]
+A[4] <= CNT8:inst2.Q[4]
+A[5] <= CNT8:inst2.Q[5]
+A[6] <= CNT8:inst2.Q[6]
+A[7] <= CNT8:inst2.Q[7]
+
+
+|sawtooth|CNT5:inst
+CLK => Q[0].CLK
+CLK => Q[1].CLK
+CLK => Q[2].CLK
+CO <= Equal0.DB_MAX_OUTPUT_PORT_TYPE
+
+
+|sawtooth|CNT8:inst2
+CLK => Q[0]~reg0.CLK
+CLK => Q[1]~reg0.CLK
+CLK => Q[2]~reg0.CLK
+CLK => Q[3]~reg0.CLK
+CLK => Q[4]~reg0.CLK
+CLK => Q[5]~reg0.CLK
+CLK => Q[6]~reg0.CLK
+CLK => Q[7]~reg0.CLK
+CLR => Q[0]~reg0.ACLR
+CLR => Q[1]~reg0.ACLR
+CLR => Q[2]~reg0.ACLR
+CLR => Q[3]~reg0.ACLR
+CLR => Q[4]~reg0.ACLR
+CLR => Q[5]~reg0.ACLR
+CLR => Q[6]~reg0.ACLR
+CLR => Q[7]~reg0.ACLR
+CS => Q[7]~reg0.ENA
+CS => Q[6]~reg0.ENA
+CS => Q[5]~reg0.ENA
+CS => Q[4]~reg0.ENA
+CS => Q[3]~reg0.ENA
+CS => Q[2]~reg0.ENA
+CS => Q[1]~reg0.ENA
+CS => Q[0]~reg0.ENA
+Q[0] <= Q[0]~reg0.DB_MAX_OUTPUT_PORT_TYPE
+Q[1] <= Q[1]~reg0.DB_MAX_OUTPUT_PORT_TYPE
+Q[2] <= Q[2]~reg0.DB_MAX_OUTPUT_PORT_TYPE
+Q[3] <= Q[3]~reg0.DB_MAX_OUTPUT_PORT_TYPE
+Q[4] <= Q[4]~reg0.DB_MAX_OUTPUT_PORT_TYPE
+Q[5] <= Q[5]~reg0.DB_MAX_OUTPUT_PORT_TYPE
+Q[6] <= Q[6]~reg0.DB_MAX_OUTPUT_PORT_TYPE
+Q[7] <= Q[7]~reg0.DB_MAX_OUTPUT_PORT_TYPE
+CO <= Equal0.DB_MAX_OUTPUT_PORT_TYPE
+
+

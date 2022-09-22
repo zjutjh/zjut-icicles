@@ -1,0 +1,15 @@
+|LATCH4
+le => q[0]$latch.LATCH_ENABLE
+le => q[1]$latch.LATCH_ENABLE
+le => q[2]$latch.LATCH_ENABLE
+le => q[3]$latch.LATCH_ENABLE
+d[0] => q[0]$latch.DATAIN
+d[1] => q[1]$latch.DATAIN
+d[2] => q[2]$latch.DATAIN
+d[3] => q[3]$latch.DATAIN
+q[0] <= q[0]$latch.DB_MAX_OUTPUT_PORT_TYPE
+q[1] <= q[1]$latch.DB_MAX_OUTPUT_PORT_TYPE
+q[2] <= q[2]$latch.DB_MAX_OUTPUT_PORT_TYPE
+q[3] <= q[3]$latch.DB_MAX_OUTPUT_PORT_TYPE
+
+
