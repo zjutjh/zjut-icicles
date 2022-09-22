@@ -1,6 +1,6 @@
 ## Principles and Applications of Microprocessor A
 
-> Version: 2020-2021(2)
+> Version: 2020-2021(1)
 > Credit: 2.5 + 1
 > Score: Excellent
 
