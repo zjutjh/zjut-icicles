@@ -1,11 +1,9 @@
 # zjut-icicles
-浙江工业大学课程攻略共享计划
->本项目正在征集更多资料，欢迎加入
 
-----
+浙江工业大学课程攻略共享计划
+
 欢迎各位同学加入浙江工业大学:wave:
 
------
 本项目至今收录了以下内容:
 - 电子版教材
 - 平时作业答案
@@ -14,13 +12,13 @@
 - 课程设计代码
 
 ## 贡献
-----
+
 欢迎大家贡献:stuck_out_tongue_winking_eye:
-
 ## 许可
-----
-[CC-BY-NC-SA：署名-非商业性使用-相同方式共享][1]
-**Attention: 本项目资料仅供参考**
 
-<!-- markdownlint-disable-file MD036 -->
-[1]: [mailto:lingzhicheng1999@outlook.com](https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh)
+[CC-BY-NC-SA：署名-非商业性使用-相同方式共享](https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh)
+
+## 其他
+
+**本项目资料仅供参考**
+如果你认为本仓库的一些文件侵犯了您的权益，请联系我们。我们将会从仓库中彻底清除这些文件。
