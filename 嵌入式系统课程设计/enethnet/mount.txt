@@ -1,0 +1,17 @@
+setenv bootargs 'mem=110M console=ttyS0,115200n8 root=/dev/nfs rw nfsroot=192.168.1.3:/home/shiyan/share/filesys_test ip=192.168.1.53:192.168.1.3:192.168.1.1:255.255.255.0::eth0:off eth=00:40:01:C1:56:03 video=davincifb:vid0=OFF:vid1=OFF:osd0=640x480x16,600K:osd1=0x0x0,0K  dm365_imp.oper_mode=0 davinci_capture.device_type=1 davinci_enc_mngr.ch0_output=LCD'
+
+VMware IP：192.168.1.3
+
+Hardware IP：192.168.1.53
+
+mount -t nfs -o nolock 192.168.1.3:/home/shiyan/share/filesys_test /mnt/mtd/
+
+arm_v5t_le-gcc -lpthread server.c -o server-arm
+
+./server-arm
+
+gcc client.c -lpthread -o client-gcc
+
+cd ./share/filesys_test
+
+./client-gcc
