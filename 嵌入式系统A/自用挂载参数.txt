@@ -1,0 +1,6 @@
+setenv bootargs 'mem=110M console=ttyS0,115200n8 root=/dev/nfs rw nfsroot=192.168.1.152:/home/shiyan/share/filesys_test ip=192.168.1.52:192.168.1.152:192.168.1.1:255.255.255.0::eth0:off eth=00:40:01:C1:56:02 video=davincifb:vid0=OFF:vid1=OFF:osd0=640x480x16,600K:osd1=0x0x0,0K  dm365_imp.oper_mode=0 davinci_capture.device_type=1 davinci_enc_mngr.ch0_output=LCD'
+
+保存挂载参数
+# saveenv
+
+mount -t nfs -o nolock 192.168.1.152:/home/shiyan/share/filesys_test /mnt/mtd/

@@ -1,0 +1,90 @@
+#include <linux/device.h>
+#include <linux/fs.h>
+#include <linux/module.h>
+#include <linux/errno.h>
+#include <linux/kernel.h>
+#include <linux/init.h>
+#include <linux/platform_device.h>
+#include <asm/arch/gpio.h>
+#include <linux/types.h>
+#include <linux/cdev.h>
+#include <asm/arch-davinci/gpio.h>
+#include <asm/uaccess.h>
+#include <asm/io.h>
+#include <asm/arch/hardware.h>
+#include <asm/arch/gpio.h>
+#define DEVICE_NAME "dm365_gpio"//设备名称，在注册后出现在/dev下
+#define GPIO_MAJOR 99 //主设备号 不与/proc/devices重复
+ 
+//ioctl的命令
+#define DEF_GPIO_DIR_OUT  0x01
+#define DEF_GPIO_DIR_IN   0x02
+#define DEF_GPIO_SET_DATA 0x03
+#define DEF_GPIO_CLR_DATA 0x04
+#define DEF_GPIO_GET_DATA 0x05
+static int gpio_open(struct inode *inode, struct file *file)
+{
+//	printk("open gpio\nhere is dm365 gpio driver\n");
+	return 0;
+}
+static int gpio_release(struct inode *inode,struct file *filp)
+{
+	return 0;
+}
+int gpio_ioctl(struct inode *inode, struct file *filp, unsigned int cmd, unsigned long arg)
+{
+        int ret = 0;
+        switch (cmd)
+        {
+                case DEF_GPIO_DIR_OUT:
+                        printk("***dir out***cmd=%d,arg=%d\n", cmd,(unsigned)arg);
+                        gpio_direction_output(arg,1);
+                        break;
+                case DEF_GPIO_DIR_IN:
+                        printk("***dir in***cmd=%d,arg=%d\n", cmd,(unsigned)arg);
+                        gpio_direction_input(arg);
+                        break;
+                case DEF_GPIO_SET_DATA:
+                case DEF_GPIO_CLR_DATA:
+//                        printk("data=%d\n", cmd);
+                        if (cmd == DEF_GPIO_SET_DATA)
+                                gpio_set_value(arg, 1);
+                        else
+                                gpio_set_value(arg, 0);
+//                        break;
+                case DEF_GPIO_GET_DATA:
+                        ret = gpio_get_value(arg);
+//                      printk("gpio%d = %d\n",arg,ret);
+                        break;
+        }
+        return ret;
+}
+
+static struct file_operations gpio_fops = {
+        .owner = THIS_MODULE,
+        .open = gpio_open,
+        .release=gpio_release,
+        .ioctl = gpio_ioctl
+};
+static int __init davinci_dm365_gpio_init(void)
+{
+	int ret;
+	ret = register_chrdev(GPIO_MAJOR, DEVICE_NAME, &gpio_fops);
+	if(ret < 0)
+	{
+		printk("dm365_gpio register falid!\n");
+		return ret;
+	}
+	printk ("dm365_gpio initialized\n");
+	return ret;
+}
+static void __exit davinci_dm365_gpio_exit(void)
+{
+	unregister_chrdev(GPIO_MAJOR, DEVICE_NAME);
+	printk("dm365_gpio exit\n");
+}
+module_init(davinci_dm365_gpio_init);
+module_exit(davinci_dm365_gpio_exit);
+MODULE_AUTHOR("jingwei,Song <Punuo Ltd.>");
+MODULE_DESCRIPTION("Davinci DM365 gpio driver");
+MODULE_LICENSE("GPL");
