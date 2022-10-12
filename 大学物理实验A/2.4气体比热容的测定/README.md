@@ -1,0 +1,2 @@
+- One student suggested that in the data processing of the gas specific heat capacity experiment(2.4, last picture)
+  -  **The measurement error $\Delta\$ m of the electronic balance should be changed from 0.5g to 0.1g.** This may be the revision of the textbook, the update of the experimental equipment, or the error that occurred when I was processing the data at that time.
