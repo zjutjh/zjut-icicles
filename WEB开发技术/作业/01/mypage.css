@@ -1,0 +1,177 @@
+html * {
+  margin: 0;
+}
+
+h2 {
+  transition: all 0.3s; 
+}
+
+h2:hover {
+  color: #b26151 !important;
+}
+
+body {
+  font-family: -apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Helvetica Neue,Arial,Noto Sans,sans-serif,apple color emoji,segoe ui emoji,Segoe UI Symbol,noto color emoji;
+}
+
+header {
+  height: 64px;
+  border-bottom: 1px solid rgba(0,0,0,.06);
+  padding: 0 16px;
+  border-top: 3px solid #b26151;
+  box-sizing: border-box;
+}
+
+main {
+  height: calc(100vh - 64px);
+  display: flex;
+}
+
+main .col:not(:first-child) {
+  border-left: 1px solid rgba(0,0,0,.06);
+  flex: auto
+}
+
+main .col:nth-child(2) {
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+  justify-content: space-between;
+}
+
+main .col:first-child {
+  flex: 0 0 20%;
+}
+
+main .col:last-child {
+  flex: 0 0 20%;
+}
+
+.artical {
+  padding: 24px;
+}
+
+.artical h2 {
+  color: #000000bb;
+  padding-bottom: .3rem;
+  margin-bottom: 16px;
+  border-bottom: 1px solid rgba(0,0,0,0.1)
+}
+
+.artical li {
+  margin-bottom: 0.3rem;  
+}
+
+.block {
+  margin-bottom: 24px;
+}
+
+
+.tag-list {
+  display: flex;
+  gap: 10px;
+}
+
+.tag {
+  background-color: #00000044; 
+  padding: .3rem;
+  font-weight: bold;
+  color: white;
+}
+
+.repo-panel {
+  display: grid; 
+  grid-template-columns: 50% 50%;
+}
+
+.repo {
+  margin: 12px; 
+  border-radius: 8px;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: .8rem
+}
+
+.repo-name {
+  text-decoration: none; 
+  color: #2e67d3;
+}
+
+.repo-state {
+  font-size: .8rem;
+  padding: .2rem .5rem;
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  border-radius: 2em;
+}
+
+.repo-info {
+  flex: auto;
+  color: rgba(0, 0, 0, 0.6);
+  font-size: .8rem;
+}
+
+.repo-lang-color {
+  display: inline-block;
+  height: .6rem;
+  width: .6rem;
+  background-color: black;
+  border-radius: 50%;
+}
+
+.repo-lang-name {
+  font-size: .8rem;
+  margin-left: .1rem;
+  color: rgba(0, 0, 0, 0.6);
+}
+
+.footer {
+  box-sizing: border-box;
+  color: rgba(0, 0, 0, 0.6);
+  border-bottom: 5px solid #b26151;
+  flex: 0 0 64px;
+  padding: 0 16px;
+}
+
+.menu h2 {
+  font-weight: 200;
+  margin-left: 1.2rem;
+  margin-top: .5rem;
+  margin-bottom: .5rem;
+}
+
+.artical-list {
+  margin-left: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.folder-name {
+  color: #b26151;
+  font-weight: 700;
+  margin-bottom: .5rem;
+}
+
+.folder-content {
+  display: flex;
+  flex-direction: column;
+  border-left: 1px dashed rgba(0, 0, 0, 0.2);
+  margin-left: 8px;
+  padding-left: 12px;
+  gap: .5rem;
+}
+
+.file {
+  color: rgba(0, 0, 0, 0.4);
+}
+
+.friend-link li {
+  margin-bottom: .5rem;  
+}
+
+.friend-link a {
+  text-decoration: none;
+  color: #b26151
+}

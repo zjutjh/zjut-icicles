@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <title></title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link href="css/style.css" rel="stylesheet">
+</head>
+
+<body>
+  <header>
+    <h1>
+      杭州健康码
+    </h1>
+  </header>
+  <main>
+    <form>
+      <div class="form-item">
+        <div class="form-item-title">
+          您最近14天是否离开过杭州或当前所在城市？
+        </div>
+        <div class="radio-group">
+          <div class="radio-item">
+            <input type="radio" id="1t" value="" name="1">
+            <label for="1t">是</label>
+          </div>
+          <div class="radio-item">
+            <input type="radio" id="1f" value="" name="1">
+            <label for="1f">否</label>
+          </div>
+        </div>
+      </div>
+      <div class="form-item">
+        <div class="form-item-title">
+          您最近14天是否离开过杭州或当前所在城市？
+        </div>
+        <div class="radio-group">
+          <div class="radio-item">
+            <input type="radio" id="2t" value="" name="2">
+            <label for="2t">是</label>
+          </div>
+          <div class="radio-item">
+            <input type="radio" id="2f" value="" name="2">
+            <label for="2f">否</label>
+          </div>
+        </div>
+      </div>
+      <div class="form-item">
+        <div class="form-item-title">
+          您最近14天是否离开过杭州或当前所在城市？
+        </div>
+        <div class="radio-group">
+          <div class="radio-item">
+            <input type="radio" id="3t" value="" name="3">
+            <label for="3t">是</label>
+          </div>
+          <div class="radio-item">
+            <input type="radio" id="3f" value="" name="3">
+            <label for="3f">否</label>
+          </div>
+        </div>
+      </div>
+      <div class="form-item">
+        <div class="form-item-title">
+          您最近14天是否离开过杭州或当前所在城市？
+        </div>
+        <div class="radio-group">
+          <div class="radio-item">
+            <input type="radio" id="4t" value="" name="4">
+            <label for="4t">是</label>
+          </div>
+          <div class="radio-item">
+            <input type="radio" id="4f" value="" name="4">
+            <label for="4f">否</label>
+          </div>
+        </div>
+      </div>
+      <div class="form-item">
+        <div class="form-item-title">
+          您最近14天是否离开过杭州或当前所在城市？
+        </div>
+        <div class="radio-group">
+          <div class="radio-item">
+            <input type="radio" id="5t" value="" name="5">
+            <label for="5t">是</label>
+          </div>
+          <div class="radio-item">
+            <input type="radio" id="5f" value="" name="5">
+            <label for="5f">否</label>
+          </div>
+        </div>
+      </div>
+      <div class="form-item">
+        <div class="form-item-title">
+          您最近14天是否离开过杭州或当前所在城市？
+        </div>
+        <div class="radio-group">
+          <div class="radio-item">
+            <input type="radio" id="6t" value="" name="6">
+            <label for="6t">是</label>
+          </div>
+          <div class="radio-item">
+            <input type="radio" id="6f" value="" name="6">
+            <label for="6f">否</label>
+          </div>
+        </div>
+      </div>
+      <div class="form-footer">
+        <button>提交</button>
+      </div>
+
+    </form>
+  </main>
+</body>
+<style>
+  html * {
+    margin: 0;
+    font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica Neue, Arial, Noto Sans, sans-serif, apple color emoji, segoe ui emoji, Segoe UI Symbol, noto color emoji;
+  }
+
+  html {
+    font-size: 16px;
+  }
+
+  header h1 {
+    text-align: center;
+    margin: .5rem 0;
+    color: #000000aa;
+  }
+
+  body {
+    margin: 0 auto;
+    max-width: 500px;
+    background-color: white;
+    border: 1px solid rgba(0, 0, 0, .06);
+  }
+
+  form {
+    padding-top: 10px;
+    padding-bottom: 10px;
+    background-color: #00000011;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .form-item {
+    background-color: white;
+  }
+
+  .form-item-title {
+    position: relative;
+    line-height: 150%;
+    padding: 1rem;
+  }
+
+  .form-item-title::before {
+    position: absolute;
+    content: "*";
+    color: red;
+    left: .5rem;
+  }
+
+  .radio-item {
+    border-top: 1px solid rgba(0, 0, 0, .06);
+    line-height: 150%;
+    padding: .6rem .4rem;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .radio-item label {
+    flex: auto;
+  }
+
+  .form-footer {
+    text-align: center;
+  }
+
+  .form-footer button {
+    font-size: 1rem;
+    line-height: 200%;
+    background-color: #3b86f6;
+    border-radius: .5rem;
+    color: white;
+    width: 95%;
+    border: none;
+  }
+</style>
+<script>
+  const formInstance = document.querySelector("form");
+  const form = new FormData(formInstance);
+  console.log(form);
+</script>
+
+
+</html>

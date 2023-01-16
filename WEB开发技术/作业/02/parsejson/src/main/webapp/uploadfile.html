@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"
+    />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Document</title>
+  </head>
+
+  <body>
+    <div>
+      <label for="json">选择文件</label>
+      <input type="file" id="json" name="json" accept=".json" />
+    </div>
+    <div>
+      <button onclick="upload()">提交</button>
+    </div>
+    <table>
+      <tr>
+        <td>序号</td>
+        <td>学号</td>
+        <td>姓名</td>
+        <td>课程名</td>
+        <td>成绩</td>
+      </tr>
+    </table>
+    <button onclick="getExcel()">导出表格</button>
+  </body>
+  <script>
+    const baseURL = "/work2";
+    let tableData = undefined;
+    const initialTable = () => {
+      const table = document.querySelector("table");
+      table.innerHTML = `
+      <tr>
+        <td>序号</td>
+        <td>学号</td>
+        <td>姓名</td>
+        <td>课程名</td>
+        <td>成绩</td>
+      </tr>
+      `;
+    };
+    const upload = async () => {
+      const input = document.querySelector("#json");
+      const data = new FormData();
+      data.append("json", input.files[0]);
+
+      const res = await fetch(baseURL + "/parsejson.do", {
+        method: "POST",
+        body: data,
+      });
+      const { data: resData } = await res.json();
+      tableData = resData;
+      initialTable();
+      const table = document.querySelector("table");
+      resData.forEach((item, index) => {
+        const content = `
+        <td>${index + 1}</td>
+        <td>${item.stuid}</td>
+        <td>${item.name}</td>
+        <td>${item.courseName}</td>
+        <td>${item.score}</td>
+        `;
+        const row = document.createElement("tr");
+        row.innerHTML = content;
+        table.appendChild(row);
+      });
+    };
+    const getExcel = async () => {
+      if (!tableData) {
+        alert("请先上传表格");
+        return;
+      }
+      const res = await fetch(baseURL + "/getExcel", {
+        method: "POST",
+        body: JSON.stringify(tableData),
+      });
+      const blob = await res.blob();
+      const blobURL = window.URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.download = "score.xls";
+      a.href = blobURL;
+      a.click();
+    };
+  </script>
+</html>

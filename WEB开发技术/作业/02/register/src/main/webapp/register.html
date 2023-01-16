@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+  </head>
+  <body>
+    <div>
+      <label for="name">用户名：</label>
+      <input id="name" name="name" />
+    </div>
+    <div>
+      <label for="password">密码：</label>
+      <input id="password" name="password" />
+    </div>
+    <div>
+      <label for="username">姓名：</label>
+      <input id="username" name="username" />
+    </div>
+    <div>
+      <label for="sex">性别：</label>
+      <input id="sex" name="sex" />
+    </div>
+    <div>
+      <label for="mail">邮箱：</label>
+      <input id="mail" name="mail" />
+    </div>
+    <div>
+      <label for="phone">手机号：</label>
+      <input id="phone" name="phone" />
+    </div>
+    <button onclick="submit()">提交</button>
+  </body>
+  <script>
+    const baseURL = "/work3";
+    function parseParams(data) {
+      try {
+        const tempArr = [];
+        for (let i in data) {
+          let key = encodeURIComponent(i);
+          let value = encodeURIComponent(data[i]);
+          tempArr.push(key + "=" + value);
+        }
+        let urlParamsStr = tempArr.join("&");
+        return urlParamsStr;
+      } catch (err) {
+        return "";
+      }
+    }
+
+    const submit = async () => {
+      const name = document.querySelector("#name").value;
+      const password = document.querySelector("#password").value;
+      const username = document.querySelector("#username").value;
+      const sex = document.querySelector("#sex").value;
+      const mail = document.querySelector("#mail").value;
+      const phone = document.querySelector("#phone").value;
+
+      const data = { name, password, username, sex, mail, phone };
+      if (checkForm(data)) {
+        const res = await fetch(baseURL + "/register.do?" + parseParams(data), {
+          method: "POST",
+        });
+        const { msg, code } = await res.json();
+        alert(msg, code);
+        if (code === "1") {
+          setTimeout(() => {
+            window.location.href = baseURL + "/login.html";
+          }, 5000);
+        }
+      }
+    };
+    const checkForm = ({ name, password, username, sex, mail, phone }) => {
+      const checkPassword = /^(?=.*[0-9\!@#\$%\^&\*])(?=.*[a-zA-Z]).{8,16}$/;
+      const checkPhone = /^[1][3,4,5,7,8][0-9]{9}$/;
+      const checkMail = /^[a-zA-Z0-9_-]+@[a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+)+$/;
+
+      if (!name || !username || !sex || !mail || !phone) {
+        alert("请完整填写表格");
+        return false;
+      } else if (!checkPassword.test(password)) {
+        alert("密码为数字、字母、和特殊字符组合，长度8～16位");
+        return false;
+      } else if (!checkPhone.test(phone)) {
+        alert("请输入有效的手机号");
+        return false;
+      } else if (!checkMail.test(mail)) {
+        alert("请输入有效的邮箱");
+        return false;
+      }
+      return true;
+    };
+  </script>
+</html>

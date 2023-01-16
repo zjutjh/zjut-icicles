@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+  </head>
+  <body>
+    <div>
+      <label for="username">用户名：</label>
+      <input id="username" name="username" />
+    </div>
+    <div>
+      <label for="password">密码：</label>
+      <input id="password" name="password" />
+    </div>
+
+    <button onclick="submit()">提交</button>
+  </body>
+  <script>
+    const baseURL = "/work3";
+    function parseParams(data) {
+      try {
+        const tempArr = [];
+        for (let i in data) {
+          let key = encodeURIComponent(i);
+          let value = encodeURIComponent(data[i]);
+          tempArr.push(key + "=" + value);
+        }
+        let urlParamsStr = tempArr.join("&");
+        return urlParamsStr;
+      } catch (err) {
+        return "";
+      }
+    }
+    const submit = async () => {
+      const username = document.querySelector("#username").value;
+      const password = document.querySelector("#password").value;
+      const data = { username, password };
+      if (checkForm(data)) {
+        const res = await fetch(baseURL + "/login.do?" + parseParams(data), {
+          method: "POST",
+        });
+        const { msg, code } = await res.json();
+        alert(msg);
+        if (code === "1") window.location.href = baseURL + "/welcome.html";
+        else window.location.href = baseURL + "/failed.html";
+      } else {
+        alert("请完整填写表格");
+      }
+    };
+
+    const checkForm = ({ username, password }) => {
+      if (!username && !password) return false;
+      return true;
+    };
+  </script>
+</html>
