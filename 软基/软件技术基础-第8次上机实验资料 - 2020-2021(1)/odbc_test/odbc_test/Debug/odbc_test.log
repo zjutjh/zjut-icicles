@@ -1,0 +1,3 @@
+﻿cl : 命令行 warning D9035: “Gm”选项已否决，并将在将来的版本中移除
+  odbc.cpp
+  odbc_test.vcxproj -> C:\Users\10715\Desktop\软件技术基础-第8次上机实验资料 - 2020-2021(1)\odbc_test\Debug\odbc_test.exe

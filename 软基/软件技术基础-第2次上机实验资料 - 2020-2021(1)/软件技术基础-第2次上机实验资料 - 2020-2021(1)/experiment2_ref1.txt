@@ -1,0 +1,191 @@
+
+/*
+// 第二次实验参考代码
+*/
+
+#include <stdio.h>
+#include <stdlib.h>
+
+
+/*-----------------------------------------------------------------------------------------------*/
+// 题目：二叉排序树检测
+/*-----------------------------------------------------------------------------------------------*/
+
+/*
+// 完成二叉树的基本函数定义
+*/
+
+
+//二叉链表结点结构体
+typedef struct BiTNode {
+	int data;
+	struct BiTNode* lchild, * rchild;
+} BiTNode, * BiTree;
+
+
+//先序遍历序列建立二叉树的二叉链表
+void  CreateBinTree(BiTree* T)
+{
+	int ch;
+
+	scanf_s("\n%d", &ch);
+
+	if (ch == 0)  *T = NULL;  // 收到字符0则终止对应分支的创建
+	else
+	{
+		*T = (BiTNode*)malloc(sizeof(BiTNode));
+		(*T)->data = ch;
+		CreateBinTree(&(*T)->lchild);
+		CreateBinTree(&(*T)->rchild);
+	}
+}
+
+
+// 先序遍历打印结点数据域
+void preorder(BiTree bt)
+{
+	// TODO（0.5分）: 待完善
+
+	if (bt == NULL)
+	{
+		return;
+	}
+	printf("%d	", bt->data);
+	preorder(bt->lchild);
+
+	preorder(bt->rchild);
+
+}
+
+
+// 中序遍历打印结点数据域
+void inorder(BiTree bt)
+{
+	// TODO（0.5分）: 待完善
+
+	if (bt == NULL)
+	{
+		return;
+	}
+
+	inorder(bt->lchild);
+	printf("%d	", bt->data);
+	inorder(bt->rchild);
+}
+
+
+// 销毁二叉树
+void  destroy_bin_tree(BiTree bt)
+{
+	// TODO（0.5分）: 待完善
+	if (bt == NULL)
+	{
+		return;
+	}
+	destroy_bin_tree(bt->lchild);
+	destroy_bin_tree(bt->rchild);
+	delete bt;
+}
+
+
+
+// 检测输入的二叉树是否为二叉排序树
+int judge_bst(BiTree bt)
+{
+	// TODO（3.5分）: 待完善
+	static int record = 1;
+
+
+	if (bt == NULL || (bt->lchild == NULL && bt->rchild == NULL))
+	{
+		return 1;
+	}
+	if (record == 0)
+	{
+		return 0;
+	}
+	if (bt->rchild != NULL && bt->lchild == NULL)
+	{
+		if (bt->data < bt->rchild->data )
+		{
+			record = judge_bst(bt->rchild);
+		}
+		else
+		{
+			return 0;
+		}
+	}
+	else if(bt->lchild != NULL && bt->rchild == NULL)
+	{
+		if (bt->data > bt->lchild->data )
+		{
+			record = judge_bst(bt->lchild);
+		}
+		else
+		{
+			return 0;
+		}
+	}
+	else
+	{
+		if (bt->data > bt->lchild->data && bt->data < bt->rchild->data)
+		{
+			record = judge_bst(bt->lchild);
+			record = judge_bst(bt->rchild);
+		}
+		else
+		{
+			return 0;
+		}
+	}
+
+	
+
+
+}
+
+
+// 第二题测试函数
+void test_judge_bst()
+{
+	BiTree T;
+	int ret;
+
+	printf("请按先序遍历输入数值以创建二叉树，输入0代表对应子树为空\n");
+
+	CreateBinTree(&T);
+
+	printf("\n先序遍历打印结果：\n");
+
+	preorder(T);
+
+	printf("\n中序遍历打印结果：\n");
+
+	inorder(T);
+
+	ret = judge_bst(T);
+	printf("\n\n检测结果:");
+	if (ret == 1)
+	{
+		printf("\n该二叉树是排序二叉树\n");
+	}
+	else
+	{
+		printf("\n该二叉树非排序二叉树\n");
+	}
+
+	// 销毁二叉树
+	destroy_bin_tree(T);
+
+	printf("\n销毁二叉树\n");
+
+	return;
+}
+
+
+void main()
+{
+	/*二叉排序树检测*/
+	test_judge_bst();
+}
+
