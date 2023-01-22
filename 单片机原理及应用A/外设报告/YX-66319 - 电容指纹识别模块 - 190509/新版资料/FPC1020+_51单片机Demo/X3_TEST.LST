@@ -1,0 +1,140 @@
+C51 COMPILER V9.50a   X3_TEST                                                              06/26/2014 16:01:22 PAGE 1   
+
+
+C51 COMPILER V9.50a, COMPILATION OF MODULE X3_TEST
+OBJECT MODULE PLACED IN X3_TEST.OBJ
+COMPILER INVOKED BY: C:\Keil\C51\BIN\C51.EXE X3_TEST.C BROWSE DEBUG OBJECTEXTEND TABS(2)
+
+line level    source
+
+   1          /*********************************************************************************************************
+             -***************************
+   2           硬件接口：---K1----------P2^0---
+   3                     ---K2----------P2^1--- 
+   4                     ---K3----------P2^2---
+   5                     ---K4----------P2^3---
+   6                     ---K5----------P2^4---
+   7                     ---BEEP--------P2^5---
+   8                     
+   9          硬件环境：单片机：STC90C516RD+
+  10                    晶振  ：11.0592M
+  11                    波特率：19200
+  12                    
+  13          **********************************************************************************************************
+             -******************************
+  14          
+  15           功能按键：K1 添加指纹  ；K2 删除单个指纹  ；K3 搜索指纹  ：K4 读指纹用户总数   k5 清空指纹库
+  16           
+  17           注释；1、每个操作成功都是亮4个灯加蜂鸣器滴1声，操作失败时8个灯全亮，蜂鸣器滴3声。
+  18                 2、搜索指纹成功后，匹配到的用户ID号通过8个LED灯以二进制的形式显示。
+  19                 3、读取到的指纹用户总数也是通过8个LED灯以二进制的形式显示。
+  20                 4、模块上电后进行添加指纹时， 指纹膜板存放地址从0开始依次增加（已经录入的指纹掉电后也能保存）       
+  21          **********************************************************************************************************
+             -**************************/#include<reg52.h>
+  22          #include "config.h"
+  23          
+  24          extern unsigned char l_ucFPID;                  //用户编号
+  25          
+  26          void BBP(unsigned char times) ;
+  27          
+  28          void main()
+  29          {   
+  30   1        unsigned char MODE ,P2_BUS,User_ID;
+  31   1        UartInit();
+  32   1         while(1)
+  33   1          {   
+  34   2               P2_BUS = P2&0x1F ;     
+  35   2               if(P2_BUS != 0x1f )
+  36   2               {   
+  37   3                  Delay_ms(10);
+  38   3                  P2_BUS = P2&0x1F ;  
+  39   3                  if(P2_BUS != 0x1f )
+  40   3                  {   
+  41   4                      if(~P2_BUS == 0xe1) MODE = 1 ;  
+  42   4                      if(~P2_BUS == 0xe2) MODE = 2 ;
+  43   4                      if(~P2_BUS == 0xe4) MODE = 3 ;
+  44   4                      if(~P2_BUS == 0xe8) MODE = 4 ;
+  45   4                      if(~P2_BUS == 0xf0) MODE = 5 ;  
+  46   4                      while( P2_BUS != 0x1f) P2_BUS = P2&0x1F ; 
+  47   4                  }
+  48   3               }
+  49   2              switch ( MODE )
+  50   2              {                                                                     
+  51   3                case 0:   LED8 = 0xFF ;                                 //无操作 
+  52   3                          break;
+C51 COMPILER V9.50a   X3_TEST                                                              06/26/2014 16:01:22 PAGE 2   
+
+  53   3                
+  54   3                case 1:   MODE = 0 ;                                    // 增加指纹用户
+  55   3                          if(Finger_Enroll(++User_ID)) {LED8=~0x0f;BBP(1);}               
+  56   3                          else {LED8 = ~0xff;BBP(3);}
+  57   3                          Delay_ms(2000)  ;
+  58   3                          break;
+  59   3                          
+  60   3                case 2:   MODE = 0 ;                                   // 删除单个指纹用户
+  61   3                          if( Finger_Search()) {LED8 = ~l_ucFPID;}
+  62   3                          else {LED8 = ~0xff;BBP(3); break ;}
+  63   3                          if(Finger_Delete(l_ucFPID)) {LED8=~0x0f;BBP(1);}   
+  64   3                          else {LED8 = ~0xff;BBP(3);}
+  65   3                          Delay_ms(1000)  ;
+  66   3                          break;
+  67   3                          
+  68   3                case 3:   MODE = 0 ;                                   //1：N搜索指纹库
+  69   3                          if( Finger_Search()) {LED8 = ~l_ucFPID;BBP(1);}
+  70   3                          else {LED8 = ~0xff;BBP(3);}                 
+  71   3                          Delay_ms(1000)  ;
+  72   3                          break;
+  73   3                case 4:   MODE = 0 ;                                   // 读指纹用户总数
+  74   3                          if(Finger_Read()) {LED8=~l_ucFPID;BBP(1);}   
+  75   3                          else {LED8 = ~0xff;BBP(3);}
+  76   3                          Delay_ms(1000)  ;
+  77   3                          break;    
+  78   3                case 5:   MODE = 0 ;                                   // 清除指纹库
+  79   3                          if( Finger_Clear() )  {LED8=~0x0f;BBP(1);} 
+  80   3                          else {LED8 = ~0xff;BBP(3);}
+  81   3                          Delay_ms(1000)  ;
+  82   3                          break;                            
+  83   3                default : 
+  84   3                          break ;
+  85   3                
+  86   3              } 
+  87   2         }   
+  88   1        
+  89   1      }
+  90          void BBP(unsigned char times)
+  91          {
+  92   1          uchar i;  
+  93   1             switch (times)
+  94   1          {
+  95   2              case 1:   for(i=0;i<100;i++){ BEEP=~BEEP; Delay_ms(1);} 
+  96   2                   break;
+  97   2              case 2:   for(i=0;i<100;i++){ BEEP=~BEEP; Delay_ms(1);}
+  98   2                        Delay_ms(200);
+  99   2                        for(i=0;i<100;i++){ BEEP=~BEEP; Delay_ms(1);}
+ 100   2                   break;
+ 101   2              case 3:   for(i=0;i<100;i++){ BEEP=~BEEP; Delay_ms(1);}
+ 102   2                        Delay_ms(200);
+ 103   2                        for(i=0;i<100;i++){ BEEP=~BEEP; Delay_ms(1);}
+ 104   2                        Delay_ms(200);
+ 105   2                        for(i=0;i<100;i++){ BEEP=~BEEP; Delay_ms(1);}
+ 106   2                   break;
+ 107   2              default:
+ 108   2                   break;
+ 109   2          }
+ 110   1      }
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =    465    ----
+C51 COMPILER V9.50a   X3_TEST                                                              06/26/2014 16:01:22 PAGE 3   
+
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =   ----       3
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

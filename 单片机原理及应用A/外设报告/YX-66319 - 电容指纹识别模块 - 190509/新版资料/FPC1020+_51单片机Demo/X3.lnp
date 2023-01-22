@@ -1,0 +1,6 @@
+"STARTUP.obj",
+"BIOVO.obj",
+"X3_TEST.obj",
+"UART.obj" 
+TO "X3" 
+RAMSIZE(256) 

@@ -1,0 +1,381 @@
+C51 COMPILER V9.50a   BIOVO                                                                06/26/2014 16:01:21 PAGE 1   
+
+
+C51 COMPILER V9.50a, COMPILATION OF MODULE BIOVO
+OBJECT MODULE PLACED IN BIOVO.OBJ
+COMPILER INVOKED BY: C:\Keil\C51\BIN\C51.EXE BIOVO.c BROWSE DEBUG OBJECTEXTEND TABS(2)
+
+line level    source
+
+   1          /*******************************************************************************
+   2          **文件名：BIOVO.c 
+   3          **说明：指纹芯片数据处理
+   4          **编程人员：李可洽
+   5          **编写时间：2013.04.07
+   6          *******************************************************************************/
+   7          #include "config.h"
+   8          #define UART_BUF_LEN  8
+   9          #define BUF_N   8
+  10          
+  11          unsigned char rBuf[UART_BUF_LEN];          //接收返回信息
+  12          unsigned char tBuf[UART_BUF_LEN];          //发送命令或者数据
+  13          unsigned char g_ucUartRxEnd ;              //接收返回信息结束标志
+  14          unsigned char g_ucUartRxLen ;             //接收返回信息长度
+  15          unsigned char l_ucFPID;                  //用户编号
+  16          
+  17          extern unsigned char p;  //  串口接收地址
+  18          
+  19          
+  20          /*******************************************************************      
+  21          **功能：延时程序
+  22          **参数：
+  23          **返回：无                                                                
+  24          *******************************************************************/      
+  25                                                                                     
+  26          void Delay_ms(unsigned int ms)                                                         
+  27          {                                                                          
+  28   1          unsigned int i=0,j=0;
+  29   1          for(i=0;i<ms;i++)
+  30   1          for(j=0;j<123;j++);
+  31   1      }
+  32          /*******************************************************************************
+  33          **功能：等待数据包发送完成
+  34          **参数：
+  35          **返回：无
+  36          *******************************************************************************/
+  37          unsigned char WaitFpData(void)
+  38          {
+  39   1        unsigned char i;
+  40   1        
+  41   1        for(i=200; i>0; i--)//等待指纹芯片返回
+  42   1        {
+  43   2          Delay_ms(40);
+  44   2          if(g_ucUartRxEnd)break;
+  45   2        }  
+  46   1        if(i==0)return FALSE;//指纹芯片没有返回
+  47   1        else return TRUE;
+  48   1      }
+  49          
+  50          /*******************************************************************************
+  51          **功能: 计算校验值
+  52          **参数: 要发送的数据指针地址
+  53          **返回: 校验值
+  54          *******************************************************************************/
+  55          unsigned char CmdGenCHK(unsigned char wLen,unsigned char *ptr)
+C51 COMPILER V9.50a   BIOVO                                                                06/26/2014 16:01:21 PAGE 2   
+
+  56          {
+  57   1        unsigned char i,temp = 0;
+  58   1        
+  59   1        for(i = 0; i < wLen; i++)
+  60   1        {
+  61   2          temp ^= *(ptr + i);
+  62   2        }
+  63   1        return temp;
+  64   1      }
+  65          
+  66          /*******************************************************************************
+  67          **功能: 发送控制指纹芯片指令
+  68          **参数: wLen 数据长度
+  69                  cpPara 发送的数据
+  70          **返回：void
+  71          *******************************************************************************/
+  72          void UART_SendPackage(unsigned char wLen,unsigned char *ptr)
+  73          {
+  74   1        unsigned int i=0,len=0;
+  75   1       
+  76   1        tBuf[0] = DATA_START;//指令包
+  77   1        for(i = 0; i < wLen; i++)      // data in packet 
+  78   1        {
+  79   2          tBuf[1+i] = *(ptr+i);
+  80   2        } 
+  81   1        
+  82   1        tBuf[wLen + 1] = CmdGenCHK(wLen, ptr);         //Generate checkout data
+  83   1        tBuf[wLen + 2] = DATA_END;
+  84   1        len = wLen + 3;
+  85   1        
+  86   1        g_ucUartRxEnd = 0;
+  87   1        g_ucUartRxLen = len ;
+  88   1        
+  89   1        UartSend(tBuf,len);
+  90   1      }
+  91           
+  92          /*******************************************************************************
+  93          **功能：返回信息处理
+  94          **参数： cmd 不同命令不同处理
+  95          **返回：处理结果
+  96          *******************************************************************************/
+  97          unsigned char Check_Package(unsigned char cmd)
+  98          {
+  99   1          unsigned char flag = FALSE;
+ 100   1           if(!WaitFpData()) return flag; //等待接收返回信息
+ 101   1           p = 0 ;
+ 102   1          if(g_ucUartRxEnd)
+ 103   1            g_ucUartRxEnd = 0;//清数据包接收标志
+ 104   1          else 
+ 105   1            return flag;
+ 106   1          
+ 107   1        if(rBuf[0] != DATA_START)return flag;
+ 108   1        if(rBuf[1] != cmd)return flag;
+ 109   1        if(rBuf[6] != CmdGenCHK(g_ucUartRxLen - 3, &rBuf[1]))return flag;
+ 110   1        switch(cmd)
+ 111   1        {
+ 112   2        case CMD_ENROLL1:
+ 113   2        case CMD_ENROLL2:
+ 114   2        case CMD_ENROLL3:
+ 115   2          if(ACK_SUCCESS == rBuf[4])flag = TRUE;
+ 116   2          else if(ACK_USER_EXIST == rBuf[4])
+ 117   2          {
+C51 COMPILER V9.50a   BIOVO                                                                06/26/2014 16:01:21 PAGE 3   
+
+ 118   3      //    Spk_HaveUser();
+ 119   3            Delay_ms(1500);
+ 120   3          }
+ 121   2          break;
+ 122   2        case CMD_DELETE:  //删除指定编号指纹
+ 123   2        case CMD_CLEAR:    //清空所有指纹
+ 124   2        case CMD_IDENTIFY:  //1:1比对
+ 125   2          if(ACK_SUCCESS == rBuf[4])flag = TRUE;
+ 126   2          break;
+ 127   2        case CMD_USERNUMB:  //取用户总数
+ 128   2          if(ACK_SUCCESS == rBuf[4])
+ 129   2          {
+ 130   3            flag = TRUE;
+ 131   3            l_ucFPID = rBuf[3];
+ 132   3          }
+ 133   2          break;
+ 134   2        case CMD_SEARCH:   //1:N比对
+ 135   2          if((1 == rBuf[4])||(2 == rBuf[4])||(3 == rBuf[4]))
+ 136   2          {
+ 137   3            flag = TRUE;
+ 138   3            l_ucFPID = rBuf[3];
+ 139   3          }
+ 140   2          break;
+ 141   2        default:
+ 142   2          break;
+ 143   2        }
+ 144   1           
+ 145   1          return flag;
+ 146   1      }
+ 147          
+ 148          /*******************************************************************************
+ 149          **功能：以CharBuffer1 或CharBuffer2 中的特征文件搜索整个或部分指纹库
+ 150          **参数：
+ 151          **返回：无
+ 152          *******************************************************************************/
+ 153          void FP_Search(void)
+ 154          {
+ 155   1        unsigned char buf[BUF_N];
+ 156   1        
+ 157   1        *buf = CMD_SEARCH;          //1:N比对
+ 158   1        *(buf+1) = 0x00;
+ 159   1        *(buf+2) = 0x00;
+ 160   1        *(buf+3) = 0x00;
+ 161   1        *(buf+4) = 0x00;
+ 162   1      
+ 163   1        UART_SendPackage(5, buf);
+ 164   1      }
+ 165          
+ 166          /*******************************************************************************
+ 167          **功能：清空 flash 指纹库
+ 168          **参数：
+ 169          **返回：无
+ 170          *******************************************************************************/
+ 171          void FP_Clear(void)
+ 172          {
+ 173   1        unsigned char buf[BUF_N];
+ 174   1        
+ 175   1        *buf = CMD_CLEAR;
+ 176   1        *(buf+1) = 0x00;
+ 177   1        *(buf+2) = 0x00;
+ 178   1        *(buf+3) = 0x00;
+ 179   1        *(buf+4) = 0x00;
+C51 COMPILER V9.50a   BIOVO                                                                06/26/2014 16:01:21 PAGE 4   
+
+ 180   1      
+ 181   1        UART_SendPackage(5, buf);
+ 182   1      }
+ 183          
+ 184          /*******************************************************************************
+ 185          **功能：删除指定编号指纹
+ 186          **参数：u_id
+ 187          **返回：void
+ 188          *******************************************************************************/
+ 189          void FP_Delete(unsigned int u_id)
+ 190          {
+ 191   1        unsigned char buf[BUF_N];
+ 192   1        
+ 193   1        *buf = CMD_DELETE;
+ 194   1        *(buf+1) = u_id>>8;
+ 195   1        *(buf+2) = u_id&0xff;
+ 196   1        *(buf+3) = 0x00;
+ 197   1        *(buf+4) = 0x00;
+ 198   1        UART_SendPackage(5, buf);
+ 199   1      }
+ 200          
+ 201          /*******************************************************************************
+ 202          **功能：1:1比对
+ 203          **参数：u_id
+ 204          **返回：void
+ 205          *******************************************************************************/
+ 206          void FP_Identify(unsigned int u_id)
+ 207          {
+ 208   1        unsigned char buf[BUF_N];
+ 209   1        
+ 210   1        *buf = CMD_IDENTIFY;
+ 211   1        *(buf+1) = u_id>>8;
+ 212   1        *(buf+2) = u_id&0xff;
+ 213   1        *(buf+3) = 0x00;
+ 214   1        *(buf+4) = 0x00;
+ 215   1        UART_SendPackage(5, buf);
+ 216   1      }
+ 217          
+ 218          /*******************************************************************************
+ 219          **注册指纹
+ 220          **输入两次指纹注册一个指纹模板
+ 221          **参数：UserID 指纹号
+ 222          *******************************************************************************/
+ 223          void Enroll_Step1(unsigned int u_id)
+ 224          {
+ 225   1        unsigned char buf[BUF_N];
+ 226   1        
+ 227   1        *buf = CMD_ENROLL1;
+ 228   1        *(buf+1) = u_id>>8;
+ 229   1        *(buf+2) = u_id&0xff;
+ 230   1        *(buf+3) = 1;
+ 231   1        *(buf+4) = 0x00;
+ 232   1      
+ 233   1        UART_SendPackage(5, buf);
+ 234   1      }
+ 235          
+ 236          /*******************************************************************************
+ 237          **注册指纹
+ 238          **输入两次指纹注册一个指纹模板
+ 239          **参数：UserID 指纹号
+ 240          *******************************************************************************/
+ 241          void Enroll_Step2(unsigned int u_id)
+C51 COMPILER V9.50a   BIOVO                                                                06/26/2014 16:01:21 PAGE 5   
+
+ 242          {
+ 243   1        unsigned char buf[BUF_N];
+ 244   1        
+ 245   1        *buf = CMD_ENROLL2;
+ 246   1        *(buf+1) = u_id>>8;
+ 247   1        *(buf+2) = u_id&0xff;
+ 248   1        *(buf+3) = 1;
+ 249   1        *(buf+4) = 0x00;
+ 250   1      
+ 251   1        UART_SendPackage(5, buf);
+ 252   1      }
+ 253          
+ 254          /*******************************************************************************
+ 255          **注册指纹
+ 256          **输入三次指纹注册一个指纹模板
+ 257          **参数：UserID 指纹号
+ 258          *******************************************************************************/
+ 259          void Enroll_Step3(unsigned int u_id)
+ 260          {
+ 261   1        unsigned char buf[BUF_N];
+ 262   1        
+ 263   1        *buf = CMD_ENROLL3;
+ 264   1        *(buf+1) = u_id>>8;
+ 265   1        *(buf+2) = u_id&0xff;
+ 266   1        *(buf+3) = 1;
+ 267   1        *(buf+4) = 0x00;
+ 268   1      
+ 269   1        UART_SendPackage(5, buf);
+ 270   1      }
+ 271          
+ 272          /*******************************************************************************
+ 273          **注册指纹
+ 274          **输入三次指纹注册一个指纹模板
+ 275          **参数：UserID 指纹号
+ 276          *******************************************************************************/
+ 277          unsigned char Finger_Enroll(unsigned int u_id)
+ 278          {
+ 279   1        Enroll_Step1(u_id);
+ 280   1        if(FALSE == Check_Package(CMD_ENROLL1))return FALSE;
+ 281   1        Delay_ms(100);
+ 282   1        
+ 283   1        Enroll_Step2(u_id);
+ 284   1        if(FALSE == Check_Package(CMD_ENROLL2))return FALSE;
+ 285   1        Delay_ms(100);
+ 286   1        
+ 287   1        Enroll_Step3(u_id);
+ 288   1        return Check_Package(CMD_ENROLL3);
+ 289   1      }
+ 290          
+ 291          /*******************************************************************************
+ 292          **清空指纹
+ 293          **
+ 294          **参数：UserID 指纹号
+ 295          *******************************************************************************/
+ 296          unsigned char Finger_Clear(void)
+ 297          {
+ 298   1        FP_Clear();
+ 299   1      //  if(FALSE == WaitFpData())return FALSE;
+ 300   1        return Check_Package(CMD_CLEAR);
+ 301   1      }
+ 302          
+ 303          /*******************************************************************************
+C51 COMPILER V9.50a   BIOVO                                                                06/26/2014 16:01:21 PAGE 6   
+
+ 304          **删除指定指纹
+ 305          **
+ 306          **参数：UserID 指纹号
+ 307          *******************************************************************************/
+ 308          unsigned char Finger_Delete(unsigned int u_id)
+ 309          {
+ 310   1        FP_Delete(u_id);
+ 311   1      //  if(FALSE == WaitFpData())return FALSE;
+ 312   1        return Check_Package(CMD_DELETE);
+ 313   1      }
+ 314          /*******************************************************************************
+ 315          **读取用户总数
+ 316          **
+ 317          **参数
+ 318          *******************************************************************************/
+ 319          unsigned char Finger_Read(void)
+ 320          {
+ 321   1         unsigned char buf[BUF_N];
+ 322   1        
+ 323   1        *buf = CMD_USERNUMB;
+ 324   1        *(buf+1) = 0x00;
+ 325   1        *(buf+2) = 0x00;
+ 326   1        *(buf+3) = 0x00;
+ 327   1        *(buf+4) = 0x00;
+ 328   1        UART_SendPackage(5, buf);
+ 329   1        return Check_Package(CMD_USERNUMB);
+ 330   1      }
+ 331          /*******************************************************************************
+ 332          **读取用户总数
+ 333          **
+ 334          **参数
+ 335          *******************************************************************************/
+ 336          unsigned char Finger_Search(void)
+ 337          {
+ 338   1         FP_Search();
+ 339   1        return Check_Package(CMD_SEARCH);
+ 340   1      }
+ 341          
+ 342          
+ 343          
+ 344          
+ 345          
+ 346          
+ 347          
+ 348          
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =    639    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =     19      77
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

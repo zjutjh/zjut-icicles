@@ -1,0 +1,98 @@
+; SY600.Inf - Install information file
+; For SY600 Finger Module
+; (c) Copyright 2014 SYNOCHIP
+; built by Blue
+; 2014.05.23
+
+[Version]
+Signature="$CHICAGO$"
+Class=SYNO_SY600
+;ClassGUID={36FC9E60-C465-11CF-8056-444553540000}
+ClassGUID={3B17FE50-1341-418e-8140-FCF7F6D9398B}
+Provider=%Author%
+DriverVer=08/08/2014,1.0.1.0
+CatalogFile=SY600.cat
+CatalogFile.NTx86=SY600X86.cat
+;CatalogFile=SY600.cat
+
+[ClassInstall32]
+Addreg = SYNOReg
+
+[ClassInstall]
+Addreg = SYNOReg
+
+[ClassInstall32.ntia64]
+Addreg = SYNOReg
+
+[SYNOReg]
+HKR, , , 0, %ClassName%
+HKR, , Icon, , "-20"
+HKR, , NoInstallClass, , 1
+
+
+[SourceDisksNames]
+1=%Disk_Description%,,,
+
+[SourceDisksFiles]
+SY600.sys = 1
+
+[Manufacturer]
+%MfgName%=SynoChip, NTx86, NTia64, NTamd64
+
+[SynoChip.NTx86]
+%USB\VID_045E&PID_930A.DeviceDesc%=SYNOSY600USB.Dev, USB\VID_2008&PID_7639
+
+[SynoChip.NTia64]
+%USB\VID_045E&PID_930A.DeviceDesc%=SYNOSY600USB.Dev, USB\VID_2008&PID_7639
+
+[SynoChip.NTamd64]
+%USB\VID_045E&PID_930A.DeviceDesc%=SYNOSY600USB.Dev, USB\VID_2008&PID_7639
+
+[PreCopySection]
+HKR,,NoSetupUI,,1
+
+[DestinationDirs]
+SYNOSY600USB.Files.Ext = 10,System32\Drivers
+SYNOSY600USB.Files.Inf = 10,INF
+
+[SYNOSY600USB.Dev]
+CopyFiles=SYNOSY600USB.Files.Ext,SYNOSY600USB.Files.Inf
+AddReg=SYNOSY600USB.AddReg
+
+[SYNOSY600USB.Dev.NT]
+CopyFiles=SYNOSY600USB.Files.Ext,SYNOSY600USB.Files.Inf
+AddReg=SYNOSY600USB.AddReg
+
+[SYNOSY600USB.Dev.NT.Services]
+Addservice = SYNOSY600USB, 0x00000002, SYNOSY600USB.AddService
+
+[SYNOSY600USB.AddService]
+DisplayName    = %SYNOSY600USB.SvcDesc%
+ServiceType    = 1                  ; SERVICE_KERNEL_DRIVER
+StartType      = 2                  ; SERVICE_AUTO_START=2,SERVICE_DEMAND_START=3
+ErrorControl   = 1                  ; SERVICE_ERROR_NORMAL
+ServiceBinary  = %10%\System32\Drivers\SY600.sys
+AddReg         = SYNOSY600USB.AddReg
+LoadOrderGroup = Base
+
+[SYNOSY600USB.AddReg]
+HKR,,DevLoader,,*ntkern
+HKR,,NTMPDriver,,SY600.sys
+HKR,"Parameters","MaximumTransferSize",0x10001,4096
+HKR,"Parameters","DebugLevel",0x10001,2
+HKR,"Parameters","BulkUsbEnable",0x10001,1
+
+[SYNOSY600USB.Files.Ext]
+SY600.sys
+
+[SYNOSY600USB.Files.Inf]
+;SY600.inf
+;---------------------------------------------------------------;
+
+[Strings]
+ClassName= "SY600 Device"
+Author="SynoChip Ltd"
+MfgName="SynoChip"
+Disk_Description="SY600 Installation Disk"
+USB\VID_045E&PID_930A.DeviceDesc="SY600 Finger Module"
+SYNOSY600USB.SvcDesc="SY600 Finger Module. (SY600.sys)"
