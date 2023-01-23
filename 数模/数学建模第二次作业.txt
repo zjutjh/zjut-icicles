@@ -1,0 +1,2 @@
+在小世界网络中观察平均聚集系数和平均路径距离随着随机概率P的变化趋势
+相关介绍博客：https://blog.csdn.net/database_zbye/article/details/8246889
