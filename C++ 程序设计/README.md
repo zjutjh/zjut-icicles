@@ -244,6 +244,7 @@
 7、所有的增加、修改、删除能同步到文件；也从文件读取数据到程序。
 
 ## 8、面包店销售管理系统
+### [样例] https://github.com/SGSxingchen/Bakery-Sales-Management-System
 
 ### 基本要求：
 
