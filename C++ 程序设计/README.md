@@ -428,6 +428,8 @@
 
 ## 17、银行账户管理程序系统
 
+### [样例](https://github.com/Tianci-King/Bank-account-management-software-system/)
+
 ### 基本要求：
 
 设计一个银行账户管理程序，账户的信息有账号（唯一）、姓名、余额、身份证号码、单位、电话号码、地址、开户日期、销户日期等。
