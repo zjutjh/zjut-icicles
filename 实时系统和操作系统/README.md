@@ -1,8 +1,11 @@
+# 实时系统和操作系统
+
 > 此课程是**软件工程中外合作**的操作系统课
 
 ## 教材
 
 > 注意教材是 Essential（精要） 版的
+> 上传文件受到文件大小限制，故仓库下的中文书是原书的切片（30页/文件），需要下载所有切片组合成原书
 
 - [Operating System Concepts Essentials, 2nd Edition](https://dusithost.dusit.ac.th/~juthawut_cha/download/Operating_System_Concepts_Essentials_2nd_Edition.pdf)
 
