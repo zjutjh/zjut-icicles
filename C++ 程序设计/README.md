@@ -1,5 +1,5 @@
 任务书（2020版）
-项目参考：https://github.com/JINNMnm/zjut_cpp_programming
+
 # 一、课程设计的目的与要求
 
 ## 1、教学目的
@@ -289,6 +289,7 @@
 4、对学生的信息输入、修改、删除均可以同步到文件中，系统也可以通过记录的文件读入数据。 
 
 ## 10、学校开课查询系统
+### [样例](https://github.com/JINNMnm/zjut_cpp_programming)
 
 ### 基本要求：
 
