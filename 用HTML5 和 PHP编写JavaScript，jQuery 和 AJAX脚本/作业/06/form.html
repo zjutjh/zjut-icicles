@@ -1,0 +1,80 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>多个表单项的动态校验 </title>
+        <style type="text/css">
+        body {
+            font-family: "Microsoft Yahei"
+        }
+		label,input{
+		display:block;
+		width:300px;
+		}
+        
+        input#submit {
+            border: none;
+            background-color: #2F79BA;
+            color: #fff;
+            border-radius: 5px;
+            padding: 10px 20px;
+						margin-top:10px;
+            cursor: pointer;
+        }
+        form{
+            display: flex;
+            flex-direction: column;
+        }
+        div{
+           margin:5px auto;
+           display: flex;
+           flex-flow: inherit;
+           width: 300px;
+        }
+    		input{
+        	border:1px solid #888;
+		 			padding: 7px;
+    		}
+
+        p {
+            font-size: .8rem;
+            color: #BBBBBB;
+						margin:0;
+        }
+        </style>
+    </head>
+
+    <body>
+        <form action="1.php" method="get" id="form">
+            <div>
+                <label for="name">名称</label>
+                <input type="text" id="name" />
+                <p id="name_p">必填，长度为4~16个字符</p>
+            </div>
+            <div>
+                <label for="password">密码</label>
+                <input type="password" id="password" />
+                <p id='password_p'>请输入密码</p>
+            </div>
+            <div>
+                <label for="password_confirm">密码确认</label>
+                <input type="password" id="password_confirm" />
+                <p id="password_confirm_p">再次输入相同的密码</p>
+            </div>
+            <div>
+                <label for="email">邮箱</label>
+                <input type="text" id="email" />
+                <p id="email_p">输入您的邮箱</p>
+            </div>
+            <div>
+                <label for="phone_number">手机</label>
+                <input type="text" id="phone_number" />
+                <p id="phone_number_p">输入您的手机号码</p>
+            <input type="submit" id="submit" value="提交" />
+            </div>
+        </form>
+
+
+    </body>
+
+</html>

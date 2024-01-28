@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>addnews</title>
+<style type="text/css">
+.wrapper {
+	background: #F2F2F2;
+	width: 100%;
+	height: 1200px;
+}
+
+.content {
+	width: 900px;
+	height: 900px;
+}
+
+
+
+
+input {
+	border: 1px solid #888;
+	padding: 7px;
+}
+
+label, input {
+	width: 500px;
+}
+
+p {
+	font-size: .8rem;
+	color: #BBBBBB;
+	margin: 0 0 0 0;
+}
+
+#submit {
+	border-radius: 3px;
+	color: white;
+	width: 100px;
+	line-height: 30px;
+	font-size: 14px;
+	text-align: center;
+	cursor: pointer;
+	background: #d00000;
+	margin-top:10px;
+}
+</style>
+</head>
+<body>
+	<div class="wrapper" align="center">
+		<div class="content" align="center">
+			<div>
+				<span
+					style="font-size: 25px; text-align:center; font-weight: 600;"> 添加商品 </span>
+			</div>
+			<form action="addnews.php" method="post" id="form" enctype="multipart/form-data">
+				<div>
+					<label for="title" style="margin-left:16px;">商品名</label> <input type="text" id="title"
+						name="title" />
+					<p id="title_p" style="margin-left:-300px">必填，长度为0~30个字符</p>
+				</div>
+				<div>
+					<label for="title" style="margin-left:32px;">价格</label> <input type="text" id="title"
+						name="title" />
+					<p id="title_p" style="margin-left:-420px">必填</p>
+				</div>
+				<div>
+
+					<label for="content">商品介绍</label>
+					<textarea id="content" name="content" required="required"
+						style="width: 513px; height: 250px;">
+							</textarea>
+					<p id="content_p" style="margin-left:-375px">输入商品介绍</p>
+
+				</div>
+				<div class="picture">
+					<label for="file">商品图片</label> <input type="file" name="upFile"
+						id="file"> 
+
+				</div>
+				<div>
+					<input type="submit" id="submit" value="提交" />
+				</div>
+			</form>
+
+		</div>
+	</div>
+
+
+</body>
+</html>

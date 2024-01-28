@@ -1,0 +1,64 @@
+<html>
+  <head>
+     <title>js应用</title>
+	 <style type="text/css">
+
+	 .wrapper{
+		font-size:15px;
+		width:60%;
+		margin: 0 auto;
+		color:#555555
+	 }
+	 #result{
+	 	display:inline;
+	 	}
+	 </style>
+</head><body> 
+	<div class="wrapper">
+		<h1>javascript 基础练习</h1>
+<form>
+<p>1、四则运算(输入两个数的加减乘除，如11+23，2.5*4，点等号按钮输出计算结果)</p>
+<input  type="text"  id="myinput1">
+<select name="con" id="con" >
+<option value="1">+</option>
+<option value="2">-</option>
+<option value="3">*</option>
+<option value="4">/</option>
+</select>
+<input  type="text"  id="myinput2">
+<input type="button" value="=" onclick="getValue()" />
+<p id="result"></p>
+
+<p>2、字符串连接(将输入的两个字符串连接输出)</p>
+<input  type="text"  id="string1">+
+<input  type="text"  id="string2">
+<input type="button" value="=" onclick="getString()" />
+<p id="string"></p>
+</form>
+
+<script type="text/javascript">
+function getValue()
+{
+x1=document.getElementById("myinput1").value-0;
+x2=document.getElementById("myinput2").value-0;
+con=document.getElementById("con");
+switch(con.value){
+	case '1':result=x1+x2;break;
+	case '2':result=x1-x2;break;
+	case '3':result=x1*x2;break;
+	case '4':result=x1/x2;break;
+	default:result=0;
+	}
+document.getElementById("result").innerHTML=result;
+
+}
+function getString(){
+	x1=document.getElementById("string1").value;
+	x2=document.getElementById("string2").value;
+	result=x1+' '+x2;
+	document.getElementById("string").innerHTML=result;
+	}
+
+</script>
+</div>
+</body></html>
