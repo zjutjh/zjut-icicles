@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+    <!-- 浏览器提示为怪异模式，希望我用 DOCTYPE 声明文档类型，我就重新初始化了一份 html，把原来的 html 和 style 部分复制了进去。 -->
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <div class="wrapper">
+        <h1>上机5 JavaScript事件</h1>
+        <div id="title">
+            <div id="menu1" class="header-c" onclick="changeContent(1)">
+                menu1
+            </div>
+            <div id="menu2" class="header" onclick="changeContent(2)">
+                menu2
+            </div>
+            <div id="menu3" class="header" onclick="changeContent(3)">
+                menu3
+            </div>
+
+        </div>
+        <div class="content" id="menu">
+            <div id="content1" class="show">
+                <p>
+                    这是menu1的内容。这是menu1的内容。这是menu1的内容。这是menu1的内容。。这是menu1的内容。这是menu1的内容。
+                    这是menu1的内容。这是menu1的内容。这是menu1的内容。这是menu1的内容。这是menu1的内容。这是menu1的内容。这是menu1的内容。。这是menu1的内容。这是menu1的内容。
+                    这是menu1的内容。这是menu1的内容。这是menu1的内容。
+                </p>
+            </div>
+            <div id="content2" class="hidden">
+                <p>
+                    这是menu2的内容。这是menu2的内容。这是menu2的内容。这是menu2的内容。这是menu2的内容。这是menu2的内容。这是menu2的内容。
+                    这是menu2的内容。这是menu2的内容。这是menu2的内容。这是menu2的内容。这是menu2的内容。这是menu2的内容。这是menu2的内容。这是menu2的内容。这是menu2的内容。这是menu2的内容。
+                    这是menu2的内容。这是menu2的内容。这是menu2的内容。
+                </p>
+            </div>
+            <div id="content3" class="hidden">
+                <p>
+                    这是menu3的内容。这是menu3的内容。这是menu3的内容。这是menu3的内容。这是menu3的内容。这是menu3的内容。这是menu3的内容。
+                    这是menu3的内容。这是menu3的内容。这是menu3的内容。这是menu3的内容。这是menu3的内容。
+                    这是menu3的内容。这是menu3的内容。这是menu3的内容。这是menu3的内容。这是menu3的内容。这是menu3的内容。这是menu3的内容。
+                    这是menu3的内容。这是menu3的内容。这是menu3的内容。这是menu3的内容。这是menu3的内容。
+                </p>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>
+
+<script>
+    function changeContent(menuNumber) {
+        for (let i = 1; i <= 3; i++) {
+            document.getElementById('menu' + i).className = 'header';
+            document.getElementById('content' + i).className = 'hidden';
+        }
+        document.getElementById('menu' + menuNumber).className = 'header-c';
+        document.getElementById('content' + menuNumber).className = 'show';
+    }
+</script>
+
+<style type="text/css">
+    .wrapper {
+        font-size: 15px;
+        width: 50%;
+        margin: 0 auto;
+        color: #555555
+    }
+
+    h1 {
+        text-align: center;
+    }
+
+    .header {
+        width: 33%;
+        float: left;
+        height: 30px;
+        background-color: grey;
+        margin: 0 auto;
+        font-size: 20px;
+        cursor: pointer;
+        text-align: center;
+    }
+
+    .header-c {
+        width: 33%;
+        float: left;
+        height: 30px;
+        background-color: #555555;
+        color: #ffffff;
+        margin: 0 auto;
+        font-size: 20px;
+        cursor: pointer;
+        text-align: center;
+    }
+
+    .content {
+        clear: left;
+    }
+
+    .content p {
+        padding: 20px 5px 20px 5px;
+    }
+
+    li {
+        list-style-type: none;
+    }
+
+    .show {
+        display: block;
+    }
+
+    .hidden {
+        display: none;
+    }
+</style>

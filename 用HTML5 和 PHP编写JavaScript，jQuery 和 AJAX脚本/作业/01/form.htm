@@ -1,0 +1,78 @@
+<html>
+	<head>
+		<style type="text/css">
+			.center{text-align:center;font-weight:bolder;font-size:22px;}
+			select{color:purple;}
+                                                p span{font-weight:bolder}
+			ul{list-style-type:none}
+		
+		</style>
+	</head>
+	<body>
+		<form method="post" enctype="multipart/form-data">
+			<p class="center">调查问卷</p>
+			<p><span>1.姓名: </span></span><input type="text" name="name"/></p>
+			<p><span>2.姓别: </span><input type="radio" name="gender" value="1" checked/>男 
+				<input type="radio" name="gender" value="2"/>女</p>
+			<p><span>3.生源地:</span>
+				<select name="province">
+					<option value="1">江苏</option>
+					<option value="2">上海</option>
+					<option value="3" selected="selected">浙江</option>
+					<option value="4">安徽</option>
+					<option value="5">福建</option>
+					<option value="6">江西</option>
+					<option value="7">山东</option>
+					<option value="8">河南</option>
+					<option value="9">湖北</option>
+					<option value="10">湖南</option>
+					<option value="11">广东</option>
+					<option value="12">海南</option>
+					<option value="13">四川</option>
+					<option value="14">贵州</option>
+					<option value="15">陕西</option>
+					<option value="16">云南</option>
+					<option value="17">甘肃</option>
+					<option value="18">青海</option>
+					<option value="19">内蒙古</option>
+					<option value="20">广西</option>
+					<option value="21">西藏</option>
+     			<option value="22">北京</option>
+					<option value="23">天津</option>
+					<option value="24">重庆</option>
+					<option value="25">河北</option>
+					<option value="26">山西</option>
+					<option value="27">辽宁</option>
+					<option value="28">吉林</option>
+					<option value="29">黑龙江</option>
+					<option value="30">宁夏</option>
+					<option value="31">新疆</option>
+					<option value="32">香港</option>
+					<option value="33">澳门</option>
+					<option value="34">台湾</option>
+
+				</select>
+				</p>
+			<p><span>4.已修课程:</span>
+				<input type="checkbox" value="1" name="course[]"/>离散数学
+				<input type="checkbox" value="2" name="course[]"/>数据结构
+				<input type="checkbox" value="3" name="course[]"/>高等数学
+				<input type="checkbox" value="4" name="course[]"/>线性代数
+				<input type="checkbox" value="5" name="course[]"/>编译原理
+				<input type="checkbox" value="6" name="course[]"/>操作系统</p>
+			<p><span>5.每周课外花费学习本课程的时间：</span><input type="text" name="hour"/>小时</p>
+			<p><span>6.你觉得老师的案例有没有借鉴价值：</span></p>
+			<ul>
+				
+				<li> <input type="radio" name="val" value="1" checked/>具有借鉴价值
+				<li> <input type="radio" name="val" value="2"/>具有一定借鉴价值 
+				<li> <input type="radio" name="val" value="3"/>借鉴价值不大
+				<li> <input type="radio" name="val" value="4"/>完全没有借鉴价值
+	
+				</ul>
+			<p><span>7.对本课程的意见或建议:</span></p>
+			<textarea name="text" rows="10" cols="150"></textarea>
+			<p><span>或上传文件</span><input type="file" name=“upfile" /></p>
+			<input type="submit" name="submit" value="提交"/> <input type="reset" name="reset" value="重置"/>
+		</form>
+	</body

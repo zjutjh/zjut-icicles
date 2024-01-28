@@ -1,0 +1,61 @@
+<html>  
+<head>  
+<script src="jquery-1.12.3.min.js"></script>
+<script>
+var imgs = [
+       "img/01.jpg" ,
+        "img/02.jpg" ,
+        "img/03.jpg" ,
+        "img/04.jpg" ,
+        "img/05.jpg" ,
+        "img/06.jpg",
+        "img/07.jpg"
+];
+
+var startId;   //开始定时器Id
+var index;   //随机角标
+$(function(){
+    $("#startID").attr("disabled",false);     // disable表示不可用
+    $("#stopID").attr("disabled",true);     // disable表示不可用
+
+    $("#startID").click(function () {
+        startId=setInterval(function () {
+            $("#startID").attr("disabled",true);
+            $("#stopID").attr("disabled",false);
+            index=Math.floor(Math.random()*7);    //随机数是0.000-0.999  所以*7 
+            $("#img1ID").attr("src",imgs[index]);
+        },20);
+    });
+
+    $("#stopID").click(function () {
+        $("#startID").attr("disabled",false);
+        $("#stopID").attr("disabled",true);
+        clearInterval(startId);
+        $("#img2ID").attr("src",imgs[index]).hide(); 
+        $("#img2ID").show(1000);      //显示1s后显示
+    })
+})
+
+</script>
+</head> 
+<body>
+
+
+
+<!-- 小像框 -->
+<div style="border-style:dotted;width:160px;height:100px">
+    <img id="img1ID" src="img/01.jpg" style="width:160px;height:100px"/>
+</div>
+
+<!-- 大像框 -->
+<div style="border-style:double;width:800px;height:500px;position:absolute;left:500px;top:10px">
+    <img id="img2ID" src="img/01.jpg" width="800px" height="500px"/>
+</div>
+
+<input id="startID" type="button" value="点击开始" style="width:150px;height:150px;font-size:22px" 
+onclick="imgStart()">
+<input id="stopID" type="button" value="点击停止" style="width:150px;height:150px;font-size:22px"
+onclick="imgStop()">
+
+</body>
+</html>

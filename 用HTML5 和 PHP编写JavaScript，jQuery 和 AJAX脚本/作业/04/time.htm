@@ -1,0 +1,122 @@
+<html><head>
+	<style type="text/css">
+
+	 .wrapper{
+		font-size:15px;
+		text-align:center;
+		width:80%;
+		margin: 0 auto;
+		color:#555555
+	 }
+	 .content{
+	 		width:30%;
+	 		float:left;
+	 	}
+	 	.header{
+	 		height:30px;
+	 		background-color:grey;
+	 		width:95%;
+	 		margin: 0 auto;
+	 		font-size:20px;
+	 		}
+	 		li{
+	 			list-style-type:none;
+	 			}
+	 	#result,#ave{
+	 		display:inline;
+	 	}
+	 </style>
+
+</head>
+<body onload="start()" >
+	<div class="wrapper">
+		<h1>上机4 JavaScript内置对象</h1>
+		<div class="content">
+			<div class="header">
+				时间
+			</div>
+			<div id="txt" >
+			</div>
+			
+		</div>
+		<div class="content">
+			<div class="header">
+				数组
+			</div>
+			<div >
+				输入一串用逗号分隔的数值，点击按钮，计算他们的平均值。<br/>
+				<input  type="text"  id="aveinput"><input type="button" value="=" onclick="aveValue()" />
+				<p id="ave"></p>
+			</div>
+			
+		</div>
+		<div class="content">
+			<div class="header">
+				字符串
+			</div>
+			<div class="list" >
+				输入一个只包含一个运算符的四则运算公式（如2+3，5*4，2.5/2，4.5-1），点击按钮，计算结果。
+				<input  type="text"  id="myinput"><input type="button" value="=" onclick="getValue()" />
+				<p id="result"></p>
+			</div>
+			
+		</div>
+
+
+</div>
+	<script>
+startTime();
+		function start(){
+			    setInterval("startTime()",1000);
+			}
+    function startTime(){
+        var today = new Date();
+        var h = today.getHours();
+        var m = today.getMinutes();
+        var s = today.getSeconds();
+        m = checkTime(m);
+        s = checkTime(s);
+        document.getElementById('txt').innerHTML=h+":"+m+":"+s;
+    }
+
+    function checkTime(i){
+        if(i<10){
+            i = "0"+i;
+        }
+        return i
+    }
+function aveValue(){
+  x1=document.getElementById("aveinput").value;
+MyArr=x1.split(',');
+var i=0.0;
+  for (x in MyArr)
+  {
+	i+=Number(MyArr[x]);
+  }
+  document.getElementById("ave").innerHTML=i/MyArr.length;
+}
+
+function getValue(){
+	x1=document.getElementById("myinput").value;
+	if((f=x1.indexOf('+'))!=-1){
+		result=Number(x1.substring(0,f))+Number(x1.substring(f+1));
+		}
+	else if((f=x1.indexOf('-'))!=-1){
+		result=Number(x1.substring(0,f))-Number(x1.substring(f+1));
+		}
+	else if((f=x1.indexOf('*'))!=-1){
+		result=Number(x1.substring(0,f))*Number(x1.substring(f+1));
+		}
+  else if((f=x1.indexOf('/'))!=-1){
+		result=Number(x1.substring(0,f))/Number(x1.substring(f+1));
+		}
+	else{
+		result="无效输入";
+		}
+		
+
+	document.getElementById("result").innerHTML=result;
+	}
+	</script>
+</body>
+</html>
