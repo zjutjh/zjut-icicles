@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:gravity="center"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="3">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/image01"
+            android:src="@drawable/pic1" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center|bottom"
+        android:layout_weight="1">
+
+        <Button
+            android:layout_width="70dp"
+            android:layout_height="wrap_content"
+            android:text="透明"
+            android:id="@+id/button01" />
+
+        <Button
+            android:layout_width="70dp"
+            android:layout_height="wrap_content"
+            android:text="尺寸"
+            android:id="@+id/button02" />
+
+        <Button
+            android:layout_width="70dp"
+            android:layout_height="wrap_content"
+            android:text="位置"
+            android:id="@+id/button03" />
+
+        <Button
+            android:layout_width="70dp"
+            android:layout_height="wrap_content"
+            android:text="旋转"
+            android:id="@+id/button04" />
+
+        <Button
+            android:layout_width="70dp"
+            android:layout_height="wrap_content"
+            android:text="综合"
+            android:id="@+id/button05" />
+
+    </LinearLayout>
+
+</LinearLayout>

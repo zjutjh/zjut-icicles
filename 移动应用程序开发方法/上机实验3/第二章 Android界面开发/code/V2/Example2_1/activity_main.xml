@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/bg">
+
+    <TextView
+        android:id="@+id/text1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/bg_textview"
+        android:maxWidth="250dp"
+        android:text="你好，好久不见！"
+        android:textSize="20sp"
+        android:textColor="#16476B"
+        android:layout_gravity="end"
+        android:layout_marginRight="5dp" />
+
+    <ImageView
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:id="@+id/img1"
+        android:layout_gravity="end"
+        android:layout_marginTop="10dp"
+        android:src="@drawable/ico1" />
+
+    <EditText
+        android:id="@+id/edit1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:lines="5"
+        android:hint="说点什么吧..."
+        android:gravity="top"
+        android:padding="5dp"
+        android:background="#ffffffff"
+        android:layout_marginTop="10dp" />
+
+</LinearLayout>

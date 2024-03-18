@@ -1,0 +1,16 @@
+<resources>
+    <string name="app_name">词典</string>
+    <string name="search">查询</string>
+    <string name="add">添加</string>
+    <string name="exit">退出</string>
+    <string name="search_et_hint">在此输入要翻译的单词</string>
+    <string name="search_btn_text">查询单词</string>
+    <string name="add_word_hint">单词</string>
+    <string name="add_interpret_hint">解释</string>
+    <string name="word">单 词:</string>
+    <string name="interpret">解 释:</string>
+    <string name="title_activity_add">AddActivity</string>
+
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
+</resources>

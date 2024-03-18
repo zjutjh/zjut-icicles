@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">Example2_1</string>
+
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
+
+    <string name="text_content1">文本内容2</string>
+</resources>

@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<GridLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="match_parent"
+    android:columnCount="6">
+    <ImageView
+        android:id="@+id/img1"
+        android:src="@mipmap/a1"
+        android:layout_gravity="end"
+        android:layout_columnSpan="4"
+        android:layout_column="1"
+        android:layout_row="0"
+        android:layout_marginRight="5dp"
+        android:layout_marginBottom="20dp"
+        />
+    <ImageView
+        android:id="@+id/img2"
+        android:src="@mipmap/ico2"
+        android:layout_column="5"
+        android:layout_row="0"
+        />
+
+    <ImageView
+        android:id="@+id/img3"
+        android:src="@mipmap/ico1"
+        android:layout_column="0"
+        android:layout_row="1"
+        />
+    <ImageView
+        android:id="@+id/img4"
+        android:src="@mipmap/b1"
+        android:layout_row="1"
+        android:layout_marginBottom="20dp"
+        />
+
+    <ImageView
+        android:id="@+id/img5"
+        android:src="@mipmap/a2"
+        android:layout_gravity="end"
+        android:layout_columnSpan="4"
+        android:layout_column="1"
+        android:layout_row="2"
+        android:layout_marginRight="5dp"
+        android:layout_marginBottom="20dp"
+        />
+    <ImageView
+        android:id="@+id/img6"
+        android:src="@mipmap/ico2"
+        android:layout_column="5"
+        android:layout_row="2"
+        />
+
+    <ImageView
+        android:id="@+id/img7"
+        android:src="@mipmap/ico1"
+        android:layout_column="0"
+        android:layout_row="3"
+        />
+    <ImageView
+        android:id="@+id/img8"
+        android:src="@mipmap/b2"
+        android:layout_marginBottom="20dp"
+        android:layout_row="3"
+        />
+</GridLayout>

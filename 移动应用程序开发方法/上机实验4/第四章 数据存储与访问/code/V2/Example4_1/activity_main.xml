@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/bg1">
+
+    <EditText
+        android:id="@+id/search_et"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/search_et_marginTop"
+        android:background="@null"
+        android:hint="@string/search_et_hint"
+        android:paddingLeft="@dimen/search_et_paddingLeft" />
+
+    <ImageButton
+        android:id="@+id/search_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="@dimen/search_btn_margin"
+        android:background="@color/colorLucency"
+        android:gravity="bottom"
+        android:paddingRight="@dimen/search_btn_margin"
+        android:src="@drawable/btn1"
+        android:text="@string/search_btn_text" />
+
+    <ListView
+        android:id="@+id/result_listView"
+        android:layout_width="@dimen/result_listView_width"
+        android:layout_height="@dimen/result_listView_height"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="@dimen/result_listView_marginBottom">
+    </ListView>
+
+    <Button
+        android:id="@+id/btn_add"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/add_btn_marginLeft"
+        android:layout_marginTop="@dimen/add_btn_marginTop"
+        android:background="@drawable/add" />
+</RelativeLayout>

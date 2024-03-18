@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+<string-array name="ctype">
+    <item>全部</item>
+    <item>电影</item>
+    <item>图书</item>
+    <item>唱片</item>
+    <item>小事</item>
+    <item>用户</item>
+    <item>小组</item>
+    <item>群聊</item>
+    <item>游戏</item>
+    <item>活动</item>
+</string-array>
+</resources>

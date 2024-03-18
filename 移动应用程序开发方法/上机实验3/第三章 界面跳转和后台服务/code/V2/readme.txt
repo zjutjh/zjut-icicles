@@ -1,0 +1,1 @@
+Example3_1：bindService方式启动服务（数据通信）

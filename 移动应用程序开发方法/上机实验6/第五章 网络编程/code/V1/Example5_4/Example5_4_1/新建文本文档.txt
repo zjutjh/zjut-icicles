@@ -1,0 +1,34 @@
+{
+	status : 0,
+	message : "ok",
+	total : 400,
+	results : 
+	[
+		{
+			name : "北京银行(望京支行)",
+			location : 
+			{
+				lat : 39.999289,
+				lng : 116.47645
+			},
+			address : "北京市朝阳区望京西园429号楼底商101、102、201",
+			street_id : "8dec62e3b0db57cc3be4a6be",
+			telephone : "(010)64775720",
+			detail : 1,
+			uid : "8dec62e3b0db57cc3be4a6be"
+		},
+		{
+			name : "中国建设银行(金融街支行)",
+			location : 
+			{
+				lat : 39.915866,
+				lng : 116.367098
+			},
+			address : "北京市西城区兴盛街6号",
+			street_id : "15e1e85e6c373adf5910938c",
+			telephone : "010-88093006",
+			detail : 1,
+			uid : "15e1e85e6c373adf5910938c"
+		}
+	]
+}

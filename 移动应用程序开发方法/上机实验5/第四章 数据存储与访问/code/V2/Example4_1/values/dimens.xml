@@ -1,0 +1,18 @@
+<resources>
+    <!-- Default screen margins, per the Android Design guidelines. -->
+    <dimen name="activity_horizontal_margin">16dp</dimen>
+    <dimen name="activity_vertical_margin">16dp</dimen>
+    <dimen name="search_btn_margin">5dp</dimen>
+    <dimen name="search_et_marginTop">60dp</dimen>
+    <dimen name="search_et_paddingLeft">20dp</dimen>
+    <dimen name="result_listView_width">300dp</dimen>
+    <dimen name="result_listView_height">110dp</dimen>
+    <dimen name="result_listView_marginBottom">70dp</dimen>
+    <dimen name="add_word_width">300dp</dimen>
+    <dimen name="add_word_marginTop">50dp</dimen>
+    <dimen name="add_marginTop">20dp</dimen>
+    <dimen name="add_interpret_width">300dp</dimen>
+    <dimen name="result_textSize">20sp</dimen>
+    <dimen name="add_btn_marginTop">350dp</dimen>
+    <dimen name="add_btn_marginLeft">220dp</dimen>
+</resources>

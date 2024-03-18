@@ -1,0 +1,4 @@
+﻿DRIVER-com.mysql.jdbc.Driver
+URL-jdbc:mysql://localhost:3306/mydb?useUnicode=true&characterEncoding=utf8
+ACCOUNT-root
+PASSWORD-zlb20031130

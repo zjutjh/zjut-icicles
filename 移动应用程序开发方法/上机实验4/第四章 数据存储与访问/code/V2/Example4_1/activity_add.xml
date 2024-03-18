@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/bg2"
+    android:orientation="vertical">
+
+    <EditText
+        android:id="@+id/add_word"
+        android:layout_width="@dimen/add_word_width"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="@dimen/add_word_marginTop"
+        android:hint="@string/add_word_hint" />
+
+    <EditText
+        android:id="@+id/add_interpret"
+        android:layout_width="@dimen/add_interpret_width"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="@dimen/add_marginTop"
+        android:hint="@string/add_interpret_hint" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal">
+        <ImageButton
+            android:id="@+id/save_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="120dp"
+            android:layout_marginTop="180dp"
+            android:background="@color/colorLucency"
+            android:src="@drawable/save" />
+
+        <ImageButton
+            android:id="@+id/cancel_btn1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="180dp"
+            android:background="@color/colorLucency"
+            android:src="@drawable/cancel" />
+    </LinearLayout>
+</LinearLayout>

@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="第1题：一天，张山的店里来了一个顾客，挑了25元的货，顾客拿出100元，张山没有零钱找不开，就到隔壁李石的店里把这100元换成零钱，回来给顾客找了75元零钱。过一会，李石来找张山，说刚才的那100是假钱，张山马上给李石换了张真钱，问张山赔了多少钱？"
+        android:textSize="16sp" />
+
+    <RadioGroup
+        android:id="@+id/rg"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+        <RadioButton
+            android:id="@+id/rb1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="A: 125" />
+        <RadioButton
+            android:id="@+id/rb2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="B: 100" />
+        <RadioButton
+            android:id="@+id/rb3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="C: 175" />
+        <RadioButton
+            android:id="@+id/rb4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="D: 200" />
+    </RadioGroup>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="第2题：以下哪些不是Java语言的简单变量类型？"
+        android:layout_marginTop="10dp"
+        android:textSize="16sp" />
+
+    <CheckBox
+        android:id="@+id/check1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="short"
+        android:textSize="16sp" />
+    <CheckBox
+        android:id="@+id/check2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Boolean"
+        android:textSize="16sp" />
+    <CheckBox
+        android:id="@+id/check3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="String"
+        android:textSize="16sp" />
+    <CheckBox
+        android:id="@+id/check4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="double"
+        android:textSize="16sp" />
+
+    <Button
+        android:id="@+id/button1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:text="提交" />
+
+</LinearLayout>
