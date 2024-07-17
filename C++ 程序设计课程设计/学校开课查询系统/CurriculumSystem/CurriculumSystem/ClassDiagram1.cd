@@ -1,0 +1,39 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="Course">
+    <Position X="3.75" Y="1" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AoAAAQACAAAAIgAIBICACQAQAAAAEAAAIAAwEAoApAA=</HashCode>
+      <FileName>Course.hpp</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CourseList">
+    <Position X="5.75" Y="1" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAEAAAgAAAQAAAAIAAABAkAAAAGAgIJQAAAAACQIA=</HashCode>
+      <FileName>CourseList.hpp</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Manager">
+    <Position X="9.75" Y="1" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAABAAAAAAAQgAAkIA=</HashCode>
+      <FileName>Manager.hpp</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Student">
+    <Position X="1.75" Y="1" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAMAAEICQAAAQAAABAAICAEAAAAAAAAAAAQAEgYjgIA=</HashCode>
+      <FileName>Student.hpp</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="StudentList">
+    <Position X="7.75" Y="1" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>CAAAAAAAwAAAgAAAAIAAAAABBEAAAAAAAQAAAAACEAA=</HashCode>
+      <FileName>StudentList.hpp</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Font Name="Microsoft YaHei UI" Size="9" />
+</ClassDiagram>
