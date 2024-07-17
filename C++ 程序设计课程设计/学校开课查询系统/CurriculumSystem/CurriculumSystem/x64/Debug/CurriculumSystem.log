@@ -1,0 +1,4 @@
+﻿  CourseList.cpp
+I:\学校开课查询系统\CurriculumSystem\CurriculumSystem\CourseList.cpp(6,8): warning C4267: “初始化”: 从“size_t”转换到“int”，可能丢失数据
+I:\学校开课查询系统\CurriculumSystem\CurriculumSystem\CourseList.cpp(6,24): warning C4267: “初始化”: 从“size_t”转换到“int”，可能丢失数据
+  CurriculumSystem.vcxproj -> I:\学校开课查询系统\CurriculumSystem\x64\Debug\CurriculumSystem.exe
