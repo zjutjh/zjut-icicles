@@ -24,9 +24,10 @@ Welcome to Zjut!</br>
 
 - 正常流程
 1. Fork this repo.
-2. 网页端Upload files.
-3. Send a pull request to this repo.
-4. Make sure the pull request is OK and merged.
+2. 确保 fork 仓库和组织仓库 main 分支同步，即在你的仓库中使用 [Sync fork(Discard all changes/Update branch)](https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/working-with-forks/syncing-a-fork).
+3. 网页端Upload files.
+4. Send a pull request to this repo.
+5. Make sure the pull request is OK and merged.
 本项目体积很大，clone所有内容到本地比较耗时，建议直接在网页端提交PR
 
 - 若出现冲突
