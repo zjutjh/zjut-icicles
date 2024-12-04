@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC
+        "-//Apache Software Foundation//DTD Struts Configuration 6.0//EN"
+        "http://struts.apache.org/dtds/struts-6.0.dtd">
+
+<struts>
+<!--    <package name="strutsBean" extends="struts-default" namespace="/">-->
+<!--        <action name="login" class="cn.edu.zjut.action.UserAction" method="login">-->
+<!--        <result name="success">/loginSuccess.jsp</result>-->
+<!--        <result name="fail">/loginFail.jsp</result>-->
+<!--    </action>-->
+<!--        <action name="register" class="cn.edu.zjut.action.UserAction" method="register">-->
+<!--            <result name="regsuccess">/regSuccess.jsp</result>-->
+<!--            <result name="regfail">/regFail.jsp</result>-->
+<!--        </action>-->
+<!--    </package>-->
+<!--    <constant name="struts.devMode" value="true" />-->
+    <constant name="struts.enable.DynamicMethodInvocation" value="true"/>
+    <package name="strutsBean" extends="struts-default" namespace="/">
+        <action name="login" class="cn.edu.zjut.action.UserAction" method="login">
+            <result name="success">/loginSuccess.jsp</result>
+            <result name="fail">/loginFail.jsp</result>
+            <result name="input">/login.jsp</result>
+        </action>
+        <action name="register" class="cn.edu.zjut.action.UserAction" method="register">
+            <result name="regsuccess">/regSuccess.jsp</result>
+            <result name="regfail">/registerFail.jsp</result>
+            <result name="input">/register.jsp</result>
+        </action>
+    </package>
+</struts>

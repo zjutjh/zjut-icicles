@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.edu.zjut.dao.PersonDao">
+
+    <!-- 一对一 根据 id 查询个人信息：第一种方法（嵌套查询） -->
+    <resultMap id="cardAndPerson1" type="cn.edu.zjut.po.Person">
+        <id column="id" property="id"/>
+        <result column="name" property="name"/>
+        <result column="age" property="age"/>
+        <association column="idcard_id" property="idcard"
+                     select="cn.edu.zjut.dao.IDCardDao.selectCodeById"/>
+    </resultMap>
+
+
+    <select id="selectPersonById1" resultMap="cardAndPerson1"
+            parameterType="Integer">
+        Select *
+        from person
+        where id = #{id}
+    </select>
+
+    <!-- 一对一 根据 id 查询个人信息：第二种方法（嵌套结果） -->
+    <resultMap id="cardAndPerson2" type="cn.edu.zjut.po.Person">
+        <id column="id" property="id"/>
+        <result column="name" property="name"/>
+        <result column="age" property="age"/>
+        <!-- 一对一关联查询 -->
+        <association property="idcard" javaType="cn.edu.zjut.po.IDcard">
+            <id column="idcard_id" property="id"/>
+            <result column="code" property="code"/>
+        </association>
+
+    </resultMap>
+
+    <select id="selectPersonById2" resultMap="cardAndPerson2"
+            parameterType="Integer">
+        Select p.*, ic.code
+        from person p,
+             idcard ic
+        where p.idcard_id = ic.id
+          and p.id = #{id}
+    </select>
+
+    <!-- 一对一 根据 id 查询个人信息：第三种方法（使用 POJO 存储结果） -->
+    <select id="selectPersonById3" parameterType="Integer"
+            resultType="cn.edu.zjut.pojo.SelectPersonById">
+        Select p.*, ic.code
+        from person p,
+             idcard ic
+        where p.idcard_id = ic.id
+          and p.id = #{id}
+    </select>
+</mapper>

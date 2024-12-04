@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE hibernate-configuration PUBLIC
+        "-//Hibernate/Hibernate Configuration DTD 3.0//EN"
+        "http://hibernate.sourceforge.net/hibernate-configuration-3.0.dtd">
+<hibernate-configuration>
+    <session-factory name="HibernateSessionFactory">
+        <property name="hibernate.connection.driver_class">
+            com.mysql.jdbc.Driver</property>
+        <property name="hibernate.connection.url">
+            jdbc:mysql://localhost:3306/hibernatedb</property>
+        <property name="hibernate.connection.username">
+            root</property>
+        <property name="hibernate.connection.password">
+            admin123</property>
+        <property name="hibernate.dialect">
+            org.hibernate.dialect.MySQL8Dialect</property>
+        <!--打印 sql 语句-->
+        <property name="hibernate.show_sql">true</property>
+        <!--格式化 sql-->
+        <property name="hibernate.format_sql">true</property>
+        <mapping resource="Customer.hbm.xml" />
+<!--        <mapping resource="../resources/Item.hbm.xml"/>-->
+    </session-factory>
+</hibernate-configuration>
