@@ -1,0 +1,11 @@
+<component name="libraryTable">
+  <library name="ejb-3.2" type="EJB">
+    <properties version="3.2" />
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/ejb-project1-server/lib/javax.ejb-api.jar!/" />
+      <root url="jar://$PROJECT_DIR$/ejb-project1-client/lib/UserServiceRemote.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app>
+    <display-name>javaweb-prj1</display-name>
+    <servlet>
+        <servlet-name>LoginController</servlet-name>
+        <display-name>LoginController</display-name>
+        <description></description>
+        <servlet-class>cn.edu.zjut.LoginController</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>LoginController</servlet-name>
+        <url-pattern>/login</url-pattern>
+    </servlet-mapping>
+</web-app>
