@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="cn.edu.zjut.dao.UserDao">
+
+    <!-- 查询用户以及其关联的订单信息 -->
+    <select id="getUserById" resultMap="UserWithOrdersResultMap">
+        SELECT u.id, u.username, o.id AS order_id, o.orderNumber
+        FROM user u
+                 LEFT JOIN `order` o ON u.id = o.userId
+        WHERE u.id = #{id}
+    </select>
+
+    <!-- 定义结果集映射 -->
+    <resultMap id="UserWithOrdersResultMap" type="cn.edu.zjut.pojo.User">
+        <id property="id" column="id"/>
+        <result property="username" column="username"/>
+        <!-- 一对多关系映射 -->
+        <collection property="orders" ofType="cn.edu.zjut.pojo.Order">
+            <id property="id" column="order_id"/>
+            <result property="orderNumber" column="orderNumber"/>
+        </collection>
+    </resultMap>
+
+</mapper>

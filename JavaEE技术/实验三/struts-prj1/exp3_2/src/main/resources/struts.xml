@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC
+        "-//Apache Software Foundation//DTD Struts Configuration 6.0//EN"
+        "http://struts.apache.org/dtds/struts-6.0.dtd">
+<!--<struts>-->
+<!--    <package name="strutsBean" extends="struts-default" namespace="/">-->
+<!--        <action name="login" class="cn.edu.zjut.action.UserAction">-->
+<!--            <result name="success">/loginSuccess.jsp</result>-->
+<!--            <result name="fail">/loginFail.jsp</result>-->
+<!--        </action>-->
+<!--    </package>-->
+<!--</struts>-->
+
+<struts>
+    <package name="strutsBean" extends="struts-default" namespace="/">
+        <action name="login" class="userAction">
+            <result name="success">/loginSuccess.jsp</result>
+            <result name="fail">/loginFail.jsp</result>
+        </action>
+        <action name="register" class="userAction">
+            <result name="success">/regSuccess.jsp</result>
+            <result name="fail">/regFail.jsp</result>
+        </action>
+    </package>
+</struts>

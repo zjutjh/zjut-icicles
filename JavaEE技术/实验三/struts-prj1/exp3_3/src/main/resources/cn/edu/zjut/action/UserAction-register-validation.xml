@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE validators PUBLIC "-//Apache Struts//XWork Validator 1.0.2//EN" "http://struts.apache.org/dtds/xwork-validator-1.0.2.dtd">
+<validators>
+    <!-- 校验用户名 -->
+    <field name="loginUser.account">
+        <field-validator type="requiredstring">
+            <param name="trim">true</param>
+            <message>用户名不能为空</message>
+        </field-validator>
+    </field>
+
+    <!-- 校验密码 -->
+    <field name="loginUser.password">
+        <field-validator type="requiredstring">
+            <param name="trim">true</param>
+            <message>密码不能为空</message>
+        </field-validator>
+    </field>
+
+    <!-- 校验确认密码，要求两次密码输入相同 -->
+    <field name="loginUser.repassword">
+        <field-validator type="fieldexpression">
+            <param name="expression"><![CDATA[#loginUser.repassword.equals(#loginUser.password)]]></param>
+            <message>两次密码输入不相同</message>
+        </field-validator>
+    </field>
+
+    <!-- 校验邮箱格式 -->
+    <field name="loginUser.email">
+        <field-validator type="email">
+            <message>邮箱格式不符合要求</message>
+        </field-validator>
+    </field>
+</validators>

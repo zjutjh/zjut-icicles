@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD
+3.0//EN"
+        "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+    <class name="cn.edu.zjut.po.Customer" table="customer"
+           catalog="hibernatedb">
+        <id name="customerId" type="int">
+            <column name="customerID" />
+            <generator class="increment" />
+        </id>
+        <component name="contactInfo" class="cn.edu.zjut.po.ContactInfo">
+            <property name="phone" type="string">
+                <column name="phone" length="20" />
+            </property>
+            <property name="email" type="string">
+                <column name="email" length="100" />
+            </property>
+            <property name="address" type="string">
+                <column name="address" length="200" />
+            </property>
+            <property name="zipcode" type="string">
+                <column name="zipcode" length="10" />
+            </property>
+            <property name="fax" type="string">
+                <column name="fax" length="20" />
+            </property>
+        </component>
+    </class>
+</hibernate-mapping>

@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.edu.zjut.dao.UserDao">
+
+    <!-- 根据用户ID查询用户 -->
+    <select id="SelectUserById" resultType="cn.edu.zjut.po.MyUser">
+        SELECT *
+        FROM user
+        WHERE id = #{id}
+    </select>
+
+    <!-- 查询所有用户 -->
+    <select id="selectAllUser" resultType="cn.edu.zjut.po.MyUser">
+        SELECT *
+        FROM user
+        WHERE uname LIKE CONCAT('%', #{u_name}, '%')
+          AND usex = #{u_sex}
+    </select>
+
+    <!-- 添加用户 -->
+    <insert id="addUser" parameterType="cn.edu.zjut.po.MyUser">
+        INSERT INTO user (username, password, email)
+        VALUES (#{username}, #{password}, #{email})
+    </insert>
+
+    <!-- 更新用户信息 -->
+    <update id="updateUser" parameterType="cn.edu.zjut.po.MyUser">
+        UPDATE user
+        SET username = #{username},
+            password = #{password},
+            email    = #{email}
+        WHERE id = #{id}
+    </update>
+
+    <!-- 删除用户 -->
+    <delete id="deleteUser" parameterType="cn.edu.zjut.po.MyUser">
+        DELETE
+        FROM user
+        WHERE id = #{id}
+    </delete>
+
+<!--    <select id="selectUsersByGenderAndLastName" resultType="cn.edu.zjut.po.MyUser" parameterType="map">-->
+<!--        SELECT *-->
+<!--        FROM user-->
+<!--        WHERE uname LIKE CONCAT('%', #{u_name}, '%')-->
+<!--          AND usex = #{u_sex}-->
+<!--    </select>-->
+
+</mapper>

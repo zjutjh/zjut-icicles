@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE configuration
+        PUBLIC "-//mybatis.org/DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+    <settings>
+        <!-- 打开延迟加载的开关 -->
+        <setting name="lazyLoadingEnabled" value="true"/>
+        <!-- 将积极加载改为按需加载 -->
+        <setting name="aggressiveLazyLoading" value="false"/>
+    </settings>
+    <environments default="development">
+        <environment id="development">
+            <transactionManager type="JDBC"/>
+            <dataSource type="POOLED">
+                <property name="driver" value="com.mysql.cj.jdbc.Driver"/>
+                <property name="url"
+                          value="jdbc:mysql://localhost:3306/mybatisdb"/>
+                <property name="username" value="root"/>
+                <property name="password" value="admin123"/>
+            </dataSource>
+        </environment>
+    </environments>
+    <mappers>
+        <mapper resource="cn/edu/zjut/mapper/UserMapper.xml"/>
+        <mapper resource="cn/edu/zjut/mapper/UserDao.xml"/>
+        <mapper resource="cn/edu/zjut/mapper/IDCardMapper.xml"/>
+        <mapper resource="cn/edu/zjut/mapper/PersonMapper.xml"/>
+    </mappers>
+</configuration>
