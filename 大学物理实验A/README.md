@@ -1,8 +1,22 @@
 ## University Physics Experiment A
 
-> Version: 2019-2020(1)
-> Credit: 1.5
-> Score: Excellent
+> Version: 2024-2025(1)
+
+----------
+
+- 感谢上一位学长的经验分享
+- 这两年，实验中心的两位主要负责老师陆续退休，教材也发生了一些修改
+- 总体而言实验内容上并没有太大改变，但有一些课件什么的，可能还是需要参考一下外部高校的教材
+- 感谢我的高中同学们送了我很多讲义和PPT，我会把一些当时看的内容放在这里
+
+<!-- markdownlint-disable-file MD036 -->
+[1]: mailto:kuan896048176@outlook.com
+
+---
+
+> Version: 2019-2020(1)  
+> Credit: 1.5  
+> Score: Excellent  
 > 
 
 ----------
