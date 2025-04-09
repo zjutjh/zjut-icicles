@@ -1,0 +1,70 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+ "http://www.w3.org/TR/html4/loose.dtd">
+<html><head>
+<title>3PCAP man page</title>
+<meta name="generator" content="roffit">
+<STYLE type="text/css">
+pre {
+  overflow: auto;
+  margin: 0;
+}
+
+P.level0, pre.level0 {
+ padding-left: 2em;
+}
+
+P.level1, pre.level1 {
+ padding-left: 4em;
+}
+
+P.level2, pre.level2 {
+ padding-left: 6em;
+}
+
+span.emphasis {
+ font-style: italic;
+}
+
+span.bold {
+ font-weight: bold;
+}
+
+span.manpage {
+ font-weight: bold;
+}
+
+h2.nroffsh {
+ background-color: #e0e0e0;
+}
+
+span.nroffip {
+ font-weight: bold;
+ font-size: 120%;
+ font-family: monospace;
+}
+
+p.roffit {
+ text-align: center;
+ font-size: 80%;
+}
+</STYLE>
+</head><body>
+
+<p class="level0"><a name="NAME"></a><h2 class="nroffsh">NAME</h2>
+<p class="level0">pcap_can_set_rfmon - check whether monitor mode can be set for a not-yet-activated capture handle <a name="SYNOPSIS"></a><h2 class="nroffsh">SYNOPSIS</h2>
+<p class="level0"><pre class="level0">
+&#35;include &lt;pcap/pcap.h&gt;
+int pcap_can_set_rfmon(pcap_t *p);
+</pre>
+
+<p class="level0"><a name="DESCRIPTION"></a><h2 class="nroffsh">DESCRIPTION</h2>
+<p class="level0"><span Class="bold">pcap_can_set_rfmon</span>() checks whether monitor mode could be set on a capture handle when the handle is activated. <a name="RETURN"></a><h2 class="nroffsh">RETURN VALUE</h2>
+<p class="level0"><span Class="bold">pcap_can_set_rfmon</span>() returns <span Class="bold">0</span> if monitor mode could not be set, <span Class="bold">1</span> if monitor mode could be set, and a negative value on error. A negative return value indicates what error condition occurred. The possible error values are: 
+<p class="level0"><span Class="bold">PCAP_ERROR_NO_SUCH_DEVICE</span> The capture source specified when the handle was created doesn&#39;t exist. 
+<p class="level0"><span Class="bold">PCAP_ERROR_PERM_DENIED</span> The process doesn&#39;t have permission to check whether monitor mode could be supported. 
+<p class="level0"><span Class="bold">PCAP_ERROR_ACTIVATED</span> The capture handle has already been activated. 
+<p class="level0"><span Class="bold">PCAP_ERROR</span> Another error occurred. <a Class="bold" href="./pcap_geterr.html">pcap_geterr</a>(3PCAP) or <span Class="bold">\%pcap_perror</span>(3PCAP) may be called with <span Class="emphasis">p</span> as an argument to fetch or display a message describing the error. 
+<p class="level0">Additional error codes may be added in the future; a program should check for <span Class="bold">0</span>, <span Class="bold">1</span>, and negative, return codes, and treat all negative return codes as errors. <a Class="bold" href="./pcap_statustostr.html">pcap_statustostr</a>(3PCAP) can be called, with a warning or error code as an argument, to fetch a message describing the warning or error code. <a name="SEE"></a><h2 class="nroffsh">SEE ALSO</h2>
+<p class="level0"><a Class="bold" href="./pcap.html">pcap</a>(3PCAP), <a Class="bold" href="./pcap_create.html">pcap_create</a>(3PCAP), <a Class="bold" href="./pcap_activate.html">pcap_activate</a>(3PCAP), <a Class="bold" href="./pcap_set_rfmon.html">pcap_set_rfmon</a>(3PCAP) <p class="roffit">
+ This HTML page was made with <a href="http://daniel.haxx.se/projects/roffit/">roffit</a>.
+</body></html>

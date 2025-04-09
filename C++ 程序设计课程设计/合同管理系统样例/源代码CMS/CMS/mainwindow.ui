@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>MainWindow</class>
+ <widget class="QMainWindow" name="MainWindow">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>1022</width>
+    <height>1436</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>合同管理系统</string>
+  </property>
+  <widget class="QWidget" name="centralwidget">
+   <layout class="QVBoxLayout" name="verticalLayout">
+    <item>
+     <widget class="QPushButton" name="importContractButton">
+      <property name="text">
+       <string>导入合同</string>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <widget class="QPushButton" name="showAllContractsButton">
+      <property name="text">
+       <string>查看所有合同</string>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <widget class="QPushButton" name="deleteContractButton">
+      <property name="text">
+       <string>删除合同</string>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <widget class="QPushButton" name="modifyContractButton">
+      <property name="text">
+       <string>修改合同</string>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <widget class="QPushButton" name="showExpiredContractsButton">
+      <property name="text">
+       <string>查看已到期合同</string>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <widget class="QPushButton" name="searchContractsButton">
+      <property name="text">
+       <string>查询合同</string>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <widget class="QPushButton" name="countContractsByMonthButton">
+      <property name="text">
+       <string>按月统计合同数量</string>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <widget class="QTextEdit" name="outputTextEdit"/>
+    </item>
+   </layout>
+  </widget>
+  <widget class="QMenuBar" name="menubar">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>1022</width>
+     <height>21</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QStatusBar" name="statusbar"/>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>

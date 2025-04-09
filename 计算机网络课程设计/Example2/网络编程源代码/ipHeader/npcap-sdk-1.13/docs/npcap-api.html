@@ -1,0 +1,233 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1"><title>The Npcap API</title><meta name="generator" content="DocBook XSL Stylesheets V1.79.2"><meta name="description" content="The Npcap Application Programming Interface (API) consists of the libpcap API and a few non-portable extensions: pcap_setbuff, pcap_setuserbuffer, pcap_setmintocopy, pcap_getevent, pcap_setmode, pcap_oid_get_request and pcap_oid_set_request, functions for batch-sending packets with pcap_send_queue, and pcap_stats_ex."><link rel="home" href="index.html" title="Npcap Reference Guide"><link rel="up" href="index.html" title="Npcap Reference Guide"><link rel="prev" href="npcap-devguide.html" title="Developing software with Npcap"><link rel="next" href="npcap-tutorial.html" title="Npcap Development Tutorial"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">The Npcap API</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="npcap-devguide.html">Prev</a> </td><th width="60%" align="center"> </th><td width="20%" align="right"> <a accesskey="n" href="npcap-tutorial.html">Next</a></td></tr></table><hr></div><div class="sect1"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="npcap-api"></a>The Npcap API</h2></div><div><div class="abstract"><p class="title"><b>Abstract</b></p>
+      <p>The Npcap Application Programming Interface (<acronym class="acronym">API</acronym>) consists of the
+        libpcap API and a few non-portable extensions: <code class="code">pcap_setbuff</code>, 
+          <code class="code">pcap_setuserbuffer</code>,
+          <code class="code">pcap_setmintocopy</code>,
+          <code class="code">pcap_getevent</code>,
+          <code class="code">pcap_setmode</code>,
+          <code class="code">pcap_oid_get_request</code> and <code class="code">pcap_oid_set_request</code>,
+          functions for batch-sending packets with <code class="code">pcap_send_queue</code>,
+          and <code class="code">pcap_stats_ex</code>.
+        </p>
+    </div></div></div></div>
+  
+  
+
+  <p>The Npcap API is exported by <code class="filename">wpcap.dll</code> and is the
+	  Windows port of <a class="ulink" href="https://www.tcpdump.org/" target="_top">libpcap</a>.
+	  The API and functions are described in
+	  <a class="ulink" href="wpcap/pcap.html" target="_top">the pcap(1) man page</a>.
+  </p>
+  <div class="sect2"><div class="titlepage"><div><div><h3 class="title"><a name="npcap-api-extensions"></a>Extensions to libpcap for Windows</h3></div></div></div>
+    
+    <p>
+      There are a few extensions to libpcap that exist only on Windows.
+      Software that uses these extensions will not be portable to non-Windows
+      systems. The following is a brief list of these extensions and their purpose.
+    </p>
+    <div class="variablelist"><dl class="variablelist"><dt><span class="term">
+          <code class="code">pcap_setbuff</code>
+        </span></dt><dd>
+          <p>
+            Sets the size of the kernel buffer associated with an adapter.
+          </p>
+          <code class="code">int pcap_setbuff(pcap_t *p, int dim);</code>
+          <p><code class="literal">dim</code> specifies the size of the buffer in
+            bytes. The return value is 0 when the call succeeds, -1 otherwise.
+            If an old buffer was already created with a previous call to
+            <code class="literal">pcap_setbuff()</code>, it is deleted and its content is
+            discarded. <a class="ulink" href="wpcap/pcap_open_live.html" target="_top">pcap_open_live()</a> creates
+            a 1 MByte buffer by default.
+          </p>
+	  <p>
+            <span class="emphasis"><em>Portability note:</em></span> libpcap provides the <a class="ulink" href="wpcap/pcap_set_buffer_size.html" target="_top">pcap_set_buffer_size()</a>
+            function for setting the kernel buffer size.  This removes the need
+            to use the non-portable <code class="literal">pcap_setbuff()</code> for this
+            purpose.
+          </p>
+        </dd><dt><span class="term">
+          <code class="code">pcap_setmode</code>
+        </span></dt><dd>
+          <p>Sets the working mode of the interface.</p>
+          <code class="code">int pcap_setmode(pcap_t *p, int mode);</code>
+          <p>
+            Valid values for mode are <code class="literal">MODE_CAPT</code> (default
+            capture mode) and <code class="literal">MODE_STAT</code> (statistical mode).
+            See <a class="xref" href="npcap-tutorial.html#npcap-tutorial-statistics" title="Gathering Statistics on the network traffic">the section called &#8220;Gathering Statistics on the network traffic&#8221;</a> for details about
+            statistical mode.
+          </p>
+        </dd><dt><span class="term">
+          <code class="code">pcap_setmintocopy</code>
+        </span></dt><dd>
+          <p>
+            Sets the minumum amount of data received by the kernel in a single call.
+          </p>
+          <code class="code">int pcap_setmintocopy(pcap_t *p, int size);</code>
+
+          <p>
+            This function changes the minimum amount of data in the
+            kernel buffer that causes a read from the application to return
+            (unless the timeout expires). If the value of
+            <code class="literal">size</code> is large, the kernel is forced to wait the
+            arrival of several packets before
+            copying the data to the user. This guarantees a low number of
+            system calls, i.e. low processor usage, and is a good setting for
+            applications like packet-sniffers and protocol analyzers. Vice
+            versa, in presence of a small value for this variable, the kernel
+            will copy the packets as soon as the application is ready to
+            receive them. This is useful for real time applications that need
+            the best responsiveness from the kernel. <a class="ulink" href="wpcap/pcap_open_live.html" target="_top">pcap_open_live()</a> sets a
+            default <code class="literal">size</code> value of 16000 bytes.
+          </p>
+          <p>
+            <span class="emphasis"><em>Portability note:</em></span> libpcap provides the <a class="ulink" href="wpcap/pcap_set_immediate_mode.html" target="_top">pcap_set_immediate_mode()</a>
+            function for applications that need to receive packets as soon as
+            they arrive. This removes the need to use the non-portable
+            <code class="literal">pcap_setmintocopy()</code> for this purpose.
+          </p>
+        </dd><dt><span class="term">
+          <code class="code">pcap_getevent</code>
+        </span></dt><dd>
+          <p>Returns the handle of the event associated with the interface.</p>
+          <code class="code">HANDLE pcap_getevent(pcap_t *p);</code>
+
+          <p> This event can be passed to functions like
+            <code class="literal">WaitForSingleObject()</code> or
+            <code class="literal">WaitForMultipleObjects()</code> to wait until the
+            driver's buffer contains some data without performing a read.
+          </p>
+
+          <p>
+            <span class="emphasis"><em>Portability note:</em></span> This function is the Windows
+            alternative to <a class="ulink" href="wpcap/pcap_get_selectable_fd.html" target="_top">pcap_get_selectable_fd()</a>,
+            which is only available on UNIX-like systems.
+	  </p>
+        </dd><dt><span class="term">
+          <code class="code">pcap_oid_get_request</code> and <code class="code">pcap_oid_set_request</code>
+        </span></dt><dd>
+          <p>Send an OID request to the underlying NDIS drivers</p>
+          <code class="code">int pcap_oid_get_request(pcap_t *, bpf_u_int32, void *, size_t *);</code>
+          <code class="code">int pcap_oid_set_request(pcap_t *, bpf_u_int32, const void *, size_t *);</code>
+        </dd><dt><span class="term">
+          Queuing sent packets with <code class="code">pcap_send_queue</code>
+        </span></dt><dd>
+          <p>
+            Npcap has the ability to queue multiple raw packets for
+            transmission on the network in a single call. This is more
+            efficient than issuing a series of
+            <code class="literal">pcap_sendpacket()</code>, because the packets are
+            buffered in the kernel driver, so the number of context switches is
+            reduced.
+          </p>
+          <code class="code">pcap_send_queue* pcap_sendqueue_alloc(u_int memsize);</code>
+          <code class="code">void pcap_sendqueue_destroy(pcap_send_queue* queue);</code>
+          <p>Allocate a send queue as a buffer of <code class="literal">memsize</code>
+            bytes. The <code class="literal">pcap_send_queue</code> allocated can be
+            freed with <code class="literal">pcap_sendqueue_destroy()</code>.</p>
+          <code class="code">int pcap_sendqueue_queue(pcap_send_queue* queue, const struct pcap_pkthdr *pkt_header, const u_char *pkt_data);</code>
+          <p>
+            <code class="literal">pcap_sendqueue_queue()</code> adds a packet at the end
+            of the send queue pointed by the <code class="literal">queue</code>
+            parameter.  <code class="literal">pkt_header</code> points to a
+            <code class="literal">pcap_pkthdr</code> structure with the timestamp and the
+            length of the packet, <code class="literal">pkt_data</code> points to a
+            buffer with the data of the packet.
+          </p>
+
+          <p>
+            The <code class="literal">pcap_pkthdr</code> structure is the same used by
+            Npcap and libpcap to store the packets in a file, therefore sending
+            a capture file is straightforward. 'Raw packet' means that the
+            sending application will have to include the protocol headers,
+            since every packet is sent to the network 'as is'. The CRC of the
+            packets needs not to be calculated, because it will be
+            transparently added by the network interface.
+          </p>
+          <code class="code">u_int pcap_sendqueue_transmit(pcap_t *p, pcap_send_queue* queue, int sync);</code>
+          <p>
+            This function transmits the content of a queue to the wire.
+            <code class="literal">p</code> is a pointer to the adapter on which the
+            packets will be sent, <code class="literal">queue</code> points to a
+            <code class="literal">pcap_send_queue</code> structure containing the packets
+            to send), <code class="literal">sync</code> determines if the send operation
+            must be synchronized: if it is non-zero, the packets are sent
+            respecting the timestamps, otherwise they are sent as fast as
+            possible.
+          </p>
+
+          <p>
+            The return value is the amount of bytes actually sent. If it is
+            smaller than the <code class="literal">size</code> parameter, an error
+            occurred during the send.  The error can be caused by a
+            driver/adapter problem or by an inconsistent/bogus send queue.
+          </p>
+
+          <p>
+            <span class="emphasis"><em>Performance note:</em></span> When <code class="literal">sync</code>
+            is set to <code class="literal">TRUE</code>, the packets are synchronized in
+            the kernel with a high precision timestamp.  This requires a
+            non-negligible amount of CPU, but allows normally to send the
+            packets with a precision of some microseconds (depending on the
+            accuracy of the performance counter of the machine). Such a
+            precision cannot be reached sending the packets with
+            <code class="literal">pcap_sendpacket()</code>.
+          </p>
+        </dd><dt><span class="term">
+          <code class="code">pcap_stats_ex</code>
+        </span></dt><dd>
+          <code class="code">struct pcap_stat *pcap_stats_ex(pcap_t *p, int *pcap_stat_size);</code>
+          <p>
+            <code class="literal">pcap_stats_ex()</code> extends the
+            <code class="literal">pcap_stats()</code> allowing to return more statistical
+            parameters than the old call.  One of the advantages of
+            this new call is that the <code class="literal">pcap_stat</code> structure is
+            not allocated by the user; instead, it is returned back by the
+            system. This allow to extend the <code class="literal">pcap_stat</code>
+            structure without affecting backward compatibility on older
+            applications. These will simply check at the values of the members
+            at the beginning of the structure, while only newest applications
+            are able to read new statistical values, which are appended in
+            tail.
+          </p>
+
+          <p>
+            To be sure not to read a piece of memory which has not been allocated
+            by the system, the variable <code class="literal">pcap_stat_size</code> will
+            return back the size of the structure <code class="literal">pcap_stat</code>
+            allocated by the system.
+          </p>
+
+          <p>
+            <code class="literal">p</code>: pointer to the <code class="literal">pcap_t</code>
+            currently in use. <code class="literal">pcap_stat_size</code>: pointer to an
+            integer that will contain (when the function returns back) the size
+            of the structure <code class="literal">pcap_stat</code> as it has been
+            allocated by the system.
+          </p>
+
+          <p>
+            The function returns a pointer to a pcap_stat structure, that will
+            contain the statistics related to the current device. The return
+            value is <code class="literal">NULL</code> in case of errors, and the error
+            text can be obtained with <code class="literal">pcap_perror()</code> or
+            <code class="literal">pcap_geterr()</code>.
+          </p>
+        </dd><dt><span class="term">
+          <code class="code">pcap_setuserbuffer</code>
+        </span></dt><dd>
+          <p>Sets the size of the buffer that accepts packets from the kernel driver.</p>
+          <code class="code">int pcap_setuserbuffer(pcap_t *p, int size);</code>
+
+          <p>
+            The size of the packet buffer is a parameter that can sensibly
+            influence the performance of the capture process, since this buffer
+            will contain the packets received from the the Npcap driver. The
+            driver is able to return several packets using a single read call,
+            and the number of packets transferable to the application in a call
+            is limited only by the size of this buffer.  Therefore setting a
+            larger buffer siz can noticeably decrease the number of system
+            calls, reducing the impact of the capture process on the processor.
+          </p>
+        </dd></dl></div>
+  </div>
+</div><div class="navfooter"><hr><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="npcap-devguide.html">Prev</a> </td><td width="20%" align="center"> </td><td width="40%" align="right"> <a accesskey="n" href="npcap-tutorial.html">Next</a></td></tr><tr><td width="40%" align="left" valign="top">Developing software with Npcap </td><td width="20%" align="center"><a accesskey="h" href="index.html">Home</a></td><td width="40%" align="right" valign="top"> Npcap Development Tutorial</td></tr></table></div></body></html>

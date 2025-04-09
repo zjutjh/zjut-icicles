@@ -1,0 +1,66 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+ "http://www.w3.org/TR/html4/loose.dtd">
+<html><head>
+<title>3PCAP man page</title>
+<meta name="generator" content="roffit">
+<STYLE type="text/css">
+pre {
+  overflow: auto;
+  margin: 0;
+}
+
+P.level0, pre.level0 {
+ padding-left: 2em;
+}
+
+P.level1, pre.level1 {
+ padding-left: 4em;
+}
+
+P.level2, pre.level2 {
+ padding-left: 6em;
+}
+
+span.emphasis {
+ font-style: italic;
+}
+
+span.bold {
+ font-weight: bold;
+}
+
+span.manpage {
+ font-weight: bold;
+}
+
+h2.nroffsh {
+ background-color: #e0e0e0;
+}
+
+span.nroffip {
+ font-weight: bold;
+ font-size: 120%;
+ font-family: monospace;
+}
+
+p.roffit {
+ text-align: center;
+ font-size: 80%;
+}
+</STYLE>
+</head><body>
+
+<p class="level0"><a name="NAME"></a><h2 class="nroffsh">NAME</h2>
+<p class="level0">pcap_major_version, pcap_minor_version - get the version number of a savefile <a name="SYNOPSIS"></a><h2 class="nroffsh">SYNOPSIS</h2>
+<p class="level0"><pre class="level0">
+&#35;include &lt;pcap/pcap.h&gt;
+int pcap_major_version(pcap_t *p);
+int pcap_minor_version(pcap_t *p);
+</pre>
+
+<p class="level0"><a name="DESCRIPTION"></a><h2 class="nroffsh">DESCRIPTION</h2>
+<p class="level0">If <span Class="emphasis">p</span> refers to a ``savefile&#39;&#39;, <span Class="bold">pcap_major_version</span>() returns the major number of the file format of the ``savefile&#39;&#39; and <span Class="bold">pcap_minor_version</span>() returns the minor number of the file format of the ``savefile&#39;&#39;.  The version number is stored in the ``savefile&#39;&#39;; note that the meaning of its values depends on the type of ``savefile&#39;&#39; (for example, pcap or pcapng). 
+<p class="level0">If <span Class="emphasis">p</span> refers to a live capture, the values returned by <span Class="bold">pcap_major_version</span>() and <span Class="bold">pcap_minor_version</span>() are not meaningful. <a name="SEE"></a><h2 class="nroffsh">SEE ALSO</h2>
+<p class="level0"><a Class="bold" href="./pcap.html">pcap</a>(3PCAP) <p class="roffit">
+ This HTML page was made with <a href="http://daniel.haxx.se/projects/roffit/">roffit</a>.
+</body></html>

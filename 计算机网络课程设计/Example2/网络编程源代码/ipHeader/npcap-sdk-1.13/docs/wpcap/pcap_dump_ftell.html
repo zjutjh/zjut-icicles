@@ -1,0 +1,66 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+ "http://www.w3.org/TR/html4/loose.dtd">
+<html><head>
+<title>3PCAP man page</title>
+<meta name="generator" content="roffit">
+<STYLE type="text/css">
+pre {
+  overflow: auto;
+  margin: 0;
+}
+
+P.level0, pre.level0 {
+ padding-left: 2em;
+}
+
+P.level1, pre.level1 {
+ padding-left: 4em;
+}
+
+P.level2, pre.level2 {
+ padding-left: 6em;
+}
+
+span.emphasis {
+ font-style: italic;
+}
+
+span.bold {
+ font-weight: bold;
+}
+
+span.manpage {
+ font-weight: bold;
+}
+
+h2.nroffsh {
+ background-color: #e0e0e0;
+}
+
+span.nroffip {
+ font-weight: bold;
+ font-size: 120%;
+ font-family: monospace;
+}
+
+p.roffit {
+ text-align: center;
+ font-size: 80%;
+}
+</STYLE>
+</head><body>
+
+<p class="level0"><a name="NAME"></a><h2 class="nroffsh">NAME</h2>
+<p class="level0">pcap_dump_ftell, pcap_dump_ftell64 - get the current file offset for a savefile being written <a name="SYNOPSIS"></a><h2 class="nroffsh">SYNOPSIS</h2>
+<p class="level0"><pre class="level0">
+&#35;include &lt;pcap/pcap.h&gt;
+long pcap_dump_ftell(pcap_dumper_t *p);
+int64_t pcap_dump_ftell64(pcap_dumper_t *p);
+</pre>
+
+<p class="level0"><a name="DESCRIPTION"></a><h2 class="nroffsh">DESCRIPTION</h2>
+<p class="level0"><span Class="bold">pcap_dump_ftell</span>() returns the current file position for the ``savefile&#39;&#39;, representing the number of bytes written by <a Class="bold" href="./pcap_dump_open.html">pcap_dump_open</a>(3PCAP) and <a Class="bold" href="./pcap_dump.html">pcap_dump</a>(3PCAP). <span Class="bold">PCAP_ERROR</span> is returned on error. If the current file position does not fit in a <span Class="bold">long</span>, it will be truncated; this can happen on 32-bit UNIX-like systems with large file support and on Windows. <span Class="bold">pcap_dump_ftell64</span>() returns the current file position in a <span Class="bold">int64_t</span>, so if file offsets that don&#39;t fit in a <span Class="bold">long</span> but that fit in a <span Class="bold">int64_t</span> are supported, this will return the file offset without truncation. <span Class="bold">PCAP_ERROR</span> is returned on error. <a name="BACKWARD"></a><h2 class="nroffsh">BACKWARD COMPATIBILITY</h2>
+<p class="level0">The function <span Class="bold">pcap_dump_ftell64</span>() became available in libpcap release 1.9.0.  In previous releases, there was no mechanism to obtain a file offset that is too large to fit in a <span Class="bold">long</span>. <a name="SEE"></a><h2 class="nroffsh">SEE ALSO</h2>
+<p class="level0"><a Class="bold" href="./pcap.html">pcap</a>(3PCAP) <p class="roffit">
+ This HTML page was made with <a href="http://daniel.haxx.se/projects/roffit/">roffit</a>.
+</body></html>

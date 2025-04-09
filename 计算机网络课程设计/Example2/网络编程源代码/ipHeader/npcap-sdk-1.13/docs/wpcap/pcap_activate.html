@@ -1,0 +1,80 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+ "http://www.w3.org/TR/html4/loose.dtd">
+<html><head>
+<title>3PCAP man page</title>
+<meta name="generator" content="roffit">
+<STYLE type="text/css">
+pre {
+  overflow: auto;
+  margin: 0;
+}
+
+P.level0, pre.level0 {
+ padding-left: 2em;
+}
+
+P.level1, pre.level1 {
+ padding-left: 4em;
+}
+
+P.level2, pre.level2 {
+ padding-left: 6em;
+}
+
+span.emphasis {
+ font-style: italic;
+}
+
+span.bold {
+ font-weight: bold;
+}
+
+span.manpage {
+ font-weight: bold;
+}
+
+h2.nroffsh {
+ background-color: #e0e0e0;
+}
+
+span.nroffip {
+ font-weight: bold;
+ font-size: 120%;
+ font-family: monospace;
+}
+
+p.roffit {
+ text-align: center;
+ font-size: 80%;
+}
+</STYLE>
+</head><body>
+
+<p class="level0"><a name="NAME"></a><h2 class="nroffsh">NAME</h2>
+<p class="level0">pcap_activate - activate a capture handle <a name="SYNOPSIS"></a><h2 class="nroffsh">SYNOPSIS</h2>
+<p class="level0"><pre class="level0">
+&#35;include &lt;pcap/pcap.h&gt;
+int pcap_activate(pcap_t *p);
+</pre>
+
+<p class="level0"><a name="DESCRIPTION"></a><h2 class="nroffsh">DESCRIPTION</h2>
+<p class="level0"><span Class="bold">pcap_activate</span>() is used to activate a packet capture handle to look at packets on the network, with the options that were set on the handle being in effect. <a name="RETURN"></a><h2 class="nroffsh">RETURN VALUE</h2>
+<p class="level0"><span Class="bold">pcap_activate</span>() returns <span Class="bold">0</span> on success without warnings, a non-zero positive value on success with warnings, and a negative value on error. A non-zero return value indicates what warning or error condition occurred. 
+<p class="level0">The possible warning values are: 
+<p class="level0"><span Class="bold">PCAP_WARNING_PROMISC_NOTSUP</span> Promiscuous mode was requested, but the capture source doesn&#39;t support promiscuous mode. 
+<p class="level0"><span Class="bold">PCAP_WARNING_TSTAMP_TYPE_NOTSUP</span> The time stamp type specified in a previous <a Class="bold" href="./pcap_set_tstamp_type.html">pcap_set_tstamp_type</a>(3PCAP) call isn&#39;t supported by the capture source (the time stamp type is left as the default), 
+<p class="level0"><span Class="bold">PCAP_WARNING</span> Another warning condition occurred; <a Class="bold" href="./pcap_geterr.html">pcap_geterr</a>(3PCAP) or <span Class="bold">pcap_perror</span>(3PCAP) may be called with <span Class="emphasis">p</span> as an argument to fetch or display a message describing the warning condition. 
+<p class="level0">The possible error values are: 
+<p class="level0"><span Class="bold">PCAP_ERROR_ACTIVATED</span> The handle has already been activated. 
+<p class="level0"><span Class="bold">PCAP_ERROR_NO_SUCH_DEVICE</span> The capture source specified when the handle was created doesn&#39;t exist. 
+<p class="level0"><span Class="bold">PCAP_ERROR_PERM_DENIED</span> The process doesn&#39;t have permission to open the capture source. 
+<p class="level0"><span Class="bold">PCAP_ERROR_PROMISC_PERM_DENIED</span> The process has permission to open the capture source but doesn&#39;t have permission to put it into promiscuous mode. 
+<p class="level0"><span Class="bold">PCAP_ERROR_RFMON_NOTSUP</span> Monitor mode was specified but the capture source doesn&#39;t support monitor mode. 
+<p class="level0"><span Class="bold">PCAP_ERROR_IFACE_NOT_UP</span> The capture source device is not up. 
+<p class="level0"><span Class="bold">PCAP_ERROR</span> Another error occurred. <span Class="bold">pcap_geterr</span>() or <span Class="bold">pcap_perror</span>() may be called with <span Class="emphasis">p</span> as an argument to fetch or display a message describing the error. 
+<p class="level0">If <span Class="bold">PCAP_WARNING_PROMISC_NOTSUP</span>, <span Class="bold">PCAP_ERROR_NO_SUCH_DEVICE</span>, or <span Class="bold">PCAP_ERROR_PERM_DENIED</span> is returned, <span Class="bold">pcap_geterr</span>() or <span Class="bold">pcap_perror</span>() may be called with <span Class="emphasis">p</span> as an argument to fetch or display an message giving additional details about the problem that might be useful for debugging the problem if it&#39;s unexpected. 
+<p class="level0">Additional warning and error codes may be added in the future; a program should check for positive, negative, and zero return codes, and treat all positive return codes as warnings and all negative return codes as errors. <a Class="bold" href="./pcap_statustostr.html">pcap_statustostr</a>(3PCAP) can be called, with a warning or error code as an argument, to fetch a message describing the warning or error code. 
+<p class="level0">If <span Class="bold">pcap_activate</span>() fails, the <span Class="emphasis">pcap_t *</span> is not closed and freed; it should be closed using <span Class="bold">pcap_close</span>(). <a name="SEE"></a><h2 class="nroffsh">SEE ALSO</h2>
+<p class="level0"><a Class="bold" href="./pcap.html">pcap</a>(3PCAP) <p class="roffit">
+ This HTML page was made with <a href="http://daniel.haxx.se/projects/roffit/">roffit</a>.
+</body></html>
