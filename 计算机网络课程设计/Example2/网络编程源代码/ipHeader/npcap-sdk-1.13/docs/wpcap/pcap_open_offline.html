@@ -1,0 +1,76 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+ "http://www.w3.org/TR/html4/loose.dtd">
+<html><head>
+<title>3PCAP man page</title>
+<meta name="generator" content="roffit">
+<STYLE type="text/css">
+pre {
+  overflow: auto;
+  margin: 0;
+}
+
+P.level0, pre.level0 {
+ padding-left: 2em;
+}
+
+P.level1, pre.level1 {
+ padding-left: 4em;
+}
+
+P.level2, pre.level2 {
+ padding-left: 6em;
+}
+
+span.emphasis {
+ font-style: italic;
+}
+
+span.bold {
+ font-weight: bold;
+}
+
+span.manpage {
+ font-weight: bold;
+}
+
+h2.nroffsh {
+ background-color: #e0e0e0;
+}
+
+span.nroffip {
+ font-weight: bold;
+ font-size: 120%;
+ font-family: monospace;
+}
+
+p.roffit {
+ text-align: center;
+ font-size: 80%;
+}
+</STYLE>
+</head><body>
+
+<p class="level0"><a name="NAME"></a><h2 class="nroffsh">NAME</h2>
+<p class="level0">pcap_open_offline, pcap_open_offline_with_tstamp_precision, pcap_fopen_offline, pcap_fopen_offline_with_tstamp_precision - open a saved capture file for reading <a name="SYNOPSIS"></a><h2 class="nroffsh">SYNOPSIS</h2>
+<p class="level0"><pre class="level0">
+&#35;include &lt;pcap/pcap.h&gt;
+<pre class="level0">
+char errbuf[PCAP_ERRBUF_SIZE];
+pcap_t *pcap_open_offline(const char *fname, char *errbuf);
+pcap_t *pcap_open_offline_with_tstamp_precision(const char *fname,
+&nbsp;   u_int precision, char *errbuf);
+pcap_t *pcap_fopen_offline(FILE *fp, char *errbuf);
+pcap_t *pcap_fopen_offline_with_tstamp_precision(FILE *fp,
+&nbsp;   u_int precision, char *errbuf);
+</pre>
+
+<p class="level0"><a name="DESCRIPTION"></a><h2 class="nroffsh">DESCRIPTION</h2>
+<p class="level0"><span Class="bold">pcap_open_offline</span>() and <span Class="bold">pcap_open_offline_with_tstamp_precision</span>() are called to open a ``savefile&#39;&#39; for reading. 
+<p class="level0"><span Class="emphasis">fname</span> specifies the name of the file to open. The file can have the pcap file format as described in <span Class="bold">\%pcap-savefile</span>(5), which is the file format used by, among other programs, <span Class="bold">tcpdump</span>(1) and <span Class="bold">tcpslice</span>(1), or can have the pcapng file format, although not all pcapng files can be read. The name &quot;-&quot; is a synonym for <span Class="bold">stdin</span>. 
+<p class="level0"><span Class="bold">pcap_open_offline_with_tstamp_precision</span>() takes an additional <span Class="emphasis">precision</span> argument specifying the time stamp precision desired; if <span Class="bold">PCAP_TSTAMP_PRECISION_MICRO</span> is specified, packet time stamps will be supplied in seconds and microseconds, and if <span Class="bold">PCAP_TSTAMP_PRECISION_NANO</span> is specified, packet time stamps will be supplied in seconds and nanoseconds.  If the time stamps in the file do not have the same precision as the requested precision, they will be scaled up or down as necessary before being supplied. 
+<p class="level0">Alternatively, you may call <span Class="bold">pcap_fopen_offline</span>() or <span Class="bold">pcap_fopen_offline_with_tstamp_precision</span>() to read dumped data from an existing open stream <span Class="emphasis">fp</span>. <span Class="bold">pcap_fopen_offline_with_tstamp_precision</span>() takes an additional <span Class="emphasis">precision</span> argument as described above. Note that on Windows, that stream should be opened in binary mode. <a name="RETURN"></a><h2 class="nroffsh">RETURN VALUE</h2>
+<p class="level0"><span Class="bold">pcap_open_offline</span>(), <span Class="bold">pcap_open_offline_with_tstamp_precision</span>(), <span Class="bold">pcap_fopen_offline</span>(), and <span Class="bold">pcap_fopen_offline_with_tstamp_precision</span>() return a <span Class="emphasis">pcap_t *</span> on success and <span Class="bold">NULL</span> on failure. If <span Class="bold">NULL</span> is returned, <span Class="emphasis">errbuf</span> is filled in with an appropriate error message. <span Class="emphasis">errbuf</span> is assumed to be able to hold at least <span Class="bold">PCAP_ERRBUF_SIZE</span> chars. <a name="BACKWARD"></a><h2 class="nroffsh">BACKWARD COMPATIBILITY</h2>
+<p class="level0"><span Class="bold">pcap_open_offline_with_tstamp_precision</span>() and <span Class="bold">pcap_fopen_offline_with_tstamp_precision</span>() became available in libpcap release 1.5.1.  In previous releases, time stamps from a savefile are always given in seconds and microseconds. <a name="SEE"></a><h2 class="nroffsh">SEE ALSO</h2>
+<p class="level0"><a Class="bold" href="./pcap.html">pcap</a>(3PCAP), <span Class="bold">\%pcap-savefile</span>(5) <p class="roffit">
+ This HTML page was made with <a href="http://daniel.haxx.se/projects/roffit/">roffit</a>.
+</body></html>

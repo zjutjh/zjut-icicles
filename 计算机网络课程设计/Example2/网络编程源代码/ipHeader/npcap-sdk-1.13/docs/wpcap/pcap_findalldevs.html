@@ -1,0 +1,99 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+ "http://www.w3.org/TR/html4/loose.dtd">
+<html><head>
+<title>3PCAP man page</title>
+<meta name="generator" content="roffit">
+<STYLE type="text/css">
+pre {
+  overflow: auto;
+  margin: 0;
+}
+
+P.level0, pre.level0 {
+ padding-left: 2em;
+}
+
+P.level1, pre.level1 {
+ padding-left: 4em;
+}
+
+P.level2, pre.level2 {
+ padding-left: 6em;
+}
+
+span.emphasis {
+ font-style: italic;
+}
+
+span.bold {
+ font-weight: bold;
+}
+
+span.manpage {
+ font-weight: bold;
+}
+
+h2.nroffsh {
+ background-color: #e0e0e0;
+}
+
+span.nroffip {
+ font-weight: bold;
+ font-size: 120%;
+ font-family: monospace;
+}
+
+p.roffit {
+ text-align: center;
+ font-size: 80%;
+}
+</STYLE>
+</head><body>
+
+<p class="level0"><a name="NAME"></a><h2 class="nroffsh">NAME</h2>
+<p class="level0">pcap_findalldevs, pcap_freealldevs - get a list of capture devices, and free that list <a name="SYNOPSIS"></a><h2 class="nroffsh">SYNOPSIS</h2>
+<p class="level0"><pre class="level0">
+&#35;include &lt;pcap/pcap.h&gt;
+<pre class="level0">
+char errbuf[PCAP_ERRBUF_SIZE];
+int pcap_findalldevs(pcap_if_t **alldevsp, char *errbuf);
+void pcap_freealldevs(pcap_if_t *alldevs);
+</pre>
+
+<p class="level0"><a name="DESCRIPTION"></a><h2 class="nroffsh">DESCRIPTION</h2>
+<p class="level0"><span Class="bold">pcap_findalldevs</span>() constructs a list of network devices that can be opened with <a Class="bold" href="./pcap_create.html">pcap_create</a>(3PCAP) and <a Class="bold" href="./pcap_activate.html">pcap_activate</a>(3PCAP) or with <a Class="bold" href="./pcap_open_live.html">pcap_open_live</a>(3PCAP). (Note that there may be network devices that cannot be opened by the process calling <span Class="bold">pcap_findalldevs</span>(), because, for example, that process does not have sufficient privileges to open them for capturing; if so, those devices will not appear on the list.) If <span Class="bold">pcap_findalldevs</span>() succeeds, the pointer pointed to by <span Class="emphasis">alldevsp</span> is set to point to the first element of the list, or to <span Class="bold">NULL</span> if no devices were found (this is considered success). Each element of the list is of type <span Class="bold">pcap_if_t</span>, and has the following members: 
+<p class="level1">
+<p class="level1"><span Class="bold">next</span> if not <span Class="bold">NULL</span>, a pointer to the next element in the list; <span Class="bold">NULL</span> for the last element of the list 
+<p class="level1"><span Class="bold">name</span> a pointer to a string giving a name for the device to pass to <span Class="bold">pcap_open_live</span>() 
+<p class="level1"><span Class="bold">description</span> if not <span Class="bold">NULL</span>, a pointer to a string giving a human-readable description of the device 
+<p class="level1"><span Class="bold">addresses</span> a pointer to the first element of a list of network addresses for the device, or <span Class="bold">NULL</span> if the device has no addresses 
+<p class="level1"><span Class="bold">flags</span> device flags: 
+<p class="level2">
+<p class="level2"><span Class="bold">PCAP_IF_LOOPBACK</span> set if the device is a loopback interface 
+<p class="level2"><span Class="bold">PCAP_IF_UP</span> set if the device is up 
+<p class="level2"><span Class="bold">PCAP_IF_RUNNING</span> set if the device is running 
+<p class="level2"><span Class="bold">PCAP_IF_WIRELESS</span> set if the device is a wireless interface; this includes IrDA as well as radio-based networks such as IEEE 802.15.4 and IEEE 802.11, so it doesn&#39;t just mean Wi-Fi 
+<p class="level2"><span Class="bold">PCAP_IF_CONNECTION_STATUS</span> a bitmask for an indication of whether the adapter is connected or not; for wireless interfaces, &quot;connected&quot; means &quot;associated with a network&quot; 
+<p class="level2">The possible values for the connection status bits are: 
+<p class="level2"><span Class="bold">PCAP_IF_CONNECTION_STATUS_UNKNOWN</span> it&#39;s unknown whether the adapter is connected or not 
+<p class="level2"><span Class="bold">PCAP_IF_CONNECTION_STATUS_CONNECTED</span> the adapter is connected 
+<p class="level2"><span Class="bold">PCAP_IF_CONNECTION_STATUS_DISCONNECTED</span> the adapter is disconnected 
+<p class="level2"><span Class="bold">PCAP_IF_CONNECTION_STATUS_NOT_APPLICABLE</span> the notion of &quot;connected&quot; and &quot;disconnected&quot; don&#39;t apply to this interface; for example, it doesn&#39;t apply to a loopback device 
+<p class="level1">
+<p class="level0">
+<p class="level0">Each element of the list of addresses is of type <span Class="bold">pcap_addr_t</span>, and has the following members: 
+<p class="level1">
+<p class="level1"><span Class="bold">next</span> if not <span Class="bold">NULL</span>, a pointer to the next element in the list; <span Class="bold">NULL</span> for the last element of the list 
+<p class="level1"><span Class="bold">addr</span> a pointer to a <span Class="bold">struct sockaddr</span> containing an address 
+<p class="level1"><span Class="bold">netmask</span> if not <span Class="bold">NULL</span>, a pointer to a <span Class="bold">struct sockaddr</span> that contains the netmask corresponding to the address pointed to by <span Class="bold">addr</span> 
+<p class="level1"><span Class="bold">broadaddr</span> if not <span Class="bold">NULL</span>, a pointer to a <span Class="bold">struct sockaddr</span> that contains the broadcast address corresponding to the address pointed to by <span Class="bold">addr</span>; may be null if the device doesn&#39;t support broadcasts 
+<p class="level1"><span Class="bold">dstaddr</span> if not <span Class="bold">NULL</span>, a pointer to a <span Class="bold">struct sockaddr</span> that contains the destination address corresponding to the address pointed to by <span Class="bold">addr</span>; may be null if the device isn&#39;t a point-to-point interface 
+<p class="level0">
+<p class="level0">Note that the addresses in the list of addresses might be IPv4 addresses, IPv6 addresses, or some other type of addresses, so you must check the <span Class="bold">sa_family</span> member of the <span Class="bold">struct sockaddr</span> before interpreting the contents of the address; do not assume that the addresses are all IPv4 addresses, or even all IPv4 or IPv6 addresses. IPv4 addresses have the value <span Class="bold">AF_INET</span>, IPv6 addresses have the value <span Class="bold">AF_INET6</span> (which older operating systems that don&#39;t support IPv6 might not define), and other addresses have other values.  Whether other addresses are returned, and what types they might have is platform-dependent. For IPv4 addresses, the <span Class="bold">struct sockaddr</span> pointer can be interpreted as if it pointed to a <span Class="bold">struct sockaddr_in</span>; for IPv6 addresses, it can be interpreted as if it pointed to a <span Class="bold">struct sockaddr_in6</span>. 
+<p class="level0">The list of devices must be freed with <span Class="bold">pcap_freealldevs</span>(3PCAP), which frees the list pointed to by <span Class="emphasis">alldevs</span>. <a name="RETURN"></a><h2 class="nroffsh">RETURN VALUE</h2>
+<p class="level0"><span Class="bold">pcap_findalldevs</span>() returns <span Class="bold">0</span> on success and <span Class="bold">PCAP_ERROR</span> on failure; as indicated, finding no devices is considered success, rather than failure, so <span Class="bold">0</span> will be returned in that case. If <span Class="bold">PCAP_ERROR</span> is returned, <span Class="emphasis">errbuf</span> is filled in with an appropriate error message. <span Class="emphasis">errbuf</span> is assumed to be able to hold at least <span Class="bold">PCAP_ERRBUF_SIZE</span> chars. <a name="BACKWARD"></a><h2 class="nroffsh">BACKWARD COMPATIBILITY</h2>
+<p class="level0">
+<p class="level0">The <span Class="bold">PCAP_IF_UP</span> and <span Class="bold">PCAP_IF_RUNNING</span> constants became available in libpcap release 1.6.1.  The <span Class="bold">PCAP_IF_WIRELESS</span>, <span Class="bold">PCAP_IF_CONNECTION_STATUS</span>, <span Class="bold">PCAP_IF_CONNECTION_STATUS_UNKNOWN</span>, <span Class="bold">PCAP_IF_CONNECTION_STATUS_CONNECTED</span>, <span Class="bold">PCAP_IF_CONNECTION_STATUS_DISCONNECTED</span>, and <span Class="bold">PCAP_IF_CONNECTION_STATUS_NOT_APPLICABLE</span> constants became available in libpcap release 1.9.0. <a name="SEE"></a><h2 class="nroffsh">SEE ALSO</h2>
+<p class="level0"><a Class="bold" href="./pcap.html">pcap</a>(3PCAP) <p class="roffit">
+ This HTML page was made with <a href="http://daniel.haxx.se/projects/roffit/">roffit</a>.
+</body></html>

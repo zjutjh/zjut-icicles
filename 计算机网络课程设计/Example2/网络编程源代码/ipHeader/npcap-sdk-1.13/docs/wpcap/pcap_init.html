@@ -1,0 +1,73 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+ "http://www.w3.org/TR/html4/loose.dtd">
+<html><head>
+<title>3PCAP man page</title>
+<meta name="generator" content="roffit">
+<STYLE type="text/css">
+pre {
+  overflow: auto;
+  margin: 0;
+}
+
+P.level0, pre.level0 {
+ padding-left: 2em;
+}
+
+P.level1, pre.level1 {
+ padding-left: 4em;
+}
+
+P.level2, pre.level2 {
+ padding-left: 6em;
+}
+
+span.emphasis {
+ font-style: italic;
+}
+
+span.bold {
+ font-weight: bold;
+}
+
+span.manpage {
+ font-weight: bold;
+}
+
+h2.nroffsh {
+ background-color: #e0e0e0;
+}
+
+span.nroffip {
+ font-weight: bold;
+ font-size: 120%;
+ font-family: monospace;
+}
+
+p.roffit {
+ text-align: center;
+ font-size: 80%;
+}
+</STYLE>
+</head><body>
+
+<p class="level0"><a name="NAME"></a><h2 class="nroffsh">NAME</h2>
+<p class="level0">pcap_init - initialize the library <a name="SYNOPSIS"></a><h2 class="nroffsh">SYNOPSIS</h2>
+<p class="level0"><pre class="level0">
+&#35;include &lt;pcap/pcap.h&gt;
+<pre class="level0">
+char errbuf[PCAP_ERRBUF_SIZE];
+int pcap_init(unsigned int opts, char *errbuf);
+</pre>
+
+<p class="level0"><a name="DESCRIPTION"></a><h2 class="nroffsh">DESCRIPTION</h2>
+<p class="level0"><span Class="bold">pcap_init</span>() is used to initialize the Packet Capture library. <span Class="emphasis">opts</span> specifies options for the library; currently, the options are: 
+<p class="level0"><span Class="bold">PCAP_CHAR_ENC_LOCAL</span> Treat all strings supplied as arguments, and return all strings to the caller, as being in the local character encoding. 
+<p class="level0"><span Class="bold">PCAP_CHAR_ENC_UTF_8</span> Treat all strings supplied as arguments, and return all strings to the caller, as being in UTF-8. 
+<p class="level0">On UNIX-like systems, the local character encoding is assumed to be UTF-8, so no character encoding transformations are done. 
+<p class="level0">On Windows, the local character encoding is the local ANSI code page. 
+<p class="level0">If <span Class="bold">pcap_init</span>() is not called, strings are treated as being in the local ANSI code page on Windows, <a Class="bold" href="./pcap_lookupdev.html">pcap_lookupdev</a>(3PCAP) will succeed if there is a device on which to capture, and <a Class="bold" href="./pcap_create.html">pcap_create</a>(3PCAP) makes an attempt to check whether the string passed as an argument is a UTF-16LE string - note that this attempt is unsafe, as it may run past the end of the string - to handle <span Class="bold">pcap_lookupdev</span>() returning a UTF-16LE string. Programs that don&#39;t call <span Class="bold">pcap_init</span>() should, on Windows, call <span Class="bold">pcap_wsockinit</span>() to initialize Winsock; this is not necessary if <span Class="bold">pcap_init</span>() is called, as <span Class="bold">pcap_init</span>() will initialize Winsock itself on Windows. <a name="RETURN"></a><h2 class="nroffsh">RETURN VALUE</h2>
+<p class="level0"><span Class="bold">pcap_init</span>() returns <span Class="bold">0</span> on success and <span Class="bold">-1</span> on failure. If <span Class="bold">-1</span> is returned, <span Class="emphasis">errbuf</span> is filled in with an appropriate error message. <span Class="emphasis">errbuf</span> is assumed to be able to hold at least <span Class="bold">PCAP_ERRBUF_SIZE</span> chars. <a name="BACKWARD"></a><h2 class="nroffsh">BACKWARD COMPATIBILITY</h2>
+<p class="level0">This function became available in libpcap release 1.10.0.  In previous releases, on Windows, all strings supplied as arguments, and all strings returned to the caller, are in the local character encoding. <a name="SEE"></a><h2 class="nroffsh">SEE ALSO</h2>
+<p class="level0"><a Class="bold" href="./pcap.html">pcap</a>(3PCAP) <p class="roffit">
+ This HTML page was made with <a href="http://daniel.haxx.se/projects/roffit/">roffit</a>.
+</body></html>

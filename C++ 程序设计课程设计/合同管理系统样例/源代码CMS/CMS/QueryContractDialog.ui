@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>QueryContractDialog</class>
+ <widget class="QDialog" name="QueryContractDialog">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>800</width>
+    <height>1033</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>查询合同</string>
+  </property>
+  <layout class="QVBoxLayout" name="verticalLayout">
+   <item>
+    <widget class="QComboBox" name="searchTypeComboBox">
+     <item>
+      <property name="text">
+       <string>甲方</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>乙方</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>甲方和乙方</string>
+      </property>
+     </item>
+    </widget>
+   </item>
+   <item>
+    <widget class="QLineEdit" name="keywordLineEdit"/>
+   </item>
+   <item>
+    <widget class="QComboBox" name="searchMethodComboBox">
+     <item>
+      <property name="text">
+       <string>精确查询</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>模糊查询</string>
+      </property>
+     </item>
+    </widget>
+   </item>
+   <item>
+    <widget class="QPushButton" name="searchButton">
+     <property name="text">
+      <string>查询</string>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <widget class="QTextEdit" name="resultTextEdit"/>
+   </item>
+  </layout>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>

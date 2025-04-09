@@ -1,0 +1,79 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+ "http://www.w3.org/TR/html4/loose.dtd">
+<html><head>
+<title>3PCAP man page</title>
+<meta name="generator" content="roffit">
+<STYLE type="text/css">
+pre {
+  overflow: auto;
+  margin: 0;
+}
+
+P.level0, pre.level0 {
+ padding-left: 2em;
+}
+
+P.level1, pre.level1 {
+ padding-left: 4em;
+}
+
+P.level2, pre.level2 {
+ padding-left: 6em;
+}
+
+span.emphasis {
+ font-style: italic;
+}
+
+span.bold {
+ font-weight: bold;
+}
+
+span.manpage {
+ font-weight: bold;
+}
+
+h2.nroffsh {
+ background-color: #e0e0e0;
+}
+
+span.nroffip {
+ font-weight: bold;
+ font-size: 120%;
+ font-family: monospace;
+}
+
+p.roffit {
+ text-align: center;
+ font-size: 80%;
+}
+</STYLE>
+</head><body>
+
+<p class="level0"><a name="NAME"></a><h2 class="nroffsh">NAME</h2>
+<p class="level0">pcap_loop, pcap_dispatch - process packets from a live capture or savefile <a name="SYNOPSIS"></a><h2 class="nroffsh">SYNOPSIS</h2>
+<p class="level0"><pre class="level0">
+&#35;include &lt;pcap/pcap.h&gt;
+typedef void (*pcap_handler)(u_char *user, const struct pcap_pkthdr *h,
+&nbsp;&nbsp;&nbsp;&nbsp;			     const u_char *bytes);
+int pcap_loop(pcap_t *p, int cnt,
+&nbsp;&nbsp;&nbsp;&nbsp;pcap_handler callback, u_char *user);
+int pcap_dispatch(pcap_t *p, int cnt,
+&nbsp;&nbsp;&nbsp;&nbsp;pcap_handler callback, u_char *user);
+</pre>
+
+<p class="level0"><a name="DESCRIPTION"></a><h2 class="nroffsh">DESCRIPTION</h2>
+<p class="level0"><span Class="bold">pcap_loop</span>() processes packets from a live capture or ``savefile&#39;&#39; until <span Class="emphasis">cnt</span> packets are processed, the end of the ``savefile&#39;&#39; is reached when reading from a ``savefile&#39;&#39;, <a Class="bold" href="./pcap_breakloop.html">pcap_breakloop</a>(3PCAP) is called, or an error occurs. It does <span Class="bold">not</span> return when live packet buffer timeouts occur. A value of <span Class="bold">-1</span> or <span Class="bold">0</span> for <span Class="emphasis">cnt</span> is equivalent to infinity, so that packets are processed until another ending condition occurs. 
+<p class="level0"><span Class="bold">pcap_dispatch</span>() processes packets from a live capture or ``savefile&#39;&#39; until <span Class="emphasis">cnt</span> packets are processed, the end of the current bufferful of packets is reached when doing a live capture, the end of the ``savefile&#39;&#39; is reached when reading from a ``savefile&#39;&#39;, <span Class="bold">pcap_breakloop</span>() is called, or an error occurs. Thus, when doing a live capture, <span Class="emphasis">cnt</span> is the maximum number of packets to process before returning, but is not a minimum number; when reading a live capture, only one bufferful of packets is read at a time, so fewer than <span Class="emphasis">cnt</span> packets may be processed. A value of <span Class="bold">-1</span> or <span Class="bold">0</span> for <span Class="emphasis">cnt</span> causes all the packets received in one buffer to be processed when reading a live capture, and causes all the packets in the file to be processed when reading a ``savefile&#39;&#39;. 
+<p class="level0">Note that, when doing a live capture on some platforms, if the read timeout expires when there are no packets available, <span Class="bold">pcap_dispatch</span>() will return 0, even when not in non-blocking mode, as there are no packets to process.  Applications should be prepared for this to happen, but must not rely on it happening. 
+<p class="level0"><span Class="emphasis">callback</span> specifies a <span Class="emphasis">pcap_handler</span> routine to be called with three arguments: a <span Class="emphasis">u_char</span> pointer which is passed in the <span Class="emphasis">user</span> argument to <span Class="bold">pcap_loop</span>() or <span Class="bold">pcap_dispatch</span>(), a <span Class="emphasis">const struct pcap_pkthdr</span> pointer pointing to the packet time stamp and lengths, and a <span Class="emphasis">const u_char</span> pointer to the first <span Class="bold">caplen</span> (as given in the <span Class="emphasis">struct pcap_pkthdr</span> a pointer to which is passed to the callback routine) bytes of data from the packet.  The <span Class="emphasis">struct pcap_pkthdr</span> and the packet data are not to be freed by the callback routine, and are not guaranteed to be valid after the callback routine returns; if the code needs them to be valid after the callback, it must make a copy of them. 
+<p class="level0">The bytes of data from the packet begin with a link-layer header.  The format of the link-layer header is indicated by the return value of the <a Class="bold" href="./pcap_datalink.html">pcap_datalink</a>(3PCAP) routine when handed the <span Class="bold">pcap_t</span> value also passed to <span Class="bold">pcap_loop</span>() or <span Class="bold">pcap_dispatch</span>(). <span Class="emphasis"><a href="https://www.tcpdump.org/linktypes.html">https://www.tcpdump.org/linktypes.html</a></span> lists the values <span Class="bold">pcap_datalink</span>() can return and describes the packet formats that correspond to those values.  The value it returns will be valid for all packets received unless and until <a Class="bold" href="./pcap_set_datalink.html">pcap_set_datalink</a>(3PCAP) is called; after a successful call to <span Class="bold">pcap_set_datalink</span>(), all subsequent packets will have a link-layer header of the type specified by the link-layer header type value passed to <span Class="bold">pcap_set_datalink</span>(). 
+<p class="level0">Do <span Class="bold">NOT</span> assume that the packets for a given capture or ``savefile`` will have any given link-layer header type, such as <span Class="bold">DLT_EN10MB</span> for Ethernet.  For example, the &quot;any&quot; device on Linux will have a link-layer header type of <span Class="bold">DLT_LINUX_SLL</span> or <span Class="bold">DLT_LINUX_SLL2</span> even if all devices on the system at the time the &quot;any&quot; device is opened have some other data link type, such as <span Class="bold">DLT_EN10MB</span> for Ethernet. <a name="RETURN"></a><h2 class="nroffsh">RETURN VALUE</h2>
+<p class="level0"><span Class="bold">pcap_loop</span>() returns <span Class="bold">0</span> if <span Class="emphasis">cnt</span> is exhausted or if, when reading from a ``savefile&#39;&#39;, no more packets are available.  It returns <span Class="bold">PCAP_ERROR_BREAK</span> if the loop terminated due to a call to <span Class="bold">pcap_breakloop</span>() before any packets were processed, <span Class="bold">PCAP_ERROR_NOT_ACTIVATED</span> if called on a capture handle that has been created but not activated, or <span Class="bold">PCAP_ERROR</span> if another error occurs. It does <span Class="bold">not</span> return when live packet buffer timeouts occur; instead, it attempts to read more packets. 
+<p class="level0"><span Class="bold">pcap_dispatch</span>() returns the number of packets processed on success; this can be 0 if no packets were read from a live capture (if, for example, they were discarded because they didn&#39;t pass the packet filter, or if, on platforms that support a packet buffer timeout that starts before any packets arrive, the timeout expires before any packets arrive, or if the file descriptor for the capture device is in non-blocking mode and no packets were available to be read) or if no more packets are available in a ``savefile.&#39;&#39; It returns <span Class="bold">PCAP_ERROR_BREAK</span> if the loop terminated due to a call to <span Class="bold">pcap_breakloop</span>() before any packets were processed, <span Class="bold">PCAP_ERROR_NOT_ACTIVATED</span> if called on a capture handle that has been created but not activated, or <span Class="bold">PCAP_ERROR</span> if another error occurs. If your application uses pcap_breakloop(), make sure that you explicitly check for PCAP_ERROR and PCAP_ERROR_BREAK, rather than just checking for a return value &lt; 0. 
+<p class="level0">If <span Class="bold">PCAP_ERROR</span> is returned, <a Class="bold" href="./pcap_geterr.html">pcap_geterr</a>(3PCAP) or <span Class="bold">pcap_perror</span>(3PCAP) may be called with <span Class="emphasis">p</span> as an argument to fetch or display the error text. <a name="BACKWARD"></a><h2 class="nroffsh">BACKWARD COMPATIBILITY</h2>
+<p class="level0">
+<p class="level0">In libpcap versions before 1.5.0, the behavior when <span Class="emphasis">cnt</span> was <span Class="bold">0</span> was undefined; different platforms and devices behaved differently, so code that must work with these versions of libpcap should use <span Class="bold">-1</span>, not <span Class="bold">0</span>, as the value of <span Class="emphasis">cnt</span>. <a name="SEE"></a><h2 class="nroffsh">SEE ALSO</h2>
+<p class="level0"><a Class="bold" href="./pcap.html">pcap</a>(3PCAP) <p class="roffit">
+ This HTML page was made with <a href="http://daniel.haxx.se/projects/roffit/">roffit</a>.
+</body></html>

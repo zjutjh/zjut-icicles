@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>EditContractDialog</class>
+ <widget class="QDialog" name="EditContractDialog">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>822</width>
+    <height>560</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>编辑合同</string>
+  </property>
+  <layout class="QFormLayout" name="formLayout">
+   <item row="0" column="0">
+    <widget class="QLabel" name="contractNumberLabel">
+     <property name="text">
+      <string>合同编号:</string>
+     </property>
+    </widget>
+   </item>
+   <item row="0" column="1">
+    <widget class="QLineEdit" name="contractNumberLineEdit"/>
+   </item>
+   <item row="1" column="0">
+    <widget class="QLabel" name="partyALabel">
+     <property name="text">
+      <string>甲方:</string>
+     </property>
+    </widget>
+   </item>
+   <item row="1" column="1">
+    <widget class="QLineEdit" name="partyALineEdit"/>
+   </item>
+   <item row="2" column="0">
+    <widget class="QLabel" name="partyBLabel">
+     <property name="text">
+      <string>乙方:</string>
+     </property>
+    </widget>
+   </item>
+   <item row="2" column="1">
+    <widget class="QLineEdit" name="partyBLineEdit"/>
+   </item>
+   <item row="3" column="0">
+    <widget class="QLabel" name="contentLabel">
+     <property name="text">
+      <string>内容:</string>
+     </property>
+    </widget>
+   </item>
+   <item row="3" column="1">
+    <widget class="QTextEdit" name="contentTextEdit"/>
+   </item>
+   <item row="4" column="0">
+    <widget class="QLabel" name="startDateLabel">
+     <property name="text">
+      <string>开始日期:</string>
+     </property>
+    </widget>
+   </item>
+   <item row="4" column="1">
+    <widget class="QLineEdit" name="startDateLineEdit"/>
+   </item>
+   <item row="5" column="0">
+    <widget class="QLabel" name="endDateLabel">
+     <property name="text">
+      <string>结束日期:</string>
+     </property>
+    </widget>
+   </item>
+   <item row="5" column="1">
+    <widget class="QLineEdit" name="endDateLineEdit"/>
+   </item>
+   <item row="6" column="0">
+    <widget class="QLabel" name="amountLabel">
+     <property name="text">
+      <string>金额:</string>
+     </property>
+    </widget>
+   </item>
+   <item row="6" column="1">
+    <widget class="QLineEdit" name="amountLineEdit"/>
+   </item>
+   <item row="7" column="0">
+    <widget class="QLabel" name="signingDateLabel">
+     <property name="text">
+      <string>签订日期:</string>
+     </property>
+    </widget>
+   </item>
+   <item row="7" column="1">
+    <widget class="QLineEdit" name="signingDateLineEdit"/>
+   </item>
+   <item row="8" column="0" colspan="2">
+    <widget class="QPushButton" name="saveButton">
+     <property name="text">
+      <string>保存</string>
+     </property>
+    </widget>
+   </item>
+  </layout>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>

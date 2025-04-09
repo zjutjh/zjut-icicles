@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+ "http://www.w3.org/TR/html4/loose.dtd">
+<html><head>
+<title>3PCAP man page</title>
+<meta name="generator" content="roffit">
+<STYLE type="text/css">
+pre {
+  overflow: auto;
+  margin: 0;
+}
+
+P.level0, pre.level0 {
+ padding-left: 2em;
+}
+
+P.level1, pre.level1 {
+ padding-left: 4em;
+}
+
+P.level2, pre.level2 {
+ padding-left: 6em;
+}
+
+span.emphasis {
+ font-style: italic;
+}
+
+span.bold {
+ font-weight: bold;
+}
+
+span.manpage {
+ font-weight: bold;
+}
+
+h2.nroffsh {
+ background-color: #e0e0e0;
+}
+
+span.nroffip {
+ font-weight: bold;
+ font-size: 120%;
+ font-family: monospace;
+}
+
+p.roffit {
+ text-align: center;
+ font-size: 80%;
+}
+</STYLE>
+</head><body>
+
+<p class="level0"><a name="NAME"></a><h2 class="nroffsh">NAME</h2>
+<p class="level0">pcap_create - create a live capture handle <a name="SYNOPSIS"></a><h2 class="nroffsh">SYNOPSIS</h2>
+<p class="level0"><pre class="level0">
+&#35;include &lt;pcap/pcap.h&gt;
+<pre class="level0">
+char errbuf[PCAP_ERRBUF_SIZE];
+pcap_t *pcap_create(const char *source, char *errbuf);
+</pre>
+
+<p class="level0"><a name="DESCRIPTION"></a><h2 class="nroffsh">DESCRIPTION</h2>
+<p class="level0"><span Class="bold">pcap_create</span>() is used to create a packet capture handle to look at packets on the network. <span Class="emphasis">source</span> is a string that specifies the network device to open; on Linux systems with 2.2 or later kernels, a <span Class="emphasis">source</span> argument of &quot;any&quot; or <span Class="bold">NULL</span> can be used to capture packets from all interfaces. 
+<p class="level0">The returned handle must be activated with <a Class="bold" href="./pcap_activate.html">pcap_activate</a>(3PCAP) before packets can be captured with it; options for the capture, such as promiscuous mode, can be set on the handle before activating it. <a name="RETURN"></a><h2 class="nroffsh">RETURN VALUE</h2>
+<p class="level0"><span Class="bold">pcap_create</span>() returns a <span Class="emphasis">pcap_t *</span> on success and <span Class="bold">NULL</span> on failure. If <span Class="bold">NULL</span> is returned, <span Class="emphasis">errbuf</span> is filled in with an appropriate error message. <span Class="emphasis">errbuf</span> is assumed to be able to hold at least <span Class="bold">PCAP_ERRBUF_SIZE</span> chars. <a name="SEE"></a><h2 class="nroffsh">SEE ALSO</h2>
+<p class="level0"><a Class="bold" href="./pcap.html">pcap</a>(3PCAP) <p class="roffit">
+ This HTML page was made with <a href="http://daniel.haxx.se/projects/roffit/">roffit</a>.
+</body></html>

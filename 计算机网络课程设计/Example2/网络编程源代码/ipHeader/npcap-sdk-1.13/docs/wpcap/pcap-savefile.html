@@ -1,0 +1,86 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+ "http://www.w3.org/TR/html4/loose.dtd">
+<html><head>
+<title>PCAP-SAVEFILE man page</title>
+<meta name="generator" content="roffit">
+<STYLE type="text/css">
+pre {
+  overflow: auto;
+  margin: 0;
+}
+
+P.level0, pre.level0 {
+ padding-left: 2em;
+}
+
+P.level1, pre.level1 {
+ padding-left: 4em;
+}
+
+P.level2, pre.level2 {
+ padding-left: 6em;
+}
+
+span.emphasis {
+ font-style: italic;
+}
+
+span.bold {
+ font-weight: bold;
+}
+
+span.manpage {
+ font-weight: bold;
+}
+
+h2.nroffsh {
+ background-color: #e0e0e0;
+}
+
+span.nroffip {
+ font-weight: bold;
+ font-size: 120%;
+ font-family: monospace;
+}
+
+p.roffit {
+ text-align: center;
+ font-size: 80%;
+}
+</STYLE>
+</head><body>
+
+<p class="level0"><a name="NAME"></a><h2 class="nroffsh">NAME</h2>
+<p class="level0">pcap-savefile - libpcap savefile format <a name="DESCRIPTION"></a><h2 class="nroffsh">DESCRIPTION</h2>
+<p class="level0">NOTE: applications and libraries should, if possible, use libpcap to read savefiles, rather than having their own code to read savefiles. If, in the future, a new file format is supported by libpcap, applications and libraries using libpcap to read savefiles will be able to read the new format of savefiles, but applications and libraries using their own code to read savefiles will have to be changed to support the new file format. 
+<p class="level0">``Savefiles&#39;&#39; read and written by libpcap and applications using libpcap start with a per-file header.  The format of the per-file header is: 
+<p class="level1">
+<p class="level1">box; c s c | c c s. Magic number _ Major version	Minor version _ Time zone offset _ Time stamp accuracy _ Snapshot length _ Link-layer header type 
+<p class="level1">
+<p class="level0">
+<p class="level0">The per-file header length is 24 octets. 
+<p class="level0">All fields in the per-file header are in the byte order of the host writing the file.  Normally, the first field in the per-file header is a 4-byte magic number, with the value 0xa1b2c3d4.  The magic number, when read by a host with the same byte order as the host that wrote the file, will have the value 0xa1b2c3d4, and, when read by a host with the opposite byte order as the host that wrote the file, will have the value 0xd4c3b2a1.  That allows software reading the file to determine whether the byte order of the host that wrote the file is the same as the byte order of the host on which the file is being read, and thus whether the values in the per-file and per-packet headers need to be byte-swapped. 
+<p class="level0">If the magic number has the value 0xa1b23c4d (with the two nibbles of the two lower-order bytes of the magic number swapped), which would be read as 0xa1b23c4d by a host with the same byte order as the host that wrote the file and as 0x4d3cb2a1 by a host with the opposite byte order as the host that wrote the file, the file format is the same as for regular files, except that the time stamps for packets are given in seconds and nanoseconds rather than seconds and microseconds. 
+<p class="level0">Following this are: 
+<p class="level0"><a name=""></a><span class="nroffip"></span> 
+<p class="level1">A 2-byte file format major version number; the current version number is 2. 
+<p class="level0"><a name=""></a><span class="nroffip"></span> 
+<p class="level1">A 2-byte file format minor version number; the current version number is 4. 
+<p class="level0"><a name=""></a><span class="nroffip"></span> 
+<p class="level1">A 4-byte time zone offset; this is always 0. 
+<p class="level0"><a name=""></a><span class="nroffip"></span> 
+<p class="level1">A 4-byte number giving the accuracy of time stamps in the file; this is always 0. 
+<p class="level0"><a name=""></a><span class="nroffip"></span> 
+<p class="level1">A 4-byte number giving the &quot;snapshot length&quot; of the capture; packets longer than the snapshot length are truncated to the snapshot length, so that, if the snapshot length is <span Class="emphasis">N</span>, only the first <span Class="emphasis">N</span> bytes of a packet longer than <span Class="emphasis">N</span> bytes will be saved in the capture. 
+<p class="level0"><a name=""></a><span class="nroffip"></span> 
+<p class="level1">a 4-byte number giving the link-layer header type for packets in the capture; see <a Class="bold" href="./pcap-linktype.html">pcap-linktype</a>(7) for the <span Class="bold">LINKTYPE_</span> values that can appear in this field. 
+<p class="level1">Following the per-file header are zero or more packets; each packet begins with a per-packet header, which is immediately followed by the raw packet data.  The format of the per-packet header is: 
+<p class="level2">
+<p class="level2">box; c. Time stamp, seconds value _ Time stamp, microseconds or nanoseconds value _ Length of captured packet data _ Un-truncated length of the packet data 
+<p class="level2">
+<p class="level1">
+<p class="level1">The per-packet header length is 16 octets. 
+<p class="level1">All fields in the per-packet header are in the byte order of the host writing the file.  The per-packet header begins with a time stamp giving the approximate time the packet was captured; the time stamp consists of a 4-byte value, giving the time in seconds since January 1, 1970, 00:00:00 UTC, followed by a 4-byte value, giving the time in microseconds or nanoseconds since that second, depending on the magic number in the file header.  Following that are a 4-byte value giving the number of bytes of captured data that follow the per-packet header and a 4-byte value giving the number of bytes that would have been present had the packet not been truncated by the snapshot length.  The two lengths will be equal if the number of bytes of packet data are less than or equal to the snapshot length. <a name="SEE"></a><h2 class="nroffsh">SEE ALSO</h2>
+<p class="level0"><a Class="bold" href="./pcap.html">pcap</a>(3PCAP) <p class="roffit">
+ This HTML page was made with <a href="http://daniel.haxx.se/projects/roffit/">roffit</a>.
+</body></html>

@@ -1,0 +1,60 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+ "http://www.w3.org/TR/html4/loose.dtd">
+<html><head>
+<title>PCAP-LINKTYPE man page</title>
+<meta name="generator" content="roffit">
+<STYLE type="text/css">
+pre {
+  overflow: auto;
+  margin: 0;
+}
+
+P.level0, pre.level0 {
+ padding-left: 2em;
+}
+
+P.level1, pre.level1 {
+ padding-left: 4em;
+}
+
+P.level2, pre.level2 {
+ padding-left: 6em;
+}
+
+span.emphasis {
+ font-style: italic;
+}
+
+span.bold {
+ font-weight: bold;
+}
+
+span.manpage {
+ font-weight: bold;
+}
+
+h2.nroffsh {
+ background-color: #e0e0e0;
+}
+
+span.nroffip {
+ font-weight: bold;
+ font-size: 120%;
+ font-family: monospace;
+}
+
+p.roffit {
+ text-align: center;
+ font-size: 80%;
+}
+</STYLE>
+</head><body>
+
+<p class="level0"><a name="NAME"></a><h2 class="nroffsh">NAME</h2>
+<p class="level0">pcap-linktype - link-layer header types supported by libpcap <a name="DESCRIPTION"></a><h2 class="nroffsh">DESCRIPTION</h2>
+<p class="level0">For a live capture or ``savefile&#39;&#39;, libpcap supplies, as the return value of the <a Class="bold" href="./pcap_datalink.html">pcap_datalink</a>(3PCAP) routine, a value that indicates the type of link-layer header at the beginning of the packets it provides.  This is not necessarily the type of link-layer header that the packets being captured have on the network from which they&#39;re being captured; for example, packets from an IEEE 802.11 network might be provided by libpcap with Ethernet headers that the network adapter or the network adapter driver generates from the 802.11 headers.  The names for those values begin with <span Class="bold">DLT_</span>, so they are sometimes called &quot;DLT_ values&quot;. 
+<p class="level0">The values stored in the link-layer header type field in the savefile header are, in most but not all cases, the same as the values returned by <span Class="bold">pcap_datalink</span>(). The names for those values begin with <span Class="bold">LINKTYPE_</span>. 
+<p class="level0">The link-layer header types supported by libpcap are described at <a href="https://www.tcpdump.org/linktypes.html">https://www.tcpdump.org/linktypes.html</a> . <a name="SEE"></a><h2 class="nroffsh">SEE ALSO</h2>
+<p class="level0"><a Class="bold" href="./pcap.html">pcap</a>(3PCAP) <p class="roffit">
+ This HTML page was made with <a href="http://daniel.haxx.se/projects/roffit/">roffit</a>.
+</body></html>

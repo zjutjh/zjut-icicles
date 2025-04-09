@@ -1,0 +1,73 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+ "http://www.w3.org/TR/html4/loose.dtd">
+<html><head>
+<title>3PCAP man page</title>
+<meta name="generator" content="roffit">
+<STYLE type="text/css">
+pre {
+  overflow: auto;
+  margin: 0;
+}
+
+P.level0, pre.level0 {
+ padding-left: 2em;
+}
+
+P.level1, pre.level1 {
+ padding-left: 4em;
+}
+
+P.level2, pre.level2 {
+ padding-left: 6em;
+}
+
+span.emphasis {
+ font-style: italic;
+}
+
+span.bold {
+ font-weight: bold;
+}
+
+span.manpage {
+ font-weight: bold;
+}
+
+h2.nroffsh {
+ background-color: #e0e0e0;
+}
+
+span.nroffip {
+ font-weight: bold;
+ font-size: 120%;
+ font-family: monospace;
+}
+
+p.roffit {
+ text-align: center;
+ font-size: 80%;
+}
+</STYLE>
+</head><body>
+
+<p class="level0"><a name="NAME"></a><h2 class="nroffsh">NAME</h2>
+<p class="level0">pcap_stats - get capture statistics <a name="SYNOPSIS"></a><h2 class="nroffsh">SYNOPSIS</h2>
+<p class="level0"><pre class="level0">
+&#35;include &lt;pcap/pcap.h&gt;
+int pcap_stats(pcap_t *p, struct pcap_stat *ps);
+</pre>
+
+<p class="level0"><a name="DESCRIPTION"></a><h2 class="nroffsh">DESCRIPTION</h2>
+<p class="level0"><span Class="bold">pcap_stats</span>() fills in the <span Class="bold">struct pcap_stat</span> pointed to by its second argument.  The values represent packet statistics from the start of the run to the time of the call. 
+<p class="level0"><span Class="bold">pcap_stats</span>() is supported only on live captures, not on ``savefiles&#39;&#39;; no statistics are stored in ``savefiles&#39;&#39;, so no statistics are available when reading from a ``savefile&#39;&#39;. 
+<p class="level0">A <span Class="bold">struct pcap_stat</span> has the following members: 
+<p class="level1">
+<p class="level1"><span Class="bold">ps_recv</span> number of packets received; 
+<p class="level1"><span Class="bold">ps_drop</span> number of packets dropped because there was no room in the operating system&#39;s buffer when they arrived, because packets weren&#39;t being read fast enough; 
+<p class="level1"><span Class="bold">ps_ifdrop</span> number of packets dropped by the network interface or its driver. 
+<p class="level0">
+<p class="level0">The statistics do not behave the same way on all platforms. <span Class="bold">ps_recv</span> might count packets whether they passed any filter set with <a Class="bold" href="./pcap_setfilter.html">pcap_setfilter</a>(3PCAP) or not, or it might count only packets that pass the filter. It also might, or might not, count packets dropped because there was no room in the operating system&#39;s buffer when they arrived. <span Class="bold">ps_drop</span> is not available on all platforms; it is zero on platforms where it&#39;s not available.  If packet filtering is done in libpcap, rather than in the operating system, it would count packets that don&#39;t pass the filter. Both <span Class="bold">ps_recv</span> and <span Class="bold">ps_drop</span> might, or might not, count packets not yet read from the operating system and thus not yet seen by the application. <span Class="bold">ps_ifdrop</span> might, or might not, be implemented; if it&#39;s zero, that might mean that no packets were dropped by the interface, or it might mean that the statistic is unavailable, so it should not be treated as an indication that the interface did not drop any packets. <a name="RETURN"></a><h2 class="nroffsh">RETURN VALUE</h2>
+<p class="level0"><span Class="bold">pcap_stats</span>() returns <span Class="bold">0</span> on success, <span Class="bold">PCAP_ERROR_NOT_ACTIVATED</span> if called on a capture handle that has been created but not activated, or <span Class="bold">PCAP_ERROR</span> if there is another error or if <span Class="emphasis">p</span> doesn&#39;t support packet statistics. If <span Class="bold">PCAP_ERROR</span> is returned, <a Class="bold" href="./pcap_geterr.html">pcap_geterr</a>(3PCAP) or <span Class="bold">pcap_perror</span>(3PCAP) may be called with <span Class="emphasis">p</span> as an argument to fetch or display the error text. <a name="SEE"></a><h2 class="nroffsh">SEE ALSO</h2>
+<p class="level0"><a Class="bold" href="./pcap.html">pcap</a>(3PCAP) <p class="roffit">
+ This HTML page was made with <a href="http://daniel.haxx.se/projects/roffit/">roffit</a>.
+</body></html>
