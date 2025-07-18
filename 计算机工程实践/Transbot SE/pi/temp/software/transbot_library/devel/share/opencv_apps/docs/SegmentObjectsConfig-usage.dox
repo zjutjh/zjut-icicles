@@ -1,0 +1,7 @@
+\subsubsection usage Usage
+\verbatim
+<node name="segment_objects" pkg="opencv_apps" type="segment_objects">
+  <param name="use_camera_info" type="bool" value="False" />
+</node>
+\endverbatim
+

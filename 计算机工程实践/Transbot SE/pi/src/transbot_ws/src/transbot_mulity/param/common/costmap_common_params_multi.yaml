@@ -1,0 +1,41 @@
+obstacle_range: 3.0
+raytrace_range: 3.5
+
+footprint: [[-0.145, -0.12], [-0.145, 0.12], [0.145, 0.12], [0.145, -0.12]]
+#robot_radius: 0.105
+
+inflation_radius: 1.0
+cost_scaling_factor: 3.0
+
+map_type: costmap
+
+obstacle_layer:
+  enabled:              true #使能障碍层
+  max_obstacle_height:  2.0  # 最大障碍物高度
+  min_obstacle_height:  0.0
+  combination_method:   1
+  track_unknown_space:  true    #true needed for disabling global path planning through unknown space
+  obstacle_range: 2.5 #这些参数设置了代价地图中的障碍物信息的阈值。 "obstacle_range" 参数确定最大范围传感器读数
+  #这将导致障碍物被放入代价地图中。在这里，我们把它设置在2.5米，这意味着机器人只会更新其地图包含距离移动基座2.5米以内的障碍物的信息。
+  raytrace_range: 3.0 #“raytrace_range”参数确定了用于清除指定范围外的空间。将其设置为3.0米，
+  # 这意味着机器人将尝试清除3米外的空间，在代价地图中清除3米外的障碍物。
+  publish_voxel_map: false
+  observation_sources:  scan
+  scan:
+    data_type: LaserScan
+#topic: "/robot1/scan"
+    marking: true
+    clearing: true
+    expected_update_rate: 0
+
+
+#cost_scaling_factor and inflation_radius were now moved to the inflation_layer ns
+inflation_layer:
+  enabled:              true #使能膨胀层
+  cost_scaling_factor:  1.0  # exponential rate at which the obstacle cost drops off (default: 10)
+  inflation_radius:     0.2  # 机器人膨胀半径，比如设置为0.3,意味着规划的路径距离0.3米以上，这个参数理论上越大越安全 0.1
+  #但是会导致无法穿过狭窄的地方
+
+static_layer:
+  enabled:              true
+  map_topic:            "/map"

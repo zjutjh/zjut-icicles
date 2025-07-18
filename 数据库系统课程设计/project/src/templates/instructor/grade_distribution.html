@@ -1,0 +1,949 @@
+{% extends "base.html" %}
+
+{% block title %}成绩分布 - 教务管理系统{% endblock %}
+
+{% block head_extra %}
+<style>
+    .grade-distribution-container {
+        max-width: 1000px;
+        margin: 20px auto;
+        padding: 20px;
+        background-color: #fff;
+        border-radius: 8px;
+        box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+    }
+    
+    .grade-distribution-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 20px;
+        padding-bottom: 10px;
+        border-bottom: 1px solid #eee;
+    }
+    
+    .grade-distribution-title {
+        font-size: 1.5em;
+        font-weight: 500;
+    }
+    
+    .grade-distribution-actions {
+        display: flex;
+        gap: 10px;
+    }
+    
+    .grade-distribution-actions button {
+        padding: 8px 15px;
+        background-color: #0056b3;
+        color: white;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+    }
+    
+    .grade-distribution-actions button:hover {
+        background-color: #004494;
+    }
+    
+    .course-selector {
+        margin-bottom: 20px;
+    }
+    
+    .course-selector select {
+        padding: 8px;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        width: 100%;
+    }
+    
+    .chart-container {
+        background-color: #f8f9fa;
+        padding: 20px;
+        border-radius: 8px;
+        margin-bottom: 20px;
+    }
+    
+    .chart {
+        width: 100%;
+        height: 400px;
+        margin-bottom: 20px;
+    }
+    
+    .stats-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+        gap: 15px;
+        margin-bottom: 20px;
+    }
+    
+    .stat-card {
+        background-color: #f8f9fa;
+        padding: 15px;
+        border-radius: 8px;
+        text-align: center;
+    }
+    
+    .stat-value {
+        font-size: 1.8em;
+        font-weight: 500;
+        margin-bottom: 5px;
+    }
+    
+    .stat-label {
+        color: #6c757d;
+        font-size: 0.9em;
+    }
+    
+    .grade-table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-bottom: 20px;
+    }
+    
+    .grade-table th, .grade-table td {
+        padding: 12px 15px;
+        text-align: left;
+        border-bottom: 1px solid #ddd;
+    }
+    
+    .grade-table th {
+        background-color: #f8f9fa;
+        font-weight: 500;
+    }
+    
+    .grade-table tr:hover {
+        background-color: #f5f5f5;
+    }
+    
+    .grade-range {
+        display: flex;
+        align-items: center;
+    }
+    
+    .grade-bar {
+        height: 20px;
+        background-color: #0056b3;
+        margin: 0 10px;
+        border-radius: 2px;
+    }
+    
+    .grade-percent {
+        font-weight: 500;
+        width: 50px;
+    }
+    
+    .tabs {
+        display: flex;
+        border-bottom: 1px solid #ddd;
+        margin-bottom: 20px;
+    }
+    
+    .tab {
+        padding: 10px 20px;
+        cursor: pointer;
+        border-bottom: 2px solid transparent;
+    }
+    
+    .tab.active {
+        border-bottom: 2px solid #0056b3;
+        color: #0056b3;
+        font-weight: 500;
+    }
+    
+    .tab-content {
+        display: none;
+    }
+    
+    .tab-content.active {
+        display: block;
+    }
+    
+    .comparison-chart {
+        width: 100%;
+        height: 400px;
+        margin-bottom: 20px;
+    }
+    
+    .filters {
+        display: flex;
+        gap: 10px;
+        margin-bottom: 20px;
+        flex-wrap: wrap;
+    }
+    
+    .filter-group {
+        flex-grow: 1;
+    }
+    
+    .filter-group label {
+        display: block;
+        margin-bottom: 5px;
+        font-size: 0.9em;
+        color: #6c757d;
+    }
+    
+    .filter-group select {
+        width: 100%;
+        padding: 8px;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+    }
+</style>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+{% endblock %}
+
+{% block content %}
+<div class="grade-distribution-container">
+    <div class="grade-distribution-header">
+        <div class="grade-distribution-title">成绩分布</div>
+        <div class="grade-distribution-actions">
+            <button onclick="exportData()">导出数据</button>
+            <button onclick="printReport()">打印报告</button>
+        </div>
+    </div>
+    
+    <div class="course-selector">
+        <select id="course-select" onchange="changeCourse()">
+            <option value="">加载中...</option>
+        </select>
+    </div>
+    
+    <div class="tabs">
+        <div class="tab active" onclick="showTab('distribution')">成绩分布</div>
+        <div class="tab" onclick="showTab('statistics')">统计分析</div>
+        <div class="tab" onclick="showTab('comparison')">历史对比</div>
+        <div class="tab" onclick="showTab('individual')">个人成绩</div>
+    </div>
+    
+    <div id="distribution-tab" class="tab-content active">
+        <div class="chart-container">
+            <canvas id="distribution-chart" class="chart"></canvas>
+        </div>
+        
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-value" id="avg-grade">--</div>
+                <div class="stat-label">平均分</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value" id="median-grade">--</div>
+                <div class="stat-label">中位数</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value" id="max-grade">--</div>
+                <div class="stat-label">最高分</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value" id="min-grade">--</div>
+                <div class="stat-label">最低分</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value" id="stddev">--</div>
+                <div class="stat-label">标准差</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value" id="pass-rate">--</div>
+                <div class="stat-label">及格率</div>
+            </div>
+        </div>
+        
+        <table class="grade-table">
+            <thead>
+                <tr>
+                    <th>分数段</th>
+                    <th>人数</th>
+                    <th>占比</th>
+                    <th>分布</th>
+                </tr>
+            </thead>
+            <tbody id="distribution-table-body">
+                <!-- 成绩分布数据将通过JavaScript动态加载 -->
+            </tbody>
+        </table>
+    </div>
+    
+    <div id="statistics-tab" class="tab-content">
+        <div class="chart-container">
+            <canvas id="statistics-chart" class="chart"></canvas>
+        </div>
+        
+        <div class="filters">
+            <div class="filter-group">
+                <label>图表类型</label>
+                <select id="chart-type" onchange="updateStatisticsChart()">
+                    <option value="histogram">直方图</option>
+                    <option value="boxplot">箱线图</option>
+                    <option value="scatter">散点图</option>
+                </select>
+            </div>
+        </div>
+        
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-value" id="student-count">--</div>
+                <div class="stat-label">学生总数</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value" id="pass-count">--</div>
+                <div class="stat-label">及格人数</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value" id="excellent-count">--</div>
+                <div class="stat-label">优秀人数</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value" id="excellent-rate">--</div>
+                <div class="stat-label">优秀率</div>
+            </div>
+        </div>
+    </div>
+    
+    <div id="comparison-tab" class="tab-content">
+        <div class="chart-container">
+            <canvas id="comparison-chart" class="comparison-chart"></canvas>
+        </div>
+        
+        <div class="filters">
+            <div class="filter-group">
+                <label>对比指标</label>
+                <select id="comparison-metric" onchange="updateComparisonChart()">
+                    <option value="avg_grade">平均分</option>
+                    <option value="pass_rate">及格率</option>
+                    <option value="excellent_rate">优秀率</option>
+                </select>
+            </div>
+        </div>
+        
+        <table class="grade-table">
+            <thead>
+                <tr>
+                    <th>学期</th>
+                    <th>学生数</th>
+                    <th>平均分</th>
+                    <th>及格率</th>
+                    <th>优秀率</th>
+                </tr>
+            </thead>
+            <tbody id="history-comparison-body">
+                <!-- 历史对比数据将通过JavaScript动态加载 -->
+            </tbody>
+        </table>
+    </div>
+    
+    <div id="individual-tab" class="tab-content">
+        <div class="filters">
+            <div class="filter-group">
+                <label>排序方式</label>
+                <select id="sort-order" onchange="sortStudentGrades()">
+                    <option value="grade-desc">成绩降序</option>
+                    <option value="grade-asc">成绩升序</option>
+                    <option value="name">姓名</option>
+                </select>
+            </div>
+            <div class="filter-group">
+                <label>搜索学生</label>
+                <input type="text" id="student-search" onkeyup="searchStudents()" placeholder="输入学生姓名或学号...">
+            </div>
+        </div>
+        
+        <table class="grade-table">
+            <thead>
+                <tr>
+                    <th>学号</th>
+                    <th>姓名</th>
+                    <th>专业</th>
+                    <th>成绩</th>
+                    <th>等级</th>
+                </tr>
+            </thead>
+            <tbody id="student-grades-body">
+                <!-- 学生成绩数据将通过JavaScript动态加载 -->
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts_extra %}
+<script>
+    // 全局变量
+    let gradeData = null;
+    let distributionChart = null;
+    let statisticsChart = null;
+    let comparisonChart = null;
+    
+    // 更改课程
+    function changeCourse() {
+        const sectionId = document.getElementById('course-select').value;
+        fetchGradeData(sectionId);
+    }
+    
+    // 显示指定标签页
+    function showTab(tabName) {
+        // 隐藏所有标签页内容
+        document.querySelectorAll('.tab-content').forEach(content => {
+            content.classList.remove('active');
+        });
+        
+        // 移除所有标签的活动状态
+        document.querySelectorAll('.tab').forEach(tab => {
+            tab.classList.remove('active');
+        });
+        
+        // 显示选定的标签页内容并激活对应标签
+        document.getElementById(tabName + '-tab').classList.add('active');
+        document.querySelectorAll('.tab').forEach(tab => {
+            if (tab.textContent.includes(
+                tabName === 'distribution' ? '成绩分布' : 
+                tabName === 'statistics' ? '统计分析' : 
+                tabName === 'comparison' ? '历史对比' : '个人成绩'
+            )) {
+                tab.classList.add('active');
+            }
+        });
+    }
+    
+    // 导出数据
+    function exportData() {
+        alert('导出数据功能将在此实现');
+        // 这里应该是导出成绩数据的逻辑
+    }
+    
+    // 打印报告
+    function printReport() {
+        window.print();
+    }
+    
+    // 获取成绩分布数据
+    function fetchGradeData(sectionId) {
+        fetch(`/api/instructor/grade_distribution?section_id=${sectionId}`)
+            .then(response => response.json())
+            .then(data => {
+                if (data.error) {
+                    console.error('获取成绩分布数据失败:', data.error);
+                    return;
+                }
+                
+                gradeData = data;
+                updateCourseInfo(data.course_info);
+                updateStatistics(data.statistics);
+                updateDistributionChart(data.distribution);
+                updateDistributionTable(data.distribution);
+                updateStudentGrades(data.students);
+                updateHistoryComparison(data.history);
+            })
+            .catch(error => {
+                console.error('获取成绩分布数据出错:', error);
+            });
+    }
+    
+    // 更新课程信息
+    function updateCourseInfo(courseInfo) {
+        const courseSelect = document.getElementById('course-select');
+        const selectedOption = courseSelect.options[courseSelect.selectedIndex];
+        
+        if (selectedOption) {
+            selectedOption.text = `${courseInfo.course_title} (${courseInfo.course_id}) - ${courseInfo.class_name} (${courseInfo.semester_name})`;
+        }
+    }
+    
+    // 更新统计信息
+    function updateStatistics(statistics) {
+        document.getElementById('avg-grade').textContent = statistics.avg_grade || '--';
+        document.getElementById('median-grade').textContent = statistics.median_grade || '--';
+        document.getElementById('max-grade').textContent = statistics.max_grade || '--';
+        document.getElementById('min-grade').textContent = statistics.min_grade || '--';
+        document.getElementById('stddev').textContent = statistics.stddev || '--';
+        document.getElementById('pass-rate').textContent = statistics.pass_rate ? `${statistics.pass_rate}%` : '--';
+        
+        document.getElementById('student-count').textContent = statistics.total_students || '--';
+        document.getElementById('pass-count').textContent = 
+            statistics.total_students && statistics.pass_rate ? 
+            Math.round(statistics.total_students * statistics.pass_rate / 100) : '--';
+        
+        // 计算优秀人数和优秀率
+        const excellentCount = gradeData.distribution.find(item => item.grade_range === '90-100')?.count || 0;
+        const excellentRate = statistics.total_students ? 
+            Math.round(excellentCount / statistics.total_students * 100) : 0;
+        
+        document.getElementById('excellent-count').textContent = excellentCount;
+        document.getElementById('excellent-rate').textContent = `${excellentRate}%`;
+    }
+    
+    // 更新成绩分布图表
+    function updateDistributionChart(distribution) {
+        const ctx = document.getElementById('distribution-chart').getContext('2d');
+        
+        // 如果图表已存在，销毁它
+        if (distributionChart) {
+            distributionChart.destroy();
+        }
+        
+        // 准备图表数据
+        const labels = distribution.map(item => item.grade_range);
+        const data = distribution.map(item => item.count);
+        const backgroundColors = [
+            'rgba(255, 99, 132, 0.7)',
+            'rgba(255, 159, 64, 0.7)',
+            'rgba(255, 205, 86, 0.7)',
+            'rgba(75, 192, 192, 0.7)',
+            'rgba(54, 162, 235, 0.7)'
+        ].reverse(); // 反转颜色，使得高分段颜色更好看
+        
+        // 创建新图表
+        distributionChart = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: labels,
+                datasets: [{
+                    label: '学生人数',
+                    data: data,
+                    backgroundColor: backgroundColors,
+                    borderColor: backgroundColors.map(color => color.replace('0.7', '1')),
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        title: {
+                            display: true,
+                            text: '学生人数'
+                        }
+                    },
+                    x: {
+                        title: {
+                            display: true,
+                            text: '分数段'
+                        }
+                    }
+                },
+                plugins: {
+                    legend: {
+                        display: false
+                    },
+                    title: {
+                        display: true,
+                        text: '成绩分布',
+                        font: {
+                            size: 16
+                        }
+                    }
+                }
+            }
+        });
+    }
+    
+    // 更新成绩分布表格
+    function updateDistributionTable(distribution) {
+        const tableBody = document.getElementById('distribution-table-body');
+        tableBody.innerHTML = '';
+        
+        if (!distribution || distribution.length === 0) {
+            const row = document.createElement('tr');
+            row.innerHTML = '<td colspan="4" class="text-center">暂无成绩分布数据</td>';
+            tableBody.appendChild(row);
+            return;
+        }
+        
+        // 计算总人数
+        const totalStudents = distribution.reduce((sum, item) => sum + item.count, 0);
+        
+        distribution.forEach(item => {
+            const percentage = totalStudents > 0 ? Math.round((item.count / totalStudents) * 100) : 0;
+            
+            const row = document.createElement('tr');
+            row.innerHTML = `
+                <td>${item.grade_range}</td>
+                <td>${item.count}</td>
+                <td>${percentage}%</td>
+                <td>
+                    <div class="grade-range">
+                        <div class="grade-bar" style="width: ${percentage * 2}px;"></div>
+                        <div class="grade-percent">${percentage}%</div>
+                    </div>
+                </td>
+            `;
+            tableBody.appendChild(row);
+        });
+    }
+    
+    // 更新统计分析图表
+    function updateStatisticsChart() {
+        if (!gradeData || !gradeData.students) return;
+        
+        const chartType = document.getElementById('chart-type').value;
+        const ctx = document.getElementById('statistics-chart').getContext('2d');
+        
+        // 如果图表已存在，销毁它
+        if (statisticsChart) {
+            statisticsChart.destroy();
+        }
+        
+        // 准备图表数据
+        const grades = gradeData.students.map(student => student.lyh_numeric_grade).filter(grade => grade !== null);
+        
+        if (chartType === 'histogram') {
+            // 创建直方图
+            const binWidth = 5; // 每5分一个柱
+            const bins = {};
+            
+            // 初始化所有分数段
+            for (let i = 0; i <= 100; i += binWidth) {
+                bins[i] = 0;
+            }
+            
+            // 统计每个分数段的人数
+            grades.forEach(grade => {
+                const binIndex = Math.floor(grade / binWidth) * binWidth;
+                bins[binIndex] = (bins[binIndex] || 0) + 1;
+            });
+            
+            const labels = Object.keys(bins);
+            const data = Object.values(bins);
+            
+            statisticsChart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        label: '学生人数',
+                        data: data,
+                        backgroundColor: 'rgba(54, 162, 235, 0.7)',
+                        borderColor: 'rgba(54, 162, 235, 1)',
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            title: {
+                                display: true,
+                                text: '学生人数'
+                            }
+                        },
+                        x: {
+                            title: {
+                                display: true,
+                                text: '分数'
+                            }
+                        }
+                    },
+                    plugins: {
+                        legend: {
+                            display: false
+                        },
+                        title: {
+                            display: true,
+                            text: '成绩直方图',
+                            font: {
+                                size: 16
+                            }
+                        }
+                    }
+                }
+            });
+        } else if (chartType === 'boxplot') {
+            // 这里需要引入额外的boxplot插件，这里简化处理
+            alert('箱线图功能需要额外的Chart.js插件支持，请先安装');
+        } else if (chartType === 'scatter') {
+            // 创建散点图
+            const data = gradeData.students.map((student, index) => ({
+                x: index + 1,
+                y: student.lyh_numeric_grade
+            }));
+            
+            statisticsChart = new Chart(ctx, {
+                type: 'scatter',
+                data: {
+                    datasets: [{
+                        label: '学生成绩',
+                        data: data,
+                        backgroundColor: 'rgba(54, 162, 235, 0.7)',
+                        borderColor: 'rgba(54, 162, 235, 1)',
+                        pointRadius: 5,
+                        pointHoverRadius: 7
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            max: 100,
+                            title: {
+                                display: true,
+                                text: '分数'
+                            }
+                        },
+                        x: {
+                            title: {
+                                display: true,
+                                text: '学生序号'
+                            }
+                        }
+                    },
+                    plugins: {
+                        legend: {
+                            display: false
+                        },
+                        title: {
+                            display: true,
+                            text: '成绩散点图',
+                            font: {
+                                size: 16
+                            }
+                        }
+                    }
+                }
+            });
+        }
+    }
+    
+    // 更新历史对比图表
+    function updateComparisonChart() {
+        if (!gradeData || !gradeData.history) return;
+        
+        const metric = document.getElementById('comparison-metric').value;
+        const ctx = document.getElementById('comparison-chart').getContext('2d');
+        
+        // 如果图表已存在，销毁它
+        if (comparisonChart) {
+            comparisonChart.destroy();
+        }
+        
+        // 准备图表数据
+        const labels = gradeData.history.map(item => item.lyh_semester_name);
+        let data;
+        let title;
+        
+        if (metric === 'avg_grade') {
+            data = gradeData.history.map(item => item.avg_grade);
+            title = '平均分历史对比';
+        } else if (metric === 'pass_rate') {
+            data = gradeData.history.map(item => {
+                return item.passed_students && item.total_students ? 
+                    Math.round((item.passed_students / item.total_students) * 100) : 0;
+            });
+            title = '及格率历史对比';
+        } else if (metric === 'excellent_rate') {
+            // 使用数据库中的优秀人数数据计算优秀率
+            data = gradeData.history.map(item => {
+                return item.excellent_students && item.total_students ? 
+                    Math.round((item.excellent_students / item.total_students) * 100) : 0;
+            });
+            title = '优秀率历史对比';
+        }
+        
+        // 添加当前学期的数据
+        labels.unshift('当前学期');
+        if (metric === 'avg_grade') {
+            data.unshift(gradeData.statistics.avg_grade);
+        } else if (metric === 'pass_rate') {
+            data.unshift(gradeData.statistics.pass_rate);
+        } else if (metric === 'excellent_rate') {
+            const excellentCount = gradeData.distribution.find(item => item.grade_range === '90-100')?.count || 0;
+            const excellentRate = gradeData.statistics.total_students ? 
+                Math.round(excellentCount / gradeData.statistics.total_students * 100) : 0;
+            data.unshift(excellentRate);
+        }
+        
+        // 创建新图表
+        comparisonChart = new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: labels,
+                datasets: [{
+                    label: title,
+                    data: data,
+                    backgroundColor: 'rgba(54, 162, 235, 0.2)',
+                    borderColor: 'rgba(54, 162, 235, 1)',
+                    borderWidth: 2,
+                    fill: true,
+                    tension: 0.1
+                }]
+            },
+            options: {
+                responsive: true,
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        title: {
+                            display: true,
+                            text: metric === 'avg_grade' ? '分数' : '百分比(%)'
+                        }
+                    },
+                    x: {
+                        title: {
+                            display: true,
+                            text: '学期'
+                        }
+                    }
+                },
+                plugins: {
+                    legend: {
+                        display: false
+                    },
+                    title: {
+                        display: true,
+                        text: title,
+                        font: {
+                            size: 16
+                        }
+                    }
+                }
+            }
+        });
+        
+        // 更新历史对比表格
+        updateHistoryComparisonTable();
+    }
+    
+    // 更新历史对比表格
+    function updateHistoryComparisonTable() {
+        if (!gradeData || !gradeData.history) return;
+        
+        const tableBody = document.getElementById('history-comparison-body');
+        tableBody.innerHTML = '';
+        
+        // 添加当前学期数据
+        const currentRow = document.createElement('tr');
+        
+        // 计算当前学期的优秀率
+        const excellentCount = gradeData.distribution.find(item => item.grade_range === '90-100')?.count || 0;
+        const excellentRate = gradeData.statistics.total_students ? 
+            Math.round(excellentCount / gradeData.statistics.total_students * 100) : 0;
+        
+        currentRow.innerHTML = `
+            <td>当前学期</td>
+            <td>${gradeData.statistics.total_students || 0}</td>
+            <td>${gradeData.statistics.avg_grade || '--'}</td>
+            <td>${gradeData.statistics.pass_rate || '--'}%</td>
+            <td>${excellentRate}%</td>
+        `;
+        tableBody.appendChild(currentRow);
+        
+        // 添加历史学期数据
+        gradeData.history.forEach(item => {
+            const passRate = item.passed_students && item.total_students ? 
+                Math.round((item.passed_students / item.total_students) * 100) : '--';
+            
+            // 使用数据库中的优秀人数数据计算优秀率
+            const excellentRate = item.excellent_students && item.total_students ? 
+                Math.round((item.excellent_students / item.total_students) * 100) : '--';
+            
+            const row = document.createElement('tr');
+            row.innerHTML = `
+                <td>${item.lyh_semester_name}</td>
+                <td>${item.total_students || 0}</td>
+                <td>${item.avg_grade || '--'}</td>
+                <td>${passRate}%</td>
+                <td>${excellentRate}%</td>
+            `;
+            tableBody.appendChild(row);
+        });
+    }
+    
+    // 更新学生成绩表格
+    function updateStudentGrades(students) {
+        const tableBody = document.getElementById('student-grades-body');
+        tableBody.innerHTML = '';
+        
+        if (!students || students.length === 0) {
+            const row = document.createElement('tr');
+            row.innerHTML = '<td colspan="5" class="text-center">暂无学生成绩数据</td>';
+            tableBody.appendChild(row);
+            return;
+        }
+        
+        students.forEach(student => {
+            const row = document.createElement('tr');
+            row.innerHTML = `
+                <td>${student.lyh_student_id || '--'}</td>
+                <td>${student.lyh_student_name || '--'}</td>
+                <td>${student.lyh_major_name || '--'}</td>
+                <td>${student.lyh_numeric_grade || '--'}</td>
+                <td>${student.lyh_letter_grade || '--'}</td>
+            `;
+            tableBody.appendChild(row);
+        });
+    }
+    
+    // 排序学生成绩
+    function sortStudentGrades() {
+        if (!gradeData || !gradeData.students) return;
+        
+        const sortOrder = document.getElementById('sort-order').value;
+        let sortedStudents = [...gradeData.students];
+        
+        if (sortOrder === 'grade-desc') {
+            sortedStudents.sort((a, b) => (b.lyh_numeric_grade || 0) - (a.lyh_numeric_grade || 0));
+        } else if (sortOrder === 'grade-asc') {
+            sortedStudents.sort((a, b) => (a.lyh_numeric_grade || 0) - (b.lyh_numeric_grade || 0));
+        } else if (sortOrder === 'name') {
+            sortedStudents.sort((a, b) => (a.lyh_student_name || '').localeCompare(b.lyh_student_name || ''));
+        }
+        
+        updateStudentGrades(sortedStudents);
+    }
+    
+    // 搜索学生
+    function searchStudents() {
+        if (!gradeData || !gradeData.students) return;
+        
+        const searchTerm = document.getElementById('student-search').value.toLowerCase();
+        
+        if (!searchTerm) {
+            updateStudentGrades(gradeData.students);
+            return;
+        }
+        
+        const filteredStudents = gradeData.students.filter(student => 
+            (student.lyh_student_name && student.lyh_student_name.toLowerCase().includes(searchTerm)) ||
+            (student.lyh_student_id && student.lyh_student_id.toString().includes(searchTerm))
+        );
+        
+        updateStudentGrades(filteredStudents);
+    }
+    
+    // 页面加载时执行
+    document.addEventListener('DOMContentLoaded', function() {
+        // 获取教师授课的教学班列表
+        fetch('/api/instructor/teaching_sections')
+            .then(response => response.json())
+            .then(data => {
+                if (data.error) {
+                    console.error('获取教学班列表失败:', data.error);
+                    return;
+                }
+                
+                const courseSelect = document.getElementById('course-select');
+                courseSelect.innerHTML = '';
+                
+                if (data.length === 0) {
+                    courseSelect.innerHTML = '<option value="">暂无教学班</option>';
+                    return;
+                }
+                
+                data.forEach(course => {
+                    const option = document.createElement('option');
+                    option.value = course.lyh_section_id;
+                    option.textContent = `${course.lyh_course_title} (${course.lyh_course_id}) - ${course.lyh_class_name} (${course.lyh_semester_name})`;
+                    courseSelect.appendChild(option);
+                });
+                
+                // 获取第一个教学班的成绩分布数据
+                if (data[0] && data[0].lyh_section_id) {
+                    fetchGradeData(data[0].lyh_section_id);
+                }
+            })
+            .catch(error => {
+                console.error('获取教学班列表出错:', error);
+            });
+    });
+</script>
+{% endblock %} 

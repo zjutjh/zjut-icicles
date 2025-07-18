@@ -1,0 +1,36 @@
+<launch>
+  <arg name="gui" default="true" />
+  <arg name="use_opencv3" default="false" />
+  <arg name="use_opencv3_1" default="false" />
+  <arg name="use_opencv3_2" default="false" />
+  <arg name="use_opencv3_3" default="false" />
+  <arg name="use_opencv4" default="false" />
+  <node name="play_face_bag" pkg="rosbag" type="play" args="-l $(find opencv_apps)/test/face_detector_withface_test_diamondback.bag" />
+
+  <group ns="wide_stereo/left" >
+    <node name="image_proc" pkg="image_proc" type="image_proc" />
+    <node name="image_view" pkg="image_view" type="image_view" args="image:=image_rect_color" if="$(arg gui)" />
+
+    <!-- face_recognition.cpp -->
+    <include file="$(find opencv_apps)/launch/face_recognition.launch">
+      <arg name="launch_face_detection" value="true" />
+      <arg name="launch_trainer" value="false" />
+      <arg name="debug_view" value="$(arg gui)" />
+      <arg name="image" value="image_rect" />
+      <arg name="use_opencv3" value="$(arg use_opencv3)" />
+      <arg name="use_opencv3_1" value="$(arg use_opencv3_1)" />
+      <arg name="use_opencv3_2" value="$(arg use_opencv3_2)" />
+      <arg name="use_opencv3_3" value="$(arg use_opencv3_3)" />
+      <arg name="use_opencv4" value="$(arg use_opencv4)" />
+      <arg name="data_dir" value="$(find opencv_apps)/test/face_data" />
+    </include>
+
+    <!-- Test Codes -->
+    <param name="face_recognition_test/topic" value="face_recognition/output" />    <!-- opencv_apps/FaceArrayStamped -->
+    <test test-name="face_recognition_test" pkg="rostest" type="hztest" name="face_recognition_test" >
+      <param name="hz" value="15" />
+      <param name="hzerror" value="14" />
+      <param name="test_duration" value="5.0" />
+    </test>
+  </group>
+</launch>

@@ -1,0 +1,16 @@
+\subsubsection parameters ROS parameters
+
+Reads and maintains the following parameters on the ROS server
+
+- \b "~use_camera_info" : \b [bool] Indicates that the camera_info topic should be subscribed to to get the default input_frame_id. Otherwise the frame from the image message will be used. min: False, default: False, max: True
+- \b "~canny_threshold" : \b [double] Canny threshold min: 1.0, default: 200.0, max: 255.0
+- \b "~accumulator_threshold" : \b [double] Accumulator threshold min: 1.0, default: 50.0, max: 200.0
+- \b "~gaussian_blur_size" : \b [int] the size of gaussian blur (should be odd number) min: 1, default: 9, max: 30
+- \b "~gaussian_sigma_x" : \b [double] sigma x of gaussian kernel min: 1.0, default: 2.0, max: 10.0
+- \b "~gaussian_sigma_y" : \b [double] sigma y of gaussian kernel min: 1.0, default: 2.0, max: 10.0
+- \b "~min_distance_between_circles" : \b [double] mnimum distance between the centers of the detected circles min: 0.0, default: 0.0, max: 1024.0
+- \b "~dp" : \b [double] dp min: 0.0, default: 2.0, max: 100.0
+- \b "~min_circle_radius" : \b [int] the minimum size of the circle min: 0, default: 0, max: 500
+- \b "~max_circle_radius" : \b [int] the maximum size of the circle min: 0, default: 0, max: 2000
+- \b "~debug_image_type" : \b [int] Select image type for debug output min: 0, default: 0, max: 2
+

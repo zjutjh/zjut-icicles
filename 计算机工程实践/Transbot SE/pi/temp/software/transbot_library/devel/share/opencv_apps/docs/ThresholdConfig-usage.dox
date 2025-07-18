@@ -1,0 +1,11 @@
+\subsubsection usage Usage
+\verbatim
+<node name="threshold" pkg="opencv_apps" type="threshold">
+  <param name="use_camera_info" type="bool" value="False" />
+  <param name="apply_otsu" type="bool" value="False" />
+  <param name="threshold_type" type="int" value="0" />
+  <param name="threshold" type="int" value="150" />
+  <param name="max_binary" type="int" value="255" />
+</node>
+\endverbatim
+

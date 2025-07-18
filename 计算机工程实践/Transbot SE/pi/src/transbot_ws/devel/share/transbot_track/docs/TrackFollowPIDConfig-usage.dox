@@ -1,0 +1,14 @@
+\subsubsection usage Usage
+\verbatim
+<node name="M_Tracker" pkg="transbot_track" type="M_Tracker">
+  <param name="linear_Kp" type="double" value="3.0" />
+  <param name="linear_Ki" type="double" value="0.0" />
+  <param name="linear_Kd" type="double" value="1.0" />
+  <param name="angular_Kp" type="double" value="0.3" />
+  <param name="angular_Ki" type="double" value="0.0" />
+  <param name="angular_Kd" type="double" value="1.0" />
+  <param name="minDist" type="double" value="6.0" />
+  <param name="scale" type="int" value="1000" />
+</node>
+\endverbatim
+

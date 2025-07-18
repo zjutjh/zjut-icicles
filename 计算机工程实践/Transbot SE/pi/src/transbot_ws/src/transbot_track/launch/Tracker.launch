@@ -1,0 +1,13 @@
+<launch>
+    <arg name="VideoSwitch" default="false"/>
+    <arg name="tracker_type" default="color"
+         doc="tracker type ['BOOSTING', 'MIL', 'KCF', 'TLD', 'MEDIANFLOW', 'MOSSE', 'CSRT', 'color']"/>
+    <!-- 距离相机的范围【0.4米，8米】，否则无效-->
+    <!--Range from the camera[0.4m,8m],Otherwise invalid-->
+    <node name="m_Tracker" pkg="transbot_track" type="Tracker.py" required="true" output="screen">
+        <!-- 跟踪算法可选：'BOOSTING', 'MIL', 'KCF', 'TLD', 'MEDIANFLOW', 'GOTURN', 'color'-->
+        <!--Optional tracking algorithm：'BOOSTING', 'MIL', 'KCF', 'TLD', 'MEDIANFLOW', 'GOTURN', 'color'-->
+        <param name="tracker_type" type="string" value="$(arg tracker_type)"/>
+        <param name="VideoSwitch" type="bool" value="$(arg VideoSwitch)"/>
+    </node>
+</launch>

@@ -1,0 +1,4 @@
+<launch>
+    <node name="pub_pointCloud" pkg="transbot_visual" type="pointCloud_pub" output="screen"/>
+    <node pkg="rviz" type="rviz" name="rviz" args="-d $(find transbot_visual)/rviz/random_pointCloud.rviz"/>
+</launch>

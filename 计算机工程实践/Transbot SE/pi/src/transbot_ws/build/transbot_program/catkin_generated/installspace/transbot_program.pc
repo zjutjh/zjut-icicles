@@ -1,0 +1,8 @@
+prefix=/root/transbot_ws/install
+
+Name: transbot_program
+Description: Description of transbot_program
+Version: 0.0.0
+Cflags: -I${prefix}/include
+Libs: -L${prefix}/lib 
+Requires: 

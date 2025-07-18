@@ -1,0 +1,7 @@
+\subsubsection usage Usage
+\verbatim
+<node name="discrete_fourier_transform" pkg="opencv_apps" type="discrete_fourier_transform">
+  <param name="use_camera_info" type="bool" value="False" />
+</node>
+\endverbatim
+

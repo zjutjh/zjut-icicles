@@ -1,0 +1,16 @@
+Zip_top_can
+Old_school_bag
+Newspaper
+Book
+Toilet_paper
+Peach_pit
+Cigarette_butts
+Disposable_chopsticks
+Egg_shell
+Apple_core
+Watermelon_rind
+Fish_bone
+Expired_tablets
+Expired_cosmetics
+Used_batteries
+Syringe

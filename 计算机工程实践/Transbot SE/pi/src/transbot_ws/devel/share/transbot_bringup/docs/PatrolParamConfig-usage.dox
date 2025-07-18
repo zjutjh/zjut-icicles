@@ -1,0 +1,19 @@
+\subsubsection usage Usage
+\verbatim
+<node name="TransbotPatrol" pkg="transbot_bringup" type="TransbotPatrol">
+  <param name="Linear" type="double" value="0.2" />
+  <param name="Angular" type="double" value="1.0" />
+  <param name="Length" type="double" value="1.0" />
+  <param name="Angle" type="double" value="360.0" />
+  <param name="LineScaling" type="double" value="0.9" />
+  <param name="RotationScaling" type="double" value="1.0" />
+  <param name="LineTolerance" type="double" value="0.1" />
+  <param name="RotationTolerance" type="double" value="0.3" />
+  <param name="ResponseDist" type="double" value="0.6" />
+  <param name="LaserAngle" type="int" value="30" />
+  <param name="Command" type="str" value="Square" />
+  <param name="SetLoop" type="bool" value="False" />
+  <param name="Switch" type="bool" value="False" />
+</node>
+\endverbatim
+

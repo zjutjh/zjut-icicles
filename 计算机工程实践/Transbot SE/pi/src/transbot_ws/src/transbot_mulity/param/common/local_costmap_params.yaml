@@ -1,0 +1,31 @@
+local_costmap:
+  # Coordinate frame and tf parameters
+  # The "global_frame" parameter defines what coordinate frame the costmap should run in, in this case, we'll choose the /map frame.
+  global_frame: odom
+  # 机器人的基坐标系
+  # The "robot_base_frame" parameter defines the coordinate frame the costmap should reference for the base of the robot.
+  robot_base_frame: base_footprint
+  # 靠近目标点的周围多少数值就算到了目标点
+  # How much value is around the target point even if it reaches the target point
+  transform_tolerance: 0.5
+  # 代价地图更新的频率（以Hz为单位）。
+  # The "update_frequency" parameter determines the frequency, in Hz, at which the costmap will run its update loop.
+  update_frequency: 10.0
+  # 代价地图发布可视化信息的速率（以Hz为单位）。
+  # The rate at which the cost map publishes visual information
+  publish_frequency: 10.0
+  # 如果为true，则由map_server提供的地图服务来进行代价地图的初始化，否则为false。
+  # If true, the map service provided by the map server will initialize the cost map, otherwise it will be false.
+  static_map: true
+  # 参数设置为true意味着当机器人移动时，保持机器人在本地代价地图中心。
+  # Setting the "rolling_window" parameter to true means that the costmap will remain centered around the robot as the robot moves through the world.
+  rolling_window: true
+  # 代价地图宽度、高度、分辨率（米/单元格）
+  # The "width," "height," and "resolution" parameters set the width (meters), height (meters), and resolution (meters/cell) of the costmap.
+  width: 2.5
+  height: 2.5
+  resolution: 0.05
+  circumscribed_radius: 0.02
+  plugins:
+    - {name: obstacle_layer, type: "costmap_2d::ObstacleLayer"}
+    - {name: inflation_layer, type: "costmap_2d::InflationLayer"}

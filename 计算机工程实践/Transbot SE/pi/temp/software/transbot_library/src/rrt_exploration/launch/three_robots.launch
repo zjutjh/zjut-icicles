@@ -1,0 +1,62 @@
+<!-- Launch file for the rrt-detector and the assigner -->
+
+
+<launch>
+<arg name="eta" value="1.0"/>
+<arg name="Geta" value="1.0"/>
+<param name="namespace_init_count" value="1"/>
+
+
+  <node pkg="rrt_exploration" type="global_rrt_detector" name="global_rrt_detector" output="screen">
+  <param name="eta" value="$(arg Geta)"/>
+  <param name="map_topic" value="/map_merge/map"/>
+  </node>
+  
+  <node pkg="rrt_exploration" type="local_rrt_detector" name="robot1_rrt_detector" output="screen">
+  <param name="eta" value="$(arg eta)"/>
+  <param name="map_topic" value="/robot_1/map"/>
+  <param name="robot_frame" value="/robot_1/base_link"/>
+  </node>
+  
+  <node pkg="rrt_exploration" type="local_rrt_detector" name="robot2_rrt_detector" output="screen">
+  <param name="eta" value="$(arg eta)"/>
+  <param name="map_topic" value="/robot_2/map"/>
+  <param name="robot_frame" value="/robot_2/base_link"/>
+  </node>
+  
+  <node pkg="rrt_exploration" type="local_rrt_detector" name="robot3_rrt_detector" output="screen">
+  <param name="eta" value="$(arg eta)"/>
+  <param name="map_topic" value="/robot_3/map"/>
+  <param name="robot_frame" value="/robot_3/base_link"/>
+  </node>
+  
+  <!--node pkg="multi_kobuki_gazebo" type="frontier_opencv_testing.py" name="detector" output="screen"/-->
+
+  <node pkg="rrt_exploration" type="filter.py" name="filter" output="screen">
+  <param name="map_topic" value="/map_merge/map"/>
+  <param name="info_radius" value="1"/> 
+  <param name="costmap_clearing_threshold" value="70"/> 
+  <param name="goals_topic" value="/detected_points"/> 
+  <param name="n_robots" value="3"/>
+  <param name="namespace" value="/robot_"/>
+  <param name="rate" value="100"/>
+  </node>
+  
+  
+  <node pkg="rrt_exploration" type="assigner.py" name="assigner" output="screen">
+  <param name="map_topic" value="/map_merge/map"/>
+  <param name="global_frame" value="/robot_1/map"/>
+  <param name="info_radius" value="1"/> 
+  <param name="info_multiplier" value="3.0"/> 
+  <param name="hysteresis_radius" value="3.0"/> 
+  <param name="hysteresis_gain" value="2.0"/> 
+  <param name="frontiers_topic" value="/filtered_points"/> 
+  <param name="n_robots" value="3"/>
+  <param name="namespace" value="/robot_"/>
+  <param name="delay_after_assignement" value="0.5"/>
+  <param name="rate" value="100"/>
+  </node>
+</launch>
+
+
+

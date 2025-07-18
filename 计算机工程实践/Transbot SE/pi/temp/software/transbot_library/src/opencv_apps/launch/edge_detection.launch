@@ -1,0 +1,36 @@
+<launch>
+  <arg name="node_name" default="edge_detection" />
+
+  <arg name="image" default="image" doc="The image topic. Should be remapped to the name of the real image topic." />
+
+  <arg name="use_camera_info" default="false" doc="Indicates that the camera_info topic should be subscribed to to get the default input_frame_id. Otherwise the frame from the image message will be used." />
+  <arg name="debug_view" default="true" doc="Specify whether the node displays a window to show edge image" />
+  <arg name="queue_size" default="3" doc="Specigy queue_size of input image subscribers" />
+
+  <arg name="edge_type" default="0" doc="Specify edge dtection methods. 0: Sobel Derivatives, 1: Lapalace Operator, 2, Canny Edge Detector." />
+  <arg name="canny_threshold1" default="100" doc="Specify second canny threashold value." />
+  <arg name="canny_threshold2" default="200" doc="Specity first canny threashold value." />
+  <arg name="apertureSize" default="3" doc="Aperture size for the Sobel() operator." />
+  <arg name="apply_blur_pre" default="true" doc="Flag, applying Blur() to input image" />
+  <arg name="postBlurSize" default="13" doc="Aperture size for the Blur() to input image()" />
+  <arg name="postBlurSigma" default="3.2" doc="Sigma for the GaussianBlur() to input image." />
+  <arg name="apply_blur_post" default="false" doc="Flag, applying GaussinaBlur() to output(edge) image" />
+  <arg name="L2gradient" default="false" doc="Flag, L2Gradient" />
+
+  <!-- edge_detection.cpp  -->
+  <node name="$(arg node_name)" pkg="opencv_apps" type="edge_detection" >
+    <remap from="image" to="$(arg image)" />
+    <param name="use_camera_info" value="$(arg use_camera_info)" />
+    <param name="debug_view" value="$(arg debug_view)" />
+    <param name="queue_size" value="$(arg queue_size)" />
+    <param name="edge_type" value="$(arg edge_type)" />
+    <param name="canny_threshold1" value="$(arg canny_threshold1)" />
+    <param name="canny_threshold2" value="$(arg canny_threshold2)" />
+    <param name="apertureSize" value="$(arg apertureSize)" />
+    <param name="apply_blur_pre" value="$(arg apply_blur_pre)" />
+    <param name="postBlurSize" value="$(arg postBlurSize)" />
+    <param name="postBlurSigma" value="$(arg postBlurSigma)" />
+    <param name="apply_blur_post" value="$(arg apply_blur_post)" />
+    <param name="L2gradient" value="$(arg L2gradient)" />
+  </node>
+</launch>

@@ -1,0 +1,10 @@
+\subsubsection parameters ROS parameters
+
+Reads and maintains the following parameters on the ROS server
+
+- \b "~use_camera_info" : \b [bool] Indicates that the camera_info topic should be subscribed to to get the default input_frame_id. Otherwise the frame from the image message will be used. min: False, default: False, max: True
+- \b "~apply_otsu" : \b [bool] Apply otsu threshold min: False, default: False, max: True
+- \b "~threshold_type" : \b [int] Threshold Type min: 0, default: 0, max: 4
+- \b "~threshold" : \b [int] Threshold value min: 0, default: 150, max: 255
+- \b "~max_binary" : \b [int] Max Binary value min: 0, default: 255, max: 255
+

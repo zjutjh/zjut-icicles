@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no" ?>
+<multimarker markers="9">
+    <marker index="0" status="1">
+        <corner x="0" y="0" z="0" />
+        <corner x="4.5" y="-4.5" z="0" />
+        <corner x="4.5" y="4.5" z="0" />
+        <corner x="-4.5" y="4.5" z="0" />
+    </marker>
+    <marker index="1" status="1">
+        <corner x="0" y="-10" z="0" />
+        <corner x="4.5" y="-14.5" z="0" />
+        <corner x="4.5" y="-5.5" z="0" />
+        <corner x="-4.5" y="-5.5" z="0" />
+    </marker>
+    <marker index="2" status="1">
+        <corner x="0" y="-20" z="0" />
+        <corner x="4.5" y="-24.5" z="0" />
+        <corner x="4.5" y="-15.5" z="0" />
+        <corner x="-4.5" y="-15.5" z="0" />
+    </marker>
+    <marker index="3" status="1">
+        <corner x="10" y="0" z="0" />
+        <corner x="14.5" y="-4.5" z="0" />
+        <corner x="14.5" y="4.5" z="0" />
+        <corner x="5.5" y="4.5" z="0" />
+    </marker>
+    <marker index="4" status="1">
+        <corner x="10" y="-10" z="0" />
+        <corner x="14.5" y="-14.5" z="0" />
+        <corner x="14.5" y="-5.5" z="0" />
+        <corner x="5.5" y="-5.5" z="0" />
+    </marker>
+    <marker index="5" status="1">
+        <corner x="10" y="-20" z="0" />
+        <corner x="14.5" y="-24.5" z="0" />
+        <corner x="14.5" y="-15.5" z="0" />
+        <corner x="5.5" y="-15.5" z="0" />
+    </marker>
+    <marker index="6" status="1">
+        <corner x="20" y="0" z="0" />
+        <corner x="24.5" y="-4.5" z="0" />
+        <corner x="24.5" y="4.5" z="0" />
+        <corner x="15.5" y="4.5" z="0" />
+    </marker>
+    <marker index="7" status="1">
+        <corner x="20" y="-10" z="0" />
+        <corner x="24.5" y="-14.5" z="0" />
+        <corner x="24.5" y="-5.5" z="0" />
+        <corner x="15.5" y="-5.5" z="0" />
+    </marker>
+    <marker index="8" status="1">
+        <corner x="20" y="-20" z="0" />
+        <corner x="24.5" y="-24.5" z="0" />
+        <corner x="24.5" y="-15.5" z="0" />
+        <corner x="15.5" y="-15.5" z="0" />
+    </marker>
+</multimarker>

@@ -1,0 +1,3 @@
+<launch>
+    <node pkg="transbot_mediapipe" type="mediapipe_point" name="mediapipe_Viewer" output="screen"/>
+</launch>

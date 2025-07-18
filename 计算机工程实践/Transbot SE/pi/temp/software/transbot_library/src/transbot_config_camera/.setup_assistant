@@ -1,0 +1,11 @@
+moveit_setup_assistant_config:
+  URDF:
+    package: transbot_description
+    relative_path: urdf/transbot_camera.urdf
+    xacro_args: ""
+  SRDF:
+    relative_path: config/transbot_description.srdf
+  CONFIG:
+    author_name: yahboom
+    author_email: yahboom@qq.com
+    generated_timestamp: 1626691142

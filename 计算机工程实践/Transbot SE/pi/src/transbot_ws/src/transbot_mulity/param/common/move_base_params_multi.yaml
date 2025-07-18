@@ -1,0 +1,73 @@
+# 建议差速车开启DWA导航算法，非差速车开启TEB导航算法。
+# 设置move_base的全局路径规划器的插件名称
+#base_global_planner: "navfn/NavfnROS"
+#base_global_planner: "global_planner/GlobalPlanner"
+#base_global_planner: "carrot_planner/CarrotPlanner"
+
+# 设置move_base的局部路径规划器的插件名称
+#base_local_planner: "teb_local_planner/TebLocalPlannerROS" # 实现DWA（动态窗口法）局部规划算法
+#base_local_planner: "dwa_local_planner/DWAPlannerROS"       # 实现一个在线优化的本地轨迹规划器
+# 恢复行为。
+recovery_behaviors:
+  - name: 'conservative_reset'
+    type: 'clear_costmap_recovery/ClearCostmapRecovery'
+  #- name: 'aggressive_reset'
+  #  type: 'clear_costmap_recovery/ClearCostmapRecovery'
+  #- name: 'super_reset'
+  #  type: 'clear_costmap_recovery/ClearCostmapRecovery'
+  - name: 'clearing_rotation'
+    type: 'rotate_recovery/RotateRecovery'
+    #- name: 'move_slow_and_clear'
+    #type: 'move_slow_and_clear/MoveSlowAndClear'
+
+
+# 向机器人底盘cmd_vel发送命令的频率
+controller_frequency: 10.0 #default:20.0
+# 空间清理操作执行前，路径规划器等待有效控制命令的时间
+planner_patience: 5.0 #default:5.0
+# 空间清理操作执行前，控制器等待有效控制命令的时间
+controller_patience: 5.0 #default:15.0
+# 仅当默认恢复行为用于 move_base 时才使用此参数。
+conservative_reset_dist: 5.0 #3.0,
+# 是否启用move_base恢复行为以尝试清除空间。
+recovery_behavior_enabled: true
+# 机器人是否采用原地旋转的运动方式清理空间,此参数仅在使用默认恢复行为时使用。
+clearing_rotation_allowed: true
+# 当move_base进入inactive状态时，是否停用节点的costmap
+shutdown_costmaps: false #false
+# 执行恢复操作之前允许震荡的时间，0代表永不超时
+oscillation_timeout: 10.0 #0.0
+# 机器人需要移动该距离才可当做没有震荡。移动完毕后重置定时器参数
+oscillation_distance: 0.3 #0.5
+# 全局路径规划器循环速率。
+planner_frequency: 3.0 #0.0
+#在执行恢复行为之前允许计划重试的次数。值-1.0对应于无限次重试。
+max_planning_retries: -1.0
+
+
+# 保守清除，用户指定区域之外的障碍物将从机器人地图中清除
+conservative_reset:
+  reset_distance: 1.0
+  #layer_names: [static_layer, obstacle_layer, inflation_layer]
+  layer_names: [obstacle_layer]
+
+# 积极清除也失败后，放弃规划路径
+aggressive_reset:
+  reset_distance: 3.0
+  #layer_names: [static_layer, obstacle_layer, inflation_layer]
+  layer_names: [obstacle_layer]
+
+# 超级清除
+super_reset:
+  reset_distance: 5.0
+  #layer_names: [static_layer, obstacle_layer, inflation_layer]
+  layer_names: [obstacle_layer]
+
+# 恢复行为，该行为只能与具有动态设置速度限制功能的局部路径规划器适配，例如dwa
+move_slow_and_clear:
+  # 在小车清除距离内的障碍物会被清除
+  clearing_distance: 0.1
+  limited_trans_speed: 0.1
+  limited_rot_speed: 0.4
+  limited_distance: 0.3
+

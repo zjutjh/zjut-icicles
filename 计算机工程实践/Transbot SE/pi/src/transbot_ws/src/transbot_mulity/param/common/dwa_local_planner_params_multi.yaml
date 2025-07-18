@@ -1,0 +1,49 @@
+DWAPlannerROS:
+# Robot Configuration Parameters 
+  max_vel_x: 0.4   #x方向最大线速度绝对值，单位:米/秒
+  min_vel_x: 0.01  #x方向最小线速度绝对值，负数代表可后退，单位:米/秒
+
+  max_vel_y: 0.0  # #y方向最大线速度绝对值，单位:米/秒。差分驱动机器人为0    
+  min_vel_y: 0.0  # #y方向最小线速度绝对值，单位:米/秒。差分驱动机器人为0
+
+  max_rotation_vel: 2.0
+  max_vel_trans: 0.4   #机器人最大平移速度的绝对值，单位为 m/s
+  min_vel_trans: 0.01    #机器人最小平移速度的绝对值，单位为 m/s 不可为零
+  trans_stopped_vel: 0.1  #机器人被认属于“停止”状态时的平移速度。如果机器人的速度低于该值，则认为机器人已停止。单位为 m/s
+  max_vel_theta: 2.0  #机器人的最大旋转角速度的绝对值，单位为 rad/s
+  min_vel_theta: 0.1  # 器人的最小旋转角速度的绝对值，单位为 rad/s
+  theta_stopped_vel : 0.4 #机器人被认属于“停止”状态时的旋转速度。单位为 rad/s
+  acc_lim_x: 1.0     # 机器人在x方向的极限加速度，单位为 meters/sec^2
+  acc_lim_y: 0.0      # 机器人在y方向的极限加速度，差速机器人来说是0
+  acc_lim_theta: 10.0 #机器人的极限旋转加速度，单位为 rad/sec^2
+
+# Goal Tolerance Parameters目标距离公差参数
+  yaw_goal_tolerance: 0.3 #到达目标点时，控制器在偏航/旋转时的弧度容差(tolerance)。即：到达目标点时偏行角允许的误差，单位弧度
+  xy_goal_tolerance: 0.2  # 到到目标点时，控制器在x和y方向上的容差（tolerence）（米）。即：到达目标点时,在xy平面内与目标点的距离误差
+  latch_xy_goal_tolerance: false #设置为true时表示：如果到达容错距离内,机器人就会原地旋转；即使转动是会跑出容错距离外。
+
+# Forward Simulation Parameters前向模拟参数
+  sim_time: 0.8       # 前向模拟轨迹的时间，单位为s(seconds) 1.0
+  vx_samples: 10      # x方向速度空间的采样点数
+  vy_samples: 0       # y方向速度空间采样点数.。差分驱动机器人y方向永远只有1个值（0.0）
+  vtheta_samples: 40  # 旋转方向的速度空间采样点数
+  controller_frequency: 10.0
+
+# Trajectory Scoring Parameters
+  path_distance_bias: 10.0      #控制器与给定路径接近程度的权重 10
+  goal_distance_bias: 20.0      #控制器与局部目标点的接近程度的权重，也用于速度控制 20
+  occdist_scale: 0.5           # 控制器躲避障碍物的程度 0.5
+  forward_point_distance: 0.325 #以机器人为中心，额外放置一个计分点的距离
+  stop_time_buffer: 0.2         #机器人在碰撞发生前必须拥有的最少时间量。该时间内所采用的轨迹仍视为有效。即：为防止碰撞,机器人必须提前停止的时间长度
+  scaling_speed: 0.25           #开始缩放机器人足迹时的速度的绝对值，单位为m/s。
+  max_scaling_factor: 0.2       #最大缩放因子。max_scaling_factor为上式的值的大小。
+
+# Oscillation Prevention Parameters
+  oscillation_reset_dist: 0.05  # 0.05   #机器人必须运动多少米远后才能复位震荡标记(机器人运动多远距离才会重置振荡标记)
+  oscillation_reset_angle: 0.05
+
+# Debugging调试参数
+  publish_traj_pc : true #将规划的轨迹在RVIZ上进行可视化
+  publish_cost_grid_pc: true   #将代价值进行可视化显示
+  global_frame_id: map #全局参考坐标系
+

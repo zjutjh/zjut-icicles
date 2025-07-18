@@ -1,0 +1,24 @@
+<launch>
+  <arg name="gui" default="true" />
+  <param name="use_sim_time" value="true" />
+  <node name="play_vslam_bag" pkg="rosbag" type="play" args="-l $(find opencv_apps)/test/vslam_tutorial.bag -s 5 --topics /narrow_stereo/left/image_rect /clock" />
+
+  <group ns="narrow_stereo/left" >
+    <node name="republish" pkg="image_transport" type="republish" args="raw in:=image_rect compressed out:=image_rect" />
+    <node name="input" pkg="image_view" type="image_view" args="image:=image_rect compressed" if="$(arg gui)" />
+    <node name="output" pkg="image_view" type="image_view" args="image:=/image_converter/output_video compressed" if="$(arg gui)" />
+
+    <!-- simple_example.cpp -->
+    <node name="simple_compressed_example" pkg="opencv_apps" type="simple_compressed_example" args="image/compressed:=image_rect/compressed" >
+      <param name="debug_view" value="$(arg gui)" />
+    </node>
+
+    <!-- Testing -->
+    <param name="simple_compressed_example_test/topic" value="/image_converter/output_video/compressed" />
+    <test test-name="simple_compressed_example_test" pkg="rostest" type="hztest" name="simple_compressed_example_test" retry="3" >
+      <param name="hz" value="20" />
+      <param name="hzerror" value="15" />
+      <param name="test_duration" value="5.0" /> 
+    </test>
+  </group>
+</launch>

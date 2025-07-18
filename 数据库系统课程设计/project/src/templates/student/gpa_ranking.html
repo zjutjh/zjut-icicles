@@ -1,0 +1,489 @@
+{% extends "base.html" %}
+
+{% block title %}GPA排名 - 教务管理系统{% endblock %}
+
+{% block head_extra %}
+<style>
+    .ranking-container {
+        max-width: 1000px;
+        margin: 20px auto;
+        padding: 20px;
+        background-color: #fff;
+        border-radius: 8px;
+        box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+    }
+    
+    .ranking-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 20px;
+        padding-bottom: 10px;
+        border-bottom: 1px solid #eee;
+    }
+    
+    .ranking-title {
+        font-size: 1.5em;
+        font-weight: 500;
+    }
+    
+    .my-ranking {
+        padding: 15px;
+        background-color: #e8f4ff;
+        border-radius: 8px;
+        margin-bottom: 20px;
+        display: flex;
+        justify-content: space-around;
+    }
+    
+    .my-ranking-item {
+        text-align: center;
+    }
+    
+    .my-ranking-label {
+        font-size: 0.9em;
+        color: #666;
+        margin-bottom: 5px;
+    }
+    
+    .my-ranking-value {
+        font-size: 1.5em;
+        font-weight: 500;
+        color: #0056b3;
+    }
+    
+    .ranking-filters {
+        display: flex;
+        gap: 10px;
+        margin-bottom: 20px;
+    }
+    
+    .ranking-filters select {
+        padding: 8px;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+    }
+    
+    .ranking-table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+    
+    .ranking-table th, .ranking-table td {
+        padding: 12px 15px;
+        text-align: left;
+        border-bottom: 1px solid #ddd;
+    }
+    
+    .ranking-table th {
+        background-color: #f8f9fa;
+        font-weight: 500;
+    }
+    
+    .ranking-table tr:hover {
+        background-color: #f5f5f5;
+    }
+    
+    .ranking-table tr.me {
+        background-color: #e8f4ff;
+    }
+    
+    .rank-1, .rank-2, .rank-3 {
+        font-weight: bold;
+    }
+    
+    .rank-1 {
+        color: #ffc107;
+    }
+    
+    .rank-2 {
+        color: #6c757d;
+    }
+    
+    .rank-3 {
+        color: #cd7f32;
+    }
+    
+    .pagination {
+        display: flex;
+        justify-content: center;
+        margin-top: 20px;
+    }
+    
+    .pagination button {
+        padding: 5px 10px;
+        margin: 0 5px;
+        border: 1px solid #ddd;
+        background-color: #fff;
+        cursor: pointer;
+        border-radius: 4px;
+    }
+    
+    .pagination button:hover {
+        background-color: #f5f5f5;
+    }
+    
+    .pagination button.active {
+        background-color: #0056b3;
+        color: white;
+        border-color: #0056b3;
+    }
+    
+    .pagination button:disabled {
+        color: #ccc;
+        cursor: not-allowed;
+    }
+    
+    .no-data {
+        text-align: center;
+        padding: 30px;
+        color: #666;
+        background-color: #f8f9fa;
+        border-radius: 4px;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="ranking-container">
+    <div class="ranking-header">
+        <div class="ranking-title">GPA排名</div>
+    </div>
+    
+    <div class="my-ranking">
+        <div class="my-ranking-item">
+            <div class="my-ranking-label">我的GPA</div>
+            <div class="my-ranking-value" id="my-gpa">0.00</div>
+        </div>
+        <div class="my-ranking-item">
+            <div class="my-ranking-label">专业排名</div>
+            <div class="my-ranking-value" id="my-major-rank">-</div>
+        </div>
+        <div class="my-ranking-item">
+            <div class="my-ranking-label">年级排名</div>
+            <div class="my-ranking-value" id="my-grade-rank">-</div>
+        </div>
+        <div class="my-ranking-item">
+            <div class="my-ranking-label">总排名</div>
+            <div class="my-ranking-value" id="my-total-rank">-</div>
+        </div>
+    </div>
+    
+    <div class="ranking-filters">
+        <select id="ranking-scope" onchange="changeRankingScope()">
+            <option value="major">专业排名</option>
+            <option value="grade">年级排名</option>
+            <option value="all">总排名</option>
+        </select>
+        
+        <select id="semester-filter" onchange="filterRanking()">
+            <option value="all">全部学期</option>
+            <option value="2024-Fall">2024秋季学期</option>
+            <option value="2024-Spring">2024春季学期</option>
+            <option value="2023-Fall">2023秋季学期</option>
+        </select>
+    </div>
+    
+    <table class="ranking-table">
+        <thead>
+            <tr>
+                <th>排名</th>
+                <th>学号</th>
+                <th>姓名</th>
+                <th>专业</th>
+                <th>年级</th>
+                <th>GPA</th>
+                <th>总学分</th>
+            </tr>
+        </thead>
+        <tbody id="ranking-body">
+            <!-- 排名数据将通过JavaScript动态加载 -->
+        </tbody>
+    </table>
+    
+    <div id="no-data" class="no-data" style="display: none;">
+        暂无排名数据
+    </div>
+    
+    <div class="pagination" id="pagination">
+        <!-- 分页按钮将通过JavaScript动态生成 -->
+    </div>
+</div>
+
+{% endblock %}
+
+{% block scripts_extra %}
+<script>
+    // 页面加载完成后获取排名数据
+    document.addEventListener('DOMContentLoaded', function() {
+        fetchRanking();
+        setupPagination();
+    });
+    
+    // 从服务器获取排名数据
+    function fetchRanking() {
+        // 获取筛选条件
+        const scope = document.getElementById('ranking-scope').value;
+        const semesterFilter = document.getElementById('semester-filter').value;
+        
+        // 构建请求URL
+        let url = '/api/student/gpa_ranking';
+        const params = [];
+        
+        params.push(`scope=${scope}`);
+        
+        if (semesterFilter !== 'all') {
+            params.push(`semester=${semesterFilter}`);
+        }
+        
+        if (params.length > 0) {
+            url += '?' + params.join('&');
+        }
+        
+        // 显示加载中
+        document.getElementById('no-data').style.display = 'block';
+        document.getElementById('no-data').textContent = '加载中...';
+        
+        // 发送AJAX请求
+        fetch(url)
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('网络响应不正常');
+                }
+                return response.json();
+            })
+            .then(data => {
+                if (data.error) {
+                    throw new Error(data.error);
+                }
+                displayRanking(data.ranking || []);
+                updateMyRanking(data.my_ranking || {});
+                
+                // 更新分页
+                if (data.pagination) {
+                    renderPagination(
+                        document.getElementById('pagination'),
+                        data.pagination.current_page,
+                        data.pagination.total_pages
+                    );
+                }
+            })
+            .catch(error => {
+                console.error('获取排名数据失败:', error);
+                document.getElementById('no-data').style.display = 'block';
+                document.getElementById('no-data').textContent = '获取排名数据失败，请稍后再试';
+            });
+    }
+    
+    // 显示排名数据
+    function displayRanking(ranking) {
+        const tbody = document.getElementById('ranking-body');
+        const noData = document.getElementById('no-data');
+        
+        tbody.innerHTML = '';
+        
+        if (!ranking || ranking.length === 0) {
+            noData.style.display = 'block';
+            noData.textContent = '暂无排名数据';
+            return;
+        }
+        
+        noData.style.display = 'none';
+        
+        ranking.forEach(item => {
+            const row = document.createElement('tr');
+            
+            // 检查是否是当前用户
+            if (item.is_me) {
+                row.classList.add('me');
+            }
+            
+            // 获取排名
+            const rank = item.rank;
+            
+            row.innerHTML = `
+                <td class="rank-${rank <= 3 ? rank : ''}">${rank}</td>
+                <td>${item.lyh_student_id}</td>
+                <td>${item.lyh_student_name}${item.is_me ? ' (我)' : ''}</td>
+                <td>${item.lyh_major_name}</td>
+                <td>${item.lyh_grade}级</td>
+                <td>${parseFloat(item.lyh_current_gpa).toFixed(2)}</td>
+                <td>${parseFloat(item.lyh_total_credits).toFixed(1)}</td>
+            `;
+            
+            tbody.appendChild(row);
+        });
+    }
+    
+    // 更新我的排名信息
+    function updateMyRanking(myRanking) {
+        if (!myRanking) return;
+        
+        // 设置GPA
+        document.getElementById('my-gpa').textContent = 
+            myRanking.gpa ? parseFloat(myRanking.gpa).toFixed(2) : '0.00';
+        
+        // 设置专业排名
+        document.getElementById('my-major-rank').textContent = 
+            myRanking.major_rank && myRanking.major_total ? 
+            `${myRanking.major_rank}/${myRanking.major_total}` : '-';
+        
+        // 设置年级排名
+        document.getElementById('my-grade-rank').textContent = 
+            myRanking.grade_rank && myRanking.grade_total ? 
+            `${myRanking.grade_rank}/${myRanking.grade_total}` : '-';
+        
+        // 设置总排名
+        document.getElementById('my-total-rank').textContent = 
+            myRanking.overall_rank && myRanking.overall_total ? 
+            `${myRanking.overall_rank}/${myRanking.overall_total}` : '-';
+    }
+    
+    // 切换排名范围
+    function changeRankingScope() {
+        fetchRanking();
+    }
+    
+    // 根据筛选条件过滤排名
+    function filterRanking() {
+        fetchRanking();
+    }
+    
+    // 设置分页
+    function setupPagination() {
+        const pagination = document.getElementById('pagination');
+        
+        // 获取当前排名范围
+        const scope = document.getElementById('ranking-scope').value;
+        
+        // 发送AJAX请求获取总页数
+        fetch(`/api/student/gpa_ranking/pages?scope=${scope}`)
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('网络响应不正常');
+                }
+                return response.json();
+            })
+            .then(data => {
+                if (data.error) {
+                    throw new Error(data.error);
+                }
+                
+                const totalPages = data.total_pages || 1;
+                const currentPage = data.current_page || 1;
+                
+                renderPagination(pagination, currentPage, totalPages);
+            })
+            .catch(error => {
+                console.error('获取分页数据失败:', error);
+                // 默认显示单页
+                renderPagination(pagination, 1, 1);
+            });
+    }
+    
+    // 渲染分页控件
+    function renderPagination(container, currentPage, totalPages) {
+        container.innerHTML = '';
+        
+        if (totalPages <= 1) {
+            return; // 只有一页不显示分页控件
+        }
+        
+        // 首页按钮
+        const firstBtn = document.createElement('button');
+        firstBtn.innerHTML = '&lt;&lt;';
+        firstBtn.disabled = currentPage === 1;
+        firstBtn.onclick = () => goToPage(1);
+        container.appendChild(firstBtn);
+        
+        // 上一页按钮
+        const prevBtn = document.createElement('button');
+        prevBtn.innerHTML = '&lt;';
+        prevBtn.disabled = currentPage === 1;
+        prevBtn.onclick = () => goToPage(currentPage - 1);
+        container.appendChild(prevBtn);
+        
+        // 页码按钮
+        let startPage = Math.max(1, currentPage - 2);
+        let endPage = Math.min(totalPages, startPage + 4);
+        
+        if (endPage - startPage < 4) {
+            startPage = Math.max(1, endPage - 4);
+        }
+        
+        for (let i = startPage; i <= endPage; i++) {
+            const pageBtn = document.createElement('button');
+            pageBtn.textContent = i;
+            pageBtn.className = i === currentPage ? 'active' : '';
+            pageBtn.onclick = () => goToPage(i);
+            container.appendChild(pageBtn);
+        }
+        
+        // 下一页按钮
+        const nextBtn = document.createElement('button');
+        nextBtn.innerHTML = '&gt;';
+        nextBtn.disabled = currentPage === totalPages;
+        nextBtn.onclick = () => goToPage(currentPage + 1);
+        container.appendChild(nextBtn);
+        
+        // 末页按钮
+        const lastBtn = document.createElement('button');
+        lastBtn.innerHTML = '&gt;&gt;';
+        lastBtn.disabled = currentPage === totalPages;
+        lastBtn.onclick = () => goToPage(totalPages);
+        container.appendChild(lastBtn);
+    }
+    
+    // 跳转到指定页
+    function goToPage(page) {
+        // 构建请求URL
+        const scope = document.getElementById('ranking-scope').value;
+        const semesterFilter = document.getElementById('semester-filter').value;
+        
+        let url = `/api/student/gpa_ranking?page=${page}`;
+        
+        if (scope !== 'major') {
+            url += `&scope=${scope}`;
+        }
+        
+        if (semesterFilter !== 'all') {
+            url += `&semester=${semesterFilter}`;
+        }
+        
+        // 显示加载中
+        document.getElementById('no-data').style.display = 'block';
+        document.getElementById('no-data').textContent = '加载中...';
+        
+        // 发送AJAX请求
+        fetch(url)
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('网络响应不正常');
+                }
+                return response.json();
+            })
+            .then(data => {
+                if (data.error) {
+                    throw new Error(data.error);
+                }
+                
+                displayRanking(data.ranking || []);
+                updateMyRanking(data.my_ranking || {});
+                
+                // 更新分页控件
+                if (data.pagination) {
+                    renderPagination(
+                        document.getElementById('pagination'),
+                        data.pagination.current_page,
+                        data.pagination.total_pages
+                    );
+                }
+            })
+            .catch(error => {
+                console.error('获取排名数据失败:', error);
+                document.getElementById('no-data').style.display = 'block';
+                document.getElementById('no-data').textContent = '获取排名数据失败，请稍后再试';
+            });
+    }
+</script>
+{% endblock %} 

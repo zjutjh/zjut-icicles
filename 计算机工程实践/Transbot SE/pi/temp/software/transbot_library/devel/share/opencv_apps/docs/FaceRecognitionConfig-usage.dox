@@ -1,0 +1,19 @@
+\subsubsection usage Usage
+\verbatim
+<node name="face_recognition" pkg="opencv_apps" type="face_recognition">
+  <param name="model_method" type="str" value="eigen" />
+  <param name="use_saved_data" type="bool" value="True" />
+  <param name="save_train_data" type="bool" value="True" />
+  <param name="data_dir" type="str" value="~/.ros/opencv_apps/face_data" />
+  <param name="face_model_width" type="int" value="190" />
+  <param name="face_model_height" type="int" value="90" />
+  <param name="face_padding" type="double" value="0.1" />
+  <param name="model_num_components" type="int" value="0" />
+  <param name="model_threshold" type="double" value="8000.0" />
+  <param name="lbph_radius" type="int" value="1" />
+  <param name="lbph_neighbors" type="int" value="8" />
+  <param name="lbph_grid_x" type="int" value="8" />
+  <param name="lbph_grid_y" type="int" value="8" />
+</node>
+\endverbatim
+

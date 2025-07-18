@@ -1,0 +1,675 @@
+{% extends "base.html" %}
+
+{% block title %}工作量统计 - 教务管理系统{% endblock %}
+
+{% block head_extra %}
+<style>
+    .workload-container {
+        max-width: 1000px;
+        margin: 20px auto;
+        padding: 20px;
+        background-color: #fff;
+        border-radius: 8px;
+        box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+    }
+    
+    .workload-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 20px;
+        padding-bottom: 10px;
+        border-bottom: 1px solid #eee;
+    }
+    
+    .workload-title {
+        font-size: 1.5em;
+        font-weight: 500;
+    }
+    
+    .workload-actions {
+        display: flex;
+        gap: 10px;
+    }
+    
+    .workload-actions button {
+        padding: 8px 15px;
+        background-color: #0056b3;
+        color: white;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+    }
+    
+    .workload-actions button:hover {
+        background-color: #004494;
+    }
+    
+    .semester-selector {
+        margin-bottom: 20px;
+    }
+    
+    .semester-selector select {
+        padding: 8px;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        width: 200px;
+    }
+    
+    .tabs {
+        display: flex;
+        border-bottom: 1px solid #ddd;
+        margin-bottom: 20px;
+    }
+    
+    .tab {
+        padding: 10px 20px;
+        cursor: pointer;
+        border-bottom: 2px solid transparent;
+    }
+    
+    .tab.active {
+        border-bottom: 2px solid #0056b3;
+        color: #0056b3;
+        font-weight: 500;
+    }
+    
+    .tab-content {
+        display: none;
+    }
+    
+    .tab-content.active {
+        display: block;
+    }
+    
+    .chart-container {
+        background-color: #f8f9fa;
+        padding: 20px;
+        border-radius: 8px;
+        margin-bottom: 20px;
+    }
+    
+    .chart {
+        width: 100%;
+        height: 400px;
+        margin-bottom: 20px;
+    }
+    
+    .stats-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+        gap: 15px;
+        margin-bottom: 20px;
+    }
+    
+    .stat-card {
+        background-color: #f8f9fa;
+        padding: 15px;
+        border-radius: 8px;
+        text-align: center;
+    }
+    
+    .stat-value {
+        font-size: 1.8em;
+        font-weight: 500;
+        margin-bottom: 5px;
+    }
+    
+    .stat-label {
+        color: #6c757d;
+        font-size: 0.9em;
+    }
+    
+    .workload-table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-bottom: 20px;
+    }
+    
+    .workload-table th, .workload-table td {
+        padding: 12px 15px;
+        text-align: left;
+        border-bottom: 1px solid #ddd;
+    }
+    
+    .workload-table th {
+        background-color: #f8f9fa;
+        font-weight: 500;
+    }
+    
+    .workload-table tr:hover {
+        background-color: #f5f5f5;
+    }
+    
+    .progress-bar-container {
+        width: 100%;
+        background-color: #e9ecef;
+        border-radius: 4px;
+        height: 10px;
+        overflow: hidden;
+    }
+    
+    .progress-bar {
+        height: 100%;
+        background-color: #0056b3;
+    }
+    
+    .filters {
+        display: flex;
+        gap: 10px;
+        margin-bottom: 20px;
+        flex-wrap: wrap;
+    }
+    
+    .filter-group {
+        flex-grow: 1;
+    }
+    
+    .filter-group label {
+        display: block;
+        margin-bottom: 5px;
+        font-size: 0.9em;
+        color: #6c757d;
+    }
+    
+    .filter-group select {
+        width: 100%;
+        padding: 8px;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+    }
+    
+    .summary-box {
+        background-color: #f8f9fa;
+        border-radius: 8px;
+        padding: 15px;
+        margin-bottom: 20px;
+    }
+    
+    .summary-box h4 {
+        margin-top: 0;
+        margin-bottom: 10px;
+        font-size: 1.2em;
+        color: #333;
+    }
+    
+    .summary-box p {
+        margin: 5px 0;
+        color: #666;
+    }
+    
+    .summary-box strong {
+        color: #333;
+    }
+    
+    .comparison-chart {
+        width: 100%;
+        height: 400px;
+        margin-bottom: 20px;
+    }
+</style>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+{% endblock %}
+
+{% block content %}
+<div class="workload-container">
+    <div class="workload-header">
+        <div class="workload-title">工作量统计</div>
+        <div class="workload-actions">
+            <button onclick="exportWorkload()">导出数据</button>
+            <button onclick="printWorkload()">打印报告</button>
+        </div>
+    </div>
+    
+    <div class="semester-selector">
+        <select id="semester-select" onchange="changeSemester()">
+            <option value="2024-Fall">2024秋季学期</option>
+            <option value="2024-Spring">2024春季学期</option>
+            <option value="2023-Fall">2023秋季学期</option>
+            <option value="2023-Spring">2023春季学期</option>
+        </select>
+    </div>
+    
+    <div class="tabs">
+        <div class="tab active" onclick="showTab('summary')">工作量概览</div>
+        <div class="tab" onclick="showTab('detail')">详细明细</div>
+        <div class="tab" onclick="showTab('comparison')">历史对比</div>
+    </div>
+    
+    <div id="summary-tab" class="tab-content active">
+        <div class="summary-box" id="summary-container">
+            <h4>工作量汇总</h4>
+            <p><strong>教师姓名：</strong><span id="instructor-name">--</span></p>
+            <p><strong>职称：</strong><span id="instructor-title">--</span></p>
+            <p><strong>所属院系：</strong><span id="instructor-department">--</span></p>
+            <p><strong>总工作量：</strong><span id="total-workload">--</span>学时</p>
+            <p><strong>标准工作量：</strong><span id="standard-workload">--</span>学时</p>
+            <p><strong>完成比例：</strong><span id="completion-rate">--</span>%</p>
+        </div>
+        
+        <div class="chart-container">
+            <canvas id="workload-distribution-chart" class="chart"></canvas>
+        </div>
+        
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-value" id="course-count">--</div>
+                <div class="stat-label">授课门数</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value" id="student-count">--</div>
+                <div class="stat-label">学生总数</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value" id="weekly-hours">--</div>
+                <div class="stat-label">周课时</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value" id="excess-hours">--</div>
+                <div class="stat-label">超课时</div>
+            </div>
+        </div>
+    </div>
+    
+    <div id="detail-tab" class="tab-content">
+        <div class="filters">
+            <div class="filter-group">
+                <label>工作类型</label>
+                <select id="work-type-filter" onchange="filterWorkloadDetails()">
+                    <option value="all">全部类型</option>
+                    <option value="lecture">讲课</option>
+                    <option value="lab">实验</option>
+                    <option value="project">课程设计</option>
+                    <option value="thesis">毕业设计</option>
+                </select>
+            </div>
+            <div class="filter-group">
+                <label>课程类型</label>
+                <select id="course-type-filter" onchange="filterWorkloadDetails()">
+                    <option value="all">全部课程</option>
+                    <option value="required">必修课</option>
+                    <option value="elective">选修课</option>
+                </select>
+            </div>
+        </div>
+        
+        <table class="workload-table" id="workload-details-table">
+            <thead>
+                <tr>
+                    <th>课程名称</th>
+                    <th>课程类型</th>
+                    <th>班级</th>
+                    <th>学生数</th>
+                    <th>周学时</th>
+                    <th>总学时</th>
+                    <th>工作类型</th>
+                    <th>系数</th>
+                    <th>工作量</th>
+                </tr>
+            </thead>
+            <tbody id="workload-details-body">
+                <!-- 工作量详情将通过JavaScript动态加载 -->
+            </tbody>
+        </table>
+    </div>
+    
+    <div id="comparison-tab" class="tab-content">
+        <div class="filters">
+            <div class="filter-group">
+                <label>对比指标</label>
+                <select id="comparison-metric" onchange="updateComparisonChart()">
+                    <option value="total_workload">总工作量</option>
+                    <option value="section_count">授课门数</option>
+                    <option value="total_students">学生总数</option>
+                    <option value="completion_rate">完成比例</option>
+                </select>
+            </div>
+        </div>
+        
+        <div class="chart-container">
+            <canvas id="comparison-chart" class="comparison-chart"></canvas>
+        </div>
+        
+        <div class="filters">
+            <div class="filter-group">
+                <label>选择学期</label>
+                <div id="semester-checkboxes">
+                    <!-- 学期复选框将通过JavaScript动态加载 -->
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts_extra %}
+<script>
+    // 全局变量
+    let workloadData = null;
+    let workloadDistributionChart = null;
+    let comparisonChart = null;
+    let currentSemester = '2024-Fall';
+    
+    // 显示指定标签页
+    function showTab(tabName) {
+        // 隐藏所有标签页内容
+        document.querySelectorAll('.tab-content').forEach(content => {
+            content.classList.remove('active');
+        });
+        
+        // 移除所有标签的活动状态
+        document.querySelectorAll('.tab').forEach(tab => {
+            tab.classList.remove('active');
+        });
+        
+        // 显示选定的标签页内容并激活对应标签
+        document.getElementById(tabName + '-tab').classList.add('active');
+        document.querySelectorAll('.tab').forEach(tab => {
+            if (tab.textContent.includes(tabName === 'summary' ? '工作量概览' : 
+                                        tabName === 'detail' ? '详细明细' : '历史对比')) {
+                tab.classList.add('active');
+            }
+        });
+        
+        // 如果是对比标签页，更新对比图表
+        if (tabName === 'comparison' && !comparisonChart) {
+            fetchComparisonData();
+        }
+    }
+    
+    // 更改学期
+    function changeSemester() {
+        currentSemester = document.getElementById('semester-select').value;
+        fetchWorkloadData();
+    }
+    
+    // 导出工作量数据
+    function exportWorkload() {
+        alert('导出数据功能将在此实现');
+        // 这里应该是导出工作量数据的逻辑
+    }
+    
+    // 打印工作量报告
+    function printWorkload() {
+        window.print();
+    }
+    
+    // 获取工作量数据
+    function fetchWorkloadData() {
+        fetch(`/api/instructor/workload?semester_id=${currentSemester}`)
+            .then(response => response.json())
+            .then(data => {
+                if (data.error) {
+                    console.error('获取工作量数据失败:', data.error);
+                    return;
+                }
+                
+                workloadData = data;
+                updateSummary(data.summary);
+                updateDistributionChart(data.distribution);
+                updateWorkloadDetails(data.details);
+            })
+            .catch(error => {
+                console.error('获取工作量数据出错:', error);
+            });
+    }
+    
+    // 获取历史对比数据
+    function fetchComparisonData() {
+        fetch('/api/instructor/workload/comparison')
+            .then(response => response.json())
+            .then(data => {
+                if (data.error) {
+                    console.error('获取对比数据失败:', data.error);
+                    return;
+                }
+                
+                updateSemesterCheckboxes(data);
+                updateComparisonChart(data);
+            })
+            .catch(error => {
+                console.error('获取对比数据出错:', error);
+            });
+    }
+    
+    // 更新工作量汇总信息
+    function updateSummary(summary) {
+        document.getElementById('instructor-name').textContent = summary.instructor_name || '--';
+        document.getElementById('instructor-title').textContent = summary.title || '--';
+        document.getElementById('instructor-department').textContent = summary.department || '--';
+        document.getElementById('total-workload').textContent = summary.total_workload || '--';
+        document.getElementById('standard-workload').textContent = summary.standard_workload || '--';
+        document.getElementById('completion-rate').textContent = summary.completion_rate || '--';
+        
+        document.getElementById('course-count').textContent = summary.course_count || '--';
+        document.getElementById('student-count').textContent = summary.student_count || '--';
+        document.getElementById('weekly-hours').textContent = summary.weekly_hours || '--';
+        document.getElementById('excess-hours').textContent = summary.excess_hours || '--';
+        
+        // 更新标题
+        const semesterName = document.getElementById('semester-select').options[
+            document.getElementById('semester-select').selectedIndex
+        ].text;
+        document.querySelector('#summary-container h4').textContent = `${semesterName}工作量汇总`;
+    }
+    
+    // 更新工作量分布图表
+    function updateDistributionChart(distribution) {
+        const ctx = document.getElementById('workload-distribution-chart').getContext('2d');
+        
+        // 如果图表已存在，销毁它
+        if (workloadDistributionChart) {
+            workloadDistributionChart.destroy();
+        }
+        
+        // 准备图表数据
+        const labels = distribution.map(item => item.work_type);
+        const data = distribution.map(item => item.hours);
+        const percentages = distribution.map(item => item.percentage);
+        const backgroundColors = [
+            'rgba(54, 162, 235, 0.7)',
+            'rgba(255, 99, 132, 0.7)',
+            'rgba(255, 206, 86, 0.7)',
+            'rgba(75, 192, 192, 0.7)',
+            'rgba(153, 102, 255, 0.7)'
+        ];
+        
+        // 创建新图表
+        workloadDistributionChart = new Chart(ctx, {
+            type: 'pie',
+            data: {
+                labels: labels,
+                datasets: [{
+                    data: data,
+                    backgroundColor: backgroundColors.slice(0, data.length),
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: {
+                        position: 'right',
+                    },
+                    tooltip: {
+                        callbacks: {
+                            label: function(context) {
+                                const label = context.label || '';
+                                const value = context.raw || 0;
+                                const percentage = percentages[context.dataIndex] || 0;
+                                return `${label}: ${value}学时 (${percentage}%)`;
+                            }
+                        }
+                    },
+                    title: {
+                        display: true,
+                        text: '工作量分布',
+                        font: {
+                            size: 16
+                        }
+                    }
+                }
+            }
+        });
+    }
+    
+    // 更新工作量详情表格
+    function updateWorkloadDetails(details) {
+        const tableBody = document.getElementById('workload-details-body');
+        tableBody.innerHTML = '';
+        
+        if (!details || details.length === 0) {
+            const row = document.createElement('tr');
+            row.innerHTML = '<td colspan="9" class="text-center">暂无工作量数据</td>';
+            tableBody.appendChild(row);
+            return;
+        }
+        
+        details.forEach(item => {
+            const row = document.createElement('tr');
+            row.innerHTML = `
+                <td>${item.lyh_course_title || '--'}</td>
+                <td>${item.course_type || '--'}</td>
+                <td>${item.lyh_class_name || '--'}</td>
+                <td>${item.student_count || 0}</td>
+                <td>${item.weekly_hours || 0}</td>
+                <td>${item.total_hours || 0}</td>
+                <td>${item.work_type || '--'}</td>
+                <td>${item.coefficient || 1}</td>
+                <td>${item.calculated_hours || 0}</td>
+            `;
+            tableBody.appendChild(row);
+        });
+    }
+    
+    // 筛选工作量详情
+    function filterWorkloadDetails() {
+        const workTypeFilter = document.getElementById('work-type-filter').value;
+        const courseTypeFilter = document.getElementById('course-type-filter').value;
+        
+        if (!workloadData || !workloadData.details) return;
+        
+        let filteredDetails = workloadData.details;
+        
+        if (workTypeFilter !== 'all') {
+            filteredDetails = filteredDetails.filter(item => 
+                item.work_type && item.work_type.toLowerCase().includes(workTypeFilter));
+        }
+        
+        if (courseTypeFilter !== 'all') {
+            filteredDetails = filteredDetails.filter(item => 
+                item.course_type && item.course_type.toLowerCase().includes(courseTypeFilter));
+        }
+        
+        updateWorkloadDetails(filteredDetails);
+    }
+    
+    // 更新学期复选框
+    function updateSemesterCheckboxes(data) {
+        const container = document.getElementById('semester-checkboxes');
+        container.innerHTML = '';
+        
+        data.forEach((item, index) => {
+            const checkbox = document.createElement('div');
+            checkbox.className = 'checkbox';
+            checkbox.innerHTML = `
+                <input type="checkbox" id="semester-${index}" value="${item.lyh_semester_id}" 
+                    ${index < 4 ? 'checked' : ''} onchange="updateComparisonChart()">
+                <label for="semester-${index}">${item.lyh_semester_name}</label>
+            `;
+            container.appendChild(checkbox);
+        });
+    }
+    
+    // 更新对比图表
+    function updateComparisonChart(data) {
+        if (!data) {
+            if (!comparisonChart) return;
+            data = comparisonChart.data.originalData;
+        }
+        
+        const metric = document.getElementById('comparison-metric').value;
+        const selectedSemesters = Array.from(document.querySelectorAll('#semester-checkboxes input:checked'))
+            .map(checkbox => checkbox.value);
+        
+        const filteredData = data.filter(item => selectedSemesters.includes(item.lyh_semester_id));
+        
+        const ctx = document.getElementById('comparison-chart').getContext('2d');
+        
+        // 如果图表已存在，销毁它
+        if (comparisonChart) {
+            comparisonChart.destroy();
+        }
+        
+        // 准备图表数据
+        const labels = filteredData.map(item => item.lyh_semester_name);
+        const chartData = filteredData.map(item => item[metric]);
+        
+        // 根据指标设置标题
+        let title = '总工作量对比';
+        let yAxisLabel = '学时';
+        
+        if (metric === 'section_count') {
+            title = '授课门数对比';
+            yAxisLabel = '门数';
+        } else if (metric === 'total_students') {
+            title = '学生总数对比';
+            yAxisLabel = '人数';
+        } else if (metric === 'completion_rate') {
+            title = '完成比例对比';
+            yAxisLabel = '百分比(%)';
+        }
+        
+        // 创建新图表
+        comparisonChart = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: labels,
+                datasets: [{
+                    label: title,
+                    data: chartData,
+                    backgroundColor: 'rgba(54, 162, 235, 0.7)',
+                    borderColor: 'rgba(54, 162, 235, 1)',
+                    borderWidth: 1
+                }],
+                originalData: data // 保存原始数据用于更新
+            },
+            options: {
+                responsive: true,
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        title: {
+                            display: true,
+                            text: yAxisLabel
+                        }
+                    },
+                    x: {
+                        title: {
+                            display: true,
+                            text: '学期'
+                        }
+                    }
+                },
+                plugins: {
+                    legend: {
+                        display: false
+                    },
+                    title: {
+                        display: true,
+                        text: title,
+                        font: {
+                            size: 16
+                        }
+                    }
+                }
+            }
+        });
+    }
+    
+    // 页面加载时执行
+    document.addEventListener('DOMContentLoaded', function() {
+        fetchWorkloadData();
+    });
+</script>
+{% endblock %} 

@@ -1,0 +1,6 @@
+<?xml version="1.0"?>
+<launch>
+    <!-- 启动角速度校准节点 -->
+    <node name="calibrate_angular" pkg="transbot_bringup" type="calibrate_angular.py" output="screen"/>
+</launch>
+

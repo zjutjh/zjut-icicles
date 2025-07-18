@@ -1,0 +1,18 @@
+\subsubsection parameters ROS parameters
+
+Reads and maintains the following parameters on the ROS server
+
+- \b "~Linear" : \b [double] Linear in robot min: 0.0, default: 0.2, max: 0.45
+- \b "~Angular" : \b [double] Angular in robot min: 0.0, default: 1.0, max: 2.0
+- \b "~Length" : \b [double] Length in limit min: 0.0, default: 1.0, max: 3.0
+- \b "~Angle" : \b [double] Angle in limit min: 0.0, default: 360.0, max: 360.0
+- \b "~LineScaling" : \b [double] Line Scaling min: 0.0, default: 0.9, max: 2.0
+- \b "~RotationScaling" : \b [double] Rotation Scaling min: 0.0, default: 1.0, max: 2.0
+- \b "~LineTolerance" : \b [double] Line Tolerance min: 0.0, default: 0.1, max: 3.0
+- \b "~RotationTolerance" : \b [double] Rotation Tolerance min: 0.0, default: 0.3, max: 5.0
+- \b "~ResponseDist" : \b [double] ResponseDist in limit min: 0.0, default: 0.6, max: 8.0
+- \b "~LaserAngle" : \b [int] LaserAngle in limit min: 10, default: 30, max: 180
+- \b "~Command" : \b [str] [LengthTest, AngleTest, Triangle, Square, Parallelogram, Circle] min: , default: Square, max: 
+- \b "~SetLoop" : \b [bool] SetLoop min: False, default: False, max: True
+- \b "~Switch" : \b [bool] Switch in robot min: False, default: False, max: True
+

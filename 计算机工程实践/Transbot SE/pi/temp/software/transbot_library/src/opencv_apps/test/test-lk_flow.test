@@ -1,0 +1,28 @@
+<launch>
+  <arg name="gui" default="true" />
+  <node name="play_vslam_bag" pkg="rosbag" type="play" args="-l $(find opencv_apps)/test/vslam_tutorial.bag -s 5 --topics /narrow_stereo/left/image_rect" />
+
+  <group ns="narrow_stereo/left" >
+    <node name="image_view" pkg="image_view" type="image_view" args="image:=image_rect_throttle" if="$(arg gui)" />
+    <node name="image_throttle" pkg="topic_tools" type="throttle" args="messages image_rect 5" />
+    <!-- lk_flow.cpp -->
+    <include file="$(find opencv_apps)/launch/lk_flow.launch" >
+      <arg name="use_camera_info" value="false" />
+      <arg name="debug_view" value="$(arg gui)" />
+      <arg name="image" value="image_rect_throttle" />
+    </include>
+
+    <!-- Test Codes -->
+    <node name="lk_flow_saver" pkg="image_view" type="image_saver" args="image:=lk_flow/image" >
+      <param name="filename_format" value="$(find opencv_apps)/test/lk_flow.png"/>
+    </node>
+    <node name="lk_flow_initialize" pkg="rosservice" type="rosservice" args="call --wait lk_flow/initialize_points"
+          respawn="true" respawn_delay="2" />
+    <param name="lk_flow_test/topic" value="lk_flow/flows" />    <!-- opencv_apps/FlowArrayStamped -->
+    <test test-name="lk_flow_test" pkg="rostest" type="hztest" name="lk_flow_test" >
+      <param name="hz" value="15" />
+      <param name="hzerror" value="14" />
+      <param name="test_duration" value="5.0" /> 
+    </test>
+  </group>
+</launch>

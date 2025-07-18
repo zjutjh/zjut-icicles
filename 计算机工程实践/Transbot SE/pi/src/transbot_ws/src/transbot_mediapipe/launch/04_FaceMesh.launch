@@ -1,0 +1,3 @@
+<launch>
+    <node pkg="transbot_mediapipe" type="04_FaceMesh.py" name="FaceMesh" required="true" output="screen"/>
+</launch>

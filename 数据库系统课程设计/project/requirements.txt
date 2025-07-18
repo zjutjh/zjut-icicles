@@ -1,0 +1,9 @@
+Flask
+Flask-Login
+psycopg2-binary
+Werkzeug
+Jinja2
+itsdangerous
+click
+MarkupSafe
+python-dotenv 

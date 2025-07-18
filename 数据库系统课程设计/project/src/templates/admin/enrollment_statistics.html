@@ -1,0 +1,763 @@
+{% extends "base.html" %}
+
+{% block title %}选课统计 - 教务管理系统{% endblock %}
+
+{% block head_extra %}
+<style>
+    .enrollment-stats-container {
+        padding: 20px;
+        max-width: 1200px;
+        margin: 0 auto;
+    }
+    .page-header {
+        margin-bottom: 20px;
+        padding-bottom: 15px;
+        border-bottom: 2px solid #4CAF50;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+    .stats-cards {
+        display: flex;
+        gap: 20px;
+        margin-bottom: 30px;
+        flex-wrap: wrap;
+    }
+    .stats-card {
+        background-color: white;
+        border-radius: 8px;
+        padding: 20px;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        flex: 1;
+        min-width: 200px;
+        text-align: center;
+    }
+    .stats-number {
+        font-size: 36px;
+        font-weight: bold;
+        color: #4CAF50;
+        margin-bottom: 10px;
+    }
+    .stats-label {
+        font-size: 16px;
+        color: #666;
+    }
+    .card {
+        background-color: white;
+        border-radius: 8px;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        margin-bottom: 20px;
+        padding: 20px;
+    }
+    .card-header {
+        margin-bottom: 15px;
+        padding-bottom: 10px;
+        border-bottom: 1px solid #eee;
+    }
+    .card-header h3 {
+        margin: 0;
+        color: #4CAF50;
+    }
+    .filters-section {
+        background-color: #f8f9fa;
+        padding: 15px;
+        border-radius: 8px;
+        margin-bottom: 20px;
+    }
+    .filter-row {
+        display: flex;
+        gap: 15px;
+        align-items: center;
+        flex-wrap: wrap;
+    }
+    .filter-group {
+        display: flex;
+        flex-direction: column;
+        gap: 5px;
+    }
+    .filter-group label {
+        font-weight: bold;
+        font-size: 14px;
+    }
+    .filter-group select, .filter-group input {
+        padding: 8px;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        min-width: 150px;
+    }
+    .btn-primary {
+        background-color: #4CAF50;
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 4px;
+        cursor: pointer;
+        text-decoration: none;
+        display: inline-block;
+    }
+    .btn-primary:hover {
+        background-color: #45a049;
+    }
+    .btn-secondary {
+        background-color: #2196f3;
+        color: white;
+        border: none;
+        padding: 8px 16px;
+        border-radius: 4px;
+        cursor: pointer;
+        font-size: 14px;
+    }
+    .btn-secondary:hover {
+        background-color: #1976d2;
+    }
+    .loading {
+        text-align: center;
+        padding: 40px;
+    }
+    .loading-spinner {
+        border: 4px solid #f3f3f3;
+        border-top: 4px solid #4CAF50;
+        border-radius: 50%;
+        width: 40px;
+        height: 40px;
+        animation: spin 1s linear infinite;
+        margin: 0 auto 20px;
+    }
+    @keyframes spin {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
+    }
+    .chart-container {
+        height: 400px;
+        margin-top: 20px;
+    }
+    .results-table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 20px;
+    }
+    .results-table th {
+        background-color: #f5f5f5;
+        padding: 10px;
+        text-align: left;
+        border-bottom: 2px solid #ddd;
+    }
+    .results-table td {
+        padding: 10px;
+        border-bottom: 1px solid #eee;
+    }
+    .results-table tr:hover {
+        background-color: #f9f9f9;
+    }
+    .empty-state {
+        text-align: center;
+        padding: 40px;
+        color: #666;
+    }
+    .empty-state i {
+        font-size: 48px;
+        margin-bottom: 10px;
+        color: #ddd;
+    }
+</style>
+<!-- 引入图表库 -->
+<!-- 使用CDN备用方案 -->
+<script>
+    // 定义一个函数来加载Chart.js
+    function loadChartJS() {
+        return new Promise((resolve, reject) => {
+            if (typeof Chart !== 'undefined') {
+                console.log('Chart.js已经加载，跳过');
+                resolve(Chart);
+                return;
+            }
+            
+            console.log('尝试加载Chart.js...');
+            const script = document.createElement('script');
+            script.src = 'https://cdn.jsdelivr.net/npm/chart.js@3.9.1/dist/chart.min.js';
+            script.integrity = 'sha384-9YXH2/Bxs3GR1jWz9y+8UYf+GCj3LCb6q/+2QJ1dRpOPySyO0h2zLKJONezDJ/Hs';
+            script.crossOrigin = 'anonymous';
+            
+            script.onload = function() {
+                console.log('Chart.js加载成功');
+                resolve(Chart);
+            };
+            
+            script.onerror = function(e) {
+                console.error('Chart.js加载失败，尝试备用源');
+                // 尝试备用源
+                const backupScript = document.createElement('script');
+                backupScript.src = 'https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js';
+                
+                backupScript.onload = function() {
+                    console.log('Chart.js从备用源加载成功');
+                    resolve(Chart);
+                };
+                
+                backupScript.onerror = function() {
+                    console.error('Chart.js从所有源加载失败');
+                    reject(new Error('无法加载Chart.js库'));
+                };
+                
+                document.head.appendChild(backupScript);
+            };
+            
+            document.head.appendChild(script);
+        });
+    }
+    
+    // 定义初始化图表的函数
+    function initCharts() {
+        console.log("开始初始化图表...");
+        
+        // 全局变量
+        let regionChart = null;
+        let majorChart = null;
+        
+        // 获取DOM元素
+        const loadingIndicator = document.getElementById('loadingIndicator');
+        const emptyState = document.getElementById('emptyState');
+        const regionInput = document.getElementById('regionInput');
+        const searchBtn = document.getElementById('searchBtn');
+        const regionTableBody = document.getElementById('regionTableBody');
+        
+        // 加载基本统计数据
+        function loadBasicStats() {
+            fetch('/api/admin/enrollment_stats')
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error(`网络请求失败: ${response.status}`);
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    console.log('接收到的基本统计数据:', data);
+                    document.getElementById('totalStudents').textContent = data.total_students || '-';
+                    document.getElementById('totalCourses').textContent = data.total_courses || '-';
+                    document.getElementById('totalEnrollments').textContent = data.total_enrollments || '-';
+                    document.getElementById('avgCoursesPerStudent').textContent = data.avg_courses_per_student || '-';
+                })
+                .catch(error => {
+                    console.error('获取基本统计数据失败:', error);
+                    // 显示错误信息而不是弹窗
+                    document.querySelectorAll('.stats-number').forEach(el => {
+                        el.textContent = '-';
+                        el.style.color = '#ff5252';
+                    });
+                    // 添加重试按钮
+                    document.querySelector('.stats-cards').insertAdjacentHTML('afterend', `
+                        <div style="text-align: center; margin-bottom: 20px;">
+                            <p style="color: #ff5252;">获取基本统计数据失败: ${error.message}</p>
+                            <button class="btn-secondary" onclick="loadBasicStats()">重试</button>
+                        </div>
+                    `);
+                });
+        }
+        
+        // 加载地区统计数据
+        function loadRegionStats(keyword = '', useSimpleApi = true) { // 默认使用简化版API
+            loadingIndicator.style.display = 'block';
+            emptyState.style.display = 'none';
+            
+            // 选择API端点
+            let url = useSimpleApi ? 
+                '/api/admin/student_region_stats_simple' : 
+                '/api/admin/student_region_stats';
+            
+            if (keyword) {
+                url += `?region=${encodeURIComponent(keyword)}`;
+            }
+            
+            console.log(`请求地区统计数据 (${useSimpleApi ? '简化版' : '标准版'})`, url);
+            
+            fetch(url)
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error(`网络请求失败: ${response.status}`);
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    console.log('接收到的地区统计数据:', data);
+                    
+                    // 显示原始数据（调试用）
+                    const rawDataDisplay = document.getElementById('rawDataDisplay');
+                    const rawDataContent = document.getElementById('rawDataContent');
+                    if (rawDataDisplay && rawDataContent) {
+                        rawDataDisplay.style.display = 'block';
+                        rawDataContent.textContent = JSON.stringify(data, null, 2);
+                    }
+                    
+                    const regions = data.regions || [];
+                    const message = data.message || '';
+                    
+                    // 渲染图表和表格
+                    renderRegionChart(regions);
+                    renderRegionTable(regions);
+                    
+                    loadingIndicator.style.display = 'none';
+                    
+                    // 显示空状态或消息
+                    if (regions.length === 0) {
+                        emptyState.style.display = 'block';
+                        if (message) {
+                            emptyState.innerHTML = `
+                                <i class="fas fa-search"></i>
+                                <p>${message}</p>
+                            `;
+                        } else {
+                            emptyState.innerHTML = `
+                                <i class="fas fa-search"></i>
+                                <p>未找到匹配的地区数据</p>
+                            `;
+                        }
+                    }
+                })
+                .catch(error => {
+                    console.error('获取地区统计数据失败:', error);
+                    
+                    // 显示错误信息（调试用）
+                    const rawDataDisplay = document.getElementById('rawDataDisplay');
+                    const rawDataContent = document.getElementById('rawDataContent');
+                    if (rawDataDisplay && rawDataContent) {
+                        rawDataDisplay.style.display = 'block';
+                        rawDataContent.textContent = `错误: ${error.message}\n堆栈: ${error.stack || '无堆栈信息'}`;
+                    }
+                    
+                    // 如果使用标准API失败，尝试使用简化版API
+                    if (!useSimpleApi) {
+                        console.log('尝试使用简化版API...');
+                        loadRegionStats(keyword, true);
+                        return;
+                    }
+                    
+                    // 如果简化版API也失败，显示错误信息
+                    loadingIndicator.style.display = 'none';
+                    emptyState.style.display = 'block';
+                    emptyState.innerHTML = `
+                        <i class="fas fa-exclamation-circle"></i>
+                        <p>获取地区统计数据失败: ${error.message}</p>
+                        <button class="btn-secondary" onclick="loadRegionStats('${keyword}', false)">重试</button>
+                    `;
+                });
+        }
+        
+        // 渲染地区图表
+        function renderRegionChart(data) {
+            console.log('开始渲染图表，数据:', data);
+            const ctx = document.getElementById('regionChart');
+            
+            if (!ctx) {
+                console.error('找不到图表容器元素 #regionChart');
+                return;
+            }
+            
+            const context2d = ctx.getContext('2d');
+            
+            // 如果图表已存在，销毁它
+            if (regionChart) {
+                console.log('销毁现有图表');
+                regionChart.destroy();
+            }
+            
+            // 检查数据是否为空
+            if (!data || data.length === 0) {
+                console.log('没有地区数据可渲染，显示空图表');
+                // 显示空图表
+                regionChart = new Chart(context2d, {
+                    type: 'bar',
+                    data: {
+                        labels: ['无数据'],
+                        datasets: [{
+                            label: '学生数',
+                            data: [0],
+                            backgroundColor: 'rgba(200, 200, 200, 0.7)',
+                            borderColor: 'rgba(200, 200, 200, 1)',
+                            borderWidth: 1
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: {
+                            title: {
+                                display: true,
+                                text: '没有找到匹配的地区数据'
+                            }
+                        },
+                        scales: {
+                            y: {
+                                beginAtZero: true,
+                                max: 10
+                            }
+                        }
+                    }
+                });
+                console.log('空图表渲染完成');
+                return;
+            }
+            
+            // 准备数据
+            const labels = data.map(item => item.region || '未知地区');
+            const counts = data.map(item => Number(item.student_count) || 0);
+            
+            console.log('图表数据处理完成:', { labels, counts });
+            
+            try {
+                // 创建新图表
+                regionChart = new Chart(context2d, {
+                    type: 'bar',
+                    data: {
+                        labels: labels,
+                        datasets: [{
+                            label: '学生数',
+                            data: counts,
+                            backgroundColor: 'rgba(76, 175, 80, 0.7)',
+                            borderColor: 'rgba(76, 175, 80, 1)',
+                            borderWidth: 1
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        scales: {
+                            y: {
+                                beginAtZero: true,
+                                title: {
+                                    display: true,
+                                    text: '学生数'
+                                }
+                            },
+                            x: {
+                                title: {
+                                    display: true,
+                                    text: '地区'
+                                }
+                            }
+                        }
+                    }
+                });
+                console.log('图表渲染完成');
+            } catch (error) {
+                console.error('图表渲染失败:', error);
+            }
+        }
+        
+        // 渲染地区表格
+        function renderRegionTable(data) {
+            regionTableBody.innerHTML = '';
+            
+            // 检查数据是否为空
+            if (!data || data.length === 0) {
+                console.log('没有地区数据可渲染表格');
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td colspan="3" style="text-align: center; padding: 20px;">没有找到匹配的地区数据</td>
+                `;
+                regionTableBody.appendChild(row);
+                return;
+            }
+            
+            // 渲染表格行
+            data.forEach(item => {
+                const region = item.region || '未知地区';
+                const studentCount = Number(item.student_count) || 0;
+                const percentage = Number(item.percentage) || 0;
+                
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${region}</td>
+                    <td>${studentCount}</td>
+                    <td>${percentage.toFixed(2)}%</td>
+                `;
+                regionTableBody.appendChild(row);
+            });
+        }
+        
+        // 加载专业选课统计数据
+        function loadMajorEnrollmentStats() {
+            // 显示加载指示器
+            const majorChartContainer = document.querySelector('.card:nth-child(3) .chart-container');
+            if (majorChartContainer) {
+                majorChartContainer.innerHTML = '<div class="loading-spinner"></div><p>加载专业选课数据中...</p>';
+            }
+            
+            fetch('/api/admin/major_enrollment_stats_simple')
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error(`网络请求失败: ${response.status}`);
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    console.log('接收到的专业选课数据:', data);
+                    
+                    // 显示原始数据（调试用）
+                    const rawDataDisplay = document.getElementById('majorRawDataDisplay');
+                    if (rawDataDisplay) {
+                        rawDataDisplay.style.display = 'block';
+                        const rawDataContent = document.getElementById('majorRawDataContent');
+                        if (rawDataContent) {
+                            rawDataContent.textContent = JSON.stringify(data, null, 2);
+                        }
+                    }
+                    
+                    // 确保数据有效
+                    if (data && data.major_names && data.major_names.length > 0 && 
+                        data.enrollment_counts && data.enrollment_counts.length > 0) {
+                        renderMajorChart(data.major_names, data.enrollment_counts);
+                    } else {
+                        throw new Error('返回的专业选课数据格式不正确或为空');
+                    }
+                })
+                .catch(error => {
+                    console.error('获取专业选课统计数据失败:', error);
+                    
+                    // 显示错误信息
+                    if (majorChartContainer) {
+                        majorChartContainer.innerHTML = `
+                            <div class="empty-state">
+                                <i class="fas fa-exclamation-circle"></i>
+                                <p>获取专业选课统计数据失败: ${error.message}</p>
+                                <button class="btn-secondary" onclick="loadMajorEnrollmentStats()">重试</button>
+                            </div>
+                        `;
+                    }
+                    
+                    // 使用模拟数据作为备用
+                    const mockMajorData = {
+                        major_names: ['计算机科学与技术', '软件工程', '数据科学', '人工智能', '电子信息工程'],
+                        enrollment_counts: [120, 110, 95, 85, 75]
+                    };
+                    
+                    console.log('使用模拟数据作为备用');
+                    setTimeout(() => {
+                        try {
+                            renderMajorChart(mockMajorData.major_names, mockMajorData.enrollment_counts);
+                        } catch (renderError) {
+                            console.error('渲染备用数据失败:', renderError);
+                        }
+                    }, 1000);
+                });
+        }
+        
+        // 渲染专业选课图表
+        function renderMajorChart(labels, data) {
+            console.log('开始渲染专业选课图表，数据:', { labels, data });
+            const ctx = document.getElementById('majorChart');
+            
+            if (!ctx) {
+                console.error('找不到图表容器元素 #majorChart');
+                return;
+            }
+            
+            try {
+                const context2d = ctx.getContext('2d');
+                
+                // 如果图表已存在，销毁它
+                if (majorChart) {
+                    console.log('销毁现有专业选课图表');
+                    majorChart.destroy();
+                }
+                
+                // 检查数据是否为空
+                if (!labels || !data || labels.length === 0 || data.length === 0) {
+                    console.log('没有专业选课数据可渲染，显示空图表');
+                    // 显示空图表
+                    majorChart = new Chart(context2d, {
+                        type: 'bar',
+                        data: {
+                            labels: ['无数据'],
+                            datasets: [{
+                                label: '选课数',
+                                data: [0],
+                                backgroundColor: 'rgba(200, 200, 200, 0.7)',
+                                borderColor: 'rgba(200, 200, 200, 1)',
+                                borderWidth: 1
+                            }]
+                        },
+                        options: {
+                            indexAxis: 'y',
+                            responsive: true,
+                            maintainAspectRatio: false,
+                            plugins: {
+                                title: {
+                                    display: true,
+                                    text: '没有找到专业选课数据'
+                                }
+                            }
+                        }
+                    });
+                    console.log('空专业选课图表渲染完成');
+                    return;
+                }
+                
+                // 创建新图表
+                majorChart = new Chart(context2d, {
+                    type: 'bar',
+                    data: {
+                        labels: labels,
+                        datasets: [{
+                            label: '选课数',
+                            data: data,
+                            backgroundColor: 'rgba(33, 150, 243, 0.7)',
+                            borderColor: 'rgba(33, 150, 243, 1)',
+                            borderWidth: 1
+                        }]
+                    },
+                    options: {
+                        indexAxis: 'y',
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        scales: {
+                            x: {
+                                beginAtZero: true,
+                                title: {
+                                    display: true,
+                                    text: '选课数'
+                                }
+                            }
+                        }
+                    }
+                });
+                console.log('专业选课图表渲染完成');
+            } catch (error) {
+                console.error('专业选课图表渲染失败:', error);
+                // 显示错误信息
+                document.getElementById('majorChart').parentNode.innerHTML = `
+                    <div class="empty-state">
+                        <i class="fas fa-exclamation-circle"></i>
+                        <p>图表渲染失败: ${error.message}</p>
+                    </div>
+                `;
+            }
+        }
+        
+        // 事件绑定
+        searchBtn.addEventListener('click', function() {
+            const keyword = regionInput.value.trim();
+            loadRegionStats(keyword, true); // 使用简化版API
+        });
+        
+        // 初始加载
+        console.log("页面加载，开始获取数据...");
+        loadBasicStats();
+        loadRegionStats('', true); // 使用简化版API
+        loadMajorEnrollmentStats();
+    }
+    
+    // 页面加载完成后检查Chart.js
+    window.addEventListener('load', function() {
+        loadChartJS().then(Chart => {
+            console.log('Chart.js 库已成功加载，版本:', Chart.version);
+            // 初始化图表
+            initCharts();
+        }).catch(error => {
+            console.error('Chart.js 库未能正确加载:', error);
+            alert('图表库加载失败，部分功能可能无法正常工作。请刷新页面重试。');
+            // 显示备用数据视图
+            document.getElementById('rawDataDisplay').style.display = 'block';
+            if (document.getElementById('majorRawDataDisplay')) {
+                document.getElementById('majorRawDataDisplay').style.display = 'block';
+            }
+        });
+    });
+</script>
+{% endblock %}
+
+{% block content %}
+<div class="enrollment-stats-container">
+    <div class="page-header">
+        <h1>选课统计</h1>
+    </div>
+    
+    <!-- 基本统计卡片 -->
+    <div class="stats-cards">
+        <div class="stats-card">
+            <div class="stats-number" id="totalStudents">-</div>
+            <div class="stats-label">学生总数</div>
+        </div>
+        <div class="stats-card">
+            <div class="stats-number" id="totalCourses">-</div>
+            <div class="stats-label">课程总数</div>
+        </div>
+        <div class="stats-card">
+            <div class="stats-number" id="totalEnrollments">-</div>
+            <div class="stats-label">选课总数</div>
+        </div>
+        <div class="stats-card">
+            <div class="stats-number" id="avgCoursesPerStudent">-</div>
+            <div class="stats-label">人均选课数</div>
+        </div>
+    </div>
+    
+    <!-- 地区学生数统计 -->
+    <div class="card">
+        <div class="card-header">
+            <h3>地区学生数统计</h3>
+        </div>
+        
+        <div class="filters-section">
+            <div class="filter-row">
+                <div class="filter-group">
+                    <label for="regionInput">地区关键词</label>
+                    <input type="text" id="regionInput" placeholder="输入地区名称">
+                </div>
+                <div class="filter-group" style="align-self: flex-end;">
+                    <button class="btn-secondary" id="searchBtn">搜索</button>
+                </div>
+            </div>
+        </div>
+        
+        <div id="loadingIndicator" class="loading" style="display: none;">
+            <div class="loading-spinner"></div>
+            <p>加载数据中...</p>
+        </div>
+        
+        <!-- 添加原始数据显示区域 -->
+        <div id="rawDataDisplay" style="margin: 20px 0; padding: 10px; background-color: #f8f9fa; border-radius: 4px; display: none;">
+            <h4>原始数据 (调试用)</h4>
+            <pre id="rawDataContent" style="white-space: pre-wrap; overflow-x: auto;"></pre>
+        </div>
+        
+        <div id="regionChartContainer" class="chart-container">
+            <canvas id="regionChart"></canvas>
+        </div>
+        
+        <table class="results-table" id="regionTable">
+            <thead>
+                <tr>
+                    <th>地区</th>
+                    <th>学生数</th>
+                    <th>占比</th>
+                </tr>
+            </thead>
+            <tbody id="regionTableBody">
+                <!-- 数据将通过JavaScript动态填充 -->
+            </tbody>
+        </table>
+        
+        <div id="emptyState" class="empty-state" style="display: none;">
+            <i class="fas fa-search"></i>
+            <p>未找到匹配的地区数据</p>
+        </div>
+    </div>
+    
+    <!-- 专业选课统计 -->
+    <div class="card">
+        <div class="card-header">
+            <h3>专业选课统计</h3>
+        </div>
+        
+        <!-- 添加原始数据显示区域 -->
+        <div id="majorRawDataDisplay" style="margin: 20px 0; padding: 10px; background-color: #f8f9fa; border-radius: 4px; display: none;">
+            <h4>专业选课原始数据 (调试用)</h4>
+            <pre id="majorRawDataContent" style="white-space: pre-wrap; overflow-x: auto;"></pre>
+        </div>
+        
+        <div class="chart-container">
+            <canvas id="majorChart"></canvas>
+        </div>
+    </div>
+</div>
+{% endblock %} 

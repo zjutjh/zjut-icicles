@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<package format="2">
+  <name>imu_calib</name>
+  <version>0.0.0</version>
+  <description>Package for computing and applying IMU calibrations</description>
+
+  <author email="daniel.p.koch@gmail.com">Daniel Koch</author>
+  <maintainer email="daniel.p.koch@gmail.com">Daniel Koch</maintainer>
+
+  <license>BSD</license>
+
+  <url type="website">http://wiki.ros.org/imu_calib</url>
+  <url type="repository">https://github.com/dpkoch/imu_calib.git</url>
+  <url type="bugtracker">https://github.com/dpkoch/imu_calib/issues</url>
+
+  <buildtool_depend>catkin</buildtool_depend>
+
+  <depend>cmake_modules</depend>
+  <depend>eigen</depend>
+  <depend>roscpp</depend>
+  <depend>sensor_msgs</depend>
+  <depend>yaml-cpp</depend>
+  <depend>transbot_msgs</depend>
+</package>

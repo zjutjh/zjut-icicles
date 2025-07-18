@@ -1,0 +1,455 @@
+{% extends "base.html" %}
+
+{% block title %}我的授课 - 教务管理系统{% endblock %}
+
+{% block head_extra %}
+<style>
+    .teaching-container {
+        max-width: 1000px;
+        margin: 20px auto;
+        padding: 20px;
+        background-color: #fff;
+        border-radius: 8px;
+        box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+    }
+    
+    .teaching-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 20px;
+        padding-bottom: 10px;
+        border-bottom: 1px solid #eee;
+    }
+    
+    .teaching-title {
+        font-size: 1.5em;
+        font-weight: 500;
+    }
+    
+    .teaching-actions {
+        display: flex;
+        gap: 10px;
+    }
+    
+    .teaching-actions button {
+        padding: 8px 15px;
+        background-color: #0056b3;
+        color: white;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+    }
+    
+    .teaching-actions button:hover {
+        background-color: #004494;
+    }
+    
+    .semester-tabs {
+        display: flex;
+        border-bottom: 1px solid #ddd;
+        margin-bottom: 20px;
+    }
+    
+    .semester-tab {
+        padding: 10px 20px;
+        cursor: pointer;
+        border-bottom: 2px solid transparent;
+    }
+    
+    .semester-tab.active {
+        border-bottom: 2px solid #0056b3;
+        color: #0056b3;
+        font-weight: 500;
+    }
+    
+    .course-cards {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+        gap: 20px;
+        margin-bottom: 30px;
+    }
+    
+    .course-card {
+        border: 1px solid #eee;
+        border-radius: 8px;
+        overflow: hidden;
+        transition: transform 0.2s, box-shadow 0.2s;
+    }
+    
+    .course-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    }
+    
+    .course-header {
+        background-color: #f8f9fa;
+        padding: 15px;
+        border-bottom: 1px solid #eee;
+    }
+    
+    .course-title {
+        font-size: 1.2em;
+        font-weight: 500;
+        margin: 0 0 5px 0;
+    }
+    
+    .course-code {
+        color: #6c757d;
+        font-size: 0.9em;
+    }
+    
+    .course-body {
+        padding: 15px;
+    }
+    
+    .course-info {
+        margin-bottom: 15px;
+    }
+    
+    .course-info p {
+        margin: 5px 0;
+        display: flex;
+        align-items: center;
+    }
+    
+    .course-info i {
+        margin-right: 8px;
+        color: #6c757d;
+        width: 16px;
+    }
+    
+    .course-actions {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+    }
+    
+    .course-action-btn {
+        padding: 6px 12px;
+        background-color: #f8f9fa;
+        color: #0056b3;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        text-decoration: none;
+        font-size: 0.9em;
+        display: inline-flex;
+        align-items: center;
+        transition: background-color 0.2s;
+    }
+    
+    .course-action-btn:hover {
+        background-color: #e9ecef;
+    }
+    
+    .course-action-btn i {
+        margin-right: 5px;
+    }
+    
+    .course-stats {
+        display: flex;
+        justify-content: space-between;
+        padding-top: 15px;
+        margin-top: 15px;
+        border-top: 1px solid #eee;
+        font-size: 0.9em;
+    }
+    
+    .course-stat {
+        text-align: center;
+    }
+    
+    .course-stat-value {
+        font-weight: 500;
+        font-size: 1.1em;
+    }
+    
+    .course-stat-label {
+        color: #6c757d;
+        font-size: 0.85em;
+    }
+    
+    .empty-courses {
+        text-align: center;
+        padding: 50px 20px;
+        background-color: #f8f9fa;
+        border-radius: 8px;
+        color: #6c757d;
+    }
+    
+    .semester-selector {
+        margin-bottom: 20px;
+    }
+    
+    .semester-selector select {
+        padding: 8px;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        width: 200px;
+    }
+    
+    .history-table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 20px;
+    }
+    
+    .history-table th, .history-table td {
+        padding: 12px 15px;
+        text-align: left;
+        border-bottom: 1px solid #ddd;
+    }
+    
+    .history-table th {
+        background-color: #f8f9fa;
+        font-weight: 500;
+    }
+    
+    .history-table tr:hover {
+        background-color: #f5f5f5;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="teaching-container">
+    <div class="teaching-header">
+        <div class="teaching-title">我的授课</div>
+        <div class="teaching-actions">
+            <button onclick="exportTeachingSchedule()">导出课表</button>
+            <button onclick="printTeachingSchedule()">打印课表</button>
+        </div>
+    </div>
+    
+    <div class="semester-tabs">
+        <div class="semester-tab active" onclick="showTab('current')">当前学期</div>
+        <div class="semester-tab" onclick="showTab('history')">历史学期</div>
+    </div>
+    
+    <div id="current-semester" class="semester-content">
+        <h3>2024秋季学期</h3>
+        
+        <div class="course-cards" id="current-courses-container">
+            <!-- 课程将通过JavaScript动态加载 -->
+        </div>
+        
+        <div class="teaching-actions" style="justify-content: center; margin-top: 20px;">
+            <a href="{{ url_for('main.workload_statistics') }}" class="course-action-btn" style="padding: 10px 20px; font-size: 1em;">
+                <i class="fas fa-chart-line"></i> 查看工作量统计
+            </a>
+        </div>
+    </div>
+    
+    <div id="history-semester" class="semester-content" style="display: none;">
+        <div class="semester-selector">
+            <select id="history-semester-select" onchange="loadHistorySemester()">
+                <option value="2024-Spring">2024春季学期</option>
+                <option value="2023-Fall">2023秋季学期</option>
+                <option value="2023-Spring">2023春季学期</option>
+                <option value="2022-Fall">2022秋季学期</option>
+            </select>
+        </div>
+        
+        <table class="history-table">
+            <thead>
+                <tr>
+                    <th>课程代码</th>
+                    <th>课程名称</th>
+                    <th>学期</th>
+                    <th>学生数</th>
+                    <th>平均分</th>
+                    <th>及格率</th>
+                    <th>操作</th>
+                </tr>
+            </thead>
+            <tbody id="history-courses-container">
+                <!-- 历史课程将通过JavaScript动态加载 -->
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts_extra %}
+<script>
+    function showTab(tabName) {
+        // 隐藏所有内容
+        document.querySelectorAll('.semester-content').forEach(content => {
+            content.style.display = 'none';
+        });
+        
+        // 移除所有标签的活动状态
+        document.querySelectorAll('.semester-tab').forEach(tab => {
+            tab.classList.remove('active');
+        });
+        
+        // 显示选定的内容并激活对应标签
+        if (tabName === 'current') {
+            document.getElementById('current-semester').style.display = 'block';
+            document.querySelectorAll('.semester-tab')[0].classList.add('active');
+        } else {
+            document.getElementById('history-semester').style.display = 'block';
+            document.querySelectorAll('.semester-tab')[1].classList.add('active');
+        }
+    }
+    
+    function loadHistorySemester() {
+        const semester = document.getElementById('history-semester-select').value;
+        console.log(`加载学期: ${semester}`);
+        fetchHistoryCourses(semester);
+    }
+    
+    function exportTeachingSchedule() {
+        alert('导出课表功能将在此实现');
+        // 这里应该是导出课表的逻辑
+    }
+    
+    function printTeachingSchedule() {
+        window.print();
+    }
+    
+    // 获取当前学期课程
+    function fetchCurrentCourses() {
+        fetch('/api/instructor/teaching_sections')
+            .then(response => response.json())
+            .then(data => {
+                if (data.error) {
+                    console.error('获取教师课程失败:', data.error);
+                    return;
+                }
+                
+                const coursesContainer = document.getElementById('current-courses-container');
+                coursesContainer.innerHTML = '';
+                
+                if (data.length === 0) {
+                    coursesContainer.innerHTML = '<p class="text-center">本学期暂无授课</p>';
+                    return;
+                }
+                
+                data.forEach(course => {
+                    const courseElement = document.createElement('div');
+                    courseElement.className = 'course-card';
+                    
+                    // 获取课程详细信息
+                    fetch(`/api/instructor/course_detail?section_id=${course.lyh_section_id}`)
+                        .then(response => response.json())
+                        .then(detail => {
+                            courseElement.innerHTML = `
+                                <div class="course-header">
+                                    <h3 class="course-title">${course.lyh_course_title}</h3>
+                                    <div class="course-code">${course.lyh_course_id}</div>
+                                </div>
+                                <div class="course-body">
+                                    <div class="course-info">
+                                        <p><i class="fas fa-clock"></i> ${detail.period_desc || '时间未安排'}</p>
+                                        <p><i class="fas fa-map-marker-alt"></i> ${detail.location || '地点未安排'}</p>
+                                        <p><i class="fas fa-users"></i> ${course.student_count || 0}人</p>
+                                        <p><i class="fas fa-tag"></i> ${detail.course_type || '未知'} / ${detail.credits || 0}学分</p>
+                                    </div>
+                                    <div class="course-actions">
+                                        <a href="${url_for('main.class_roster')}?section_id=${course.lyh_section_id}" class="course-action-btn">
+                                            <i class="fas fa-list"></i> 学生名单
+                                        </a>
+                                        <a href="${url_for('main.grade_input')}?section_id=${course.lyh_section_id}" class="course-action-btn">
+                                            <i class="fas fa-edit"></i> 成绩录入
+                                        </a>
+                                        <a href="${url_for('main.course_materials')}?section_id=${course.lyh_section_id}" class="course-action-btn">
+                                            <i class="fas fa-book"></i> 课程资料
+                                        </a>
+                                        <a href="${url_for('main.grade_distribution')}?section_id=${course.lyh_section_id}" class="course-action-btn">
+                                            <i class="fas fa-chart-bar"></i> 成绩分布
+                                        </a>
+                                    </div>
+                                    <div class="course-stats">
+                                        <div class="course-stat">
+                                            <div class="course-stat-value">${detail.weekly_hours || 0}</div>
+                                            <div class="course-stat-label">周学时</div>
+                                        </div>
+                                        <div class="course-stat">
+                                            <div class="course-stat-value">${detail.total_hours || 0}</div>
+                                            <div class="course-stat-label">总学时</div>
+                                        </div>
+                                        <div class="course-stat">
+                                            <div class="course-stat-value">${detail.workload || 0}</div>
+                                            <div class="course-stat-label">工作量</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            `;
+                        })
+                        .catch(error => {
+                            console.error('获取课程详情失败:', error);
+                            courseElement.innerHTML = `
+                                <div class="course-header">
+                                    <h3 class="course-title">${course.lyh_course_title}</h3>
+                                    <div class="course-code">${course.lyh_course_id}</div>
+                                </div>
+                                <div class="course-body">
+                                    <p>获取课程详情失败</p>
+                                </div>
+                            `;
+                        });
+                    
+                    coursesContainer.appendChild(courseElement);
+                });
+            })
+            .catch(error => {
+                console.error('获取教师课程出错:', error);
+                document.getElementById('current-courses-container').innerHTML = 
+                    '<p class="text-center">获取课程数据失败，请刷新页面重试</p>';
+            });
+    }
+    
+    // 获取历史学期课程
+    function fetchHistoryCourses(semester) {
+        fetch(`/api/instructor/teaching_history?semester_id=${semester}`)
+            .then(response => response.json())
+            .then(data => {
+                if (data.error) {
+                    console.error('获取历史课程失败:', data.error);
+                    return;
+                }
+                
+                const historyContainer = document.getElementById('history-courses-container');
+                historyContainer.innerHTML = '';
+                
+                if (data.length === 0) {
+                    historyContainer.innerHTML = '<tr><td colspan="7" class="text-center">该学期无授课记录</td></tr>';
+                    return;
+                }
+                
+                data.forEach(course => {
+                    const row = document.createElement('tr');
+                    row.innerHTML = `
+                        <td>${course.lyh_course_id}</td>
+                        <td>${course.lyh_course_title}</td>
+                        <td>${course.lyh_semester_name}</td>
+                        <td>${course.student_count || 0}</td>
+                        <td>${course.avg_grade || '--'}</td>
+                        <td>${course.pass_rate || '--'}</td>
+                        <td>
+                            <a href="#" class="course-action-btn" onclick="viewCourseDetail('${course.lyh_section_id}')">查看详情</a>
+                            <a href="${url_for('main.grade_distribution')}?section_id=${course.lyh_section_id}" class="course-action-btn">成绩分析</a>
+                        </td>
+                    `;
+                    historyContainer.appendChild(row);
+                });
+            })
+            .catch(error => {
+                console.error('获取历史课程出错:', error);
+                document.getElementById('history-courses-container').innerHTML = 
+                    '<tr><td colspan="7" class="text-center">获取历史数据失败，请刷新页面重试</td></tr>';
+            });
+    }
+    
+    function viewCourseDetail(sectionId) {
+        alert(`查看课程详情: ${sectionId}`);
+        // 这里应该是查看课程详情的逻辑
+    }
+    
+    // 页面加载时获取教师的授课数据
+    document.addEventListener('DOMContentLoaded', function() {
+        fetchCurrentCourses();
+    });
+</script>
+{% endblock %} 

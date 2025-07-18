@@ -1,0 +1,42 @@
+GlobalPlanner:
+  # 是否选择探索未知区域。
+  # Allow planner to plan through unknown space, default true
+  allow_unknown:  true
+  # 靠近目标点的周围多少数值就算到了目标点
+  # If goal in obstacle, plan to the closest point in radius default_tolerance, default 0.0
+  default_tolerance: 0.0
+  # 可能区域是否可视化
+  # Specifies whether or not to visualize the potential area computed via a PointCloud2.
+  visualize_potential: false
+  # 如果设置为false就用A*
+  # If true, use dijkstra's algorithm. Otherwise, A*.
+  use_dijkstra: true
+  # 是否使用二阶近似
+  # Use the quadratic approximation of the potential. Otherwise, use a simpler calculation, default true
+  use_quadratic: true
+  # 输出路径是否遵循网格边界，否则就使用梯度下降法
+  # Create a path that follows the grid boundaries. Otherwise, use a gradient descent method, default false
+  use_grid_path: false
+  # 如果你想要让global_planner跟之前的navfn版本效果一样，就设true
+  # If for some reason, you want global_planner to exactly mirror the behavior of navfn, set this to true (and use the defaults for the other boolean parameters)
+  old_navfn_behavior: false
+  #-----------------------------------------------------------------------------------#
+  # 障碍物致命区域的代价数值（dynamic reconfigure, 可以动态参数配置）
+  # Lethal Cost (dynamic reconfigure)
+  lethal_cost: 253
+  # 中立区域的cost值（动态配置）
+  # Neutral Cost (dynamic reconfigure)
+  neutral_cost: 50
+  # cost因子，用于将每层costmap对应的cost数值乘起来（动态配置）
+  # Factor to multiply each cost from costmap by (dynamic reconfigure)
+  cost_factor: 3
+  # 发布可能的代价地图（动态配置）
+  # Publish Potential Costmap (dynamic reconfigure)
+  publish_potential: True
+  # 设置每个点的朝向。(动态配置) (None=0, Forward=1, Interpolate=2, ForwardThenInterpolate=3, Backward=4, Leftward=5, Rightward=6)
+  # How to set the orientation of each point (None=0, Forward=1, Interpolate=2, ForwardThenInterpolate=3, Backward=4, Leftward=5, Rightward=6) (dynamic reconfigure)
+  orientation_mode: 0
+  # 根据方向模式(参数12)指定的位置导数，确定使用哪个窗口来确定方向(动态配置)
+  # What window to use to determine the orientation based on the position derivative specified by the orientation mode (dynamic reconfigure)
+  orientation_window_size: 1
+

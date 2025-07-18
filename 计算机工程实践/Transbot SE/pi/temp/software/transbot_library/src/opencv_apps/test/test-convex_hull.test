@@ -1,0 +1,27 @@
+<launch>
+  <arg name="gui" default="true" />
+  <node name="play_face_bag" pkg="rosbag" type="play" args="-l $(find opencv_apps)/test/face_detector_withface_test_diamondback.bag" />
+
+  <group ns="wide_stereo/left" >
+    <node name="image_proc" pkg="image_proc" type="image_proc" />
+    <node name="image_view" pkg="image_view" type="image_view" args="image:=image_rect_color" if="$(arg gui)" />
+
+    <!-- convex_hull.cpp -->
+    <include file="$(find opencv_apps)/launch/convex_hull.launch" >
+      <arg name="debug_view" value="$(arg gui)" />
+      <arg name="image" value="image_rect" />
+      <arg name="threshold" value="20" />
+    </include>
+
+    <!-- Test Codes -->
+    <node name="convex_hull_saver" pkg="image_view" type="image_saver" args="image:=convex_hull/image" >
+      <param name="filename_format" value="$(find opencv_apps)/test/convex_hull.png"/>
+    </node>
+    <param name="convex_hull_test/topic" value="convex_hull/hulls" />    <!-- opencv_apps/ContorArrayStamped -->
+    <test test-name="convex_hull_test" pkg="rostest" type="hztest" name="convex_hull_test" >
+      <param name="hz" value="20" />
+      <param name="hzerror" value="15" />
+      <param name="test_duration" value="5.0" /> 
+    </test>
+  </group>
+</launch>

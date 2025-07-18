@@ -1,0 +1,11 @@
+\subsubsection usage Usage
+\verbatim
+<node name="adding_images" pkg="opencv_apps" type="adding_images">
+  <param name="use_camera_info" type="bool" value="False" />
+  <param name="alpha" type="double" value="0.5" />
+  <param name="auto_beta" type="bool" value="True" />
+  <param name="beta" type="double" value="0.5" />
+  <param name="gamma" type="double" value="0.0" />
+</node>
+\endverbatim
+

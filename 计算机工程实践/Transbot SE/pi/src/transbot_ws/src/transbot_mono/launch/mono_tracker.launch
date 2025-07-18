@@ -1,0 +1,11 @@
+<launch>
+    <arg name="img_flip" default="false"/>
+    <arg name="videoSwitch" default="true"/>
+    <arg name="tracker_type" default="color"
+         doc="tracker type ['BOOSTING', 'MIL', 'KCF', 'TLD', 'MEDIANFLOW', 'MOSSE', 'CSRT']"/>
+    <node name="mono_Tracker" pkg="transbot_mono" type="mono_Tracker.py" required="true" output="screen">
+        <param name="tracker_type" type="string" value="$(arg tracker_type)"/>
+        <param name="VideoSwitch" type="bool" value="$(arg videoSwitch)"/>
+        <param name="img_flip" type="bool" value="$(arg img_flip)"/>
+    </node>
+</launch>

@@ -1,0 +1,103 @@
+# 循迹控制参数配置
+
+# 图像处理参数
+image_processing:
+  # 图像尺寸
+  image_width: 640
+  image_height: 480
+  
+  # ROI区域 (比例)
+  roi_top_ratio: 0.6      # ROI上边界比例
+  roi_bottom_ratio: 0.9   # ROI下边界比例
+  roi_left_ratio: 0.1     # ROI左边界比例
+  roi_right_ratio: 0.9    # ROI右边界比例
+  
+  # 颜色阈值 (HSV)
+  line_color:
+    lower_hsv: [0, 0, 0]      # 黑线下限
+    upper_hsv: [180, 255, 50] # 黑线上限
+  
+  # 形态学操作
+  morphology:
+    kernel_size: 5            # 形态学核大小
+    open_iterations: 1        # 开运算迭代次数
+    close_iterations: 1       # 闭运算迭代次数
+  
+  # 轮廓检测
+  contour:
+    min_area: 500            # 最小轮廓面积
+    max_area: 50000          # 最大轮廓面积
+
+# 控制参数
+control:
+  # 速度参数
+  base_linear_speed: 0.15    # 基础前进速度 (m/s)
+  max_linear_speed: 0.3      # 最大前进速度 (m/s)
+  max_angular_speed: 1.0     # 最大角速度 (rad/s)
+  
+  # PID控制参数
+  pid:
+    kp: 2.0                  # 比例系数
+    ki: 0.0                  # 积分系数
+    kd: 0.1                  # 微分系数
+    
+  # 线偏移阈值
+  offset_threshold: 0.3      # 偏移阈值 (归一化)
+  line_lost_threshold: 5     # 线丢失帧数阈值
+  
+  # 搜索参数
+  search:
+    angular_speed: 0.5       # 搜索时角速度 (rad/s)
+    linear_speed: 0.1        # 搜索时前进速度 (m/s)
+    timeout: 3.0             # 搜索超时时间 (s)
+
+# 滤波参数
+filtering:
+  # 卡尔曼滤波
+  kalman:
+    process_noise: 0.01      # 过程噪声
+    measurement_noise: 0.1   # 测量噪声
+    
+  # 低通滤波
+  lowpass:
+    alpha: 0.8               # 滤波系数
+    
+  # 移动平均
+  moving_average:
+    window_size: 5           # 窗口大小
+
+# 调试参数
+debug:
+  enable_debug_image: true   # 启用调试图像
+  show_roi: true            # 显示ROI区域
+  show_contours: true       # 显示轮廓
+  show_center_line: true    # 显示中心线
+  
+  # 调试话题
+  debug_topics:
+    raw_image: "/linefollow/debug/raw_image"
+    processed_image: "/linefollow/debug/processed_image"
+    mask_image: "/linefollow/debug/mask_image"
+
+# 性能参数
+performance:
+  processing_frequency: 20.0  # 图像处理频率 (Hz)
+  max_processing_time: 0.05   # 最大处理时间 (s)
+  skip_frames: 1              # 跳帧数
+
+# 状态机参数
+state_machine:
+  states:
+    - "idle"          # 空闲
+    - "following"     # 循迹中
+    - "searching"     # 搜索线
+    - "lost"          # 线丢失
+    - "error"         # 错误状态
+    
+  transitions:
+    idle_to_following: "start_command"
+    following_to_searching: "line_lost"
+    searching_to_following: "line_found"
+    searching_to_lost: "search_timeout"
+    any_to_idle: "stop_command"
+    any_to_error: "error_condition" 

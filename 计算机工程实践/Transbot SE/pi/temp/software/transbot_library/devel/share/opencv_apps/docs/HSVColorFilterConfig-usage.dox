@@ -1,0 +1,13 @@
+\subsubsection usage Usage
+\verbatim
+<node name="color_filter" pkg="opencv_apps" type="color_filter">
+  <param name="use_camera_info" type="bool" value="False" />
+  <param name="h_limit_max" type="int" value="360" />
+  <param name="h_limit_min" type="int" value="0" />
+  <param name="s_limit_max" type="int" value="256" />
+  <param name="s_limit_min" type="int" value="0" />
+  <param name="v_limit_max" type="int" value="256" />
+  <param name="v_limit_min" type="int" value="0" />
+</node>
+\endverbatim
+

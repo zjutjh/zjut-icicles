@@ -1,0 +1,12 @@
+\subsubsection parameters ROS parameters
+
+Reads and maintains the following parameters on the ROS server
+
+- \b "~use_camera_info" : \b [bool] Indicates that the camera_info topic should be subscribed to to get the default input_frame_id. Otherwise the frame from the image message will be used. min: False, default: False, max: True
+- \b "~r_limit_max" : \b [int] The maximum allowed field value Red min: 0, default: 255, max: 255
+- \b "~r_limit_min" : \b [int] The minimum allowed field value Red min: 0, default: 0, max: 255
+- \b "~g_limit_max" : \b [int] The maximum allowed field value Green min: 0, default: 255, max: 255
+- \b "~g_limit_min" : \b [int] The minimum allowed field value Green min: 0, default: 0, max: 255
+- \b "~b_limit_max" : \b [int] The maximum allowed field value Blue min: 0, default: 255, max: 255
+- \b "~b_limit_min" : \b [int] The minimum allowed field value Blue min: 0, default: 0, max: 255
+

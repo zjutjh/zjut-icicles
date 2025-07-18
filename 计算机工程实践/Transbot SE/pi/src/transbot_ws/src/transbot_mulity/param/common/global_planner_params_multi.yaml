@@ -1,0 +1,30 @@
+GlobalPlanner:
+  #  是否选择探索未知区域。
+  allow_unknown:  true        # Allow planner to plan through unknown space, default true
+  #  靠近目标点的周围多少数值就算到了目标点
+  default_tolerance: 0.0      # If goal in obstacle, plan to the closest point in radius default_tolerance, default 0.0
+  #  可能区域是否可视化
+  visualize_potential: false
+  #  如果设置为false就用A*
+  use_dijkstra: true          #If true, use dijkstra's algorithm. Otherwise, A*.
+  #  是否使用二阶近似
+  use_quadratic: true         # Use the quadratic approximation of the potential. Otherwise, use a simpler calculation, default true
+  #  输出路径是否遵循网格边界，否则就使用梯度下降法
+  use_grid_path: false        # Create a path that follows the grid boundaries. Otherwise, use a gradient descent method, default false
+  #  如果你想要让global_planner跟之前的navfn版本效果一样，就设true
+  old_navfn_behavior: false   # Exactly mirror behavior of navfn, use defaults for other boolean parameters, default false
+#-----------------------------------------------------------------------------------#
+  #  障碍物致命区域的代价数值（dynamic reconfigure, 可以动态参数配置）
+  lethal_cost: 253
+  #  中立区域的cost值（动态配置）
+  neutral_cost: 50
+  #  cost因子，用于将每层costmap对应的cost数值乘起来（动态配置）
+  cost_factor: 3
+  #  发布可能的代价地图（动态配置）
+  publish_potential: True
+  #  设置每个点的朝向。(动态配置)
+  #  (None=0, Forward=1, Interpolate=2, ForwardThenInterpolate=3, Backward=4, Leftward=5, Rightward=6)
+  orientation_mode: 0
+  #  根据方向模式(参数12)指定的位置导数，确定使用哪个窗口来确定方向(动态配置)
+  orientation_window_size: 1
+

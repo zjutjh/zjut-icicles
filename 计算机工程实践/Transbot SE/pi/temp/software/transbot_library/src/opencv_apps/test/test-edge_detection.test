@@ -1,0 +1,65 @@
+<launch>
+  <arg name="gui" default="true" />
+  <node name="play_face_bag" pkg="rosbag" type="play" args="-l $(find opencv_apps)/test/face_detector_withface_test_diamondback.bag" />
+
+  <group ns="wide_stereo/left" >
+    <node name="image_proc" pkg="image_proc" type="image_proc" />
+    <node name="image_view" pkg="image_view" type="image_view" args="image:=image_rect_color" if="$(arg gui)" />
+
+    <!-- edge_detection.cpp  -->
+    <!-- 0: Sobel -->
+    <include file="$(find opencv_apps)/launch/edge_detection.launch" >
+      <arg name="debug_view" value="$(arg gui)" />
+      <arg name="image" value="image_rect" />
+      <arg name="edge_type" value="0" />
+      <arg name="node_name" value="edge_sobel_detection" />
+    </include>
+
+    <!-- Test Codes -->
+    <node name="edge_sobel_detection_saver" pkg="image_view" type="image_saver" args="image:=edge_sobel_detection/image" >
+      <param name="filename_format" value="$(find opencv_apps)/test/edge_sobel_detection.png"/>
+    </node>
+    <param name="edge_sobel_detection_test/topic" value="edge_sobel_detection/image" />    <!-- opencv_apps/FaceArrayStamped -->
+    <test test-name="edge_sobel_detection_test" pkg="rostest" type="hztest" name="edge_sobel_detection_test" >
+      <param name="hz" value="20" />
+      <param name="hzerror" value="15" />
+      <param name="test_duration" value="5.0" /> 
+    </test>
+    <!-- 1: Laplace -->
+    <include file="$(find opencv_apps)/launch/edge_detection.launch" >
+      <arg name="debug_view" value="$(arg gui)" />
+      <arg name="image" value="image_rect" />
+      <arg name="edge_type" value="1" />
+      <arg name="node_name" value="edge_laplace_detection" />
+    </include>
+
+    <!-- Test Codes -->
+    <node name="edge_laplace_detection_saver" pkg="image_view" type="image_saver" args="image:=edge_laplace_detection/image" >
+      <param name="filename_format" value="$(find opencv_apps)/test/edge_laplace_detection.png"/>
+    </node>
+    <param name="edge_laplace_detection_test/topic" value="edge_laplace_detection/image" />    <!-- opencv_apps/FaceArrayStamped -->
+    <test test-name="edge_laplace_detection_test" pkg="rostest" type="hztest" name="edge_laplace_detection_test" >
+      <param name="hz" value="20" />
+      <param name="hzerror" value="15" />
+      <param name="test_duration" value="5.0" /> 
+    </test>
+    <!-- 2: Canny -->
+    <include file="$(find opencv_apps)/launch/edge_detection.launch" >
+      <arg name="debug_view" value="$(arg gui)" />
+      <arg name="image" value="image_rect" />
+      <arg name="edge_type" value="2" />
+      <arg name="node_name" value="edge_canny_detection" />
+    </include>
+
+    <!-- Test Codes -->
+    <node name="edge_canny_detection_saver" pkg="image_view" type="image_saver" args="image:=edge_canny_detection/image" >
+      <param name="filename_format" value="$(find opencv_apps)/test/edge_canny_detection.png"/>
+    </node>
+    <param name="edge_canny_detection_test/topic" value="edge_canny_detection/image" />    <!-- opencv_apps/FaceArrayStamped -->
+    <test test-name="edge_canny_detection_test" pkg="rostest" type="hztest" name="edge_canny_detection_test" >
+      <param name="hz" value="20" />
+      <param name="hzerror" value="15" />
+      <param name="test_duration" value="5.0" /> 
+    </test>
+  </group>
+</launch>

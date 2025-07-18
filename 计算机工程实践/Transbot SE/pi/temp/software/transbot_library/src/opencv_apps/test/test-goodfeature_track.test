@@ -1,0 +1,28 @@
+<launch>
+  <arg name="gui" default="true" />
+  <node name="play_face_bag" pkg="rosbag" type="play" args="-l $(find opencv_apps)/test/face_detector_withface_test_diamondback.bag" />
+
+  <group ns="wide_stereo/left" >
+    <node name="image_proc" pkg="image_proc" type="image_proc" />
+    <node name="image_view" pkg="image_view" type="image_view" args="image:=image_rect_color" if="$(arg gui)" />
+
+    <!-- goodfeature_track.cpp -->
+    <include file="$(find opencv_apps)/launch/goodfeature_track.launch" >
+      <arg name="debug_view" value="$(arg gui)" />
+      <arg name="image" value="image_rect" />
+      <arg name="max_corners" value="50" />
+      <arg name="node_name" value="goodfeature_track" />
+    </include>
+
+    <!-- Test Codes -->
+    <node name="goodfeature_track_saver" pkg="image_view" type="image_saver" args="image:=goodfeature_track/image" >
+      <param name="filename_format" value="$(find opencv_apps)/test/goodfeature_track.png"/>
+    </node>
+    <param name="goodfeature_track_test/topic" value="goodfeature_track/corners" />    <!-- opencv_apps/Point2DArrayStamped -->
+    <test test-name="goodfeature_track_test" pkg="rostest" type="hztest" name="goodfeature_track_test" >
+      <param name="hz" value="20" />
+      <param name="hzerror" value="15" />
+      <param name="test_duration" value="5.0" /> 
+    </test>
+  </group>
+</launch>

@@ -1,0 +1,502 @@
+{% extends "base.html" %}
+
+{% block title %}我的课表 - 教务管理系统{% endblock %}
+
+{% block head_extra %}
+<style>
+    .timetable-container {
+        padding: 20px;
+        max-width: 1200px;
+        margin: 0 auto;
+    }
+    .page-header {
+        margin-bottom: 20px;
+        padding-bottom: 15px;
+        border-bottom: 2px solid #4CAF50;
+    }
+    .semester-selector {
+        background-color: #f8f9fa;
+        padding: 15px;
+        border-radius: 8px;
+        margin-bottom: 20px;
+        display: flex;
+        align-items: center;
+        gap: 15px;
+    }
+    .semester-selector label {
+        font-weight: bold;
+    }
+    .semester-selector select {
+        padding: 8px;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        min-width: 200px;
+    }
+    .timetable {
+        width: 100%;
+        border-collapse: collapse;
+        background-color: white;
+        border-radius: 8px;
+        overflow: hidden;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        margin-bottom: 20px;
+    }
+    .timetable th {
+        background-color: #4CAF50;
+        color: white;
+        padding: 12px;
+        text-align: center;
+        font-weight: bold;
+    }
+    .timetable td {
+        padding: 8px;
+        border: 1px solid #ddd;
+        text-align: center;
+        vertical-align: top;
+        height: 80px;
+        position: relative;
+    }
+    .time-slot {
+        background-color: #f8f9fa;
+        font-weight: bold;
+        width: 100px;
+    }
+    .course-block {
+        background-color: #e3f2fd;
+        border: 1px solid #2196f3;
+        border-radius: 4px;
+        padding: 5px;
+        margin: 2px;
+        font-size: 12px;
+        cursor: pointer;
+        transition: all 0.2s;
+    }
+    .course-block:hover {
+        background-color: #bbdefb;
+        transform: scale(1.02);
+    }
+    .course-title {
+        font-weight: bold;
+        margin-bottom: 2px;
+    }
+    .course-instructor {
+        color: #666;
+        font-size: 11px;
+    }
+    .course-location {
+        color: #888;
+        font-size: 10px;
+    }
+    .course-type-required {
+        background-color: #ffebee;
+        border-color: #f44336;
+    }
+    .course-type-elective {
+        background-color: #e8f5e8;
+        border-color: #4caf50;
+    }
+    .course-type-general {
+        background-color: #fff3e0;
+        border-color: #ff9800;
+    }
+    .course-summary {
+        background-color: #f8f9fa;
+        padding: 15px;
+        border-radius: 8px;
+        margin-top: 20px;
+    }
+    .summary-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 15px;
+    }
+    .summary-item {
+        text-align: center;
+        padding: 10px;
+        background-color: white;
+        border-radius: 4px;
+        box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+    }
+    .summary-value {
+        font-size: 20px;
+        font-weight: bold;
+        color: #2e86de;
+    }
+    .summary-label {
+        font-size: 14px;
+        color: #666;
+    }
+    .course-legend {
+        display: flex;
+        gap: 20px;
+        justify-content: center;
+        margin-bottom: 15px;
+        flex-wrap: wrap;
+    }
+    .legend-item {
+        display: flex;
+        align-items: center;
+        gap: 5px;
+    }
+    .legend-color {
+        width: 20px;
+        height: 15px;
+        border-radius: 3px;
+        border: 1px solid #ccc;
+    }
+    .loading {
+        text-align: center;
+        padding: 40px;
+    }
+    .loading-spinner {
+        border: 4px solid #f3f3f3;
+        border-top: 4px solid #4CAF50;
+        border-radius: 50%;
+        width: 40px;
+        height: 40px;
+        animation: spin 1s linear infinite;
+        margin: 0 auto 20px;
+    }
+    @keyframes spin {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
+    }
+    .no-courses {
+        text-align: center;
+        padding: 40px;
+        color: #666;
+        background-color: #f8f9fa;
+        border-radius: 8px;
+    }
+    .export-buttons {
+        display: flex;
+        gap: 10px;
+        margin-bottom: 20px;
+    }
+    .export-btn {
+        background-color: #2196f3;
+        color: white;
+        border: none;
+        padding: 8px 16px;
+        border-radius: 4px;
+        cursor: pointer;
+        font-size: 14px;
+    }
+    .export-btn:hover {
+        background-color: #1976d2;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="timetable-container">
+    <div class="page-header">
+        <h2>我的课表</h2>
+        <p>查看您本学期的课程安排</p>
+    </div>
+    
+    <div class="semester-selector">
+        <label for="semester-select">学期选择:</label>
+        <select id="semester-select">
+            <option value="2024-Fall">2024年秋季学期</option>
+            <option value="2024-Spring">2024年春季学期</option>
+        </select>
+        <button id="refresh-btn" class="export-btn">刷新</button>
+    </div>
+    
+    <div class="export-buttons">
+        <button class="export-btn" onclick="exportTimetable('pdf')">导出PDF</button>
+        <button class="export-btn" onclick="exportTimetable('excel')">导出Excel</button>
+        <button class="export-btn" onclick="printTimetable()">打印课表</button>
+    </div>
+    
+    <div class="course-legend">
+        <div class="legend-item">
+            <div class="legend-color course-type-required"></div>
+            <span>必修课</span>
+        </div>
+        <div class="legend-item">
+            <div class="legend-color course-type-elective"></div>
+            <span>专业选修</span>
+        </div>
+        <div class="legend-item">
+            <div class="legend-color course-type-general"></div>
+            <span>通识选修</span>
+        </div>
+    </div>
+    
+    <div id="loading" class="loading" style="display: none;">
+        <div class="loading-spinner"></div>
+        <p>正在加载课表...</p>
+    </div>
+    
+    <div id="timetable-container">
+        <table class="timetable" id="timetable" style="display: none;">
+            <thead>
+                <tr>
+                    <th>时间</th>
+                    <th>周一</th>
+                    <th>周二</th>
+                    <th>周三</th>
+                    <th>周四</th>
+                    <th>周五</th>
+                    <th>周六</th>
+                    <th>周日</th>
+                </tr>
+            </thead>
+            <tbody id="timetable-body">
+                <!-- 课表数据将在这里动态生成 -->
+            </tbody>
+        </table>
+        
+        <div id="no-courses" class="no-courses" style="display: none;">
+            <p>本学期暂无课程安排</p>
+        </div>
+    </div>
+    
+    <div class="course-summary" id="course-summary" style="display: none;">
+        <h3>课程统计</h3>
+        <div class="summary-grid">
+            <div class="summary-item">
+                <div class="summary-value" id="total-courses">--</div>
+                <div class="summary-label">总课程数</div>
+            </div>
+            <div class="summary-item">
+                <div class="summary-value" id="total-credits">--</div>
+                <div class="summary-label">总学分</div>
+            </div>
+            <div class="summary-item">
+                <div class="summary-value" id="required-courses">--</div>
+                <div class="summary-label">必修课程</div>
+            </div>
+            <div class="summary-item">
+                <div class="summary-value" id="elective-courses">--</div>
+                <div class="summary-label">选修课程</div>
+            </div>
+            <div class="summary-item">
+                <div class="summary-value" id="weekly-hours">--</div>
+                <div class="summary-label">周课时</div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts_extra %}
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const loadingElement = document.getElementById('loading');
+        const timetableElement = document.getElementById('timetable');
+        const timetableBody = document.getElementById('timetable-body');
+        const noCoursesElement = document.getElementById('no-courses');
+        const courseSummary = document.getElementById('course-summary');
+        const semesterSelect = document.getElementById('semester-select');
+        const refreshBtn = document.getElementById('refresh-btn');
+        
+        let currentCourses = [];
+        
+        // 时间段定义
+        const timeSlots = [
+            { id: 1, time: '08:00-09:40', period: '第1-2节' },
+            { id: 2, time: '10:00-11:40', period: '第3-4节' },
+            { id: 3, time: '14:00-15:40', period: '第5-6节' },
+            { id: 4, time: '16:00-17:40', period: '第7-8节' },
+            { id: 5, time: '19:00-20:40', period: '第9-10节' }
+        ];
+        
+        // 页面加载时获取课表
+        loadTimetable();
+        
+        // 学期选择变化事件
+        semesterSelect.addEventListener('change', loadTimetable);
+        refreshBtn.addEventListener('click', loadTimetable);
+        
+        // 加载课表数据
+        function loadTimetable() {
+            showLoading(true);
+            const semester = semesterSelect.value;
+            
+            fetch('/api/student/my_courses')
+                .then(response => response.json())
+                .then(data => {
+                    currentCourses = data.filter(course => course.lyh_status === '正常');
+                    renderTimetable();
+                    updateSummary();
+                    showLoading(false);
+                })
+                .catch(error => {
+                    console.error('加载课表失败:', error);
+                    showError('加载课表失败');
+                    showLoading(false);
+                });
+        }
+        
+        // 渲染课表
+        function renderTimetable() {
+            if (currentCourses.length === 0) {
+                timetableElement.style.display = 'none';
+                courseSummary.style.display = 'none';
+                noCoursesElement.style.display = 'block';
+                return;
+            }
+            
+            timetableElement.style.display = 'table';
+            courseSummary.style.display = 'block';
+            noCoursesElement.style.display = 'none';
+            
+            // 创建课表网格
+            const timetableGrid = createTimetableGrid();
+            
+            // 填充课程信息
+            currentCourses.forEach(course => {
+                const timeInfo = parseTimeInfo(course.lyh_period_desc);
+                if (timeInfo) {
+                    const cell = timetableGrid[timeInfo.timeSlot][timeInfo.dayOfWeek];
+                    if (cell) {
+                        cell.appendChild(createCourseBlock(course));
+                    }
+                }
+            });
+        }
+        
+        // 创建课表网格
+        function createTimetableGrid() {
+            timetableBody.innerHTML = '';
+            const grid = {};
+            
+            timeSlots.forEach(slot => {
+                const row = document.createElement('tr');
+                
+                // 时间列
+                const timeCell = document.createElement('td');
+                timeCell.className = 'time-slot';
+                timeCell.innerHTML = `<div>${slot.period}</div><div style="font-size: 11px; color: #666;">${slot.time}</div>`;
+                row.appendChild(timeCell);
+                
+                // 一周7天的列
+                grid[slot.id] = {};
+                for (let day = 1; day <= 7; day++) {
+                    const cell = document.createElement('td');
+                    cell.className = 'course-cell';
+                    row.appendChild(cell);
+                    grid[slot.id][day] = cell;
+                }
+                
+                timetableBody.appendChild(row);
+            });
+            
+            return grid;
+        }
+        
+        // 解析时间信息
+        function parseTimeInfo(periodDesc) {
+            if (!periodDesc) return null;
+            
+            // 解析时间描述，例如 "周一第1-2节"
+            const dayMap = {
+                '周一': 1, '周二': 2, '周三': 3, '周四': 4, 
+                '周五': 5, '周六': 6, '周日': 7
+            };
+            
+            for (const [dayName, dayNum] of Object.entries(dayMap)) {
+                if (periodDesc.includes(dayName)) {
+                    // 根据节次确定时间段
+                    let timeSlot = 1;
+                    if (periodDesc.includes('3-4') || periodDesc.includes('第3')) timeSlot = 2;
+                    else if (periodDesc.includes('5-6') || periodDesc.includes('第5')) timeSlot = 3;
+                    else if (periodDesc.includes('7-8') || periodDesc.includes('第7')) timeSlot = 4;
+                    else if (periodDesc.includes('9-10') || periodDesc.includes('第9')) timeSlot = 5;
+                    
+                    return { dayOfWeek: dayNum, timeSlot: timeSlot };
+                }
+            }
+            
+            return null;
+        }
+        
+        // 创建课程块
+        function createCourseBlock(course) {
+            const block = document.createElement('div');
+            block.className = `course-block course-type-${getCourseTypeClass(course.lyh_type || '选修')}`;
+            
+            block.innerHTML = `
+                <div class="course-title">${course.lyh_course_title}</div>
+                <div class="course-instructor">${course.lyh_instructor_name || '--'}</div>
+                <div class="course-location">${course.lyh_building_name || '--'} ${course.lyh_room_number || '--'}</div>
+            `;
+            
+            // 点击事件 - 显示课程详情
+            block.addEventListener('click', function() {
+                showCourseDetails(course);
+            });
+            
+            return block;
+        }
+        
+        // 获取课程类型样式类
+        function getCourseTypeClass(type) {
+            switch(type) {
+                case '必修': return 'required';
+                case '专业选修': return 'elective';
+                case '通识选修': return 'general';
+                default: return 'elective';
+            }
+        }
+        
+        // 显示课程详情
+        function showCourseDetails(course) {
+            const details = `
+                课程名称: ${course.lyh_course_title}
+                课程代码: ${course.lyh_course_id}
+                学分: ${course.lyh_credits}
+                任课教师: ${course.lyh_instructor_name || '--'}
+                上课时间: ${course.lyh_period_desc || '--'}
+                上课地点: ${course.lyh_building_name || '--'} ${course.lyh_room_number || '--'}
+                课程状态: ${course.lyh_status}
+                ${course.lyh_numeric_grade ? '成绩: ' + course.lyh_numeric_grade + ' (' + (course.lyh_letter_grade || '--') + ')' : ''}
+            `;
+            alert(details);
+        }
+        
+        // 更新统计信息
+        function updateSummary() {
+            const totalCourses = currentCourses.length;
+            const totalCredits = currentCourses.reduce((sum, course) => sum + (course.lyh_credits || 0), 0);
+            const requiredCourses = currentCourses.filter(course => course.lyh_type === '必修').length;
+            const electiveCourses = totalCourses - requiredCourses;
+            const weeklyHours = totalCourses * 2; // 假设每门课每周2课时
+            
+            document.getElementById('total-courses').textContent = totalCourses;
+            document.getElementById('total-credits').textContent = totalCredits;
+            document.getElementById('required-courses').textContent = requiredCourses;
+            document.getElementById('elective-courses').textContent = electiveCourses;
+            document.getElementById('weekly-hours').textContent = weeklyHours;
+        }
+        
+        // 显示/隐藏加载指示器
+        function showLoading(show) {
+            loadingElement.style.display = show ? 'block' : 'none';
+        }
+        
+        // 显示错误信息
+        function showError(message) {
+            timetableElement.style.display = 'none';
+            courseSummary.style.display = 'none';
+            noCoursesElement.style.display = 'block';
+            noCoursesElement.innerHTML = `<p style="color: red;">${message}</p>`;
+        }
+    });
+    
+    // 导出课表功能
+    function exportTimetable(format) {
+        alert(`导出${format.toUpperCase()}功能正在开发中...`);
+        // 这里可以实现实际的导出功能
+        // 例如使用jsPDF或xlsx库
+    }
+    
+    // 打印课表功能
+    function printTimetable() {
+        window.print();
+    }
+</script>
+{% endblock %} 

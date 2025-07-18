@@ -1,0 +1,8 @@
+\subsubsection usage Usage
+\verbatim
+<node name="contour_moments" pkg="opencv_apps" type="contour_moments">
+  <param name="use_camera_info" type="bool" value="False" />
+  <param name="canny_low_threshold" type="int" value="100" />
+</node>
+\endverbatim
+

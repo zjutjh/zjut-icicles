@@ -1,0 +1,10 @@
+<launch>
+    <arg name="VideoSwitch" default="false"/>
+    <arg name="img_flip" default="false"/>
+    <node name="LineDetect" pkg="transbot_linefollow" type="follow_line.py" output="screen" required="true">
+   <!-- 画面是否需要左右翻转 true or fasle-->
+	<!-- Whether the screen needs to be flipped left and right true or false-->
+        <param name="img_flip" type="bool" value="$(arg img_flip)"/>
+        <param name="VideoSwitch" type="bool" value="$(arg VideoSwitch)"/>
+    </node>
+</launch>

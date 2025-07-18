@@ -1,0 +1,29 @@
+<launch>
+  <arg name="gui" default="true" />
+  <node name="play_face_bag" pkg="rosbag" type="play" args="-l $(find opencv_apps)/test/face_detector_withface_test_diamondback.bag" />
+
+  <group ns="wide_stereo/left" >
+    <node name="image_proc" pkg="image_proc" type="image_proc" />
+    <node name="image_view" pkg="image_view" type="image_view" args="image:=image_rect_color" if="$(arg gui)" />
+
+    <!-- watershed_segmentation -->
+    <include file="$(find opencv_apps)/launch/watershed_segmentation.launch" >
+      <arg name="use_camera_info" value="false" />
+      <arg name="debug_view" value="$(arg gui)" />
+      <arg name="image" value="image_rect_color" />
+    </include>
+
+    <!-- Test Codes -->
+    <node name="pub_add_seed_points" pkg="rostopic" type="rostopic"
+            args="pub -r 1 watershed_segmentation/add_seed_points opencv_apps/Point2DArray '[{x: 100, y: 100},{x: 200, y: 100},{x: 300, y: 100},{x: 400, y: 100},{x: 500, y: 100},{x: 100, y: 200},{x: 200, y: 200},{x: 300, y: 200},{x: 400, y: 200},{x: 500, y: 200},{x: 100, y: 300},{x: 200, y: 300},{x: 300, y: 300},{x: 400, y: 300},{x: 500, y: 300}]' --" />
+    <node name="watershed_segmentation_saver" pkg="image_view" type="image_saver" args="image:=watershed_segmentation/image" >
+      <param name="filename_format" value="$(find opencv_apps)/test/watershed_segmentation.png"/>
+    </node>
+    <param name="watershed_segmentation_test/topic" value="watershed_segmentation/contours" />    <!-- opencv_apps/ContourStamped -->
+    <test test-name="watershed_segmentation_test" pkg="rostest" type="hztest" name="watershed_segmentation_test" >
+      <param name="hz" value="20" />
+      <param name="hzerror" value="15" />
+      <param name="test_duration" value="5.0" /> 
+    </test>
+  </group>
+</launch>

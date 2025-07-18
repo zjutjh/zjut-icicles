@@ -1,0 +1,49 @@
+<package>
+    <name>imu_filter_madgwick</name>
+    <version>1.1.6</version>
+    <description>
+        Filter which fuses angular velocities, accelerations, and (optionally) magnetic readings from a generic IMU
+        device into an orientation. Based on code by Sebastian Madgwick,
+        http://www.x-io.co.uk/node/8#open_source_ahrs_and_imu_algorithms.
+    </description>
+    <license>GPL</license>
+    <url>http://ros.org/wiki/imu_filter_madgwick</url>
+    <author>Ivan Dryanovski</author>
+    <maintainer email="martin.guenther1980@gmail.com">Martin Günther</maintainer>
+    <maintainer email="ivan.dryanovski@gmail.com">Ivan Dryanovski</maintainer>
+
+    <buildtool_depend>catkin</buildtool_depend>
+
+    <build_depend>roscpp</build_depend>
+    <build_depend>sensor_msgs</build_depend>
+    <build_depend>geometry_msgs</build_depend>
+    <build_depend>tf2</build_depend>
+    <build_depend>tf2_geometry_msgs</build_depend>
+    <build_depend>tf2_ros</build_depend>
+    <build_depend>nodelet</build_depend>
+    <build_depend>pluginlib</build_depend>
+    <build_depend>message_filters</build_depend>
+    <build_depend>dynamic_reconfigure</build_depend>
+
+    <run_depend>roscpp</run_depend>
+    <run_depend>sensor_msgs</run_depend>
+    <run_depend>geometry_msgs</run_depend>
+    <run_depend>tf2</run_depend>
+    <run_depend>tf2_geometry_msgs</run_depend>
+    <run_depend>tf2_ros</run_depend>
+    <run_depend>nodelet</run_depend>
+    <run_depend>pluginlib</run_depend>
+    <run_depend>message_filters</run_depend>
+    <run_depend>dynamic_reconfigure</run_depend>
+
+    <test_depend>rosunit</test_depend>
+
+    <build_depend>transbot_msgs</build_depend>
+    <run_depend>transbot_msgs</run_depend>
+    <export>
+        <nodelet plugin="${prefix}/imu_filter_nodelet.xml"/>
+    </export>
+
+</package>
+
+

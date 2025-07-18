@@ -1,0 +1,8 @@
+\subsubsection usage Usage
+\verbatim
+<node name="simple_flow" pkg="opencv_apps" type="simple_flow">
+  <param name="use_camera_info" type="bool" value="False" />
+  <param name="scale" type="int" value="4" />
+</node>
+\endverbatim
+

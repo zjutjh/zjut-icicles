@@ -1,0 +1,3 @@
+<launch>
+    <node pkg="rviz" type="rviz" name="rviz" required="true" args="-d $(find transbot_bringup)/rviz/odom.rviz"/>
+</launch>

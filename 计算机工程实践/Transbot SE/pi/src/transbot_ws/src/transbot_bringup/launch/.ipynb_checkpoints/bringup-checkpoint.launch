@@ -1,0 +1,54 @@
+<launch>
+    <!-- PCB和PC之间通过USB串行通信 -->
+    <arg name="use_gui" default="false"/>
+    <arg name="robot_model" default="astra" doc="robot_model type [astra,camera]"/>
+    <!-- 获取相机设备服务 -->
+    <node pkg="transbot_bringup" type="DeviceSrv.py" name="DeviceSrv" output="screen"/>
+    <!-- 底层驱动节点 -->
+    <node pkg="transbot_bringup" type="transbot_driver.py" name="transbot_node" required="true" output="screen">
+        <param name="imu" value="/transbot/imu"/>
+        <param name="vel" value="/transbot/get_vel"/>
+    </node>
+    <!-- 仿真模型 -->
+    <param name="robot_description"
+           command="$(find xacro)/xacro '$(find transbot_description)/urdf/transbot_$(arg robot_model).urdf'"/>
+    <group if="$(arg use_gui)">
+        <node name="joint_state_publisher" pkg="joint_state_publisher_gui" type="joint_state_publisher_gui"/>
+    </group>
+    <!-- GUI可调界面 -->
+    <group unless="$(arg use_gui)">
+        <node name="joint_state_publisher" pkg="joint_state_publisher" type="joint_state_publisher"/>
+    </group>
+    <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher"/>
+    <!-- 校准imu安装时的一些误差 -->
+    <node pkg="imu_calib" type="apply_calib" name="apply_calib" output="screen" respawn="false">
+        <param name="calib_file" value="$(find transbot_bringup)/param/imu/imu_calib.yaml"/>
+        <param name="calibrate_gyros" value="true"/>
+    </node>
+
+    <!-- 过滤和融合imu数据 -->
+    <node pkg="imu_filter_madgwick" type="imu_filter_node" name="imu_filter_madgwick" output="screen" respawn="false">
+        <param name="fixed_frame" value="base_link"/>
+        <param name="use_mag" value="fasle"/>
+        <param name="publish_tf" value="false"/>
+        <param name="use_magnetic_field_msg" value="fasle"/>
+        <param name="world_frame" value="enu"/>
+        <param name="orientation_stddev" value="0.05"/>
+        <param name="angular_scale" value="1.08"/>
+    </node>
+    <!-- 发布静态坐标系转换 -->
+    <node pkg="tf" type="static_transform_publisher" name="base_link_to_imu_link"
+          args="0.0 0 0.02 0 0 0  /base_link /imu_link  100"/>
+
+    <!-- 发布里程计数据 -->
+    <node pkg="transbot_bringup" name="base_node" type="base_node">
+        <param name="linear_scale" type="double" value="1.2"/>
+    </node>
+    <!-- 扩展卡尔曼数据融合 -->
+    <node pkg="robot_localization" type="ekf_localization_node" name="ekf_localization">
+        <remap from="odometry/filtered" to="odom"/>
+        <rosparam command="load" file="$(find transbot_bringup)/param/ekf/robot_localization.yaml"/>
+    </node>
+    <!-- 手柄控制节点 -->
+    <include file="$(find transbot_ctrl)/launch/transbot_joy.launch"/>
+</launch>

@@ -1,0 +1,26 @@
+<launch>
+    <arg name="camDevice" default="USBCam" doc="camDevice type [USBCam]"/>
+    <arg name="img_flip" default="False"/>
+    <arg name="img_transform" default="True"/>
+    <group if="$(arg img_transform)">
+        
+        <arg name="img_topic" default="/usb_cam/image_raw" if="$(eval arg('camDevice') == 'USBCam')"/>
+        
+        <include if="$(eval arg('camDevice') == 'USBCam')" file="$(find usb_cam)/launch/usb_cam-test.launch"/>
+        <node name="img_transform" pkg="transbot_visual" type="img_transform.py" output="screen">
+            <param name="img_flip" type="bool" value="$(arg img_flip)"/>
+            <param name="img_topic" type="string" value="$(arg img_topic)"/>
+        </node>
+    </group>
+    <group unless="$(arg img_transform)">
+        <node name="msgToimg" pkg="transbot_visual" type="msgToimg.py" output="screen">
+            <param name="img_flip" type="bool" value="$(arg img_flip)"/>
+        </node>
+        <include file="$(find opencv_apps)/launch/edge_detection.launch">
+            <arg name="debug_view" default="false"/>
+        </include>
+        <include file="$(find opencv_apps)/launch/contour_moments.launch">
+            <arg name="debug_view" default="false"/>
+        </include>
+    </group>
+</launch>

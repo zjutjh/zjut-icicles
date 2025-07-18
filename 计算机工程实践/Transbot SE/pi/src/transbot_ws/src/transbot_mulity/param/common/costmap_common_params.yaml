@@ -1,0 +1,47 @@
+obstacle_range: 3.0
+raytrace_range: 3.5
+
+footprint: [[-0.145, -0.12], [-0.145, 0.12], [0.145, 0.12], [0.145, -0.12]]
+#robot_radius: 0.105
+
+inflation_radius: 1.0
+cost_scaling_factor: 3.0
+
+map_type: costmap
+
+obstacle_layer:
+  # 使能障碍层
+  enabled:              true
+  # 最大障碍物高度
+  max_obstacle_height:  2.0
+  min_obstacle_height:  0.0
+  combination_method:   1
+  # true needed for disabling global path planning through unknown space
+  track_unknown_space:  true
+  # 机器人更新代价地图中的障碍物距离基坐标系的阈值。
+  # The robot updates the threshold of the obstacle distance from the base coordinate system in the cost map.
+  obstacle_range: 2.5
+  # 机器人清除代价地图中的障碍物距离基坐标系的阈值。
+  # The robot clears obstacles in the cost map from the threshold of the base coordinate system.
+  raytrace_range: 3.0
+  publish_voxel_map: false
+  observation_sources:  scan
+  scan:
+    data_type: LaserScan
+    topic: "/scan"
+    marking: true
+    clearing: true
+    expected_update_rate: 0
+
+
+#cost_scaling_factor and inflation_radius were now moved to the inflation_layer ns
+inflation_layer:
+  enabled:              true
+  # exponential rate at which the obstacle cost drops off
+  cost_scaling_factor:  1.0
+  # 膨胀半径
+  inflation_radius:     0.2
+
+static_layer:
+  enabled:              true
+  map_topic:            "/map"

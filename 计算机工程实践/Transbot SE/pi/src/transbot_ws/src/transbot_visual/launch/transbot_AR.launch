@@ -1,0 +1,12 @@
+<launch>
+    <arg name="camDevice" default="USBCam" doc="camDevice type [USBCam]"/>
+    <arg name="launchCtrl" default="False"/>
+    <arg name="flip" default="False"/>
+     <arg name="cam_image_topic" default="/usb_cam/image_raw/compressed" if="$(eval arg('camDevice') == 'USBCam')"/>
+    <node name="simple_AR" pkg="transbot_visual" type="simple_AR.py" output="screen">
+        <param name="flip" type="bool" value="$(arg flip)"/>
+        <param name="launchCtrl" type="bool" value="$(arg launchCtrl)"/>
+        <param name="camDevice" type="string" value="$(arg camDevice)"/>
+        <param name="camera_image" type="string" value="$(arg cam_image_topic)"/>
+    </node>
+</launch>

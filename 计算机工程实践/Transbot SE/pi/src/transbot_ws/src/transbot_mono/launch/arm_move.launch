@@ -1,0 +1,4 @@
+<launch>
+    <node name="mono_Tracker" pkg="transbot_mono" type="grab_lib.py" required="true" output="screen">
+    </node>
+</launch>

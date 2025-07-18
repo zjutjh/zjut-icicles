@@ -1,0 +1,7 @@
+\subsubsection usage Usage
+\verbatim
+<node name="watershed_segmentation" pkg="opencv_apps" type="watershed_segmentation">
+  <param name="use_camera_info" type="bool" value="False" />
+</node>
+\endverbatim
+

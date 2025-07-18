@@ -1,0 +1,12 @@
+\subsubsection usage Usage
+\verbatim
+<node name="dynamic_reconfigure_node" pkg="imu_filter_madgwick" type="dynamic_reconfigure_node">
+  <param name="gain" type="double" value="0.1" />
+  <param name="zeta" type="double" value="0.0" />
+  <param name="mag_bias_x" type="double" value="0.0" />
+  <param name="mag_bias_y" type="double" value="0.0" />
+  <param name="mag_bias_z" type="double" value="0.0" />
+  <param name="orientation_stddev" type="double" value="0.0" />
+</node>
+\endverbatim
+

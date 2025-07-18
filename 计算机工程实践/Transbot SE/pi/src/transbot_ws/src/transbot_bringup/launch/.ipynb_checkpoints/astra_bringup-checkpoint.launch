@@ -1,0 +1,29 @@
+<launch>
+    <!-- PCB和PC之间通过USB串行通信 -->
+    <!---USB serial communication between PCB and PC -->
+    <arg name="use_gui" default="false"/>
+    <arg name="robot_model" default="astra" doc="robot_model type [astra,camera]"/>
+    <!-- 仿真模型 -->
+    <!-- Simulation model -->
+    <param name="robot_description"
+           command="$(find xacro)/xacro '$(find transbot_description)/urdf/transbot_$(arg robot_model).urdf'"/>
+    <group if="$(arg use_gui)">
+        <node name="joint_state_publisher" pkg="joint_state_publisher_gui" type="joint_state_publisher_gui"/>
+    </group>
+    <!-- GUI可调界面 -->
+    <!-- GUI adjustable interface -->
+    <group unless="$(arg use_gui)">
+        <node name="joint_state_publisher" pkg="joint_state_publisher" type="joint_state_publisher"/>
+    </group>
+    <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher"/>
+    <!-- 手柄控制节点 -->
+    <!-- Handle control node -->
+    <include file="$(find transbot_ctrl)/launch/transbot_joy.launch"/>
+    <include file="$(find astra_camera)/launch/astrapro.launch"/>
+    <!-- 相机的坐标系-->
+    <!-- Camera's coordinate system -->
+    <node pkg="tf" type="static_transform_publisher" name="base_link_to_camera"
+          args="0.0484 0 0.10403 0 0 0  /base_link /camera_link  30"/>
+    <node pkg="tf" type="static_transform_publisher" name="base_link_to_laser"
+          args="0.0484 0 0.10403 0 0 0  /base_link /laser  30"/>
+</launch>

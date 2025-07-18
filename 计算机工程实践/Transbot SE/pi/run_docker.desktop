@@ -1,0 +1,6 @@
+[Desktop Entry]
+Encoding=UTF-8
+Type=Application
+Name=run_docker
+Exec=lxterminal -e bash -c "bash /home/pi/run_docker.sh;$SHELL"
+Terminal=true

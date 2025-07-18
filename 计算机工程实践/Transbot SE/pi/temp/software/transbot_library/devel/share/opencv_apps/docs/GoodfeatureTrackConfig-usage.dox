@@ -1,0 +1,8 @@
+\subsubsection usage Usage
+\verbatim
+<node name="goodfeature_track" pkg="opencv_apps" type="goodfeature_track">
+  <param name="use_camera_info" type="bool" value="False" />
+  <param name="max_corners" type="int" value="23" />
+</node>
+\endverbatim
+

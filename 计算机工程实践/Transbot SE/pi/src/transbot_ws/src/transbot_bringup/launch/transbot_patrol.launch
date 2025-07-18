@@ -1,0 +1,8 @@
+<launch>
+    <!-- 启动底层驱动 -->
+    <!-- Start the underlying driver -->
+    <include file="$(find transbot_bringup)/launch/bringup.launch"/>
+    <!-- 启动巡逻节点 -->
+    <!-- Start patrol node -->
+    <node pkg="transbot_bringup" type="transbot_patrol.py" name="TransbotPatrol" required="true" output="screen"/>
+</launch>

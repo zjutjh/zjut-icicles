@@ -1,0 +1,25 @@
+global_costmap:
+  #Coordinate frame and tf parameters
+  global_frame: map
+  # 机器人的基坐标系
+#robot_base_frame: robot1/base_footprint
+  # 靠近目标点的周围多少数值就算到了目标点
+  transform_tolerance: 0.5 #default:0.2
+  # 代价地图更新的频率（以Hz为单位）,数值越大CPU负担越重，通常设定在1.0到5.0之间。
+  update_frequency: 10.0 #default:5.0
+  # 代价地图发布可视化信息的速率（以Hz为单位）。
+  publish_frequency: 10.0 #default:0.0
+  #参数确定是否由map_server提供的地图服务来进行代价地图的初始化。
+  #如果没有使用现有的地图或地图服务器，将static_map参数设置为false。
+  static_map: true
+  # 参数设置为true意味着当机器人移动时，保持机器人在本地代价地图中心。
+  rolling_window: false
+  # 代价地图分辨率（米/单元格）
+  resolution: 0.05
+  # 比例因子 10
+  cost_scaling_factor: 10.0
+  # 膨胀半径 0.1
+  inflation_radius: 0.1
+  plugins:
+    - {name: static_layer,           type: "costmap_2d::StaticLayer"}
+    - {name: inflation_layer, type: "costmap_2d::InflationLayer"}

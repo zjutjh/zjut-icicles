@@ -1,0 +1,3 @@
+<launch>
+    <node pkg="transbot_mediapipe" type="03_Holistic.py" name="Holistic" required="true" output="screen"/>
+</launch>

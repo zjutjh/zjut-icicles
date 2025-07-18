@@ -1,0 +1,13 @@
+\subsubsection usage Usage
+\verbatim
+<node name="hough_lines" pkg="opencv_apps" type="hough_lines">
+  <param name="use_camera_info" type="bool" value="False" />
+  <param name="hough_type" type="int" value="0" />
+  <param name="threshold" type="int" value="150" />
+  <param name="rho" type="double" value="1.0" />
+  <param name="theta" type="double" value="1.0" />
+  <param name="minLineLength" type="double" value="30.0" />
+  <param name="maxLineGap" type="double" value="10.0" />
+</node>
+\endverbatim
+

@@ -1,0 +1,8 @@
+\subsubsection usage Usage
+\verbatim
+<node name="find_contours" pkg="opencv_apps" type="find_contours">
+  <param name="use_camera_info" type="bool" value="False" />
+  <param name="canny_low_threshold" type="int" value="10" />
+</node>
+\endverbatim
+

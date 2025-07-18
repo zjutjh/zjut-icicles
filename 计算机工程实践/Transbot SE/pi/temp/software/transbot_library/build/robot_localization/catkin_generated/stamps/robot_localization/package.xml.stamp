@@ -1,0 +1,50 @@
+<?xml version="1.0"?>
+<package format="2">
+  <name>robot_localization</name>
+  <version>2.4.3</version>
+  <description>Provides nonlinear state estimation through sensor fusion of an abritrary number of sensors.</description>
+
+  <maintainer email="ayrton04@gmail.com">Tom Moore</maintainer>
+
+  <license>BSD</license>
+
+  <url type="website">http://ros.org/wiki/robot_localization</url>
+
+  <author email="ayrton04@gmail.com">Tom Moore</author> 
+
+  <buildtool_depend>catkin</buildtool_depend>
+
+  <depend>cmake_modules</depend>
+  <depend>diagnostic_msgs</depend>
+  <depend>diagnostic_updater</depend>
+  <depend>eigen</depend>
+  <depend>eigen_conversions</depend>
+  <depend>geographic_msgs</depend>
+  <depend>geometry_msgs</depend>
+  <depend>message_filters</depend>
+  <depend>nav_msgs</depend>
+  <depend>roscpp</depend>
+  <depend>sensor_msgs</depend>
+  <depend>std_msgs</depend>
+  <depend>std_srvs</depend>
+  <depend>tf2</depend>
+  <depend>tf2_geometry_msgs</depend>
+  <depend>tf2_ros</depend>
+  <depend>xmlrpcpp</depend>
+  <depend>yaml-cpp</depend>
+
+  <build_depend>message_generation</build_depend>
+  <build_depend>python-catkin-pkg</build_depend>
+  <build_depend>roslint</build_depend>
+
+  <exec_depend>message_runtime</exec_depend>
+
+  <test_depend>rosbag</test_depend>
+  <test_depend>rostest</test_depend>
+  <test_depend>rosunit</test_depend>
+
+  <export>
+    <rosdoc config="rosdoc.yaml" />
+  </export>
+
+</package>

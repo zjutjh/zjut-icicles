@@ -1,0 +1,39 @@
+{
+  "configurations": [
+    {
+      "browse": {
+        "databaseFilename": "",
+        "limitSymbolsToIncludedHeaders": true
+      },
+      "includePath": [
+        "/home/yahboom/3rdparty/world_canvas/devel/include/**",
+        "/home/yahboom/3rdparty/transbot_library/devel/include/**",
+        "/home/yahboom/transbot_ws/devel/include/**",
+        "/opt/ros/melodic/include/**",
+        "/home/yahboom/3rdparty/transbot_library/src/astra_camera/include/**",
+        "/home/yahboom/3rdparty/transbot_library/src/imu_calib/include/**",
+        "/home/yahboom/3rdparty/transbot_library/src/imu_filter_madgwick/include/**",
+        "/home/yahboom/3rdparty/transbot_library/src/opencv_apps/include/**",
+        "/home/yahboom/3rdparty/transbot_library/src/robot_localization/include/**",
+        "/home/yahboom/3rdparty/transbot_library/src/rrt_exploration/include/**",
+        "/home/yahboom/transbot_ws/src/transbot_astra/include/**",
+        "/home/yahboom/transbot_ws/src/transbot_bringup/include/**",
+        "/home/yahboom/transbot_ws/src/transbot_ctrl/include/**",
+        "/home/yahboom/3rdparty/transbot_library/src/transbot_description/include/**",
+        "/home/yahboom/transbot_ws/src/transbot_laser/include/**",
+        "/home/yahboom/transbot_ws/src/transbot_linefollow/include/**",
+        "/home/yahboom/transbot_ws/src/transbot_mono/include/**",
+        "/home/yahboom/transbot_ws/src/transbot_msgs/include/**",
+        "/home/yahboom/transbot_ws/src/transbot_nav/include/**",
+        "/home/yahboom/transbot_ws/src/transbot_program/include/**",
+        "/home/yahboom/transbot_ws/src/transbot_visual/include/**",
+        "/home/yahboom/3rdparty/world_canvas/src/warehouse_ros/include/**",
+        "/home/yahboom/3rdparty/world_canvas/src/warehouse_ros_mongo/include/**",
+        "/home/yahboom/3rdparty/world_canvas/src/world_canvas_libs/world_canvas_client_cpp/include/**",
+        "/usr/include/**"
+      ],
+      "name": "ROS"
+    }
+  ],
+  "version": 4
+}

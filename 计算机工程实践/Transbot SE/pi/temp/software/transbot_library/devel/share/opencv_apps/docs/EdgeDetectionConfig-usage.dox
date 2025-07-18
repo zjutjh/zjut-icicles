@@ -1,0 +1,16 @@
+\subsubsection usage Usage
+\verbatim
+<node name="edge_detection" pkg="opencv_apps" type="edge_detection">
+  <param name="use_camera_info" type="bool" value="False" />
+  <param name="edge_type" type="int" value="0" />
+  <param name="canny_threshold1" type="int" value="100" />
+  <param name="canny_threshold2" type="int" value="200" />
+  <param name="apertureSize" type="int" value="3" />
+  <param name="apply_blur_pre" type="bool" value="True" />
+  <param name="postBlurSize" type="int" value="13" />
+  <param name="postBlurSigma" type="double" value="3.2" />
+  <param name="apply_blur_post" type="bool" value="False" />
+  <param name="L2gradient" type="bool" value="False" />
+</node>
+\endverbatim
+

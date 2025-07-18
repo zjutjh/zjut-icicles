@@ -1,0 +1,19 @@
+<launch>
+
+  <!-- This file makes it easy to include different planning pipelines;
+       It is assumed that all planning pipelines are named XXX_planning_pipeline.launch  -->
+
+  <arg name="pipeline" default="ompl" />
+
+  <!-- define capabilites that are loaded on start (space seperated) -->
+  <arg name="capabilities" default=""/>
+
+  <!-- inhibit capabilites (space seperated) -->
+  <arg name="disable_capabilities" default=""/>
+
+  <include file="$(find transbot_se_moveit_config)/launch/$(arg pipeline)_planning_pipeline.launch.xml">
+    <arg name="capabilities" value="$(arg capabilities)"/>
+    <arg name="disable_capabilities" value="$(arg disable_capabilities)"/>
+  </include>
+
+</launch>

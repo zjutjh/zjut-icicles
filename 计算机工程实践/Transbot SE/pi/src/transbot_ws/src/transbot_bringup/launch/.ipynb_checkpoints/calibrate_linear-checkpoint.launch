@@ -1,0 +1,5 @@
+<?xml version="1.0"?>
+<launch>
+    <!-- 启动线速度校准节点 -->
+    <node pkg="transbot_bringup" type="calibrate_linear.py" name="calibrate_linear" output="screen"/>
+</launch>

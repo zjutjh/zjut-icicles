@@ -1,0 +1,266 @@
+{
+  "experiment_info": {
+    "timestamp": "2025-06-09 20:47:38",
+    "noise_levels": [
+      0.05,
+      0.1,
+      0.15,
+      0.2
+    ],
+    "methods_tested": [
+      "Gaussian Filter",
+      "Median Filter",
+      "Bilateral Filter",
+      "Adaptive Gaussian",
+      "Perona-Malik",
+      "TV",
+      "ITV"
+    ]
+  },
+  "results_by_noise_level": {
+    "sigma_0.05": {
+      "noise_level": 0.05,
+      "methods": {
+        "Gaussian Filter": {
+          "PSNR": 31.151052178802278,
+          "SSIM": 0.8148827990434498,
+          "MSE": 0.000767175600816491,
+          "PSNR_improvement": 5.084249676244589,
+          "SSIM_improvement": 0.26849738744634966,
+          "processing_time": 0.003205537796020508
+        },
+        "Median Filter": {
+          "PSNR": 29.5624179637794,
+          "SSIM": 0.7684825632800925,
+          "MSE": 0.0011060078352151217,
+          "PSNR_improvement": 3.4956154612217105,
+          "SSIM_improvement": 0.22209715168299227,
+          "processing_time": 0.011003732681274414
+        },
+        "Bilateral Filter": {
+          "PSNR": 31.97128191205436,
+          "SSIM": 0.8334717466703139,
+          "MSE": 0.0006351434281586408,
+          "PSNR_improvement": 5.90447940949667,
+          "SSIM_improvement": 0.2870863350732137,
+          "processing_time": 0.02001190185546875
+        },
+        "Adaptive Gaussian": {
+          "PSNR": 30.987740929568773,
+          "SSIM": 0.8183920680286372,
+          "MSE": 0.0007965735965077066,
+          "PSNR_improvement": 4.920938427011084,
+          "SSIM_improvement": 0.272006656431537,
+          "processing_time": 4.5721564292907715
+        },
+        "Perona-Malik": {
+          "PSNR": 25.897181956843667,
+          "SSIM": 0.7022083844359576,
+          "MSE": 0.002572064198354589,
+          "PSNR_improvement": -0.16962054571402163,
+          "SSIM_improvement": 0.15582297283885738,
+          "processing_time": 1.3764731884002686
+        },
+        "TV": {
+          "PSNR": 25.967780674461128,
+          "SSIM": 0.5063355794439263,
+          "MSE": 0.0025305908450492637,
+          "PSNR_improvement": -0.09902182809656068,
+          "SSIM_improvement": -0.040049832153173925,
+          "processing_time": 3.515306234359741
+        },
+        "ITV": {
+          "PSNR": 30.301990780914284,
+          "SSIM": 0.8071371176767053,
+          "MSE": 0.0009328266004309461,
+          "PSNR_improvement": 4.2351882783565955,
+          "SSIM_improvement": 0.2607517060796051,
+          "processing_time": 3.9213626384735107
+        }
+      }
+    },
+    "sigma_0.1": {
+      "noise_level": 0.1,
+      "methods": {
+        "Gaussian Filter": {
+          "PSNR": 28.606554934355014,
+          "SSIM": 0.6813105291956609,
+          "MSE": 0.00137830238154977,
+          "PSNR_improvement": 8.390827594004687,
+          "SSIM_improvement": 0.38459917692762363,
+          "processing_time": 0.002222776412963867
+        },
+        "Median Filter": {
+          "PSNR": 27.78722514861761,
+          "SSIM": 0.6615614999173908,
+          "MSE": 0.0016644757994471267,
+          "PSNR_improvement": 7.5714978082672815,
+          "SSIM_improvement": 0.3648501476493535,
+          "processing_time": 0.010821342468261719
+        },
+        "Bilateral Filter": {
+          "PSNR": 28.728925757184875,
+          "SSIM": 0.6847127563707568,
+          "MSE": 0.0013400081021960203,
+          "PSNR_improvement": 8.513198416834548,
+          "SSIM_improvement": 0.3880014041027195,
+          "processing_time": 0.020914077758789062
+        },
+        "Adaptive Gaussian": {
+          "PSNR": 28.747047930010858,
+          "SSIM": 0.6960613225445017,
+          "MSE": 0.0013344281871450975,
+          "PSNR_improvement": 8.531320589660531,
+          "SSIM_improvement": 0.3993499702764644,
+          "processing_time": 4.4850382804870605
+        },
+        "Perona-Malik": {
+          "PSNR": 25.717373836770328,
+          "SSIM": 0.6929754691426805,
+          "MSE": 0.002680788898269708,
+          "PSNR_improvement": 5.501646496420001,
+          "SSIM_improvement": 0.3962641168746432,
+          "processing_time": 1.3705437183380127
+        },
+        "TV": {
+          "PSNR": 25.43748962907555,
+          "SSIM": 0.47724013309067387,
+          "MSE": 0.002859242806115887,
+          "PSNR_improvement": 5.221762288725223,
+          "SSIM_improvement": 0.18052878082263657,
+          "processing_time": 3.4983091354370117
+        },
+        "ITV": {
+          "PSNR": 28.871633954501263,
+          "SSIM": 0.7409871912742662,
+          "MSE": 0.001296691322522881,
+          "PSNR_improvement": 8.655906614150936,
+          "SSIM_improvement": 0.44427583900622886,
+          "processing_time": 3.8245654106140137
+        }
+      }
+    },
+    "sigma_0.15": {
+      "noise_level": 0.15,
+      "methods": {
+        "Gaussian Filter": {
+          "PSNR": 26.2324483384557,
+          "SSIM": 0.5599338439039171,
+          "MSE": 0.002380976813437173,
+          "PSNR_improvement": 9.32945647745149,
+          "SSIM_improvement": 0.3693953951206099,
+          "processing_time": 0.0019998550415039062
+        },
+        "Median Filter": {
+          "PSNR": 25.991992947165777,
+          "SSIM": 0.5534657417543308,
+          "MSE": 0.0025165218483801303,
+          "PSNR_improvement": 9.089001086161566,
+          "SSIM_improvement": 0.36292729297102366,
+          "processing_time": 0.010220527648925781
+        },
+        "Bilateral Filter": {
+          "PSNR": 23.456790902878915,
+          "SSIM": 0.4081162110797152,
+          "MSE": 0.004511499459905745,
+          "PSNR_improvement": 6.553799041874704,
+          "SSIM_improvement": 0.217577762296408,
+          "processing_time": 0.019648313522338867
+        },
+        "Adaptive Gaussian": {
+          "PSNR": 26.413862864145056,
+          "SSIM": 0.573958112737284,
+          "MSE": 0.0022835667645841108,
+          "PSNR_improvement": 9.510871003140846,
+          "SSIM_improvement": 0.38341966395397686,
+          "processing_time": 4.483948707580566
+        },
+        "Perona-Malik": {
+          "PSNR": 25.329087595450524,
+          "SSIM": 0.6781002420111152,
+          "MSE": 0.002931509058107223,
+          "PSNR_improvement": 8.426095734446314,
+          "SSIM_improvement": 0.487561793227808,
+          "processing_time": 1.325392484664917
+        },
+        "TV": {
+          "PSNR": 24.48267776915347,
+          "SSIM": 0.44275279750213015,
+          "MSE": 0.003562314208373116,
+          "PSNR_improvement": 7.5796859081492585,
+          "SSIM_improvement": 0.252214348718823,
+          "processing_time": 3.4194436073303223
+        },
+        "ITV": {
+          "PSNR": 27.332245199418814,
+          "SSIM": 0.6629328115093003,
+          "MSE": 0.0018483128380622018,
+          "PSNR_improvement": 10.429253338414604,
+          "SSIM_improvement": 0.4723943627259931,
+          "processing_time": 3.860835075378418
+        }
+      }
+    },
+    "sigma_0.2": {
+      "noise_level": 0.2,
+      "methods": {
+        "Gaussian Filter": {
+          "PSNR": 24.26583765449915,
+          "SSIM": 0.4660013017652274,
+          "MSE": 0.003744693135238806,
+          "PSNR_improvement": 9.596996279204532,
+          "SSIM_improvement": 0.3312329978220274,
+          "processing_time": 0.0019910335540771484
+        },
+        "Median Filter": {
+          "PSNR": 24.399194115116796,
+          "SSIM": 0.4643085517285695,
+          "MSE": 0.0036314543445767553,
+          "PSNR_improvement": 9.730352739822177,
+          "SSIM_improvement": 0.3295402477853695,
+          "processing_time": 0.011098623275756836
+        },
+        "Bilateral Filter": {
+          "PSNR": 19.20883854642761,
+          "SSIM": 0.2417819630072834,
+          "MSE": 0.011998201336262391,
+          "PSNR_improvement": 4.539997171132992,
+          "SSIM_improvement": 0.10701365906408339,
+          "processing_time": 0.02123737335205078
+        },
+        "Adaptive Gaussian": {
+          "PSNR": 24.440925558672486,
+          "SSIM": 0.47789113226080276,
+          "MSE": 0.0035967267435238156,
+          "PSNR_improvement": 9.772084183377867,
+          "SSIM_improvement": 0.34312282831760277,
+          "processing_time": 4.554910898208618
+        },
+        "Perona-Malik": {
+          "PSNR": 24.772002404694472,
+          "SSIM": 0.6611602821351731,
+          "MSE": 0.003332727150425296,
+          "PSNR_improvement": 10.103161029399853,
+          "SSIM_improvement": 0.526391978191973,
+          "processing_time": 1.4647636413574219
+        },
+        "TV": {
+          "PSNR": 22.558017253975432,
+          "SSIM": 0.3669014636616246,
+          "MSE": 0.005548789818890628,
+          "PSNR_improvement": 7.889175878680813,
+          "SSIM_improvement": 0.2321331597184246,
+          "processing_time": 3.4847447872161865
+        },
+        "ITV": {
+          "PSNR": 25.9444763076116,
+          "SSIM": 0.5893747927990112,
+          "MSE": 0.0025442065668374904,
+          "PSNR_improvement": 11.27563493231698,
+          "SSIM_improvement": 0.4546064888558111,
+          "processing_time": 3.968872308731079
+        }
+      }
+    }
+  }
+}

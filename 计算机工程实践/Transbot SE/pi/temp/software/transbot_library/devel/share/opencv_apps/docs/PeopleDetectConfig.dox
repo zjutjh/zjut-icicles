@@ -1,0 +1,11 @@
+\subsubsection parameters ROS parameters
+
+Reads and maintains the following parameters on the ROS server
+
+- \b "~use_camera_info" : \b [bool] Indicates that the camera_info topic should be subscribed to to get the default input_frame_id. Otherwise the frame from the image message will be used. min: False, default: False, max: True
+- \b "~hit_threshold" : \b [double] Threshold for the distance between features and SVM classifying plane. min: 0.0, default: 0.0, max: 10.0
+- \b "~win_stride" : \b [int] Window stride. It must be a multiple of block stride. min: 1, default: 8, max: 100
+- \b "~padding" : \b [int] Mock parameter to keep the CPU interface compatibility. It must be (0,0). min: 0, default: 32, max: 128
+- \b "~scale0" : \b [double] Coefficient of the detection window increase. min: 1.0, default: 1.05, max: 100.0
+- \b "~group_threshold" : \b [int] Coefficient to regulate the similarity threshold. When detected, some objects can be covered by many rectangles. 0 means not to perform grouping. min: 0, default: 2, max: 100
+

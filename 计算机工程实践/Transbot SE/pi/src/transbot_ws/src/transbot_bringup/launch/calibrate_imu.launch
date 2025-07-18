@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<launch>
+    <!-- 底层驱动节点 -->
+    <!-- Low-level driver node -->
+    <node pkg="transbot_bringup" type="transbot_driver.py" name="transbot_node" required="true" output="screen">
+        <param name="imu" value="/transbot/imu"/>
+        <param name="vel" value="/transbot/get_vel"/>
+        <param name="CameraDevice" value="astra"/>
+    </node>
+    <!-- 校准imu安装时的一些误差 -->
+    <!-- Some errors during calibration of imu installation -->
+    <node pkg="imu_calib" type="do_calib" name="do_calib" output="screen" required="True">
+        <param name="output_file" value="$(find transbot_bringup)/param/imu/imu_calib.yaml"/>
+    </node>
+</launch>

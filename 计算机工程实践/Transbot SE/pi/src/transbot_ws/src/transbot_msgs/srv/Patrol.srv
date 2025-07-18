@@ -1,0 +1,7 @@
+#request
+string  Commond
+float32 LineScaling
+float32 RotationScaling
+---
+#response
+bool result

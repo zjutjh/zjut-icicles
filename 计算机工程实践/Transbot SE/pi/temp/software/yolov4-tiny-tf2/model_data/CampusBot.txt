@@ -1,0 +1,6 @@
+fire
+turn_round
+turn_right
+turn_left
+construction
+stop

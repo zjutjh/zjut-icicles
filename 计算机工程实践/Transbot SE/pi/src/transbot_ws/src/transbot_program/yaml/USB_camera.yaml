@@ -1,0 +1,30 @@
+%YAML:1.0
+---
+image_width: 640
+image_height: 480
+camera_name: head_camera
+camera_matrix: !!opencv-matrix
+  rows: 3
+  cols: 3
+  dt: d
+  data: [502.85907,   0.     , 326.62551,
+           0.     , 510.08583, 226.37207,
+           0.     ,   0.     ,   1.     ]
+camera_model: plumb_bob
+distortion_coefficients: !!opencv-matrix
+  rows: 1
+  cols: 5
+  dt: d
+  data: [-0.414821, 0.163438, 0.007298, -0.008349, 0.000000]
+rectification_matrix:
+  rows: 3
+  cols: 3
+  data: [1., 0., 0.,
+         0., 1., 0.,
+         0., 0., 1.]
+projection_matrix:
+  rows: 3
+  cols: 4
+  data: [404.25592,   0.     , 317.83983,   0.     ,
+           0.     , 457.87326, 226.34608,   0.     ,
+           0.     ,   0.     ,   1.     ,   0.     ]

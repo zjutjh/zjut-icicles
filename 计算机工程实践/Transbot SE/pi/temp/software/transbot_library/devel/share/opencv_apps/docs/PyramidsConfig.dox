@@ -1,0 +1,8 @@
+\subsubsection parameters ROS parameters
+
+Reads and maintains the following parameters on the ROS server
+
+- \b "~use_camera_info" : \b [bool] Indicates that the camera_info topic should be subscribed to to get the default input_frame_id. Otherwise the frame from the image message will be used. min: False, default: False, max: True
+- \b "~pyramids_type" : \b [int] Pyramids Type min: 0, default: 0, max: 2
+- \b "~num_of_pyramids" : \b [int] Number of pyramids min: 1, default: 1, max: 10
+

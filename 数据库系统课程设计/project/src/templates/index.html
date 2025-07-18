@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>大学综合教务管理系统</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>大学综合教务管理系统</h1>
+            <p>基于 GaussDB / PostgreSQL</p>
+        </header>
+
+        <main>
+            <div class="search-container">
+                <input type="search" id="search-input" placeholder="搜索学生、课程、教师、公告..." autofocus>
+                <select id="search-type">
+                    <option value="all" selected>所有类型</option>
+                    <option value="student">学生</option>
+                    <option value="course">课程</option>
+                    <option value="instructor">教师</option>
+                    <option value="announcement">公告</option>
+                </select>
+                <button id="search-button">搜索</button>
+            </div>
+
+            <div class="popular-searches">
+                <span>热门搜索:</span>
+                <div id="popular-terms-list"></div>
+            </div>
+
+            <div id="results-container">
+                <p class="placeholder-text">请输入关键词进行搜索</p>
+            </div>
+        </main>
+        
+        <footer>
+            <p>数据库课程设计 &copy; 2024</p>
+        </footer>
+    </div>
+
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+</body>
+</html> 

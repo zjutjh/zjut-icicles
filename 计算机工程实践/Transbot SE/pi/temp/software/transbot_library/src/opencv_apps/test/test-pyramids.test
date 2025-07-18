@@ -1,0 +1,65 @@
+<launch>
+  <arg name="gui" default="true" />
+  <node name="play_face_bag" pkg="rosbag" type="play" args="-l $(find opencv_apps)/test/face_detector_withface_test_diamondback.bag" />
+
+  <group ns="wide_stereo/left" >
+    <node name="image_proc" pkg="image_proc" type="image_proc" />
+    <node name="image_view" pkg="image_view" type="image_view" args="image:=image_rect_color" if="$(arg gui)" />
+
+    <!-- pyramids.cpp -->
+    <include file="$(find opencv_apps)/launch/pyramids.launch" >
+      <arg name="node_name" value="pyramids_zoomin_1" />
+      <arg name="debug_view" value="$(arg gui)" />
+      <arg name="image" value="image_rect_color" />
+      <arg name="pyramids_type" value="0" /> <!-- 0: Zoom In, 1: Zoom Out -->
+      <arg name="num_of_pyramids" value="1" />
+    </include>
+    <include file="$(find opencv_apps)/launch/pyramids.launch" >
+      <arg name="node_name" value="pyramids_zoomout_1" />
+      <arg name="debug_view" value="$(arg gui)" />
+      <arg name="image" value="image_rect_color" />
+      <arg name="pyramids_type" value="1" /> <!-- 0: Zoom In, 1: Zoom Out -->
+      <arg name="num_of_pyramids" value="1" />
+    </include>
+    <include file="$(find opencv_apps)/launch/pyramids.launch" >
+      <arg name="node_name" value="pyramids_zoomout_2" />
+      <arg name="debug_view" value="$(arg gui)" />
+      <arg name="image" value="image_rect_color" />
+      <arg name="pyramids_type" value="1" /> <!-- 0: Zoom In, 1: Zoom Out -->
+      <arg name="num_of_pyramids" value="2" />
+    </include>
+
+    <node name="adding_images_0" pkg="opencv_apps" type="adding_images" >
+      <remap from="image1" to="pyramids_zoomin_1/image" />
+      <remap from="image2" to="image_rect_color" />
+      <param name="alpha" value="0" />
+      <param name="debug_view" value="false" />
+      <param name="approximate_sync" value="true" />
+    </node>
+    <node name="adding_images_1" pkg="opencv_apps" type="adding_images" >
+      <remap from="image1" to="adding_images_0/image" />
+      <remap from="image2" to="pyramids_zoomout_1/image" />
+      <param name="alpha" value="0" />
+      <param name="debug_view" value="false" />
+      <param name="approximate_sync" value="true" />
+    </node>
+    <node name="adding_images_2" pkg="opencv_apps" type="adding_images" >
+      <remap from="image1" to="adding_images_1/image" />
+      <remap from="image2" to="pyramids_zoomout_2/image" />
+      <param name="alpha" value="0" />
+      <param name="debug_view" value="true" />
+      <param name="approximate_sync" value="true" />
+    </node>
+
+    <!-- Test Codes -->
+    <node name="pyramids_saver_result" pkg="image_view" type="image_saver" args="image:=adding_images_2/image" >
+      <param name="filename_format" value="$(find opencv_apps)/test/pyramids_result.png"/>
+    </node>
+    <param name="pyramids_test/topic" value="pyramids_zoomin_1/image" />
+    <test test-name="pyramids_test" pkg="rostest" type="hztest" name="pyramids_test" >
+      <param name="hz" value="20" />
+      <param name="hzerror" value="15" />
+      <param name="test_duration" value="5.0" />
+    </test>
+  </group>
+</launch>

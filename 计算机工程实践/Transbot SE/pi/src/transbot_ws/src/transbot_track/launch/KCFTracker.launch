@@ -1,0 +1,13 @@
+<launch>
+    <!--include file="$(find astra_camera)/launch/astrapro.launch"/-->
+    <node pkg="transbot_bringup" type="transbot_driver.py" name="transbot_node" required="true" output="screen">
+        <param name="imu" value="/transbot/imu"/>
+        <param name="vel" value="/transbot/get_vel"/>
+    </node>
+    <!-- 距离相机的范围【0.4米，8米】，否则无效-->
+    <!--Range from the camera[0.4m,8m],Otherwise invalid-->
+    <node name="KCF_Tracker" pkg="transbot_track" type="KCFTracker_node" required="true" output="screen"/>
+    <!-- 手柄控制节点 -->
+    <!--Handle control node-->
+    <include file="$(find transbot_ctrl)/launch/transbot_joy.launch"/>
+</launch>

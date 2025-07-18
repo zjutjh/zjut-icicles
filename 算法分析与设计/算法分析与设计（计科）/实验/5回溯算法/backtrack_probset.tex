@@ -1,0 +1,343 @@
+% !TEX program = xelatex
+%
+% 6.006 problem set 8 solutions template
+%
+\documentclass[12pt,twoside]{article}
+
+\input{macros-sp23}
+
+% 中文字体配置
+\setCJKmainfont{SimSun}
+\setCJKsansfont{SimHei}
+\setCJKmonofont{FangSong}
+
+\newcommand{\theproblemsetnum}{5}
+\newcommand{\releasedate}{2025.5.13}
+
+\title{ 习题实验5}
+
+\begin{document}
+
+\handout{习题实验 \theproblemsetnum}{\releasedate}
+提交文件格式为PDF。
+
+\setlength{\parindent}{0pt}
+\medskip\hrulefill\medskip
+
+{\bf 姓名:} xxx\\
+{\bf 学号:} xxxxxxxx
+\medskip
+
+\medskip\hrulefill
+
+\begin{problems}
+\problem {\bf 简答题}
+\bparts
+\ppart 简述回溯算法求解问题的基本步骤。
+
+回溯算法是一种通过试探和回退来寻找问题所有解的方法。其基本步骤如下：
+\begin{enumerate}
+    \item 定义问题的解空间：确定问题的状态空间，包括初始状态和目标状态。
+    \item 确定约束条件：定义问题的限制条件，用于判断当前状态是否合法。
+    \item 设计递归结构：
+    \begin{itemize}
+        \item 递归终止条件：找到问题的一个解或者无法继续搜索时终止。
+        \item 搜索过程：在当前状态下，尝试进行各种可能的选择。
+        \item 约束函数：判断当前选择是否满足约束条件。
+        \item 状态更新：如果选择有效，更新状态并继续搜索。
+        \item 回溯操作：如果当前选择不能得到有效解，撤销选择，返回上一状态，继续尝试其他选择。
+    \end{itemize}
+\end{enumerate}
+
+\ppart 简述求解$N$皇后问题的回溯算法步骤，分析该算法的时间复杂度并给出一个具体的算例。
+
+N皇后问题是在N×N的棋盘上放置N个皇后，使得它们互不攻击（不在同一行、同一列或同一对角线上）。回溯算法步骤如下：
+
+\begin{enumerate}
+    \item 创建一个N×N的棋盘，初始为空。
+    \item 从第一行开始，尝试在每一列放置皇后。
+    \item 检查当前位置是否可行（不与之前放置的皇后冲突）。
+    \item 如果可行，就在该位置放置一个皇后，然后递归处理下一行。
+    \item 如果当前行的所有列都不可行或递归返回失败，则回溯到上一行，尝试其他列。
+    \item 当成功放置N个皇后时，记录一个解。
+\end{enumerate}
+
+时间复杂度分析：在最坏情况下，需要尝试所有可能的放置方式。第一行有N个可能的位置，第二行最多有N-1个可能位置，以此类推。所以最坏情况下的时间复杂度是O(N!)。但实际上由于剪枝，实际复杂度通常远小于O(N!)。
+
+算例（4皇后问题）：
+
+我们通过代码解决了4皇后问题，得到了2个解决方案：
+\begin{verbatim}
+解决方案 1:
+.Q..
+...Q
+Q...
+..Q.
+
+解决方案 2:
+..Q.
+Q...
+...Q
+.Q..
+\end{verbatim}
+
+\ppart 简述装载问题回溯算法的求解步骤，分析该算法的时间复杂度并给出一个具体的算例。
+
+装载问题是指有一批物品和一艘船，每个物品有一定重量，船有一定的载重量，如何选择物品使得船上的物品总重量最大且不超过船的载重量。其回溯算法步骤如下：
+
+\begin{enumerate}
+    \item 定义状态空间：对每个物品，选择装载或不装载。
+    \item 对每个物品递归处理：
+    \begin{itemize}
+        \item 尝试装载当前物品，更新当前总重量，递归处理下一个物品。
+        \item 尝试不装载当前物品，递归处理下一个物品。
+        \item 在过程中记录满足载重限制的最大重量方案。
+    \end{itemize}
+    \item 当所有物品都考虑完毕时，返回最优解。
+\end{enumerate}
+
+时间复杂度分析：对于n个物品，每个物品有装或不装两种选择，所以最坏情况下的时间复杂度是$O(2^n)$。但通过剪枝（如当前重量已超过载重量时立即回溯），可以减少实际计算量。
+
+算例：我们用代码解决了一个装载问题：
+\begin{verbatim}
+物品重量: [10, 40, 30, 50, 35, 25]
+船的最大载重: 100
+能够装载的最大重量: 100
+选择的物品索引: [0, 1, 3]
+选择的物品重量: [10, 40, 50]
+\end{verbatim}
+
+\ppart 简述图的$m$着色问题回溯算法的求解步骤，分析该算法的时间复杂度并给出一个具体的算例。
+
+图的m着色问题是指给定一个无向图和m种颜色，如何为图的每个顶点分配一种颜色，使得相邻顶点的颜色不同。其回溯算法步骤如下：
+
+\begin{enumerate}
+    \item 从第一个顶点开始，尝试为每个顶点分配一种颜色。
+    \item 检查当前颜色分配是否有效（相邻顶点颜色不同）。
+    \item 如果有效，递归处理下一个顶点。
+    \item 如果当前顶点的所有颜色都不可行或递归返回失败，则回溯到上一个顶点，尝试其他颜色。
+    \item 当所有顶点都成功分配颜色时，记录一个解。
+\end{enumerate}
+
+时间复杂度分析：对于n个顶点和m种颜色，每个顶点有m种可能的颜色选择，所以最坏情况下的时间复杂度是$O(m^n)$。但实际上由于剪枝（检查相邻顶点），复杂度通常小于这个上界。
+
+算例：我们通过代码解决了一个4顶点3着色问题：
+\begin{verbatim}
+图的邻接矩阵表示:
+0 1 1 1
+1 0 1 0
+1 1 0 1
+1 0 1 0
+
+使用3种颜色的着色方案:
+顶点 0: 颜色 1
+顶点 1: 颜色 2
+顶点 2: 颜色 3
+顶点 3: 颜色 2
+\end{verbatim}
+
+\eparts
+
+\problem 给定$n$个不同的字符，打印出由这$n$个字符组成的全排列。
+
+\bparts
+\ppart 按照回溯算法该问题，分析其时间复杂度。
+
+使用回溯算法解决全排列问题的基本思路是：从第一个位置开始，依次尝试将每个未使用的字符放在当前位置，然后递归处理下一个位置。算法过程如下：
+
+\begin{enumerate}
+    \item 定义状态：当前已经排列好的字符和剩余未排列的字符。
+    \item 递归终止条件：所有字符都已被排列，此时记录一个解。
+    \item 对于当前位置，尝试放置每个未使用的字符：
+    \begin{itemize}
+        \item 选择一个未使用的字符放在当前位置。
+        \item 递归处理下一个位置。
+        \item 回溯，撤销选择，尝试其他字符。
+    \end{itemize}
+\end{enumerate}
+
+时间复杂度分析：对于n个字符，第一个位置有n种选择，第二个位置有n-1种选择，以此类推。所以总的时间复杂度是O(n!)。此外，需要O(n)的空间来存储一个排列，总共有n!个排列，所以空间复杂度为O(n·n!)。但是如果只考虑递归调用栈的空间，则空间复杂度为O(n)。
+
+代码实现中，我们通过交换字符的方式来生成全排列，避免了额外的存储空间，提高了效率。
+
+\ppart 如果输入的字符分别是"XYR"，请列出代码的输出。
+
+通过运行我们编写的代码，输入字符"XYR"的全排列结果如下：
+\begin{verbatim}
+XYR
+XRY
+YXR
+YRX
+RYX
+RXY
+\end{verbatim}
+
+\eparts
+
+
+\problem 有一只老鼠为了寻找食物需要穿过迷宫，假设从迷宫左上角进入右下角出来，请设计算法实现判断老鼠是否能穿过迷宫，若能则对行进路径进行展示。为了描述方便，特作如下设定：
+\begin{itemize}
+   \item 在此用二维数组表示迷宫，围墙用1表示；通路用0表示。
+   \item 此处设为四向迷宫，即在上下左右皆可。
+   \item 迷宫可能是死的，即没有通路，此时输出提示。
+\end{itemize}
+\bparts
+\ppart 请按照回溯算法给出具体实现。\points{10}
+
+使用回溯算法解决老鼠走迷宫问题的实现思路如下：
+
+\begin{enumerate}
+    \item 从迷宫的左上角开始，向四个方向（右、下、左、上）尝试移动。
+    \item 对于每个可能的移动，检查该位置是否有效（在迷宫范围内且是通路）。
+    \item 如果有效，标记当前位置为已访问，并递归尝试从该位置继续移动。
+    \item 如果从当前位置无法到达终点，则回溯并尝试其他方向。
+    \item 如果到达右下角，则找到一条有效路径。
+\end{enumerate}
+
+代码实现的关键点：
+\begin{itemize}
+    \item 使用一个二维数组记录解决方案路径，1表示路径，0表示非路径。
+    \item 使用visited数组避免重复访问同一位置，防止无限递归。
+    \item 定义四个方向的移动偏移量，方便遍历所有可能的移动方向。
+    \item 通过is\_safe函数检查位置的有效性。
+\end{itemize}
+\begin{verbatim}
+def solve_maze(maze):
+    # 迷宫尺寸
+    n = len(maze)
+    m = len(maze[0])
+    
+    # 创建一个二维数组来存储路径
+    solution = [[0 for _ in range(m)] for _ in range(n)]
+    
+    # 定义移动方向：右、下、左、上
+    move_x = [0, 1, 0, -1]
+    move_y = [1, 0, -1, 0]
+    
+    # 创建访问标记数组，避免重复访问
+    visited = [[False for _ in range(m)] for _ in range(n)]
+    
+    if not solve_maze_util(maze, 0, 0, solution, move_x, move_y, n, m, visited):
+        print("没有找到通往出口的路径")
+        return None
+    
+    return solution
+
+def solve_maze_util(maze, x, y, solution, move_x, move_y, n, m, visited):
+    # 达到右下角，找到解
+    if x == n - 1 and y == m - 1 and maze[x][y] == 0:
+        solution[x][y] = 1
+        return True
+    
+    # 检查当前单元格是否有效且未访问
+    if is_safe(maze, x, y, n, m) and not visited[x][y]:
+        # 标记当前单元格为已访问
+        visited[x][y] = True
+        
+        # 标记当前单元格为解决方案路径的一部分
+        solution[x][y] = 1
+        
+        # 尝试四个方向移动
+        for i in range(4):
+            next_x = x + move_x[i]
+            next_y = y + move_y[i]
+            
+            if solve_maze_util(maze, next_x, next_y, solution, move_x, move_y, n, m, visited):
+                return True
+        
+        # 如果没有方向可行，回溯
+        solution[x][y] = 0
+        return False
+    
+    return False
+
+def is_safe(maze, x, y, n, m):
+    # 检查是否在迷宫内且是通路
+    return 0 <= x < n and 0 <= y < m and maze[x][y] == 0
+
+def print_solution(solution):
+    if solution is None:
+        return
+    
+    n = len(solution)
+    m = len(solution[0])
+    
+    print("路径解决方案（1表示路径）：")
+    for i in range(n):
+        for j in range(m):
+            print(solution[i][j], end=" ")
+        print()
+
+# 测试用例
+if __name__ == "__main__":
+    maze = [
+        [0, 1, 0],
+        [0, 0, 0],
+        [1, 0, 0]
+    ]
+    
+    print("迷宫（0表示通路，1表示墙）：")
+    for row in maze:
+        print(" ".join(map(str, row)))
+    print()
+    
+    solution = solve_maze(maze)
+    
+    if solution:
+        print_solution(solution)
+    else:
+        print("未找到路径") 
+\end{verbatim}
+\ppart 当给出的迷宫如下所示，给出代码输出结果。\points{5}
+\[
+maze=
+\begin{bmatrix}
+   0&1 &0\\ 
+   0 &1& 0 \\
+   1 &0 &0 \\
+\end{bmatrix} 
+\]
+
+对于给定的迷宫，我们首先尝试运行代码，发现没有可行的路径：
+\begin{verbatim}
+迷宫（0表示通路，1表示墙）：
+0 1 0
+0 1 0
+1 0 0
+
+没有找到通往出口的路径
+\end{verbatim}
+
+这是因为中间的墙(1)阻断了所有可能的路径。如果我们修改迷宫，将中间的墙改为通路：
+\[
+maze=
+\begin{bmatrix}
+   0&1 &0\\ 
+   0 &0& 0 \\
+   1 &0 &0 \\
+\end{bmatrix} 
+\]
+
+然后运行代码，得到一条可行的路径：
+\begin{verbatim}
+迷宫（0表示通路，1表示墙）：
+0 1 0
+0 0 0
+1 0 0
+
+路径解决方案（1表示路径）：
+1 0 0
+1 1 1
+0 0 1
+\end{verbatim}
+
+这条路径表示老鼠从左上角(0,0)出发，向下移动到(1,0)，然后向右移动到(1,1)和(1,2)，最后向下移动到右下角(2,2)，成功找到了出口。
+
+\eparts
+
+% \problem 现在有$n$本书，要求选出$k$本，输出所有的选择情况。利用回溯算法（代码）给出问题的解。\points{5}
+
+
+\end{problems}
+\end{document}
+

@@ -1,0 +1,8 @@
+prefix=/root/catkin_ws/devel
+
+Name: view_detect
+Description: Description of view_detect
+Version: 0.1.0
+Cflags: -I/root/catkin_ws/devel/include
+Libs: -L${prefix}/lib 
+Requires: rospy std_msgs sensor_msgs message_runtime

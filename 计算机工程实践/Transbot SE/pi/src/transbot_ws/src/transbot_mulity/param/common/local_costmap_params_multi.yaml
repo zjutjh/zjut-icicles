@@ -1,0 +1,27 @@
+local_costmap:
+  #Coordinate frame and tf parameters odom
+#global_frame: robot1/odom
+  # 机器人的基坐标系 base_footprint
+#robot_base_frame: robot1/base_footprint
+  # 靠近目标点的周围多少数值就算到了目标点
+  transform_tolerance: 0.5
+  # 代价地图更新的频率（以Hz为单位）。
+  update_frequency: 10.0
+  # 代价地图发布可视化信息的速率（以Hz为单位）。
+  publish_frequency: 10.0
+  # 参数确定是否由map_server提供的地图服务来进行代价地图的初始化。
+  static_map: ture
+#  static_map: false
+  # 参数设置为true意味着当机器人移动时，保持机器人在本地代价地图中心。
+  rolling_window: true
+  # 代价地图宽度
+  width: 2.5
+  # 代价地图高度
+  height: 2.5
+  # 代价地图分辨率（米/单元格）
+  resolution: 0.05
+  circumscribed_radius: 0.02
+
+  plugins:
+    - {name: obstacle_layer, type: "costmap_2d::ObstacleLayer"}
+    - {name: inflation_layer, type: "costmap_2d::InflationLayer"}

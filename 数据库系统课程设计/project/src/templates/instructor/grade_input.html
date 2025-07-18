@@ -1,0 +1,750 @@
+{% extends "base.html" %}
+
+{% block title %}成绩录入 - 教务管理系统{% endblock %}
+
+{% block head_extra %}
+<style>
+    .grade-input-container {
+        max-width: 1000px;
+        margin: 20px auto;
+        padding: 20px;
+        background-color: #fff;
+        border-radius: 8px;
+        box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+    }
+    
+    .grade-input-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 20px;
+        padding-bottom: 10px;
+        border-bottom: 1px solid #eee;
+    }
+    
+    .grade-input-title {
+        font-size: 1.5em;
+        font-weight: 500;
+    }
+    
+    .grade-input-actions {
+        display: flex;
+        gap: 10px;
+    }
+    
+    .grade-input-actions button {
+        padding: 8px 15px;
+        background-color: #0056b3;
+        color: white;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+    }
+    
+    .grade-input-actions button:hover {
+        background-color: #004494;
+    }
+    
+    .course-selector {
+        margin-bottom: 20px;
+    }
+    
+    .course-selector select {
+        padding: 8px;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        width: 100%;
+    }
+    
+    .course-info {
+        background-color: #f8f9fa;
+        padding: 15px;
+        border-radius: 8px;
+        margin-bottom: 20px;
+    }
+    
+    .course-info h3 {
+        margin-top: 0;
+        margin-bottom: 10px;
+        font-size: 1.2em;
+    }
+    
+    .course-info p {
+        margin: 5px 0;
+    }
+    
+    .course-info strong {
+        font-weight: 500;
+    }
+    
+    .grade-input-filters {
+        display: flex;
+        gap: 10px;
+        margin-bottom: 20px;
+        flex-wrap: wrap;
+    }
+    
+    .grade-input-filters input {
+        padding: 8px;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        flex-grow: 1;
+    }
+    
+    .grade-input-filters button {
+        padding: 8px 15px;
+        background-color: #0056b3;
+        color: white;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+    }
+    
+    .grade-input-filters button:hover {
+        background-color: #004494;
+    }
+    
+    .grade-input-summary {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 15px;
+        font-size: 0.9em;
+    }
+    
+    .grade-input-table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-bottom: 20px;
+    }
+    
+    .grade-input-table th, .grade-input-table td {
+        padding: 12px 15px;
+        text-align: left;
+        border-bottom: 1px solid #ddd;
+    }
+    
+    .grade-input-table th {
+        background-color: #f8f9fa;
+        font-weight: 500;
+    }
+    
+    .grade-input-table tr:hover {
+        background-color: #f5f5f5;
+    }
+    
+    .grade-input-table input[type="number"] {
+        width: 60px;
+        padding: 5px;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        text-align: center;
+    }
+    
+    .grade-input-table input[type="number"]:focus {
+        border-color: #0056b3;
+        outline: none;
+        box-shadow: 0 0 0 2px rgba(0, 86, 179, 0.25);
+    }
+    
+    .grade-input-table select {
+        padding: 5px;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+    }
+    
+    .grade-status {
+        padding: 3px 8px;
+        border-radius: 10px;
+        font-size: 0.85em;
+        font-weight: 500;
+    }
+    
+    .status-saved {
+        background-color: #d4edda;
+        color: #155724;
+    }
+    
+    .status-unsaved {
+        background-color: #fff3cd;
+        color: #856404;
+    }
+    
+    .status-error {
+        background-color: #f8d7da;
+        color: #721c24;
+    }
+    
+    .grade-input-footer {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-top: 20px;
+    }
+    
+    .grade-input-footer button {
+        padding: 10px 20px;
+        background-color: #28a745;
+        color: white;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        font-size: 1em;
+    }
+    
+    .grade-input-footer button:hover {
+        background-color: #218838;
+    }
+    
+    .grade-input-footer button:disabled {
+        background-color: #6c757d;
+        cursor: not-allowed;
+    }
+    
+    .pagination {
+        display: flex;
+        justify-content: center;
+        margin-top: 20px;
+    }
+    
+    .pagination button {
+        padding: 5px 10px;
+        margin: 0 5px;
+        border: 1px solid #ddd;
+        background-color: #fff;
+        cursor: pointer;
+        border-radius: 4px;
+    }
+    
+    .pagination button:hover {
+        background-color: #f5f5f5;
+    }
+    
+    .pagination button.active {
+        background-color: #0056b3;
+        color: white;
+        border-color: #0056b3;
+    }
+    
+    .pagination button:disabled {
+        color: #ccc;
+        cursor: not-allowed;
+    }
+    
+    .no-students {
+        text-align: center;
+        padding: 30px;
+        color: #666;
+        background-color: #f8f9fa;
+        border-radius: 4px;
+    }
+    
+    .grade-distribution {
+        margin-top: 30px;
+    }
+    
+    .grade-distribution h3 {
+        font-size: 1.2em;
+        margin-bottom: 15px;
+    }
+    
+    .grade-bars {
+        display: flex;
+        height: 200px;
+        align-items: flex-end;
+        gap: 10px;
+        margin-top: 10px;
+    }
+    
+    .grade-bar-container {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+    
+    .grade-bar {
+        width: 100%;
+        background-color: #0056b3;
+        border-radius: 4px 4px 0 0;
+        transition: height 0.3s;
+    }
+    
+    .grade-label {
+        margin-top: 5px;
+        font-size: 0.9em;
+    }
+    
+    .grade-count {
+        font-size: 0.8em;
+        color: #666;
+    }
+    
+    .grade-stats {
+        display: flex;
+        justify-content: space-around;
+        margin-top: 20px;
+        flex-wrap: wrap;
+    }
+    
+    .grade-stat-item {
+        text-align: center;
+        padding: 10px;
+        min-width: 100px;
+    }
+    
+    .grade-stat-label {
+        font-size: 0.9em;
+        color: #666;
+    }
+    
+    .grade-stat-value {
+        font-size: 1.2em;
+        font-weight: 500;
+        color: #0056b3;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="grade-input-container">
+    <div class="grade-input-header">
+        <div class="grade-input-title">成绩录入</div>
+        <div class="grade-input-actions">
+            <button onclick="importGrades()">导入成绩</button>
+            <button onclick="exportGrades()">导出成绩</button>
+        </div>
+    </div>
+    
+    <div class="course-selector">
+        <select id="course-select" onchange="changeCourse()">
+            <option value="CS101">CS101 - 计算机导论 (2024秋季学期)</option>
+            <option value="CS201">CS201 - 数据结构 (2024秋季学期)</option>
+            <option value="CS301">CS301 - 操作系统 (2024秋季学期)</option>
+            <option value="CS401">CS401 - 计算机网络 (2024秋季学期)</option>
+        </select>
+    </div>
+    
+    <div class="course-info">
+        <h3>CS101 - 计算机导论</h3>
+        <p><strong>学期：</strong>2024秋季学期</p>
+        <p><strong>学分：</strong>3.0</p>
+        <p><strong>课程类型：</strong>必修课</p>
+        <p><strong>选课人数：</strong>45人</p>
+        <p><strong>成绩组成：</strong>平时成绩(30%) + 期中考试(20%) + 期末考试(50%)</p>
+    </div>
+    
+    <div class="grade-input-filters">
+        <input type="text" id="search-input" placeholder="搜索学号或姓名">
+        <button onclick="searchStudents()">搜索</button>
+    </div>
+    
+    <div class="grade-input-summary">
+        <div>总人数：<strong>45</strong> 人</div>
+        <div>已录入：<strong>30</strong> 人 | 未录入：<strong>15</strong> 人</div>
+        <div>平均分：<strong>85.6</strong></div>
+    </div>
+    
+    <table class="grade-input-table">
+        <thead>
+            <tr>
+                <th>序号</th>
+                <th>学号</th>
+                <th>姓名</th>
+                <th>平时成绩<br>(30%)</th>
+                <th>期中考试<br>(20%)</th>
+                <th>期末考试<br>(50%)</th>
+                <th>总评</th>
+                <th>等级</th>
+                <th>状态</th>
+            </tr>
+        </thead>
+        <tbody id="grade-input-body">
+            <!-- 成绩录入表格将通过JavaScript动态加载 -->
+        </tbody>
+    </table>
+    
+    <div id="no-students" class="no-students" style="display: none;">
+        没有找到符合条件的学生
+    </div>
+    
+    <div class="grade-input-footer">
+        <div>
+            <span id="save-status">所有更改已保存</span>
+        </div>
+        <button id="submit-grades" onclick="submitGrades()">提交成绩</button>
+    </div>
+    
+    <div class="pagination" id="pagination">
+        <!-- 分页按钮将通过JavaScript动态生成 -->
+    </div>
+    
+    <div class="grade-distribution">
+        <h3>成绩分布</h3>
+        <div class="grade-bars" id="grade-bars">
+            <!-- 成绩分布图将通过JavaScript动态生成 -->
+        </div>
+        
+        <div class="grade-stats">
+            <div class="grade-stat-item">
+                <div class="grade-stat-label">平均分</div>
+                <div class="grade-stat-value">85.6</div>
+            </div>
+            <div class="grade-stat-item">
+                <div class="grade-stat-label">最高分</div>
+                <div class="grade-stat-value">98</div>
+            </div>
+            <div class="grade-stat-item">
+                <div class="grade-stat-label">最低分</div>
+                <div class="grade-stat-value">65</div>
+            </div>
+            <div class="grade-stat-item">
+                <div class="grade-stat-label">中位数</div>
+                <div class="grade-stat-value">86</div>
+            </div>
+            <div class="grade-stat-item">
+                <div class="grade-stat-label">标准差</div>
+                <div class="grade-stat-value">7.2</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
+
+{% block scripts_extra %}
+<script>
+    // 页面加载完成后初始化
+    document.addEventListener('DOMContentLoaded', function() {
+        loadGradeInputTable();
+        setupPagination();
+        renderGradeDistribution();
+    });
+    
+    // 加载成绩录入表格
+    function loadGradeInputTable() {
+        // 获取当前选择的课程
+        const courseId = document.getElementById('course-select').value;
+        const searchInput = document.getElementById('search-input').value;
+        
+        // 构建请求URL
+        let url = '/api/instructor/grade_input';
+        const params = [];
+        
+        params.push(`course_id=${courseId}`);
+        
+        if (searchInput) {
+            params.push(`search=${encodeURIComponent(searchInput)}`);
+        }
+        
+        if (params.length > 0) {
+            url += '?' + params.join('&');
+        }
+        
+        // 发送AJAX请求
+        fetch(url)
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('网络响应不正常');
+                }
+                return response.json();
+            })
+            .then(data => {
+                displayGradeInputTable(data.students);
+                updateCourseSummary(data.course_info, data.summary);
+                renderGradeDistribution(data.distribution);
+            })
+            .catch(error => {
+                console.error('获取成绩数据失败:', error);
+                document.getElementById('no-students').style.display = 'block';
+                document.getElementById('no-students').textContent = '获取成绩数据失败，请稍后再试';
+            });
+    }
+    
+    // 显示成绩录入表格
+    function displayGradeInputTable(students) {
+        const tbody = document.getElementById('grade-input-body');
+        const noStudents = document.getElementById('no-students');
+        
+        tbody.innerHTML = '';
+        
+        if (!students || students.length === 0) {
+            noStudents.style.display = 'block';
+            return;
+        }
+        
+        noStudents.style.display = 'none';
+        
+        students.forEach(student => {
+            const row = document.createElement('tr');
+            
+            let statusClass = '';
+            let statusText = '';
+            
+            switch (student.status) {
+                case 'saved':
+                    statusClass = 'status-saved';
+                    statusText = '已保存';
+                    break;
+                case 'unsaved':
+                    statusClass = 'status-unsaved';
+                    statusText = '未保存';
+                    break;
+                case 'error':
+                    statusClass = 'status-error';
+                    statusText = '有错误';
+                    break;
+            }
+            
+            row.innerHTML = `
+                <td>${student.id}</td>
+                <td>${student.student_id}</td>
+                <td>${student.student_name}</td>
+                <td><input type="number" min="0" max="100" value="${student.attendance !== null ? student.attendance : ''}" onchange="updateGrade('${student.student_id}', 'attendance', this.value)"></td>
+                <td><input type="number" min="0" max="100" value="${student.midterm !== null ? student.midterm : ''}" onchange="updateGrade('${student.student_id}', 'midterm', this.value)"></td>
+                <td><input type="number" min="0" max="100" value="${student.final !== null ? student.final : ''}" onchange="updateGrade('${student.student_id}', 'final', this.value)"></td>
+                <td>${student.total !== null ? student.total.toFixed(1) : '-'}</td>
+                <td>
+                    <select onchange="updateGrade('${student.student_id}', 'letter_grade', this.value)">
+                        <option value="" ${student.letter_grade === null ? 'selected' : ''}>-</option>
+                        <option value="A+" ${student.letter_grade === 'A+' ? 'selected' : ''}>A+</option>
+                        <option value="A" ${student.letter_grade === 'A' ? 'selected' : ''}>A</option>
+                        <option value="A-" ${student.letter_grade === 'A-' ? 'selected' : ''}>A-</option>
+                        <option value="B+" ${student.letter_grade === 'B+' ? 'selected' : ''}>B+</option>
+                        <option value="B" ${student.letter_grade === 'B' ? 'selected' : ''}>B</option>
+                        <option value="B-" ${student.letter_grade === 'B-' ? 'selected' : ''}>B-</option>
+                        <option value="C+" ${student.letter_grade === 'C+' ? 'selected' : ''}>C+</option>
+                        <option value="C" ${student.letter_grade === 'C' ? 'selected' : ''}>C</option>
+                        <option value="C-" ${student.letter_grade === 'C-' ? 'selected' : ''}>C-</option>
+                        <option value="D" ${student.letter_grade === 'D' ? 'selected' : ''}>D</option>
+                        <option value="F" ${student.letter_grade === 'F' ? 'selected' : ''}>F</option>
+                    </select>
+                </td>
+                <td><span class="grade-status ${statusClass}">${statusText}</span></td>
+            `;
+            
+            tbody.appendChild(row);
+        });
+    }
+    
+    // 更新课程信息和统计摘要
+    function updateCourseSummary(courseInfo, summary) {
+        if (!courseInfo) return;
+        
+        // 更新课程信息
+        const courseInfoContainer = document.querySelector('.course-info');
+        courseInfoContainer.innerHTML = `
+            <h3>${courseInfo.course_id} - ${courseInfo.course_title}</h3>
+            <p><strong>学期：</strong>${formatSemester(courseInfo.semester_id)}</p>
+            <p><strong>学分：</strong>${courseInfo.credits}</p>
+            <p><strong>课程类型：</strong>${courseInfo.course_type}</p>
+            <p><strong>选课人数：</strong>${courseInfo.enrolled_count}人</p>
+            <p><strong>成绩组成：</strong>平时成绩(30%) + 期中考试(20%) + 期末考试(50%)</p>
+        `;
+        
+        // 更新统计摘要
+        if (summary) {
+            const summaryContainer = document.querySelector('.grade-input-summary');
+            summaryContainer.innerHTML = `
+                <div>总人数：<strong>${summary.total_count}</strong> 人</div>
+                <div>已录入：<strong>${summary.graded_count}</strong> 人 | 未录入：<strong>${summary.ungraded_count}</strong> 人</div>
+                <div>平均分：<strong>${summary.average_score ? summary.average_score.toFixed(1) : '-'}</strong></div>
+            `;
+            
+            // 更新统计数据
+            if (summary.stats) {
+                const statsContainer = document.querySelector('.grade-stats');
+                statsContainer.innerHTML = `
+                    <div class="grade-stat-item">
+                        <div class="grade-stat-label">平均分</div>
+                        <div class="grade-stat-value">${summary.stats.average ? summary.stats.average.toFixed(1) : '-'}</div>
+                    </div>
+                    <div class="grade-stat-item">
+                        <div class="grade-stat-label">最高分</div>
+                        <div class="grade-stat-value">${summary.stats.max || '-'}</div>
+                    </div>
+                    <div class="grade-stat-item">
+                        <div class="grade-stat-label">最低分</div>
+                        <div class="grade-stat-value">${summary.stats.min || '-'}</div>
+                    </div>
+                    <div class="grade-stat-item">
+                        <div class="grade-stat-label">中位数</div>
+                        <div class="grade-stat-value">${summary.stats.median ? summary.stats.median.toFixed(1) : '-'}</div>
+                    </div>
+                    <div class="grade-stat-item">
+                        <div class="grade-stat-label">标准差</div>
+                        <div class="grade-stat-value">${summary.stats.std_dev ? summary.stats.std_dev.toFixed(1) : '-'}</div>
+                    </div>
+                `;
+            }
+        }
+    }
+    
+    // 更新成绩
+    function updateGrade(studentId, field, value) {
+        const courseId = document.getElementById('course-select').value;
+        
+        // 显示保存状态
+        document.getElementById('save-status').textContent = '正在保存...';
+        
+        // 构建请求数据
+        const data = {
+            student_id: studentId,
+            section_id: courseId,
+            grade: value
+        };
+        
+        // 发送AJAX请求
+        fetch('/api/instructor/update_grade', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(data)
+        })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('保存失败');
+            }
+            return response.json();
+        })
+        .then(result => {
+            document.getElementById('save-status').textContent = '更改已保存';
+            
+            // 如果服务器返回了更新后的总评，更新界面
+            if (result.updated_total !== undefined) {
+                // 找到对应学生行
+                const rows = document.querySelectorAll('#grade-input-body tr');
+                for (let row of rows) {
+                    const cells = row.querySelectorAll('td');
+                    if (cells[1].textContent === studentId) {
+                        // 更新总评
+                        cells[6].textContent = result.updated_total !== null ? result.updated_total.toFixed(1) : '-';
+                        break;
+                    }
+                }
+            }
+            
+            // 如果服务器返回了更新后的分布，更新图表
+            if (result.distribution) {
+                renderGradeDistribution(result.distribution);
+            }
+        })
+        .catch(error => {
+            console.error('更新成绩失败:', error);
+            document.getElementById('save-status').textContent = '保存失败，请重试';
+        });
+    }
+    
+    // 切换课程
+    function changeCourse() {
+        loadGradeInputTable();
+    }
+    
+    // 搜索学生
+    function searchStudents() {
+        loadGradeInputTable();
+    }
+    
+    // 导入成绩
+    function importGrades() {
+        alert('导入成绩功能将在后续版本中实现');
+    }
+    
+    // 导出成绩
+    function exportGrades() {
+        alert('导出成绩功能将在后续版本中实现');
+    }
+    
+    // 提交成绩
+    function submitGrades() {
+        const courseId = document.getElementById('course-select').value;
+        const confirmed = confirm('确定要提交成绩吗？提交后将无法修改。');
+        
+        if (confirmed) {
+            // 发送AJAX请求
+            fetch('/api/instructor/submit_grades', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ course_id: courseId })
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('提交失败');
+                }
+                return response.json();
+            })
+            .then(result => {
+                if (result.success) {
+                    alert('成绩提交成功！');
+                    // 重新加载数据
+                    loadGradeInputTable();
+                } else {
+                    alert(`提交失败: ${result.message || '未知错误'}`);
+                }
+            })
+            .catch(error => {
+                console.error('提交成绩失败:', error);
+                alert('提交成绩失败，请稍后重试');
+            });
+        }
+    }
+    
+    // 设置分页
+    function setupPagination() {
+        const pagination = document.getElementById('pagination');
+        
+        pagination.innerHTML = `
+            <button disabled>&lt;&lt;</button>
+            <button disabled>&lt;</button>
+            <button class="active">1</button>
+            <button>2</button>
+            <button>3</button>
+            <button>&gt;</button>
+            <button>&gt;&gt;</button>
+        `;
+        
+        // 在实际应用中，这里应该添加点击事件处理器
+    }
+    
+    // 渲染成绩分布图
+    function renderGradeDistribution(distribution) {
+        if (!distribution) return;
+        
+        const gradeBars = document.getElementById('grade-bars');
+        gradeBars.innerHTML = '';
+        
+        // 计算最大值，用于归一化高度
+        const maxCount = Math.max(...distribution.map(item => item.count));
+        
+        distribution.forEach(item => {
+            const height = maxCount > 0 ? (item.count / maxCount) * 100 : 0;
+            
+            const barContainer = document.createElement('div');
+            barContainer.className = 'grade-bar-container';
+            
+            barContainer.innerHTML = `
+                <div class="grade-bar" style="height: ${height}%"></div>
+                <div class="grade-label">${item.grade}</div>
+                <div class="grade-count">${item.count}人</div>
+            `;
+            
+            gradeBars.appendChild(barContainer);
+        });
+    }
+    
+    // 格式化学期显示
+    function formatSemester(semester) {
+        if (!semester) return '';
+        
+        const [year, term] = semester.split('-');
+        const termMap = {
+            'Spring': '春季学期',
+            'Fall': '秋季学期',
+            'Summer': '夏季学期'
+        };
+        return `${year}年${termMap[term] || term}`;
+    }
+</script>
+{% endblock %} 

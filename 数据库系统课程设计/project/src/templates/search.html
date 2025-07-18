@@ -1,0 +1,303 @@
+{% extends "base.html" %}
+
+{% block title %}全局搜索 - 教务管理系统{% endblock %}
+
+{% block head_extra %}
+<style>
+    .search-container {
+        padding: 20px;
+        max-width: 1200px;
+        margin: 0 auto;
+    }
+    .search-header {
+        margin-bottom: 20px;
+    }
+    .search-form {
+        display: flex;
+        margin-bottom: 20px;
+    }
+    .search-input {
+        flex: 1;
+        padding: 12px;
+        border: 1px solid #ddd;
+        border-radius: 4px 0 0 4px;
+        font-size: 16px;
+    }
+    .search-button {
+        padding: 12px 20px;
+        background-color: #4CAF50;
+        color: white;
+        border: none;
+        border-radius: 0 4px 4px 0;
+        cursor: pointer;
+        font-size: 16px;
+    }
+    .search-button:hover {
+        background-color: #45a049;
+    }
+    .search-filters {
+        display: flex;
+        margin-bottom: 20px;
+        gap: 10px;
+    }
+    .search-filter {
+        padding: 8px 15px;
+        background-color: #f1f1f1;
+        border-radius: 20px;
+        cursor: pointer;
+        transition: all 0.2s;
+    }
+    .search-filter.active {
+        background-color: #4CAF50;
+        color: white;
+    }
+    .search-results {
+        margin-top: 20px;
+    }
+    .result-item {
+        padding: 15px;
+        border-bottom: 1px solid #eee;
+        transition: background-color 0.2s;
+    }
+    .result-item:hover {
+        background-color: #f9f9f9;
+    }
+    .result-item h3 {
+        margin-top: 0;
+        margin-bottom: 5px;
+        color: #2e86de;
+    }
+    .result-item .result-type {
+        display: inline-block;
+        padding: 3px 8px;
+        background-color: #e1f5fe;
+        color: #0288d1;
+        border-radius: 4px;
+        font-size: 12px;
+        margin-right: 10px;
+    }
+    .result-item .result-description {
+        color: #555;
+        margin-top: 5px;
+    }
+    .popular-terms {
+        margin-top: 30px;
+        padding: 15px;
+        background-color: #f8f9fa;
+        border-radius: 8px;
+    }
+    .popular-terms h3 {
+        margin-top: 0;
+        margin-bottom: 10px;
+    }
+    .term-tags {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+    }
+    .term-tag {
+        padding: 5px 10px;
+        background-color: #e9ecef;
+        border-radius: 4px;
+        cursor: pointer;
+        transition: all 0.2s;
+    }
+    .term-tag:hover {
+        background-color: #dee2e6;
+    }
+    .no-results {
+        padding: 20px;
+        text-align: center;
+        color: #666;
+        background-color: #f8f9fa;
+        border-radius: 8px;
+    }
+    .loading {
+        text-align: center;
+        padding: 20px;
+    }
+    .loading-spinner {
+        border: 4px solid #f3f3f3;
+        border-top: 4px solid #4CAF50;
+        border-radius: 50%;
+        width: 30px;
+        height: 30px;
+        animation: spin 1s linear infinite;
+        margin: 0 auto;
+    }
+    @keyframes spin {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="search-container">
+    <div class="search-header">
+        <h2>全局搜索</h2>
+        <p>搜索学生、课程、教师、公告等信息</p>
+    </div>
+    
+    <div class="search-form">
+        <input type="text" id="search-input" class="search-input" placeholder="输入关键词..." autofocus>
+        <button id="search-button" class="search-button">搜索</button>
+    </div>
+    
+    <div class="search-filters">
+        <div class="search-filter active" data-type="all">全部</div>
+        <div class="search-filter" data-type="student">学生</div>
+        <div class="search-filter" data-type="course">课程</div>
+        <div class="search-filter" data-type="instructor">教师</div>
+        <div class="search-filter" data-type="announcement">公告</div>
+    </div>
+    
+    <div id="loading" class="loading" style="display: none;">
+        <div class="loading-spinner"></div>
+        <p>正在搜索...</p>
+    </div>
+    
+    <div id="search-results" class="search-results">
+        <!-- 搜索结果将在这里动态加载 -->
+        <div class="no-results">
+            <p>请输入关键词开始搜索</p>
+        </div>
+    </div>
+    
+    <div class="popular-terms">
+        <h3>热门搜索</h3>
+        <div id="popular-terms" class="term-tags">
+            <!-- 热门搜索词将在这里动态加载 -->
+            <div class="term-tag">加载中...</div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts_extra %}
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const searchInput = document.getElementById('search-input');
+        const searchButton = document.getElementById('search-button');
+        const searchResults = document.getElementById('search-results');
+        const loadingIndicator = document.getElementById('loading');
+        const filters = document.querySelectorAll('.search-filter');
+        const popularTermsContainer = document.getElementById('popular-terms');
+        
+        let activeFilter = 'all';
+        
+        // 设置过滤器点击事件
+        filters.forEach(filter => {
+            filter.addEventListener('click', function() {
+                filters.forEach(f => f.classList.remove('active'));
+                this.classList.add('active');
+                activeFilter = this.dataset.type;
+                
+                // 如果已有搜索词，重新搜索
+                if (searchInput.value.trim()) {
+                    performSearch(searchInput.value.trim());
+                }
+            });
+        });
+        
+        // 搜索按钮点击事件
+        searchButton.addEventListener('click', function() {
+            const searchTerm = searchInput.value.trim();
+            if (searchTerm) {
+                performSearch(searchTerm);
+            }
+        });
+        
+        // 回车键触发搜索
+        searchInput.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                const searchTerm = searchInput.value.trim();
+                if (searchTerm) {
+                    performSearch(searchTerm);
+                }
+            }
+        });
+        
+        // 执行搜索
+        function performSearch(term) {
+            // 显示加载指示器
+            loadingIndicator.style.display = 'block';
+            searchResults.style.display = 'none';
+            
+            // 调用搜索API
+            fetch(`/api/search?term=${encodeURIComponent(term)}&type=${activeFilter}`)
+                .then(response => response.json())
+                .then(data => {
+                    // 隐藏加载指示器
+                    loadingIndicator.style.display = 'none';
+                    searchResults.style.display = 'block';
+                    
+                    // 渲染搜索结果
+                    renderSearchResults(data);
+                })
+                .catch(error => {
+                    console.error('搜索请求失败:', error);
+                    loadingIndicator.style.display = 'none';
+                    searchResults.style.display = 'block';
+                    searchResults.innerHTML = '<div class="no-results"><p>搜索过程中出现错误，请稍后再试</p></div>';
+                });
+        }
+        
+        // 渲染搜索结果
+        function renderSearchResults(results) {
+            if (!results || results.length === 0) {
+                searchResults.innerHTML = '<div class="no-results"><p>没有找到匹配的结果</p></div>';
+                return;
+            }
+            
+            let html = '';
+            results.forEach(result => {
+                html += `
+                <div class="result-item">
+                    <span class="result-type">${result.result_type}</span>
+                    <h3>${result.result_title}</h3>
+                    <div class="result-description">${result.result_description}</div>
+                </div>
+                `;
+            });
+            
+            searchResults.innerHTML = html;
+        }
+        
+        // 加载热门搜索词
+        function loadPopularTerms() {
+            fetch('/api/popular_terms')
+                .then(response => response.json())
+                .then(data => {
+                    if (!data || data.length === 0) {
+                        popularTermsContainer.innerHTML = '<p>暂无热门搜索</p>';
+                        return;
+                    }
+                    
+                    let html = '';
+                    data.forEach(term => {
+                        html += `<div class="term-tag" data-term="${term.search_term}">${term.search_term}</div>`;
+                    });
+                    
+                    popularTermsContainer.innerHTML = html;
+                    
+                    // 为热门搜索词添加点击事件
+                    document.querySelectorAll('.term-tag').forEach(tag => {
+                        tag.addEventListener('click', function() {
+                            const term = this.dataset.term;
+                            searchInput.value = term;
+                            performSearch(term);
+                        });
+                    });
+                })
+                .catch(error => {
+                    console.error('获取热门搜索词失败:', error);
+                    popularTermsContainer.innerHTML = '<p>获取热门搜索失败</p>';
+                });
+        }
+        
+        // 页面加载时获取热门搜索词
+        loadPopularTerms();
+    });
+</script>
+{% endblock %} 

@@ -1,0 +1,12 @@
+<launch>
+    <arg name="namespace" default="robot1"/>
+    <param name="use_sim_time" value="false"/>
+    <group ns="$(arg namespace)">
+    <node name="joy_node" pkg="joy" type="joy_node" output="screen" respawn="false"/>
+    <node name="transbot_joy" pkg="transbot_ctrl" type="transbot_joy.py" output="screen">
+        <param name="linear_speed_limit" type="double" value="0.45"/>
+        <param name="angular_speed_limit" type="double" value="2.0"/>
+        <remap from="/cmd_vel" to="cmd_vel"/>
+    </node>
+    </group>
+</launch>

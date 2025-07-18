@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<package format="2">
+  <name>camera_viewer</name>
+  <version>0.0.1</version>
+  <description>获取单目相机图像并使用OpenCV显示</description>
+  <maintainer email="pi@example.com">Pi User</maintainer>
+  <license>MIT</license>
+
+  <buildtool_depend>catkin</buildtool_depend>
+  <build_depend>roscpp</build_depend>
+  <build_depend>sensor_msgs</build_depend>
+  <build_depend>std_msgs</build_depend>
+  <build_depend>cv_bridge</build_depend>
+  <build_depend>image_transport</build_depend>
+  
+  <exec_depend>roscpp</exec_depend>
+  <exec_depend>sensor_msgs</exec_depend>
+  <exec_depend>std_msgs</exec_depend>
+  <exec_depend>cv_bridge</exec_depend>
+  <exec_depend>image_transport</exec_depend>
+  <exec_depend>usb_cam</exec_depend>
+</package>

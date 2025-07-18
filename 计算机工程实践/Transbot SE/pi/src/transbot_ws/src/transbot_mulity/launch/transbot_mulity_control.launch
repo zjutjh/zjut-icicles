@@ -1,0 +1,101 @@
+<launch>
+    <!-- 设置当前机器人命名空间 -->
+     <!--Sets the current bot namespace-->
+    <arg name="namespace" default="robot2"/>
+    <arg name="is_mulity" default="true"/>
+     <group ns="$(arg namespace)">
+       <group if="$(arg is_mulity)">
+        <!-- 底层驱动节点 -->
+        <!-- Low-level driver node -->
+        <node pkg="transbot_bringup" type="transbot_driver.py" name="transbot_node" required="true" output="screen">
+            <param name="imu" value="/transbot/imu"/>
+            <param name="vel" value="/transbot/get_vel"/>
+            <remap from="/cmd_vel" to="cmd_vel"/>
+            <remap from="/transbot/get_vel" to="transbot/get_vel"/>
+            <remap from="/transbot/imu" to="transbot/imu"/>
+            <remap from="/voltage" to="voltage"/>
+            <remap from="/TargetAngle" to="TargetAngle"/>
+        </node>
+       </group>
+       
+       <group unless="$(arg is_mulity)">
+        <!-- 底层驱动节点 -->
+        <!-- Low-level driver node -->
+        <node pkg="transbot_bringup" type="transbot_driver.py" name="transbot_node" required="true" output="screen">
+            <param name="imu" value="/transbot/imu"/>
+            <param name="vel" value="/transbot/get_vel"/>
+            <remap from="/transbot/get_vel" to="transbot/get_vel"/>
+            <remap from="/transbot/imu" to="transbot/imu"/>
+            <remap from="/voltage" to="voltage"/>
+        </node>
+       </group>
+        
+         <!-- 过滤和融合imu数据 -->
+          <!-- Filter and fuse imu data -->
+        <node pkg="imu_calib" type="apply_calib" name="apply_calib" output="screen" respawn="false">
+            <remap from="/imu/data_raw" to="imu/data_raw"/>
+            <remap from="/transbot/imu" to="transbot/imu"/>
+            <param name="calib_file" value="$(find transbot_bringup)/param/imu/imu_calib.yaml"/>
+            <param name="calibrate_gyros" value="true"/>
+	        <param name="is_multi" value="true"/>
+            <param name="is_namespace" type="string" value="$(arg namespace)"/>
+        </node>
+             <!-- 过滤和融合imu数据 -->
+    <!-- Filter and fuse imu data -->
+        <node pkg="imu_filter_madgwick" type="imu_filter_node" name="imu_filter_madgwick" output="screen" respawn="false">
+            <remap from="/imu/data_raw" to="imu/data_raw"/>
+            <param name="fixed_frame" value="$(arg namespace)/base_link"/>
+            <param name="use_mag" value="fasle"/>
+            <param name="publish_tf" value="false"/>
+            <param name="use_magnetic_field_msg" value="fasle"/>
+            <param name="world_frame" value="enu"/>
+            <param name="orientation_stddev" value="0.05"/>
+            <param name="angular_scale" value="1.08"/>
+        </node>
+        
+        <!-- 发布里程计数据 -->
+        <!-- Publish odometer data -->
+        <node pkg="transbot_bringup" name="base_node" type="base_node">
+            <param name="linear_scale" type="double" value="1.2"/>
+            <param name="is_namespace" type="string" value="$(arg namespace)"/>
+         <param name="is_multi_robot"  type="bool" value="true"/>
+            <remap from="/transbot/get_vel" to="transbot/get_vel"/>
+        </node>
+        
+       <!-- 扩展卡尔曼数据融合 -->
+       <!-- Extended Kalman data fusion -->
+        <!--node pkg="robot_localization" type="ekf_localization_node" name="ekf_localization">
+            <remap from="odometry/filtered" to="odom"/>
+	        <rosparam command="load" file="$(find transbot_bringup)/param/ekf/robot_localization.yaml"/>
+            <param name="odom0"   value="/$(arg namespace)/odom_raw"/>
+            <param name="imu0"   value="/$(arg namespace)/imu/data"/>
+            <param name="base_link_frame"   value="$(arg namespace)/base_footprint"/>
+            <param name="world_frame"   value="$(arg namespace)/odom"/>
+            <param name="odom_frame"   value="$(arg namespace)/odom"/>
+        </node-->
+       <!-- 发布静态坐标系转换 -->
+       <!-- Post static coordinate system conversion -->    
+       <node pkg="tf" type="static_transform_publisher" name="base_link_to_imu_link"
+          args="0.0 0 0.02 0 0 0  $(arg namespace)/base_link $(arg namespace)/imu_link  100"/>
+       <!--node pkg="tf" type="static_transform_publisher" name="base_footprint_to_base_link"
+          args="0.0 0 0.08 0 0 0  $(arg namespace)/base_footprint $(arg namespace)/base_link "/-->
+            <!--param name="robot_description"
+           command="$(find xacro)/xacro  '$(find transbot_description)/urdf/transbot_camera.xacro' ns:=$(arg namespace)"/-->
+            <param name="robot_description"
+           command="$(find xacro)/xacro  '$(find transbot_se_description)/urdf/transbot_se_description.urdf'"/>
+       <node name="joint_state_publisher" pkg="joint_state_publisher" type="joint_state_publisher" />
+       <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher" />
+       
+    </group>
+    
+    
+    
+    <!--include file="$(find transbot_mulity)/launch/transbot_joy_mulity.launch">
+        <arg name="namespace" value="$(arg namespace)"/>
+    </include-->
+    
+    <!--include file="$(find transbot_mulity)/launch/transbot_keyboard.launch">
+        <arg name="namespace" value="$(arg namespace)"/>
+    </include-->
+
+</launch>

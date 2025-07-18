@@ -1,0 +1,9 @@
+\subsubsection usage Usage
+\verbatim
+<node name="smoothing" pkg="opencv_apps" type="smoothing">
+  <param name="use_camera_info" type="bool" value="False" />
+  <param name="filter_type" type="int" value="1" />
+  <param name="kernel_size" type="int" value="7" />
+</node>
+\endverbatim
+

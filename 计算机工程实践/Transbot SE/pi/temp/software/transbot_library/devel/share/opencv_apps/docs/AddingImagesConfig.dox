@@ -1,0 +1,10 @@
+\subsubsection parameters ROS parameters
+
+Reads and maintains the following parameters on the ROS server
+
+- \b "~use_camera_info" : \b [bool] Indicates that the camera_info topic should be subscribed to to get the default input_frame_id. Otherwise the frame from the image message will be used. min: False, default: False, max: True
+- \b "~alpha" : \b [double] weight of the first array elements. min: 0.0, default: 0.5, max: 1.0
+- \b "~auto_beta" : \b [bool] True: Automatically set beta weight as 1 - alpha, False: Use user defined beta weight min: False, default: True, max: True
+- \b "~beta" : \b [double] weight of the second array elements. min: 0.0, default: 0.5, max: 1.0
+- \b "~gamma" : \b [double] scalar added to each sum. min: 0.0, default: 0.0, max: 255.0
+

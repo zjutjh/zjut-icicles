@@ -1,0 +1,3 @@
+<launch>
+    <node name="PoseCtrlArm" pkg="arm_mediapipe" type="02_PoseCtrlArm.py" output="screen" required="true"/>
+</launch>

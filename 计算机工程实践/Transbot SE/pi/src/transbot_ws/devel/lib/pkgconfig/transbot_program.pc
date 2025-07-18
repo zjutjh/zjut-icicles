@@ -1,0 +1,8 @@
+prefix=/root/transbot_ws/devel
+
+Name: transbot_program
+Description: Description of transbot_program
+Version: 0.0.0
+Cflags: -I/root/transbot_ws/devel/include
+Libs: -L${prefix}/lib 
+Requires: 

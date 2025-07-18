@@ -1,0 +1,7 @@
+\subsubsection usage Usage
+\verbatim
+<node name="face_detection" pkg="opencv_apps" type="face_detection">
+  <param name="use_camera_info" type="bool" value="False" />
+</node>
+\endverbatim
+

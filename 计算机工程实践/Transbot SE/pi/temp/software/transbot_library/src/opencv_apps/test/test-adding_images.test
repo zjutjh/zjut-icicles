@@ -1,0 +1,37 @@
+<launch>
+  <arg name="gui" default="true" />
+  <param name="use_sim_time" value="true" />
+  <node name="play_face_bag" pkg="rosbag" type="play" args="--clock -l $(find opencv_apps)/test/face_detector_withface_test_diamondback.bag" />
+
+  <group ns="wide_stereo/left" >
+    <node name="image_proc" pkg="image_proc" type="image_proc" />
+    <node name="image_view0" pkg="image_view" type="image_view" args="image:=image_rect_color" if="$(arg gui)" />
+    <node name="image_view1" pkg="image_view" type="image_view" args="image:=hough_lines/image" if="$(arg gui)" />
+
+    <node name="hough_circles"
+          pkg="opencv_apps" type="hough_circles">
+      <remap from="image" to="image_rect_color" />
+    </node>
+
+    <!-- adding_images.cpp -->
+    <include file="$(find opencv_apps)/launch/adding_images.launch" >
+      <arg name="debug_view" value="$(arg gui)" />
+      <arg name="image1" value="image_rect_color" />
+      <arg name="image2" value="hough_circles/image" />
+      <arg name="alpha" value="0.5" />
+      <arg name="gamma" value="0" />
+      <arg name="approximate_sync" value="false" />
+    </include>
+
+    <!-- Test Codes -->
+    <node name="adding_images_saver_result" pkg="image_view" type="image_saver" args="image:=adding_images/image" >
+      <param name="filename_format" value="$(find opencv_apps)/test/adding_images_result.png"/>
+    </node>
+    <param name="adding_images_test/topic" value="adding_images/image" />
+    <test test-name="adding_images_test" pkg="rostest" type="hztest" name="adding_images_test" >
+      <param name="hz" value="20" />
+      <param name="hzerror" value="15" />
+      <param name="test_duration" value="5.0" />
+    </test>
+  </group>
+</launch>

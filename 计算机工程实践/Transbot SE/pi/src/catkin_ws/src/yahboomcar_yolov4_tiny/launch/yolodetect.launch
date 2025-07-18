@@ -1,0 +1,9 @@
+<launch>
+    <arg name="display" default="true"/>
+    <!-- web_video_server -->
+    <node pkg="web_video_server" type="web_video_server" name="web_video_server" output="screen"/>
+    <node pkg="yahboomcar_yolov4_tiny" type="msgToimg.py" name="msgToimg" required="true" output="screen"/>
+    <node pkg="yahboomcar_yolov4_tiny" type="yolov4_tiny.py" name="YoloDetect" output="screen" required="true" args="$(arg display)"/>
+</launch>
+
+

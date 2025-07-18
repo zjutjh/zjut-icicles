@@ -1,0 +1,1167 @@
+{% extends "base.html" %}
+
+{% block title %}教师管理 - 教务管理系统{% endblock %}
+
+{% block head_extra %}
+<style>
+    .manage-instructors-container {
+        padding: 20px;
+        max-width: 1400px;
+        margin: 0 auto;
+    }
+    .page-header {
+        margin-bottom: 20px;
+        padding-bottom: 15px;
+        border-bottom: 2px solid #4CAF50;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+    .action-buttons {
+        display: flex;
+        gap: 10px;
+    }
+    .btn-primary {
+        background-color: #4CAF50;
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 4px;
+        cursor: pointer;
+        text-decoration: none;
+        display: inline-block;
+    }
+    .btn-primary:hover {
+        background-color: #45a049;
+    }
+    .btn-secondary {
+        background-color: #2196f3;
+        color: white;
+        border: none;
+        padding: 8px 16px;
+        border-radius: 4px;
+        cursor: pointer;
+        font-size: 14px;
+    }
+    .btn-secondary:hover {
+        background-color: #1976d2;
+    }
+    .btn-danger {
+        background-color: #f44336;
+        color: white;
+        border: none;
+        padding: 6px 12px;
+        border-radius: 4px;
+        cursor: pointer;
+        font-size: 12px;
+    }
+    .btn-danger:hover {
+        background-color: #d32f2f;
+    }
+    .filters-section {
+        background-color: #f8f9fa;
+        padding: 15px;
+        border-radius: 8px;
+        margin-bottom: 20px;
+    }
+    .filter-row {
+        display: flex;
+        gap: 15px;
+        align-items: center;
+        flex-wrap: wrap;
+    }
+    .filter-group {
+        display: flex;
+        flex-direction: column;
+        gap: 5px;
+    }
+    .filter-group label {
+        font-weight: bold;
+        font-size: 14px;
+    }
+    .filter-group select, .filter-group input {
+        padding: 8px;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        min-width: 150px;
+    }
+    .instructors-table {
+        width: 100%;
+        border-collapse: collapse;
+        background-color: white;
+        border-radius: 8px;
+        overflow: hidden;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        margin-bottom: 20px;
+    }
+    .instructors-table th {
+        background-color: #4CAF50;
+        color: white;
+        padding: 12px;
+        text-align: left;
+        font-weight: bold;
+    }
+    .instructors-table td {
+        padding: 12px;
+        border-bottom: 1px solid #eee;
+    }
+    .instructors-table tr:hover {
+        background-color: #f5f5f5;
+    }
+    .title-badge {
+        display: inline-block;
+        padding: 3px 8px;
+        border-radius: 4px;
+        font-size: 12px;
+        font-weight: bold;
+    }
+    .title-professor {
+        background-color: #4caf50;
+        color: white;
+    }
+    .title-associate {
+        background-color: #2196f3;
+        color: white;
+    }
+    .title-lecturer {
+        background-color: #ff9800;
+        color: white;
+    }
+    .title-assistant {
+        background-color: #9c27b0;
+        color: white;
+    }
+    .pagination {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 10px;
+        margin-top: 20px;
+    }
+    .pagination button {
+        padding: 8px 12px;
+        border: 1px solid #ddd;
+        background-color: white;
+        cursor: pointer;
+        border-radius: 4px;
+    }
+    .pagination button:hover {
+        background-color: #f5f5f5;
+    }
+    .pagination button.active {
+        background-color: #4CAF50;
+        color: white;
+        border-color: #4CAF50;
+    }
+    .pagination button:disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
+    }
+    .loading {
+        text-align: center;
+        padding: 40px;
+    }
+    .loading-spinner {
+        border: 4px solid #f3f3f3;
+        border-top: 4px solid #4CAF50;
+        border-radius: 50%;
+        width: 40px;
+        height: 40px;
+        animation: spin 1s linear infinite;
+        margin: 0 auto 20px;
+    }
+    @keyframes spin {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
+    }
+    .modal {
+        display: none;
+        position: fixed;
+        z-index: 1000;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0,0,0,0.5);
+    }
+    .modal-content {
+        background-color: white;
+        margin: 5% auto;
+        padding: 20px;
+        border-radius: 8px;
+        width: 80%;
+        max-width: 600px;
+        max-height: 80vh;
+        overflow-y: auto;
+    }
+    .modal-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 20px;
+        padding-bottom: 10px;
+        border-bottom: 1px solid #eee;
+    }
+    .close {
+        color: #aaa;
+        font-size: 28px;
+        font-weight: bold;
+        cursor: pointer;
+    }
+    .close:hover {
+        color: black;
+    }
+    .form-group {
+        margin-bottom: 15px;
+    }
+    .form-group label {
+        display: block;
+        margin-bottom: 5px;
+        font-weight: bold;
+    }
+    .form-group input, .form-group select, .form-group textarea {
+        width: 100%;
+        padding: 8px;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        box-sizing: border-box;
+    }
+    .form-group textarea {
+        height: 80px;
+        resize: vertical;
+    }
+    .form-actions {
+        display: flex;
+        justify-content: flex-end;
+        gap: 10px;
+        margin-top: 20px;
+    }
+    .stats-summary {
+        background-color: #e9f7ef;
+        padding: 15px;
+        border-radius: 8px;
+        margin-bottom: 20px;
+    }
+    .stats-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+        gap: 15px;
+    }
+    .stat-item {
+        text-align: center;
+        padding: 10px;
+        background-color: white;
+        border-radius: 4px;
+        box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+    }
+    .stat-value {
+        font-size: 24px;
+        font-weight: bold;
+        color: #4CAF50;
+    }
+    .stat-label {
+        font-size: 12px;
+        color: #666;
+        margin-top: 5px;
+    }
+    /* 调试面板样式 */
+    .debug-panel {
+        margin-top: 20px;
+        padding: 10px;
+        background-color: #f8f9fa;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+    }
+    .debug-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 10px;
+    }
+    .debug-content {
+        background-color: #000;
+        color: #0f0;
+        font-family: monospace;
+        padding: 10px;
+        height: 200px;
+        overflow-y: auto;
+        white-space: pre-wrap;
+        border-radius: 4px;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="manage-instructors-container">
+    <div class="page-header">
+        <h1>教师管理</h1>
+        <div class="action-buttons">
+            <button id="addInstructorBtn" class="btn-primary">添加教师</button>
+            <button id="importInstructorsBtn" class="btn-secondary">批量导入</button>
+        </div>
+    </div>
+    
+    <div class="stats-summary">
+        <h2>教师统计</h2>
+        <div class="stats-grid">
+            <div class="stat-item">
+                <div class="stat-value" id="totalInstructors">0</div>
+                <div class="stat-label">教师总数</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-value" id="professorCount">0</div>
+                <div class="stat-label">教授</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-value" id="associateCount">0</div>
+                <div class="stat-label">副教授</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-value" id="lecturerCount">0</div>
+                <div class="stat-label">讲师</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-value" id="assistantCount">0</div>
+                <div class="stat-label">助教</div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="filters-section">
+        <h2>筛选条件</h2>
+        <div class="filter-row">
+            <div class="filter-group">
+                <label for="nameFilter">姓名</label>
+                <input type="text" id="nameFilter" placeholder="输入教师姓名">
+            </div>
+            <div class="filter-group">
+                <label for="titleFilter">职称</label>
+                <select id="titleFilter">
+                    <option value="">全部</option>
+                    <option value="教授">教授</option>
+                    <option value="副教授">副教授</option>
+                    <option value="讲师">讲师</option>
+                    <option value="助教">助教</option>
+                </select>
+            </div>
+            <div class="filter-group">
+                <label for="departmentFilter">院系</label>
+                <select id="departmentFilter">
+                    <option value="">全部</option>
+                    <!-- 院系选项将通过JavaScript动态加载 -->
+                </select>
+            </div>
+            <div class="filter-group">
+                <label>&nbsp;</label>
+                <button id="applyFiltersBtn" class="btn-primary">应用筛选</button>
+            </div>
+        </div>
+    </div>
+    
+    <div id="instructorsTableContainer">
+        <div id="loadingIndicator" class="loading">
+            <div class="loading-spinner"></div>
+            <p>加载中，请稍候...</p>
+        </div>
+        <table id="instructorsTable" class="instructors-table" style="display: none;">
+            <thead>
+                <tr>
+                    <th>教师ID</th>
+                    <th>姓名</th>
+                    <th>性别</th>
+                    <th>职称</th>
+                    <th>院系</th>
+                    <th>学历</th>
+                    <th>联系方式</th>
+                    <th>操作</th>
+                </tr>
+            </thead>
+            <tbody id="instructorsTableBody">
+                <!-- 教师数据将通过JavaScript动态加载 -->
+            </tbody>
+        </table>
+        <div id="noDataMessage" style="display: none; text-align: center; padding: 20px;">
+            没有找到符合条件的教师数据
+        </div>
+    </div>
+    
+    <div class="pagination" id="pagination">
+        <!-- 分页按钮将通过JavaScript动态加载 -->
+    </div>
+    
+    <!-- 调试面板 -->
+    <div class="debug-panel">
+        <div class="debug-header">
+            <h3>调试信息</h3>
+            <button onclick="document.getElementById('debug-content').textContent = ''" class="btn-secondary">清除</button>
+        </div>
+        <div id="debug-content" class="debug-content"></div>
+    </div>
+    
+    <!-- 添加/编辑教师模态框 -->
+    <div id="instructorModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="modalTitle">添加教师</h2>
+                <span class="close">&times;</span>
+            </div>
+            <form id="instructorForm">
+                <input type="hidden" id="instructorId">
+                <div class="form-group">
+                    <label for="instructorIdInput">教师ID</label>
+                    <input type="text" id="instructorIdInput" required>
+                </div>
+                <div class="form-group">
+                    <label for="instructorName">姓名</label>
+                    <input type="text" id="instructorName" required>
+                </div>
+                <div class="form-group">
+                    <label for="instructorGender">性别</label>
+                    <select id="instructorGender" required>
+                        <option value="男">男</option>
+                        <option value="女">女</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="instructorTitle">职称</label>
+                    <select id="instructorTitle" required>
+                        <option value="教授">教授</option>
+                        <option value="副教授">副教授</option>
+                        <option value="讲师">讲师</option>
+                        <option value="助教">助教</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="instructorDepartment">所属院系</label>
+                    <select id="instructorDepartment" required>
+                        <!-- 院系选项将通过JavaScript动态加载 -->
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="instructorEducation">学历</label>
+                    <select id="instructorEducation" required>
+                        <option value="博士">博士</option>
+                        <option value="硕士">硕士</option>
+                        <option value="学士">学士</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="instructorEmail">电子邮箱</label>
+                    <input type="email" id="instructorEmail" required>
+                </div>
+                <div class="form-group">
+                    <label for="instructorPhone">联系电话</label>
+                    <input type="text" id="instructorPhone">
+                </div>
+                <div class="form-group">
+                    <label for="instructorOffice">办公室位置</label>
+                    <input type="text" id="instructorOffice">
+                </div>
+                <div class="form-group">
+                    <label for="instructorResearch">研究方向</label>
+                    <textarea id="instructorResearch"></textarea>
+                </div>
+                <div class="form-actions">
+                    <button type="button" class="btn-secondary" id="cancelBtn">取消</button>
+                    <button type="submit" class="btn-primary" id="saveInstructorBtn">保存</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    
+    <!-- 导入教师模态框 -->
+    <div id="importModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>批量导入教师</h2>
+                <span class="close">&times;</span>
+            </div>
+            <form id="importForm">
+                <div class="form-group">
+                    <label for="importFile">选择CSV文件</label>
+                    <input type="file" id="importFile" accept=".csv" required>
+                </div>
+                <div class="form-group">
+                    <p>CSV文件格式要求：</p>
+                    <ul>
+                        <li>第一行为表头</li>
+                        <li>必须包含以下字段：教师ID (lyh_instructor_id), 姓名 (lyh_instructor_name), 性别 (lyh_gender), 职称 (lyh_title), 学历 (lyh_education), 院系ID (lyh_dept_id)</li>
+                        <li>可选字段：办公室位置 (lyh_office_location), 电话 (lyh_phone), 邮箱 (lyh_email), 入职日期 (lyh_hire_date), 薪资 (lyh_salary), 研究方向 (lyh_research_area)</li>
+                    </ul>
+                    <a href="/teacher_import_template.csv" download class="btn-secondary">下载模板</a>
+                </div>
+                <div class="form-actions">
+                    <button type="button" class="btn-secondary" id="cancelImportBtn">取消</button>
+                    <button type="submit" class="btn-primary" id="confirmImportBtn">导入</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts_extra %}
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // 页面加载完成后初始化
+        console.log("页面加载完成，开始初始化...");
+        showDebugInfo("页面加载完成，开始初始化...");
+        loadInstructors();
+        loadDepartments();
+        loadStatistics();
+        
+        // 添加事件监听器
+        addEventListeners();
+    });
+    
+    // 全局变量
+    let currentPage = 1;
+    let currentFilters = {
+        name: '',
+        title: '',
+        department: ''
+    };
+    let pageSize = 10;
+    let instructors = [];
+    let departments = [];
+    
+    // DOM 元素
+    const loadingIndicator = document.getElementById('loadingIndicator');
+    const instructorsTable = document.getElementById('instructorsTable');
+    const instructorsTableBody = document.getElementById('instructorsTableBody');
+    const noDataMessage = document.getElementById('noDataMessage');
+    const paginationContainer = document.getElementById('pagination');
+    
+    // 模态框元素
+    const instructorModal = document.getElementById('instructorModal');
+    const importModal = document.getElementById('importModal');
+    const modalTitle = document.getElementById('modalTitle');
+    const instructorForm = document.getElementById('instructorForm');
+    
+    // 按钮和表单元素
+    const addInstructorBtn = document.getElementById('addInstructorBtn');
+    const importInstructorsBtn = document.getElementById('importInstructorsBtn');
+    const applyFiltersBtn = document.getElementById('applyFiltersBtn');
+    const cancelBtn = document.getElementById('cancelBtn');
+    const closeModalBtns = document.querySelectorAll('.close');
+    
+    // 显示调试信息
+    function showDebugInfo(message) {
+        const debugContent = document.getElementById('debug-content');
+        if (debugContent) {
+            const timestamp = new Date().toLocaleTimeString();
+            debugContent.textContent += `[${timestamp}] ${message}\n\n`;
+            // 自动滚动到底部
+            debugContent.scrollTop = debugContent.scrollHeight;
+        }
+    }
+    
+    // 显示错误信息
+    function showError(message) {
+        console.error(message);
+        showDebugInfo("错误: " + message);
+        alert("错误: " + message);
+    }
+    
+    // 显示/隐藏加载状态
+    function showLoading(show) {
+        if (loadingIndicator) {
+            loadingIndicator.style.display = show ? 'block' : 'none';
+        }
+    }
+    
+    // 显示/隐藏无数据消息
+    function showNoData(show) {
+        if (noDataMessage) {
+            noDataMessage.style.display = show ? 'block' : 'none';
+        }
+        if (instructorsTable) {
+            instructorsTable.style.display = show ? 'none' : 'table';
+        }
+    }
+    
+    // 加载教师数据
+    function loadInstructors(page = 1) {
+        // 显示加载状态
+        showLoading(true);
+        showNoData(false);
+        
+        // 更新当前页码
+        currentPage = page;
+        
+        // 获取筛选条件
+        const name = document.getElementById('nameFilter').value;
+        const title = document.getElementById('titleFilter').value;
+        const department = document.getElementById('departmentFilter').value;
+        
+        // 更新当前筛选条件
+        currentFilters = {
+            name: name,
+            title: title,
+            department: department
+        };
+        
+        // 构建请求URL
+        let url = '/api/admin/instructors?page=' + page + '&page_size=' + pageSize;
+        
+        if (name) url += '&name=' + encodeURIComponent(name);
+        if (title) url += '&title=' + encodeURIComponent(title);
+        if (department) url += '&department=' + encodeURIComponent(department);
+        
+        showDebugInfo("发送请求: " + url);
+        console.log("发送请求: " + url);
+        
+        // 发送请求
+        fetch(url)
+            .then(response => {
+                console.log("API响应状态:", response.status);
+                showDebugInfo("API响应状态: " + response.status);
+                
+                if (!response.ok) {
+                    throw new Error('网络响应不正常，状态码: ' + response.status);
+                }
+                
+                return response.text().then(text => {
+                    console.log("原始响应内容:", text.substring(0, 200) + "...");
+                    showDebugInfo("原始响应内容: " + text.substring(0, 200) + "...");
+                    
+                    try {
+                        return JSON.parse(text);
+                    } catch (e) {
+                        console.error("JSON解析错误:", e);
+                        showDebugInfo("JSON解析错误: " + e.message + "\n原始内容: " + text.substring(0, 500));
+                        throw new Error("无法解析响应数据");
+                    }
+                });
+            })
+            .then(data => {
+                console.log("解析后的数据:", data);
+                showDebugInfo("解析后的数据: " + JSON.stringify(data, null, 2));
+                
+                if (data.error) {
+                    showError(data.error);
+                    return;
+                }
+                
+                try {
+                    // 更新教师列表
+                    instructors = data.instructors || [];
+                    
+                    // 渲染教师表格
+                    renderInstructorsTable();
+                    
+                    // 更新分页
+                    updatePagination({
+                        current_page: data.page,
+                        total_pages: data.total_pages
+                    });
+                    
+                    // 隐藏加载状态
+                    showLoading(false);
+                } catch (e) {
+                    console.error("处理数据时出错:", e);
+                    showDebugInfo("处理数据时出错: " + e.message);
+                    showError("处理数据时出错: " + e.message);
+                }
+            })
+            .catch(error => {
+                console.error('获取教师列表失败:', error);
+                showDebugInfo("获取教师列表失败: " + error.message);
+                showError('获取教师列表失败: ' + error.message);
+                showLoading(false);
+            });
+    }
+    
+    // 加载院系数据
+    function loadDepartments() {
+        console.log('正在加载院系数据...');
+        showDebugInfo("正在加载院系数据...");
+        
+        fetch('/api/admin/departments')
+            .then(response => {
+                console.log('院系API响应状态:', response.status);
+                showDebugInfo("院系API响应状态: " + response.status);
+                
+                if (!response.ok) {
+                    throw new Error(`HTTP错误 ${response.status}`);
+                }
+                
+                return response.json();
+            })
+            .then(data => {
+                console.log('获取到的院系数据:', data);
+                showDebugInfo("获取到的院系数据: " + JSON.stringify(data, null, 2));
+                
+                if (data.error) {
+                    console.error('获取院系数据失败:', data.error);
+                    showDebugInfo("获取院系数据失败: " + data.error);
+                    return;
+                }
+                
+                departments = data.departments || [];
+                console.log(`找到 ${departments.length} 个院系`);
+                showDebugInfo(`找到 ${departments.length} 个院系`);
+                
+                // 填充院系下拉框
+                const departmentFilters = [
+                    document.getElementById('departmentFilter'),
+                    document.getElementById('instructorDepartment')
+                ];
+                
+                departmentFilters.forEach(select => {
+                    if (!select) {
+                        console.warn('院系下拉框元素不存在');
+                        showDebugInfo("警告: 院系下拉框元素不存在");
+                        return;
+                    }
+                    
+                    // 保留第一个选项
+                    const firstOption = select.options[0];
+                    select.innerHTML = '';
+                    if (firstOption) {
+                        select.appendChild(firstOption);
+                    }
+                    
+                    // 添加院系选项
+                    departments.forEach(dept => {
+                        const option = document.createElement('option');
+                        option.value = dept.lyh_dept_id;
+                        option.textContent = dept.lyh_dept_name;
+                        select.appendChild(option);
+                    });
+                });
+                
+                console.log('院系数据加载完成');
+                showDebugInfo("院系数据加载完成");
+            })
+            .catch(error => {
+                console.error('获取院系数据出错:', error);
+                showDebugInfo("获取院系数据出错: " + error.message);
+            });
+    }
+    
+    // 加载统计数据
+    function loadStatistics() {
+        console.log('正在加载教师统计数据...');
+        showDebugInfo("正在加载教师统计数据...");
+        
+        fetch('/api/admin/instructor_stats')
+            .then(response => {
+                console.log('统计数据API响应状态:', response.status);
+                showDebugInfo("统计数据API响应状态: " + response.status);
+                
+                if (!response.ok) {
+                    throw new Error(`HTTP错误 ${response.status}`);
+                }
+                
+                return response.json();
+            })
+            .then(data => {
+                console.log('获取到的统计数据:', data);
+                showDebugInfo("获取到的统计数据: " + JSON.stringify(data, null, 2));
+                
+                if (data.error) {
+                    console.error('获取教师统计数据失败:', data.error);
+                    showDebugInfo("获取教师统计数据失败: " + data.error);
+                    return;
+                }
+                
+                document.getElementById('totalInstructors').textContent = data.total_instructors || 0;
+                document.getElementById('professorCount').textContent = data.professor_count || 0;
+                document.getElementById('associateCount').textContent = data.associate_count || 0;
+                document.getElementById('lecturerCount').textContent = data.lecturer_count || 0;
+                document.getElementById('assistantCount').textContent = data.assistant_count || 0;
+                
+                console.log('统计数据加载完成');
+                showDebugInfo("统计数据加载完成");
+            })
+            .catch(error => {
+                console.error('获取教师统计数据出错:', error);
+                showDebugInfo("获取教师统计数据出错: " + error.message);
+            });
+    }
+    
+    // 渲染教师表格
+    function renderInstructorsTable() {
+        if (!instructors || instructors.length === 0) {
+            showNoData(true);
+            return;
+        }
+        
+        showNoData(false);
+        instructorsTableBody.innerHTML = '';
+        
+        instructors.forEach(instructor => {
+            const row = document.createElement('tr');
+            
+            // 职称样式类
+            let titleClass = '';
+            switch (instructor.lyh_title) {
+                case '教授': titleClass = 'title-professor'; break;
+                case '副教授': titleClass = 'title-associate'; break;
+                case '讲师': titleClass = 'title-lecturer'; break;
+                case '助教': titleClass = 'title-assistant'; break;
+            }
+            
+            row.innerHTML = `
+                <td>${instructor.lyh_instructor_id}</td>
+                <td>${instructor.lyh_instructor_name}</td>
+                <td>${instructor.lyh_gender || '-'}</td>
+                                <td><span class="title-badge ${titleClass}">${instructor.lyh_title || '-'}</span></td>
+                <td>${instructor.lyh_dept_name || '-'}</td>
+                <td>${instructor.lyh_education || '-'}</td>
+                <td>
+                    <div>${instructor.lyh_email || '-'}</div>
+                    <div>${instructor.lyh_phone || '-'}</div>
+                </td>
+                <td>
+                    <button class="btn-secondary edit-btn" data-id="${instructor.lyh_instructor_id}">编辑</button>
+                    <button class="btn-danger delete-btn" data-id="${instructor.lyh_instructor_id}">删除</button>
+                </td>
+            `;
+            
+            instructorsTableBody.appendChild(row);
+        });
+        
+        // 添加编辑和删除按钮的事件监听器
+        document.querySelectorAll('.edit-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                const instructorId = this.getAttribute('data-id');
+                openEditModal(instructorId);
+            });
+        });
+        
+        document.querySelectorAll('.delete-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                const instructorId = this.getAttribute('data-id');
+                confirmDeleteInstructor(instructorId);
+            });
+        });
+        
+        instructorsTable.style.display = 'table';
+    }
+    
+    // 更新分页
+    function updatePagination(pagination) {
+        paginationContainer.innerHTML = '';
+        
+        if (!pagination || pagination.total_pages <= 1) {
+            return;
+        }
+        
+        // 添加上一页按钮
+        const prevButton = document.createElement('button');
+        prevButton.textContent = '上一页';
+        prevButton.disabled = pagination.current_page <= 1;
+        prevButton.onclick = () => loadInstructors(pagination.current_page - 1);
+        paginationContainer.appendChild(prevButton);
+        
+        // 添加页码按钮
+        let startPage = Math.max(1, pagination.current_page - 2);
+        let endPage = Math.min(pagination.total_pages, pagination.current_page + 2);
+        
+        // 确保显示至少5个页码按钮（如果有足够的页数）
+        if (endPage - startPage + 1 < 5 && pagination.total_pages >= 5) {
+            if (startPage === 1) {
+                endPage = Math.min(5, pagination.total_pages);
+            } else if (endPage === pagination.total_pages) {
+                startPage = Math.max(1, pagination.total_pages - 4);
+            }
+        }
+        
+        for (let i = startPage; i <= endPage; i++) {
+            const pageButton = document.createElement('button');
+            pageButton.textContent = i;
+            pageButton.className = i === pagination.current_page ? 'active' : '';
+            pageButton.onclick = () => loadInstructors(i);
+            paginationContainer.appendChild(pageButton);
+        }
+        
+        // 添加下一页按钮
+        const nextButton = document.createElement('button');
+        nextButton.textContent = '下一页';
+        nextButton.disabled = pagination.current_page >= pagination.total_pages;
+        nextButton.onclick = () => loadInstructors(pagination.current_page + 1);
+        paginationContainer.appendChild(nextButton);
+    }
+    
+    // 打开添加教师模态框
+    function openAddModal() {
+        modalTitle.textContent = '添加教师';
+        instructorForm.reset();
+        document.getElementById('instructorId').value = '';
+        document.getElementById('instructorIdInput').disabled = false;
+        instructorModal.style.display = 'block';
+    }
+    
+    // 打开编辑教师模态框
+    function openEditModal(instructorId) {
+        modalTitle.textContent = '编辑教师';
+        showDebugInfo(`正在获取教师 ${instructorId} 的详细信息...`);
+        
+        // 获取教师详细信息
+        fetch(`/api/admin/instructor/${instructorId}`)
+            .then(response => {
+                showDebugInfo(`教师详情API响应状态: ${response.status}`);
+                if (!response.ok) {
+                    throw new Error(`HTTP错误 ${response.status}`);
+                }
+                return response.json();
+            })
+            .then(data => {
+                showDebugInfo(`获取到的教师详情: ${JSON.stringify(data, null, 2)}`);
+                
+                if (data.error) {
+                    showDebugInfo(`获取教师详情失败: ${data.error}`);
+                    showError(data.error);
+                    return;
+                }
+                
+                const instructor = data.instructor;
+                
+                // 填充表单
+                document.getElementById('instructorId').value = instructor.lyh_instructor_id;
+                document.getElementById('instructorIdInput').value = instructor.lyh_instructor_id;
+                document.getElementById('instructorIdInput').disabled = true;
+                document.getElementById('instructorName').value = instructor.lyh_instructor_name || '';
+                document.getElementById('instructorGender').value = instructor.lyh_gender || '男';
+                document.getElementById('instructorTitle').value = instructor.lyh_title || '讲师';
+                document.getElementById('instructorDepartment').value = instructor.lyh_dept_id || '';
+                document.getElementById('instructorEducation').value = instructor.lyh_education || '博士';
+                document.getElementById('instructorEmail').value = instructor.lyh_email || '';
+                document.getElementById('instructorPhone').value = instructor.lyh_phone || '';
+                document.getElementById('instructorOffice').value = instructor.lyh_office_location || '';
+                document.getElementById('instructorResearch').value = instructor.lyh_research_area || '';
+                
+                instructorModal.style.display = 'block';
+            })
+            .catch(error => {
+                console.error('获取教师详情出错:', error);
+                showDebugInfo(`获取教师详情出错: ${error.message}`);
+                showError(`获取教师详情失败: ${error.message}`);
+            });
+    }
+    
+    // 确认删除教师
+    function confirmDeleteInstructor(instructorId) {
+        if (confirm(`确定要删除教师 ${instructorId} 吗？此操作不可撤销。`)) {
+            deleteInstructor(instructorId);
+        }
+    }
+    
+    // 删除教师
+    function deleteInstructor(instructorId) {
+        showDebugInfo(`正在删除教师 ${instructorId}...`);
+        
+        fetch(`/api/admin/instructor/${instructorId}`, {
+            method: 'DELETE'
+        })
+            .then(response => {
+                showDebugInfo(`删除教师API响应状态: ${response.status}`);
+                if (!response.ok) {
+                    return response.json().then(data => {
+                        throw new Error(data.error || `HTTP错误 ${response.status}`);
+                    });
+                }
+                return response.json();
+            })
+            .then(data => {
+                showDebugInfo(`删除教师结果: ${JSON.stringify(data, null, 2)}`);
+                
+                if (data.error) {
+                    showError(data.error);
+                    return;
+                }
+                
+                alert('教师删除成功');
+                loadInstructors(currentPage);
+                loadStatistics();
+            })
+            .catch(error => {
+                console.error('删除教师出错:', error);
+                showDebugInfo(`删除教师出错: ${error.message}`);
+                showError(`删除教师失败: ${error.message}`);
+            });
+    }
+    
+    // 保存教师信息
+    function saveInstructor(event) {
+        event.preventDefault();
+        
+        const formData = {
+            instructorId: document.getElementById('instructorId').value,
+            instructorIdInput: document.getElementById('instructorIdInput').value,
+            instructorName: document.getElementById('instructorName').value,
+            instructorGender: document.getElementById('instructorGender').value,
+            instructorTitle: document.getElementById('instructorTitle').value,
+            instructorDepartment: document.getElementById('instructorDepartment').value,
+            instructorEducation: document.getElementById('instructorEducation').value,
+            instructorEmail: document.getElementById('instructorEmail').value,
+            instructorPhone: document.getElementById('instructorPhone').value,
+            instructorOffice: document.getElementById('instructorOffice').value,
+            instructorResearch: document.getElementById('instructorResearch').value
+        };
+        
+        showDebugInfo(`正在保存教师信息: ${JSON.stringify(formData, null, 2)}`);
+        
+        const isEdit = formData.instructorId !== '';
+        const method = isEdit ? 'PUT' : 'POST';
+        const url = isEdit ? `/api/admin/instructor/${formData.instructorId}` : '/api/admin/instructor';
+        
+        fetch(url, {
+            method: method,
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                instructor_id: formData.instructorIdInput,
+                instructor_name: formData.instructorName,
+                gender: formData.instructorGender,
+                title: formData.instructorTitle,
+                dept_id: formData.instructorDepartment,
+                education: formData.instructorEducation,
+                email: formData.instructorEmail,
+                phone: formData.instructorPhone,
+                office_location: formData.instructorOffice,
+                research_area: formData.instructorResearch
+            })
+        })
+            .then(response => {
+                showDebugInfo(`保存教师信息API响应状态: ${response.status}`);
+                if (!response.ok) {
+                    return response.json().then(data => {
+                        throw new Error(data.error || `HTTP错误 ${response.status}`);
+                    });
+                }
+                return response.json();
+            })
+            .then(data => {
+                showDebugInfo(`保存教师信息结果: ${JSON.stringify(data, null, 2)}`);
+                
+                if (data.error) {
+                    showError(data.error);
+                    return;
+                }
+                
+                alert('教师信息保存成功');
+                instructorModal.style.display = 'none';
+                loadInstructors(currentPage);
+                loadStatistics();
+            })
+            .catch(error => {
+                console.error('保存教师信息出错:', error);
+                showDebugInfo(`保存教师信息出错: ${error.message}`);
+                showError(`保存教师信息失败: ${error.message}`);
+            });
+    }
+    
+    // 添加事件监听器
+    function addEventListeners() {
+        // 添加教师按钮
+        addInstructorBtn.addEventListener('click', openAddModal);
+        
+        // 导入教师按钮
+        importInstructorsBtn.addEventListener('click', () => {
+            importModal.style.display = 'block';
+        });
+        
+        // 应用筛选按钮
+        applyFiltersBtn.addEventListener('click', () => {
+            loadInstructors(1);
+        });
+        
+        // 取消按钮
+        cancelBtn.addEventListener('click', () => {
+            instructorModal.style.display = 'none';
+        });
+        
+        // 关闭模态框按钮
+        closeModalBtns.forEach(closeBtn => {
+            closeBtn.addEventListener('click', function() {
+                const modal = this.closest('.modal');
+                if (modal) {
+                    modal.style.display = 'none';
+                }
+            });
+        });
+        
+        // 保存教师表单提交
+        instructorForm.addEventListener('submit', saveInstructor);
+        
+        // 取消导入按钮
+        document.getElementById('cancelImportBtn').addEventListener('click', () => {
+            importModal.style.display = 'none';
+        });
+        
+        // 导入表单提交
+        document.getElementById('importForm').addEventListener('submit', (e) => {
+            e.preventDefault();
+            
+            const fileInput = document.getElementById('importFile');
+            if (!fileInput.files || fileInput.files.length === 0) {
+                alert('请选择CSV文件');
+                return;
+            }
+            
+            const file = fileInput.files[0];
+            if (file.type !== 'text/csv' && !file.name.endsWith('.csv')) {
+                alert('请选择正确的CSV文件');
+                return;
+            }
+            
+            showDebugInfo(`正在导入文件: ${file.name}, 大小: ${file.size} bytes`);
+            
+            const formData = new FormData();
+            formData.append('file', file);
+            
+            // 显示加载中
+            const importBtn = document.getElementById('confirmImportBtn');
+            const originalText = importBtn.textContent;
+            importBtn.disabled = true;
+            importBtn.textContent = '导入中...';
+            
+            fetch('/api/admin/instructors/import', {
+                method: 'POST',
+                body: file,
+                headers: {
+                    'Content-Type': 'text/csv'
+                }
+            })
+            .then(response => {
+                showDebugInfo(`导入API响应状态: ${response.status}`);
+                return response.json();
+            })
+            .then(data => {
+                showDebugInfo(`导入结果: ${JSON.stringify(data, null, 2)}`);
+                
+                if (data.error) {
+                    showError(data.error);
+                    return;
+                }
+                
+                alert(`${data.message}\n\n${data.error_count > 0 ? `错误信息:\n${data.errors.join('\n')}` : ''}`);
+                importModal.style.display = 'none';
+                loadInstructors();
+                loadStatistics();
+            })
+            .catch(error => {
+                console.error('导入教师数据出错:', error);
+                showDebugInfo(`导入教师数据出错: ${error.message}`);
+                showError(`导入教师数据失败: ${error.message}`);
+            })
+            .finally(() => {
+                // 恢复按钮状态
+                importBtn.disabled = false;
+                importBtn.textContent = originalText;
+            });
+        });
+        
+        // 按回车键应用筛选
+        document.getElementById('nameFilter').addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                loadInstructors(1);
+            }
+        });
+    }
+</script>
+{% endblock %}

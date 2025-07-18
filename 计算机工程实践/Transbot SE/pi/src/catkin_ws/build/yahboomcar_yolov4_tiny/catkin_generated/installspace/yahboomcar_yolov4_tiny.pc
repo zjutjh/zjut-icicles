@@ -1,0 +1,8 @@
+prefix=/root/catkin_ws/install
+
+Name: yahboomcar_yolov4_tiny
+Description: Description of yahboomcar_yolov4_tiny
+Version: 0.0.0
+Cflags: 
+Libs: -L${prefix}/lib 
+Requires: 

@@ -1,0 +1,13 @@
+\subsubsection usage Usage
+\verbatim
+<node name="driver_node" pkg="transbot_bringup" type="driver_node">
+  <param name="Kp" type="double" value="0.1" />
+  <param name="Ki" type="double" value="0.0" />
+  <param name="Kd" type="double" value="1.0" />
+  <param name="linear_max" type="double" value="0.4" />
+  <param name="angular_max" type="double" value="2.0" />
+  <param name="linear_min" type="double" value="0.0" />
+  <param name="angular_min" type="double" value="0.0" />
+</node>
+\endverbatim
+

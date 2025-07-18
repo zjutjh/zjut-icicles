@@ -1,0 +1,8 @@
+prefix=/root/transbot_ws/devel
+
+Name: arm_mediapipe
+Description: Description of arm_mediapipe
+Version: 0.0.0
+Cflags: 
+Libs: -L${prefix}/lib 
+Requires: 

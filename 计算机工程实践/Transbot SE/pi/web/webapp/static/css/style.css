@@ -1,0 +1,546 @@
+:root {
+    --primary-color: #3498db;
+    --secondary-color: #2ecc71;
+    --dark-color: #2c3e50;
+    --light-color: #ecf0f1;
+    --danger-color: #e74c3c;
+}
+
+body {
+    font-family: 'PingFang SC', 'Microsoft YaHei', sans-serif;
+    background-color: #f5f7fa;
+}
+
+.container {
+    max-width: 1200px;
+}
+
+.header {
+    background: linear-gradient(135deg, var(--primary-color), var(--dark-color));
+    color: white;
+    padding: 2rem 0;
+    margin-bottom: 2rem;
+    border-radius: 0 0 1rem 1rem;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.card {
+    border-radius: 0.8rem;
+    border: none;
+    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.05);
+    transition: transform 0.3s;
+    margin-bottom: 1.5rem;
+    overflow: hidden;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+}
+
+.card-header {
+    background: linear-gradient(to right, var(--primary-color), var(--secondary-color));
+    color: white;
+    font-weight: bold;
+    border: none;
+}
+
+.btn-primary {
+    background-color: var(--primary-color);
+    border-color: var(--primary-color);
+}
+
+.btn-primary:hover {
+    background-color: #2980b9;
+    border-color: #2980b9;
+}
+
+.btn-success {
+    background-color: var(--secondary-color);
+    border-color: var(--secondary-color);
+}
+
+.btn-success:hover {
+    background-color: #27ae60;
+    border-color: #27ae60;
+}
+
+.btn-danger {
+    background-color: var(--danger-color);
+    border-color: var(--danger-color);
+}
+
+.btn-danger:hover {
+    background-color: #c0392b;
+    border-color: #c0392b;
+}
+
+.order-card {
+    background-color: white;
+    padding: 1rem;
+    border-radius: 0.5rem;
+    margin-bottom: 1rem;
+    box-shadow: 0 0.2rem 0.5rem rgba(0, 0, 0, 0.05);
+    transition: all 0.3s;
+}
+
+.order-card:hover {
+    box-shadow: 0 0.4rem 1rem rgba(0, 0, 0, 0.1);
+    transform: translateY(-3px);
+}
+
+.order-id {
+    font-weight: bold;
+    color: var(--primary-color);
+}
+
+.chat-container {
+    height: 500px;
+    display: flex;
+    flex-direction: column;
+}
+
+.chat-messages {
+    flex-grow: 1;
+    overflow-y: auto;
+    padding: 1rem;
+    background-color: white;
+    border-radius: 0.5rem;
+    margin-bottom: 1rem;
+}
+
+.message {
+    margin-bottom: 1rem;
+    padding: 0.8rem;
+    border-radius: 0.5rem;
+    max-width: 80%;
+}
+
+.user-message {
+    background-color: var(--primary-color);
+    color: white;
+    margin-left: auto;
+    border-top-right-radius: 0;
+}
+
+.ai-message {
+    background-color: var(--light-color);
+    color: var(--dark-color);
+    margin-right: auto;
+    border-top-left-radius: 0;
+}
+
+.chat-input {
+    display: flex;
+    margin-top: 1rem;
+}
+
+.chat-input input {
+    flex-grow: 1;
+    border-radius: 2rem 0 0 2rem;
+    border: 2px solid var(--primary-color);
+    padding: 0.5rem 1rem;
+    outline: none;
+}
+
+.chat-input button {
+    border-radius: 0 2rem 2rem 0;
+}
+
+.fade-in {
+    animation: fadeIn 0.5s;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.loader {
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    border: 3px solid rgba(255,255,255,.3);
+    border-radius: 50%;
+    border-top-color: white;
+    animation: spin 1s linear infinite;
+    margin-right: 10px;
+}
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
+
+.status-badge {
+    padding: 0.3rem 0.8rem;
+    border-radius: 2rem;
+    font-size: 0.8rem;
+    font-weight: bold;
+}
+
+.status-available {
+    background-color: #2ecc71;
+    color: white;
+}
+
+.status-taking {
+    background-color: #f39c12;
+    color: white;
+}
+
+.status-taken {
+    background-color: #3498db;
+    color: white;
+}
+
+.status-delivered {
+    background-color: #27ae60;
+    color: white;
+}
+
+.refresh-icon {
+    cursor: pointer;
+    transition: transform 0.3s;
+}
+
+.refresh-icon:hover {
+    transform: rotate(180deg);
+}
+
+.modal-title {
+    color: var(--primary-color);
+}
+
+.footer {
+    margin-top: 3rem;
+    padding: 1.5rem 0;
+    background-color: var(--dark-color);
+    color: white;
+    border-radius: 1rem 1rem 0 0;
+}
+
+/* 语音识别和语音合成相关样式 */
+.recording-animation {
+    position: relative;
+    width: 100px;
+    height: 100px;
+    margin: 0 auto;
+    border-radius: 50%;
+    background-color: rgba(231, 76, 60, 0.1);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    animation: pulse 1.5s infinite;
+}
+
+@keyframes pulse {
+    0% {
+        transform: scale(0.95);
+        box-shadow: 0 0 0 0 rgba(231, 76, 60, 0.7);
+    }
+    
+    70% {
+        transform: scale(1);
+        box-shadow: 0 0 0 15px rgba(231, 76, 60, 0);
+    }
+    
+    100% {
+        transform: scale(0.95);
+        box-shadow: 0 0 0 0 rgba(231, 76, 60, 0);
+    }
+}
+
+#voiceInputBtn {
+    background-color: #9b59b6;
+    border-color: #9b59b6;
+}
+
+#voiceInputBtn:hover {
+    background-color: #8e44ad;
+    border-color: #8e44ad;
+}
+
+/* 二维码扫描结果样式 */
+#qrCodeResult {
+    min-height: 50px;
+}
+
+.qr-success {
+    padding: 10px;
+    background-color: #d4edda;
+    border-radius: 5px;
+    border-left: 4px solid #28a745;
+}
+
+.qr-error {
+    padding: 10px;
+    background-color: #f8d7da;
+    border-radius: 5px;
+    border-left: 4px solid #dc3545;
+}
+
+/* 大模型交互样式 */
+#aiModelResponse {
+    background-color: #f8f9fa;
+    font-family: 'Courier New', monospace;
+}
+
+/* 集成聊天功能样式 */
+.integrated-chat-container {
+    height: 400px;
+    display: flex;
+    flex-direction: column;
+}
+
+.integrated-chat-container .chat-messages {
+    flex-grow: 1;
+    overflow-y: auto;
+    padding: 1rem;
+    background-color: white;
+    border-radius: 0.5rem;
+    margin-bottom: 1rem;
+    border: 1px solid #e0e0e0;
+}
+
+.chat-controls {
+    margin-top: 10px;
+}
+
+.chat-controls .input-group {
+    display: flex;
+}
+
+.chat-controls .input-group input {
+    flex-grow: 1;
+    border-radius: 4px 0 0 4px;
+    border: 1px solid #ced4da;
+}
+
+.chat-controls .btn {
+    border-radius: 0 4px 4px 0;
+}
+
+.chat-controls .btn-danger {
+    border-radius: 0;
+}
+
+#integratedVoiceBtn {
+    background-color: #9b59b6;
+    border-color: #9b59b6;
+}
+
+#integratedVoiceBtn:hover {
+    background-color: #8e44ad;
+    border-color: #8e44ad;
+}
+
+#audioContainer {
+    background-color: #f8f9fa;
+    padding: 10px;
+    border-radius: 5px;
+}
+
+#responseAudio {
+    width: 100%;
+}
+
+/* 进度条动画 */
+.progress {
+    height: 10px;
+}
+
+.progress-bar-animated {
+    animation: progress-bar-stripes 1s linear infinite;
+}
+
+/* 响应式调整 */
+@media (max-width: 768px) {
+    .chat-container, .integrated-chat-container {
+        height: 400px;
+    }
+    
+    .message {
+        max-width: 90%;
+    }
+}
+
+/* 音频切换按钮样式 */
+.audio-toggle-btn {
+    transition: all 0.3s ease;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.audio-toggle-btn:hover {
+    transform: scale(1.1);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+}
+
+.audio-toggle-btn i {
+    font-size: 16px;
+}
+
+/* 音频状态提示样式 */
+.audio-status-toast {
+    animation: slideInRight 0.3s ease-out;
+}
+
+@keyframes slideInRight {
+    from {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+/* 增强聊天界面样式 */
+.chat-controls .input-group {
+    align-items: center;
+}
+
+.chat-controls .audio-toggle-btn {
+    margin-left: 8px;
+    flex-shrink: 0;
+}
+
+/* 消息样式优化 */
+.message.ai-message {
+    position: relative;
+}
+
+.message.ai-message::before {
+    content: "🤖";
+    position: absolute;
+    left: -25px;
+    top: 0;
+    font-size: 16px;
+}
+
+.message.user-message::before {
+    content: "👤";
+    position: absolute;
+    right: -25px;
+    top: 0;
+    font-size: 16px;
+}
+
+/* 录音动画效果 */
+.recording-animation {
+    animation: pulse 1.5s infinite;
+}
+
+@keyframes pulse {
+    0% {
+        transform: scale(1);
+        opacity: 1;
+    }
+    50% {
+        transform: scale(1.1);
+        opacity: 0.7;
+    }
+    100% {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+/* 录音模态框样式 */
+#recordingModal .modal-content {
+    border-radius: 15px;
+    border: none;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+}
+
+#recordingModal .text-danger {
+    color: #dc3545 !important;
+}
+
+/* 语音提示toast增强 */
+.audio-status-toast.alert-success {
+    border-left: 4px solid #28a745;
+}
+
+.audio-status-toast.alert-danger {
+    border-left: 4px solid #dc3545;
+}
+
+.audio-status-toast.alert-info {
+    border-left: 4px solid #17a2b8;
+}
+
+/* 三列布局优化 */
+.col-md-4 .card {
+    margin-bottom: 15px;
+}
+
+/* 已取订单区域滚动条优化 */
+#takenOrdersList {
+    scrollbar-width: thin;
+    scrollbar-color: #ccc #f1f1f1;
+}
+
+#takenOrdersList::-webkit-scrollbar {
+    width: 6px;
+}
+
+#takenOrdersList::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 3px;
+}
+
+#takenOrdersList::-webkit-scrollbar-thumb {
+    background: #ccc;
+    border-radius: 3px;
+}
+
+#takenOrdersList::-webkit-scrollbar-thumb:hover {
+    background: #999;
+}
+
+/* AI聊天区域优化 */
+#chatMessages {
+    scrollbar-width: thin;
+    scrollbar-color: #ccc #f1f1f1;
+}
+
+#chatMessages::-webkit-scrollbar {
+    width: 6px;
+}
+
+#chatMessages::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 3px;
+}
+
+#chatMessages::-webkit-scrollbar-thumb {
+    background: #ccc;
+    border-radius: 3px;
+}
+
+#chatMessages::-webkit-scrollbar-thumb:hover {
+    background: #999;
+}
+
+
+
+/* 响应式布局优化 */
+@media (max-width: 768px) {
+    .col-md-4 {
+        margin-bottom: 20px;
+    }
+    
+    #chatMessages {
+        height: 250px !important;
+    }
+    
+    #takenOrdersList {
+        max-height: 200px !important;
+    }
+} 

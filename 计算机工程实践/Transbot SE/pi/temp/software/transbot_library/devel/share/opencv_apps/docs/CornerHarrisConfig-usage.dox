@@ -1,0 +1,8 @@
+\subsubsection usage Usage
+\verbatim
+<node name="corner_harris" pkg="opencv_apps" type="corner_harris">
+  <param name="use_camera_info" type="bool" value="False" />
+  <param name="threshold" type="int" value="200" />
+</node>
+\endverbatim
+

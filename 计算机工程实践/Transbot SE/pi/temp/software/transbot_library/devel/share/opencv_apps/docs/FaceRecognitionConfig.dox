@@ -1,0 +1,18 @@
+\subsubsection parameters ROS parameters
+
+Reads and maintains the following parameters on the ROS server
+
+- \b "~model_method" : \b [str] Method to recognize faces min: , default: eigen, max: 
+- \b "~use_saved_data" : \b [bool] Use saved data min: False, default: True, max: True
+- \b "~save_train_data" : \b [bool] Save train data min: False, default: True, max: True
+- \b "~data_dir" : \b [str] Save directory for train data min: , default: ~/.ros/opencv_apps/face_data, max: 
+- \b "~face_model_width" : \b [int] Width of training face image min: 30, default: 190, max: 500
+- \b "~face_model_height" : \b [int] Height of training face image min: 30, default: 90, max: 500
+- \b "~face_padding" : \b [double] Padding ratio of each face min: 0.0, default: 0.1, max: 2.0
+- \b "~model_num_components" : \b [int] Number of components for face recognizer model min: 0, default: 0, max: 100
+- \b "~model_threshold" : \b [double] Threshold for face recognizer model min: 0.0, default: 8000.0, max: 10000.0
+- \b "~lbph_radius" : \b [int] Radius parameter used only for LBPH model min: 1, default: 1, max: 10
+- \b "~lbph_neighbors" : \b [int] Neighbors parameter used only for LBPH model min: 1, default: 8, max: 30
+- \b "~lbph_grid_x" : \b [int] grid_x parameter used only for LBPH model min: 1, default: 8, max: 30
+- \b "~lbph_grid_y" : \b [int] grid_y parameter used only for LBPH model min: 1, default: 8, max: 30
+

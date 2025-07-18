@@ -1,0 +1,417 @@
+{% extends "base.html" %}
+
+{% block title %}管理员仪表盘 - 教务管理系统{% endblock %}
+
+{% block head_extra %}
+<style>
+    .dashboard-container {
+        max-width: 1200px;
+        margin: 20px auto;
+        padding: 20px;
+    }
+    
+    .welcome-card {
+        background-color: #fff;
+        border-radius: 8px;
+        box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+        padding: 20px;
+        margin-bottom: 20px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+    
+    .welcome-text h2 {
+        margin: 0 0 10px 0;
+        font-weight: 500;
+    }
+    
+    .welcome-text p {
+        margin: 0;
+        color: #6c757d;
+    }
+    
+    .date-info {
+        text-align: right;
+        color: #6c757d;
+    }
+    
+    .date-info .current-date {
+        font-size: 1.2em;
+        font-weight: 500;
+        margin-bottom: 5px;
+    }
+    
+    .date-info .semester {
+        font-size: 0.9em;
+    }
+    
+    .stats-grid {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 15px;
+        margin-bottom: 20px;
+    }
+    
+    .stat-card {
+        background-color: #fff;
+        border-radius: 8px;
+        box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+        padding: 15px;
+        text-align: center;
+    }
+    
+    .stat-value {
+        font-size: 1.8em;
+        font-weight: 500;
+        margin-bottom: 5px;
+    }
+    
+    .stat-label {
+        color: #6c757d;
+        font-size: 0.9em;
+    }
+    
+    .dashboard-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+        gap: 20px;
+        margin-bottom: 20px;
+    }
+    
+    .dashboard-card {
+        background-color: #fff;
+        border-radius: 8px;
+        box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+        padding: 20px;
+        transition: transform 0.2s, box-shadow 0.2s;
+    }
+    
+    .dashboard-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+    }
+    
+    .dashboard-card-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 15px;
+    }
+    
+    .dashboard-card-title {
+        font-size: 1.2em;
+        font-weight: 500;
+        margin: 0;
+    }
+    
+    .dashboard-card-icon {
+        width: 40px;
+        height: 40px;
+        background-color: #f8f9fa;
+        border-radius: 50%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        color: #0056b3;
+        font-size: 1.2em;
+    }
+    
+    .dashboard-card-content {
+        margin-bottom: 15px;
+    }
+    
+    .dashboard-card-footer {
+        text-align: right;
+    }
+    
+    .dashboard-card-link {
+        color: #0056b3;
+        text-decoration: none;
+        font-size: 0.9em;
+        display: inline-flex;
+        align-items: center;
+    }
+    
+    .dashboard-card-link i {
+        margin-left: 5px;
+    }
+    
+    .recent-section {
+        background-color: #fff;
+        border-radius: 8px;
+        box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+        padding: 20px;
+        margin-bottom: 20px;
+    }
+    
+    .recent-section-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 15px;
+    }
+    
+    .recent-section-title {
+        font-size: 1.2em;
+        font-weight: 500;
+        margin: 0;
+    }
+    
+    .recent-section-link {
+        color: #0056b3;
+        text-decoration: none;
+        font-size: 0.9em;
+    }
+    
+    .log-table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+    
+    .log-table th, .log-table td {
+        padding: 10px;
+        text-align: left;
+        border-bottom: 1px solid #eee;
+    }
+    
+    .log-table th {
+        background-color: #f8f9fa;
+        font-weight: 500;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="dashboard-container">
+    <div class="welcome-card">
+        <div class="welcome-text">
+            <h2>欢迎，{{ current_user.name }}</h2>
+            <p>系统管理员</p>
+        </div>
+        <div class="date-info">
+            <div class="current-date" id="current-date"></div>
+            <div class="semester">2024秋季学期 第<span id="current-week">1</span>周</div>
+        </div>
+    </div>
+    
+    <div class="stats-grid">
+        <div class="stat-card">
+            <div class="stat-value" id="total-students">0</div>
+            <div class="stat-label">学生总数</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-value" id="total-instructors">0</div>
+            <div class="stat-label">教师总数</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-value" id="active-courses">0</div>
+            <div class="stat-label">本学期课程数</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-value" id="system-uptime">0%</div>
+            <div class="stat-label">系统运行时间</div>
+        </div>
+    </div>
+    
+    <div class="dashboard-grid">
+        <!-- 用户管理 -->
+        <div class="dashboard-card">
+            <div class="dashboard-card-header">
+                <h3 class="dashboard-card-title">用户管理</h3>
+                <div class="dashboard-card-icon">
+                    <i class="fas fa-users"></i>
+                </div>
+            </div>
+            <div class="dashboard-card-content">
+                <p>管理学生、教师和管理员账户。</p>
+            </div>
+            <div class="dashboard-card-footer">
+                <a href="{{ url_for('main.manage_students') }}" class="dashboard-card-link">
+                    学生管理 <i class="fas fa-arrow-right"></i>
+                </a>
+            </div>
+        </div>
+        
+        <!-- 教务管理 -->
+        <div class="dashboard-card">
+            <div class="dashboard-card-header">
+                <h3 class="dashboard-card-title">教务管理</h3>
+                <div class="dashboard-card-icon">
+                    <i class="fas fa-university"></i>
+                </div>
+            </div>
+            <div class="dashboard-card-content">
+                <p>管理院系、专业、课程和教学班。</p>
+            </div>
+            <div class="dashboard-card-footer">
+                <a href="{{ url_for('main.manage_departments') }}" class="dashboard-card-link">
+                    院系管理 <i class="fas fa-arrow-right"></i>
+                </a>
+            </div>
+        </div>
+        
+        <!-- 系统管理 -->
+        <div class="dashboard-card">
+            <div class="dashboard-card-header">
+                <h3 class="dashboard-card-title">系统管理</h3>
+                <div class="dashboard-card-icon">
+                    <i class="fas fa-cogs"></i>
+                </div>
+            </div>
+            <div class="dashboard-card-content">
+                <p>管理系统设置、公告和审计日志。</p>
+            </div>
+            <div class="dashboard-card-footer">
+                <a href="{{ url_for('main.system_settings') }}" class="dashboard-card-link">
+                    系统设置 <i class="fas fa-arrow-right"></i>
+                </a>
+            </div>
+        </div>
+        
+        <!-- 统计报表 -->
+        <div class="dashboard-card">
+            <div class="dashboard-card-header">
+                <h3 class="dashboard-card-title">统计报表</h3>
+                <div class="dashboard-card-icon">
+                    <i class="fas fa-chart-bar"></i>
+                </div>
+            </div>
+            <div class="dashboard-card-content">
+                <p>查看选课统计、成绩统计和学生人口统计。</p>
+            </div>
+            <div class="dashboard-card-footer">
+                <a href="{{ url_for('main.enrollment_statistics') }}" class="dashboard-card-link">
+                    选课统计 <i class="fas fa-arrow-right"></i>
+                </a>
+            </div>
+        </div>
+        
+        <!-- 教学资源 -->
+        <div class="dashboard-card">
+            <div class="dashboard-card-header">
+                <h3 class="dashboard-card-title">课程管理</h3>
+                <div class="dashboard-card-icon">
+                    <i class="fas fa-book"></i>
+                </div>
+            </div>
+            <div class="dashboard-card-content">
+                <p>查询、添加和编辑课程信息。</p>
+            </div>
+            <div class="dashboard-card-footer">
+                <a href="{{ url_for('main.course_search') }}" class="dashboard-card-link">
+                    课程查询 <i class="fas fa-arrow-right"></i>
+                </a>
+            </div>
+        </div>
+        
+        <!-- 审计日志 -->
+        <div class="dashboard-card">
+            <div class="dashboard-card-header">
+                <h3 class="dashboard-card-title">教师管理</h3>
+                <div class="dashboard-card-icon">
+                    <i class="fas fa-chalkboard-teacher"></i>
+                </div>
+            </div>
+            <div class="dashboard-card-content">
+                <p>管理教师信息、职称和所属院系。</p>
+            </div>
+            <div class="dashboard-card-footer">
+                <a href="{{ url_for('main.manage_instructors') }}" class="dashboard-card-link">
+                    管理教师 <i class="fas fa-arrow-right"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+    
+    <div class="recent-section">
+        <div class="recent-section-header">
+            <h3 class="recent-section-title">最近教师活动</h3>
+            <a href="{{ url_for('main.manage_instructors') }}" class="recent-section-link">查看全部</a>
+        </div>
+        <table class="log-table">
+            <thead>
+                <tr>
+                    <th>时间</th>
+                    <th>教师ID</th>
+                    <th>教师姓名</th>
+                    <th>活动类型</th>
+                    <th>详情</th>
+                </tr>
+            </thead>
+            <tbody id="recent-instructor-activities">
+                <!-- 教师活动将通过JavaScript动态加载 -->
+                <tr>
+                    <td>2024-07-06 10:30:15</td>
+                    <td>T001</td>
+                    <td>李老师</td>
+                    <td>录入成绩</td>
+                    <td>数据库系统 (CS101-01)</td>
+                </tr>
+                <tr>
+                    <td>2024-07-06 10:25:42</td>
+                    <td>T002</td>
+                    <td>王老师</td>
+                    <td>上传教材</td>
+                    <td>数据结构 (CS102-01)</td>
+                </tr>
+                <tr>
+                    <td>2024-07-06 10:15:23</td>
+                    <td>T001</td>
+                    <td>李老师</td>
+                    <td>查看班级名单</td>
+                    <td>数据库系统 (CS101-01)</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts_extra %}
+<script>
+    // 更新当前日期
+    function updateDate() {
+        const now = new Date();
+        const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+        document.getElementById('current-date').textContent = now.toLocaleDateString('zh-CN', options);
+    }
+    
+    // 计算当前教学周
+    function calculateWeek() {
+        const semesterStart = new Date('2024-09-01'); // 假设2024秋季学期从9月1日开始
+        const now = new Date();
+        const diffTime = Math.abs(now - semesterStart);
+        const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+        const currentWeek = Math.ceil(diffDays / 7);
+        document.getElementById('current-week').textContent = currentWeek;
+    }
+    
+    // 获取管理员统计数据
+    function fetchAdminStats() {
+        fetch('/api/admin/stats')
+            .then(response => response.json())
+            .then(data => {
+                if (data.error) {
+                    console.error('获取管理员统计数据失败:', data.error);
+                    return;
+                }
+                
+                document.getElementById('total-students').textContent = data.total_students || '0';
+                document.getElementById('total-instructors').textContent = data.total_instructors || '0';
+                document.getElementById('active-courses').textContent = data.active_courses || '0';
+                document.getElementById('system-uptime').textContent = data.system_uptime || '0%';
+            })
+            .catch(error => {
+                console.error('获取管理员统计数据出错:', error);
+            });
+    }
+    
+    // 页面加载时执行
+    document.addEventListener('DOMContentLoaded', function() {
+        updateDate();
+        calculateWeek();
+        fetchAdminStats();
+    });
+</script>
+{% endblock %} 

@@ -1,0 +1,17 @@
+\subsubsection usage Usage
+\verbatim
+<node name="LineDetect" pkg="transbot_linefollow" type="LineDetect">
+  <param name="scale" type="int" value="1000" />
+  <param name="Kp" type="int" value="40" />
+  <param name="Ki" type="int" value="0" />
+  <param name="Kd" type="int" value="12" />
+  <param name="Hmin" type="int" value="55" />
+  <param name="Smin" type="int" value="58" />
+  <param name="Vmin" type="int" value="20" />
+  <param name="Hmax" type="int" value="125" />
+  <param name="Smax" type="int" value="253" />
+  <param name="Vmax" type="int" value="255" />
+  <param name="linear" type="double" value="0.3" />
+</node>
+\endverbatim
+

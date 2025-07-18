@@ -1,0 +1,13 @@
+\subsubsection parameters ROS parameters
+
+Reads and maintains the following parameters on the ROS server
+
+- \b "~linear_Kp" : \b [double] Kp in PID min: 0.0, default: 3.0, max: 10.0
+- \b "~linear_Ki" : \b [double] Ki in PID min: 0.0, default: 0.0, max: 10.0
+- \b "~linear_Kd" : \b [double] Kd in PID min: 0.0, default: 1.0, max: 10.0
+- \b "~angular_Kp" : \b [double] Kp in PID min: 0.0, default: 0.3, max: 10.0
+- \b "~angular_Ki" : \b [double] Ki in PID min: 0.0, default: 0.0, max: 10.0
+- \b "~angular_Kd" : \b [double] Kd in PID min: 0.0, default: 1.0, max: 10.0
+- \b "~minDist" : \b [double] minDist min: 0.0, default: 6.0, max: 25.0
+- \b "~scale" : \b [int] scale min: 0, default: 1000, max: 10000
+

@@ -1,0 +1,868 @@
+{% extends "base.html" %}
+
+{% block title %}院系管理 - 教务管理系统{% endblock %}
+
+{% block head_extra %}
+<style>
+    .manage-departments-container {
+        padding: 20px;
+        max-width: 1400px;
+        margin: 0 auto;
+    }
+    .page-header {
+        margin-bottom: 20px;
+        padding-bottom: 15px;
+        border-bottom: 2px solid #4CAF50;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+    .action-buttons {
+        display: flex;
+        gap: 10px;
+    }
+    .btn-primary {
+        background-color: #4CAF50;
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 4px;
+        cursor: pointer;
+        text-decoration: none;
+        display: inline-block;
+    }
+    .btn-primary:hover {
+        background-color: #45a049;
+    }
+    .btn-secondary {
+        background-color: #2196f3;
+        color: white;
+        border: none;
+        padding: 8px 16px;
+        border-radius: 4px;
+        cursor: pointer;
+        font-size: 14px;
+    }
+    .btn-secondary:hover {
+        background-color: #1976d2;
+    }
+    .btn-danger {
+        background-color: #f44336;
+        color: white;
+        border: none;
+        padding: 6px 12px;
+        border-radius: 4px;
+        cursor: pointer;
+        font-size: 12px;
+    }
+    .btn-danger:hover {
+        background-color: #d32f2f;
+    }
+    .filters-section {
+        background-color: #f8f9fa;
+        padding: 15px;
+        border-radius: 8px;
+        margin-bottom: 20px;
+    }
+    .filter-row {
+        display: flex;
+        gap: 15px;
+        align-items: center;
+        flex-wrap: wrap;
+    }
+    .filter-group {
+        display: flex;
+        flex-direction: column;
+        gap: 5px;
+    }
+    .filter-group label {
+        font-weight: bold;
+        font-size: 14px;
+    }
+    .filter-group select, .filter-group input {
+        padding: 8px;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        min-width: 150px;
+    }
+    .departments-table {
+        width: 100%;
+        border-collapse: collapse;
+        background-color: white;
+        border-radius: 8px;
+        overflow: hidden;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        margin-bottom: 20px;
+    }
+    .departments-table th {
+        background-color: #4CAF50;
+        color: white;
+        padding: 12px;
+        text-align: left;
+        font-weight: bold;
+    }
+    .departments-table td {
+        padding: 12px;
+        border-bottom: 1px solid #eee;
+    }
+    .departments-table tr:hover {
+        background-color: #f5f5f5;
+    }
+    .stats-card {
+        background-color: white;
+        border-radius: 8px;
+        padding: 15px;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        text-align: center;
+        flex: 1;
+        min-width: 150px;
+    }
+    .stats-number {
+        font-size: 24px;
+        font-weight: bold;
+        color: #4CAF50;
+        margin-bottom: 5px;
+    }
+    .stats-label {
+        font-size: 14px;
+        color: #666;
+    }
+    .stats-container {
+        display: flex;
+        gap: 20px;
+        margin-bottom: 20px;
+        flex-wrap: wrap;
+    }
+    .loading {
+        text-align: center;
+        padding: 40px;
+    }
+    .loading-spinner {
+        border: 4px solid #f3f3f3;
+        border-top: 4px solid #4CAF50;
+        border-radius: 50%;
+        width: 40px;
+        height: 40px;
+        animation: spin 1s linear infinite;
+        margin: 0 auto 20px;
+    }
+    @keyframes spin {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
+    }
+    .modal {
+        display: none;
+        position: fixed;
+        z-index: 1000;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0,0,0,0.5);
+    }
+    .modal-content {
+        background-color: white;
+        margin: 5% auto;
+        padding: 20px;
+        border-radius: 8px;
+        width: 80%;
+        max-width: 600px;
+        max-height: 80vh;
+        overflow-y: auto;
+    }
+    .modal-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 20px;
+        padding-bottom: 10px;
+        border-bottom: 1px solid #eee;
+    }
+    .modal-header h3 {
+        margin: 0;
+        color: #4CAF50;
+    }
+    .close-button {
+        background: none;
+        border: none;
+        font-size: 24px;
+        cursor: pointer;
+        color: #666;
+    }
+    .form-group {
+        margin-bottom: 15px;
+    }
+    .form-group label {
+        display: block;
+        margin-bottom: 5px;
+        font-weight: bold;
+    }
+    .form-group input, .form-group select, .form-group textarea {
+        width: 100%;
+        padding: 8px;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        box-sizing: border-box;
+    }
+    .form-group textarea {
+        min-height: 100px;
+        resize: vertical;
+    }
+    .form-actions {
+        display: flex;
+        justify-content: flex-end;
+        gap: 10px;
+        margin-top: 20px;
+    }
+    .form-error {
+        color: #f44336;
+        font-size: 14px;
+        margin-top: 5px;
+    }
+    .detail-section {
+        margin-bottom: 20px;
+    }
+    .detail-section h4 {
+        margin: 0 0 10px 0;
+        color: #4CAF50;
+        border-bottom: 1px solid #eee;
+        padding-bottom: 5px;
+    }
+    .detail-row {
+        display: flex;
+        margin-bottom: 8px;
+    }
+    .detail-label {
+        font-weight: bold;
+        width: 150px;
+        flex-shrink: 0;
+    }
+    .detail-value {
+        flex-grow: 1;
+    }
+    .tabs {
+        display: flex;
+        border-bottom: 1px solid #ddd;
+        margin-bottom: 20px;
+    }
+    .tab {
+        padding: 10px 20px;
+        cursor: pointer;
+        border-bottom: 2px solid transparent;
+    }
+    .tab.active {
+        border-bottom: 2px solid #4CAF50;
+        font-weight: bold;
+    }
+    .tab-content {
+        display: none;
+    }
+    .tab-content.active {
+        display: block;
+    }
+    .empty-state {
+        text-align: center;
+        padding: 40px;
+        color: #666;
+    }
+    .empty-state i {
+        font-size: 48px;
+        margin-bottom: 10px;
+        color: #ddd;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="manage-departments-container">
+    <div class="page-header">
+        <h1>院系管理</h1>
+        <div class="action-buttons">
+            <button class="btn-primary" id="addDepartmentBtn">添加院系</button>
+        </div>
+    </div>
+
+    <div class="stats-container" id="statsContainer">
+        <div class="stats-card">
+            <div class="stats-number" id="totalDepartments">-</div>
+            <div class="stats-label">院系总数</div>
+        </div>
+        <div class="stats-card">
+            <div class="stats-number" id="totalMajors">-</div>
+            <div class="stats-label">专业总数</div>
+        </div>
+        <div class="stats-card">
+            <div class="stats-number" id="totalInstructors">-</div>
+            <div class="stats-label">教师总数</div>
+        </div>
+    </div>
+
+    <div class="filters-section">
+        <div class="filter-row">
+            <div class="filter-group">
+                <label for="searchInput">搜索院系</label>
+                <input type="text" id="searchInput" placeholder="输入院系ID或名称">
+            </div>
+            <div class="filter-group" style="align-self: flex-end;">
+                <button class="btn-secondary" id="searchBtn">搜索</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="loadingIndicator" class="loading">
+        <div class="loading-spinner"></div>
+        <p>加载数据中...</p>
+    </div>
+
+    <table class="departments-table" id="departmentsTable" style="display: none;">
+        <thead>
+            <tr>
+                <th>院系ID</th>
+                <th>院系名称</th>
+                <th>院长</th>
+                <th>专业数</th>
+                <th>教师数</th>
+                <th>学生数</th>
+                <th>联系电话</th>
+                <th>办公地点</th>
+                <th>操作</th>
+            </tr>
+        </thead>
+        <tbody id="departmentsTableBody">
+            <!-- 数据将通过JavaScript动态填充 -->
+        </tbody>
+    </table>
+
+    <div id="emptyState" class="empty-state" style="display: none;">
+        <i class="fas fa-building"></i>
+        <p>暂无院系数据</p>
+    </div>
+
+    <!-- 添加/编辑院系模态框 -->
+    <div id="departmentModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="modalTitle">添加院系</h3>
+                <button class="close-button" id="closeModal">&times;</button>
+            </div>
+            <form id="departmentForm">
+                <input type="hidden" id="isEditMode" value="false">
+                
+                <div class="form-group">
+                    <label for="deptId">院系ID *</label>
+                    <input type="text" id="deptId" required>
+                    <div class="form-error" id="deptIdError"></div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="deptName">院系名称 *</label>
+                    <input type="text" id="deptName" required>
+                    <div class="form-error" id="deptNameError"></div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="deptCode">院系代码</label>
+                    <input type="text" id="deptCode">
+                </div>
+                
+                <div class="form-group">
+                    <label for="deanId">院长</label>
+                    <select id="deanId">
+                        <option value="">-- 选择院长 --</option>
+                        <!-- 将通过API动态填充 -->
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label for="establishedDate">成立日期</label>
+                    <input type="date" id="establishedDate">
+                </div>
+                
+                <div class="form-group">
+                    <label for="phone">联系电话</label>
+                    <input type="text" id="phone">
+                </div>
+                
+                <div class="form-group">
+                    <label for="officeLocation">办公地点</label>
+                    <input type="text" id="officeLocation">
+                </div>
+                
+                <div class="form-group">
+                    <label for="description">院系简介</label>
+                    <textarea id="description"></textarea>
+                </div>
+                
+                <div class="form-error" id="formError"></div>
+                
+                <div class="form-actions">
+                    <button type="button" class="btn-secondary" id="cancelBtn">取消</button>
+                    <button type="submit" class="btn-primary" id="saveBtn">保存</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- 院系详情模态框 -->
+    <div id="departmentDetailModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="detailModalTitle">院系详情</h3>
+                <button class="close-button" id="closeDetailModal">&times;</button>
+            </div>
+            
+            <div class="detail-section">
+                <h4>基本信息</h4>
+                <div class="detail-row">
+                    <div class="detail-label">院系ID:</div>
+                    <div class="detail-value" id="detail-deptId"></div>
+                </div>
+                <div class="detail-row">
+                    <div class="detail-label">院系名称:</div>
+                    <div class="detail-value" id="detail-deptName"></div>
+                </div>
+                <div class="detail-row">
+                    <div class="detail-label">院系代码:</div>
+                    <div class="detail-value" id="detail-deptCode"></div>
+                </div>
+                <div class="detail-row">
+                    <div class="detail-label">院长:</div>
+                    <div class="detail-value" id="detail-deanName"></div>
+                </div>
+                <div class="detail-row">
+                    <div class="detail-label">成立日期:</div>
+                    <div class="detail-value" id="detail-establishedDate"></div>
+                </div>
+                <div class="detail-row">
+                    <div class="detail-label">联系电话:</div>
+                    <div class="detail-value" id="detail-phone"></div>
+                </div>
+                <div class="detail-row">
+                    <div class="detail-label">办公地点:</div>
+                    <div class="detail-value" id="detail-officeLocation"></div>
+                </div>
+                <div class="detail-row">
+                    <div class="detail-label">院系简介:</div>
+                    <div class="detail-value" id="detail-description"></div>
+                </div>
+            </div>
+            
+            <div class="tabs">
+                <div class="tab active" data-tab="majors">专业 (<span id="majorCount">0</span>)</div>
+                <div class="tab" data-tab="instructors">教师 (<span id="instructorCount">0</span>)</div>
+            </div>
+            
+            <div class="tab-content active" id="majors-tab">
+                <table class="departments-table" id="majorsTable">
+                    <thead>
+                        <tr>
+                            <th>专业ID</th>
+                            <th>专业名称</th>
+                            <th>专业代码</th>
+                            <th>学制</th>
+                            <th>学位类型</th>
+                            <th>学生数</th>
+                        </tr>
+                    </thead>
+                    <tbody id="majorsTableBody">
+                        <!-- 将通过JavaScript动态填充 -->
+                    </tbody>
+                </table>
+                <div id="majorsEmptyState" class="empty-state" style="display: none;">
+                    <p>该院系暂无专业</p>
+                </div>
+            </div>
+            
+            <div class="tab-content" id="instructors-tab">
+                <table class="departments-table" id="instructorsTable">
+                    <thead>
+                        <tr>
+                            <th>教师ID</th>
+                            <th>教师姓名</th>
+                            <th>性别</th>
+                            <th>职称</th>
+                            <th>学历</th>
+                            <th>办公室</th>
+                        </tr>
+                    </thead>
+                    <tbody id="instructorsTableBody">
+                        <!-- 将通过JavaScript动态填充 -->
+                    </tbody>
+                </table>
+                <div id="instructorsEmptyState" class="empty-state" style="display: none;">
+                    <p>该院系暂无教师</p>
+                </div>
+            </div>
+            
+            <div class="form-actions">
+                <button type="button" class="btn-secondary" id="editDepartmentBtn">编辑院系</button>
+                <button type="button" class="btn-danger" id="deleteDepartmentBtn">删除院系</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 确认删除模态框 -->
+    <div id="confirmDeleteModal" class="modal">
+        <div class="modal-content" style="max-width: 400px;">
+            <div class="modal-header">
+                <h3>确认删除</h3>
+                <button class="close-button" id="closeConfirmModal">&times;</button>
+            </div>
+            <p>确定要删除该院系吗？此操作不可逆。</p>
+            <div id="deleteErrorMessage" class="form-error" style="display: none;"></div>
+            <div class="form-actions">
+                <button type="button" class="btn-secondary" id="cancelDeleteBtn">取消</button>
+                <button type="button" class="btn-danger" id="confirmDeleteBtn">确认删除</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // 全局变量
+        let currentDepartmentId = null;
+        let departments = [];
+        
+        // 获取DOM元素
+        const departmentsTable = document.getElementById('departmentsTable');
+        const departmentsTableBody = document.getElementById('departmentsTableBody');
+        const loadingIndicator = document.getElementById('loadingIndicator');
+        const emptyState = document.getElementById('emptyState');
+        const searchInput = document.getElementById('searchInput');
+        const searchBtn = document.getElementById('searchBtn');
+        const addDepartmentBtn = document.getElementById('addDepartmentBtn');
+        
+        // 模态框元素
+        const departmentModal = document.getElementById('departmentModal');
+        const departmentDetailModal = document.getElementById('departmentDetailModal');
+        const confirmDeleteModal = document.getElementById('confirmDeleteModal');
+        const modalTitle = document.getElementById('modalTitle');
+        const closeModal = document.getElementById('closeModal');
+        const closeDetailModal = document.getElementById('closeDetailModal');
+        const closeConfirmModal = document.getElementById('closeConfirmModal');
+        const departmentForm = document.getElementById('departmentForm');
+        const isEditMode = document.getElementById('isEditMode');
+        const cancelBtn = document.getElementById('cancelBtn');
+        const editDepartmentBtn = document.getElementById('editDepartmentBtn');
+        const deleteDepartmentBtn = document.getElementById('deleteDepartmentBtn');
+        const cancelDeleteBtn = document.getElementById('cancelDeleteBtn');
+        const confirmDeleteBtn = document.getElementById('confirmDeleteBtn');
+        const deleteErrorMessage = document.getElementById('deleteErrorMessage');
+        
+        // 详情页选项卡
+        const tabs = document.querySelectorAll('.tab');
+        const tabContents = document.querySelectorAll('.tab-content');
+        
+        // 加载院系数据
+        function loadDepartments() {
+            const searchTerm = searchInput.value.trim();
+            
+            loadingIndicator.style.display = 'block';
+            departmentsTable.style.display = 'none';
+            emptyState.style.display = 'none';
+            
+            let url = '/api/admin/departments';
+            if (searchTerm) {
+                url += `?search=${encodeURIComponent(searchTerm)}`;
+            }
+            
+            fetch(url)
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('网络请求失败');
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    departments = data.departments || [];
+                    
+                    // 更新统计数据
+                    if (data.stats) {
+                        document.getElementById('totalDepartments').textContent = data.stats.total_departments || 0;
+                        document.getElementById('totalMajors').textContent = data.stats.total_majors || 0;
+                        document.getElementById('totalInstructors').textContent = data.stats.total_instructors || 0;
+                    }
+                    
+                    // 渲染院系表格
+                    renderDepartmentsTable();
+                })
+                .catch(error => {
+                    console.error('获取院系数据失败:', error);
+                    alert('获取院系数据失败，请刷新页面重试');
+                })
+                .finally(() => {
+                    loadingIndicator.style.display = 'none';
+                });
+        }
+        
+        // 渲染院系表格
+        function renderDepartmentsTable() {
+            departmentsTableBody.innerHTML = '';
+            
+            if (departments.length === 0) {
+                departmentsTable.style.display = 'none';
+                emptyState.style.display = 'block';
+                return;
+            }
+            
+            departments.forEach(dept => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${dept.lyh_dept_id}</td>
+                    <td>${dept.lyh_dept_name}</td>
+                    <td>${dept.dean_name || '-'}</td>
+                    <td>${dept.major_count || 0}</td>
+                    <td>${dept.instructor_count || 0}</td>
+                    <td>${dept.student_count || 0}</td>
+                    <td>${dept.lyh_phone || '-'}</td>
+                    <td>${dept.lyh_office_location || '-'}</td>
+                    <td>
+                        <button class="btn-secondary view-btn" data-id="${dept.lyh_dept_id}">查看</button>
+                        <button class="btn-secondary edit-btn" data-id="${dept.lyh_dept_id}">编辑</button>
+                        <button class="btn-danger delete-btn" data-id="${dept.lyh_dept_id}">删除</button>
+                    </td>
+                `;
+                departmentsTableBody.appendChild(row);
+            });
+            
+            // 添加事件监听器
+            document.querySelectorAll('.view-btn').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const deptId = this.getAttribute('data-id');
+                    viewDepartmentDetail(deptId);
+                });
+            });
+            
+            document.querySelectorAll('.edit-btn').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const deptId = this.getAttribute('data-id');
+                    editDepartment(deptId);
+                });
+            });
+            
+            document.querySelectorAll('.delete-btn').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const deptId = this.getAttribute('data-id');
+                    showDeleteConfirmation(deptId);
+                });
+            });
+            
+            departmentsTable.style.display = 'table';
+            emptyState.style.display = 'none';
+        }
+        
+        // 查看院系详情
+        function viewDepartmentDetail(deptId) {
+            currentDepartmentId = deptId;
+            
+            // 显示加载状态
+            document.getElementById('detail-deptId').textContent = '加载中...';
+            document.getElementById('detail-deptName').textContent = '加载中...';
+            document.getElementById('detail-deptCode').textContent = '';
+            document.getElementById('detail-deanName').textContent = '';
+            document.getElementById('detail-establishedDate').textContent = '';
+            document.getElementById('detail-phone').textContent = '';
+            document.getElementById('detail-officeLocation').textContent = '';
+            document.getElementById('detail-description').textContent = '';
+            
+            document.getElementById('majorsTableBody').innerHTML = '';
+            document.getElementById('instructorsTableBody').innerHTML = '';
+            
+            // 显示模态框
+            departmentDetailModal.style.display = 'block';
+            
+            // 获取院系详情
+            fetch(`/api/admin/department/${deptId}`)
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('网络请求失败');
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    // 填充基本信息
+                    const dept = data.department;
+                    document.getElementById('detailModalTitle').textContent = `${dept.lyh_dept_name} (${dept.lyh_dept_id})`;
+                    document.getElementById('detail-deptId').textContent = dept.lyh_dept_id || '';
+                    document.getElementById('detail-deptName').textContent = dept.lyh_dept_name || '';
+                    document.getElementById('detail-deptCode').textContent = dept.lyh_dept_code || '-';
+                    document.getElementById('detail-deanName').textContent = dept.dean_name || '-';
+                    document.getElementById('detail-establishedDate').textContent = dept.lyh_established_date ? new Date(dept.lyh_established_date).toLocaleDateString() : '-';
+                    document.getElementById('detail-phone').textContent = dept.lyh_phone || '-';
+                    document.getElementById('detail-officeLocation').textContent = dept.lyh_office_location || '-';
+                    document.getElementById('detail-description').textContent = dept.lyh_description || '-';
+                    
+                    // 填充专业数据
+                    const majors = data.majors || [];
+                    document.getElementById('majorCount').textContent = majors.length;
+                    
+                    if (majors.length > 0) {
+                        const majorsTableBody = document.getElementById('majorsTableBody');
+                        majorsTableBody.innerHTML = '';
+                        
+                        majors.forEach(major => {
+                            const row = document.createElement('tr');
+                            row.innerHTML = `
+                                <td>${major.lyh_major_id}</td>
+                                <td>${major.lyh_major_name}</td>
+                                <td>${major.lyh_major_code || '-'}</td>
+                                <td>${major.lyh_duration || '-'}</td>
+                                <td>${major.lyh_degree_type || '-'}</td>
+                                <td>${major.student_count || 0}</td>
+                            `;
+                            majorsTableBody.appendChild(row);
+                        });
+                        
+                        document.getElementById('majorsTable').style.display = 'table';
+                        document.getElementById('majorsEmptyState').style.display = 'none';
+                    } else {
+                        document.getElementById('majorsTable').style.display = 'none';
+                        document.getElementById('majorsEmptyState').style.display = 'block';
+                    }
+                    
+                    // 填充教师数据
+                    const instructors = data.instructors || [];
+                    document.getElementById('instructorCount').textContent = instructors.length;
+                    
+                    if (instructors.length > 0) {
+                        const instructorsTableBody = document.getElementById('instructorsTableBody');
+                        instructorsTableBody.innerHTML = '';
+                        
+                        instructors.forEach(instructor => {
+                            const row = document.createElement('tr');
+                            row.innerHTML = `
+                                <td>${instructor.lyh_instructor_id}</td>
+                                <td>${instructor.lyh_instructor_name}</td>
+                                <td>${instructor.lyh_gender || '-'}</td>
+                                <td>${instructor.lyh_title || '-'}</td>
+                                <td>${instructor.lyh_education || '-'}</td>
+                                <td>${instructor.lyh_office_location || '-'}</td>
+                            `;
+                            instructorsTableBody.appendChild(row);
+                        });
+                        
+                        document.getElementById('instructorsTable').style.display = 'table';
+                        document.getElementById('instructorsEmptyState').style.display = 'none';
+                    } else {
+                        document.getElementById('instructorsTable').style.display = 'none';
+                        document.getElementById('instructorsEmptyState').style.display = 'block';
+                    }
+                })
+                .catch(error => {
+                    console.error('获取院系详情失败:', error);
+                    alert('获取院系详情失败，请重试');
+                });
+        }
+        
+        // 添加院系
+        function addDepartment() {
+            isEditMode.value = 'false';
+            modalTitle.textContent = '添加院系';
+            
+            // 重置表单
+            departmentForm.reset();
+            document.getElementById('deptId').disabled = false;
+            document.getElementById('deptIdError').textContent = '';
+            document.getElementById('deptNameError').textContent = '';
+            document.getElementById('formError').textContent = '';
+            
+            // 加载可担任院长的教师列表
+            loadDeanCandidates();
+            
+            // 显示模态框
+            departmentModal.style.display = 'block';
+        }
+        
+        // 编辑院系
+        function editDepartment(deptId) {
+            isEditMode.value = 'true';
+            modalTitle.textContent = '编辑院系';
+            
+            // 获取院系详情
+            fetch(`/api/admin/department/${deptId}`)
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('网络请求失败');
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    // 填充表单
+                    const dept = data.department;
+                    document.getElementById('deptId').value = dept.lyh_dept_id || '';
+                    document.getElementById('deptName').value = dept.lyh_dept_name || '';
+                    document.getElementById('deptCode').value = dept.lyh_dept_code || '';
+                    document.getElementById('deanId').value = dept.dean_id || '';
+                    document.getElementById('establishedDate').value = dept.lyh_established_date ? new Date(dept.lyh_established_date).toISOString().split('T')[0] : '';
+                    document.getElementById('phone').value = dept.lyh_phone || '';
+                    document.getElementById('officeLocation').value = dept.lyh_office_location || '';
+                    document.getElementById('description').value = dept.lyh_description || '';
+                    
+                    // 显示模态框
+                    departmentModal.style.display = 'block';
+                })
+                .catch(error => {
+                    console.error('获取院系详情失败:', error);
+                    alert('获取院系详情失败，请重试');
+                });
+        }
+        
+        // 显示删除确认
+        function showDeleteConfirmation(deptId) {
+            currentDepartmentId = deptId;
+            
+            // 显示模态框
+            confirmDeleteModal.style.display = 'block';
+        }
+        
+        // 处理删除
+        function handleDelete() {
+            // 获取表单数据
+            const deptId = currentDepartmentId;
+            
+            // 发送删除请求
+            fetch(`/api/admin/department/${deptId}`, {
+                method: 'DELETE'
+            })
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('网络请求失败');
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    // 处理删除成功后的逻辑
+                    alert('院系删除成功');
+                    loadDepartments();
+                })
+                .catch(error => {
+                    console.error('删除院系失败:', error);
+                    alert('删除院系失败，请重试');
+                });
+            
+            // 关闭模态框
+            confirmDeleteModal.style.display = 'none';
+        }
+        
+        // 加载可担任院长的教师列表
+        function loadDeanCandidates() {
+            // 实现加载可担任院长的教师列表的逻辑
+            // 这里需要根据实际需求实现
+        }
+        
+        // 事件绑定
+        searchBtn.addEventListener('click', loadDepartments);
+        addDepartmentBtn.addEventListener('click', addDepartment);
+        closeModal.addEventListener('click', function() { departmentModal.style.display = 'none'; });
+        closeDetailModal.addEventListener('click', function() { departmentDetailModal.style.display = 'none'; });
+        closeConfirmModal.addEventListener('click', function() { confirmDeleteModal.style.display = 'none'; });
+        cancelBtn.addEventListener('click', function() { departmentModal.style.display = 'none'; });
+        cancelDeleteBtn.addEventListener('click', function() { confirmDeleteModal.style.display = 'none'; });
+        confirmDeleteBtn.addEventListener('click', handleDelete);
+        
+        // 初始加载
+        loadDepartments();
+    });
+</script>
+{% endblock %}

@@ -1,0 +1,150 @@
+<library path="lib/libopencv_apps">
+  <class name="opencv_apps/adding_images" type="opencv_apps::AddingImagesNodelet" base_class_type="nodelet::Nodelet">
+    <description>Nodelet to combine two images</description>
+  </class>
+
+  <class name="opencv_apps/discrete_fourier_transform" type="opencv_apps::DiscreteFourierTransformNodelet" base_class_type="nodelet::Nodelet">
+    <description>Nodelet to fourier transform</description>
+  </class>
+
+  <class name="opencv_apps/smoothing" type="opencv_apps::SmoothingNodelet" base_class_type="nodelet::Nodelet">
+    <description>Nodelet to smoothing by homogeneous filter, bilateral filter, gaussian filter, median filter</description>
+  </class>
+
+  <class name="opencv_apps/pyramids" type="opencv_apps::PyramidsNodelet" base_class_type="nodelet::Nodelet">
+    <description>Nodelet to process image pyramids</description>
+  </class>
+
+  <class name="opencv_apps/edge_detection" type="opencv_apps::EdgeDetectionNodelet" base_class_type="nodelet::Nodelet">
+    <description>Nodelet to find edges</description>
+  </class>
+
+  <class name="opencv_apps/hough_lines" type="opencv_apps::HoughLinesNodelet" base_class_type="nodelet::Nodelet">
+    <description>Nodelet to find lines</description>
+  </class>
+
+  <class name="opencv_apps/hough_circles" type="opencv_apps::HoughCirclesNodelet" base_class_type="nodelet::Nodelet">
+    <description>Nodelet to find circles</description>
+  </class>
+
+  <class name="opencv_apps/find_contours" type="opencv_apps::FindContoursNodelet" base_class_type="nodelet::Nodelet">
+    <description>Nodelet to find contours</description>
+  </class>
+
+  <class name="opencv_apps/convex_hull" type="opencv_apps::ConvexHullNodelet" base_class_type="nodelet::Nodelet">
+    <description>Nodelet to find convex hulls</description>
+  </class>
+
+  <class name="opencv_apps/general_contours" type="opencv_apps::GeneralContoursNodelet" base_class_type="nodelet::Nodelet">
+    <description>Nodelet to creating bounding boxes and circles for contours</description>
+  </class>
+
+  <class name="opencv_apps/contour_moments" type="opencv_apps::ContourMomentsNodelet" base_class_type="nodelet::Nodelet">
+    <description>Nodelet to find image moments</description>
+  </class>
+
+  <class name="opencv_apps/face_detection" type="opencv_apps::FaceDetectionNodelet" base_class_type="nodelet::Nodelet">
+    <description>Nodelet to find faces</description>
+  </class>
+
+  <class name="opencv_apps/face_recognition" type="opencv_apps::FaceRecognitionNodelet" base_class_type="nodelet::Nodelet">
+    <description>Nodelet to identify faces</description>
+  </class>
+
+  <class name="opencv_apps/goodfeature_track" type="opencv_apps::GoodfeatureTrackNodelet" base_class_type="nodelet::Nodelet">
+    <description>Nodelet for detecting corners using Shi-Tomasi method</description>
+  </class>
+
+  <class name="opencv_apps/corner_harris" type="opencv_apps::CornerHarrisNodelet" base_class_type="nodelet::Nodelet">
+    <description>Nodelet for detecting corners using Harris method</description>
+  </class>
+
+  <class name="opencv_apps/camshift" type="opencv_apps::CamShiftNodelet" base_class_type="nodelet::Nodelet">
+    <description>Nodelet to show mean-shift based tracking</description>
+  </class>
+
+  <class name="opencv_apps/fback_flow" type="opencv_apps::FBackFlowNodelet" base_class_type="nodelet::Nodelet">
+    <description>Nodelet to demonstrates dense optical flow algorithm by Gunnar Farneback</description>
+  </class>
+
+  <class name="opencv_apps/lk_flow" type="opencv_apps::LKFlowNodelet" base_class_type="nodelet::Nodelet">
+    <description>Nodelet to calculate Lukas-Kanade optical flow</description>
+  </class>
+
+  <class name="opencv_apps/people_detect" type="opencv_apps::PeopleDetectNodelet" base_class_type="nodelet::Nodelet">
+    <description>Nodelet to demonstrate the use of the HoG descriptor</description>
+  </class>
+
+  <class name="opencv_apps/phase_corr" type="opencv_apps::PhaseCorrNodelet" base_class_type="nodelet::Nodelet">
+    <description>Nodelet to demonstrate the use of phaseCorrelate</description>
+  </class>
+
+  <class name="opencv_apps/segment_objects" type="opencv_apps::SegmentObjectsNodelet" base_class_type="nodelet::Nodelet">
+    <description>Nodelet to demonstrate a simple method of connected components clean up of background subtraction</description>
+  </class>
+
+  <class name="opencv_apps/simple_flow" type="opencv_apps::SimpleFlowNodelet" base_class_type="nodelet::Nodelet">
+    <description>Nodelet of SimpleFlow optical flow algorithm</description>
+  </class>
+
+ <class name="opencv_apps/simple_example" type="opencv_apps::SimpleExampleNodelet" base_class_type="nodelet::Nodelet">
+    <description>Nodelet of Simple Example from wiki</description>
+  </class>
+
+   <class name="opencv_apps/simple_compressed_example" type="opencv_apps::SimpleCompressedExampleNodelet" base_class_type="nodelet::Nodelet">
+    <description>Nodelet of Simple Example from wiki</description>
+  </class>
+
+   <class name="opencv_apps/threshold" type="opencv_apps::ThresholdNodelet" base_class_type="nodelet::Nodelet">
+    <description>Nodelet of threshold</description>
+  </class>
+
+   <class name="opencv_apps/rgb_color_filter" type="opencv_apps::RGBColorFilterNodelet" base_class_type="nodelet::Nodelet">
+    <description>Nodelet of rgb color filter</description>
+   </class>
+
+   <class name="opencv_apps/hls_color_filter" type="opencv_apps::HLSColorFilterNodelet" base_class_type="nodelet::Nodelet">
+    <description>Nodelet of hls color filter</description>
+   </class>
+
+   <class name="opencv_apps/hsv_color_filter" type="opencv_apps::HSVColorFilterNodelet" base_class_type="nodelet::Nodelet">
+    <description>Nodelet of hsv color filter</description>
+   </class>
+
+  <class name="opencv_apps/watershed_segmentation" type="opencv_apps::WatershedSegmentationNodelet" base_class_type="nodelet::Nodelet">
+    <description>Nodelet to demonstrate the famous watershed segmentation algorithm in OpenCV: watershed()</description>
+  </class>
+
+  <!--
+      for backward compatibility, can be removed in M-turtle
+  -->
+  <class name="adding_images/adding_images" type="adding_images::AddingImagesNodelet" base_class_type="nodelet::Nodelet"/>
+  <class name="discrete_fourier_transform/discrete_fourier_transform" type="discrete_fourier_transform::DiscreteFourierTransformNodelet" base_class_type="nodelet::Nodelet"/>
+  <class name="smoothing/smoothing" type="smoothing::SmoothingNodelet" base_class_type="nodelet::Nodelet"/>
+  <class name="pyramids/pyramids" type="pyramids::PyramidsNodelet" base_class_type="nodelet::Nodelet"/>
+  <class name="edge_detection/edge_detection" type="edge_detection::EdgeDetectionNodelet" base_class_type="nodelet::Nodelet"/>
+  <class name="hough_lines/hough_lines" type="hough_lines::HoughLinesNodelet" base_class_type="nodelet::Nodelet"/>
+  <class name="hough_circles/hough_circles" type="hough_circles::HoughCirclesNodelet" base_class_type="nodelet::Nodelet"/>
+  <class name="find_contours/find_contours" type="find_contours::FindContoursNodelet" base_class_type="nodelet::Nodelet"/>
+  <class name="convex_hull/convex_hull" type="convex_hull::ConvexHullNodelet" base_class_type="nodelet::Nodelet"/>
+  <class name="general_contours/general_contours" type="general_contours::GeneralContoursNodelet" base_class_type="nodelet::Nodelet"/>
+  <class name="contour_moments/contour_moments" type="contour_moments::ContourMomentsNodelet" base_class_type="nodelet::Nodelet"/>
+  <class name="face_detection/face_detection" type="face_detection::FaceDetectionNodelet" base_class_type="nodelet::Nodelet"/>
+  <class name="face_recognition/face_recognition" type="face_recognition::FaceRecognitionNodelet" base_class_type="nodelet::Nodelet"/>
+  <class name="goodfeature_track/goodfeature_track" type="goodfeature_track::GoodfeatureTrackNodelet" base_class_type="nodelet::Nodelet"/>
+  <class name="corner_harris/corner_harris" type="corner_harris::CornerHarrisNodelet" base_class_type="nodelet::Nodelet"/>
+  <class name="camshift/camshift" type="camshift::CamShiftNodelet" base_class_type="nodelet::Nodelet"/>
+  <class name="fback_flow/fback_flow" type="fback_flow::FBackFlowNodelet" base_class_type="nodelet::Nodelet"/>
+  <class name="lk_flow/lk_flow" type="lk_flow::LKFlowNodelet" base_class_type="nodelet::Nodelet"/>
+  <class name="people_detect/people_detect" type="people_detect::PeopleDetectNodelet" base_class_type="nodelet::Nodelet"/>
+  <class name="phase_corr/phase_corr" type="phase_corr::PhaseCorrNodelet" base_class_type="nodelet::Nodelet"/>
+  <class name="segment_objects/segment_objects" type="segment_objects::SegmentObjectsNodelet" base_class_type="nodelet::Nodelet"/>
+  <class name="simple_flow/simple_flow" type="simple_flow::SimpleFlowNodelet" base_class_type="nodelet::Nodelet"/>
+ <class name="simple_example/simple_example" type="simple_example::SimpleExampleNodelet" base_class_type="nodelet::Nodelet"/>
+   <class name="simple_compressed_example/simple_compressed_example" type="simple_compressed_example::SimpleCompressedExampleNodelet" base_class_type="nodelet::Nodelet"/>
+   <class name="threshold/threshold" type="threshold::ThresholdNodelet" base_class_type="nodelet::Nodelet"/>
+   <class name="rgb_color_filter/rgb_color_filter" type="color_filter::RGBColorFilterNodelet" base_class_type="nodelet::Nodelet"/>
+   <class name="hls_color_filter/hls_color_filter" type="color_filter::HLSColorFilterNodelet" base_class_type="nodelet::Nodelet"/>
+   <class name="hsv_color_filter/hsv_color_filter" type="color_filter::HSVColorFilterNodelet" base_class_type="nodelet::Nodelet"/>
+  <class name="watershed_segmentation/watershed_segmentation" type="watershed_segmentation::WatershedSegmentationNodelet" base_class_type="nodelet::Nodelet"/>
+</library>

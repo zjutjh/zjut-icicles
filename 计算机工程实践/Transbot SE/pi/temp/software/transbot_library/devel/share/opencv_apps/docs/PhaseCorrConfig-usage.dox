@@ -1,0 +1,7 @@
+\subsubsection usage Usage
+\verbatim
+<node name="phase_corr" pkg="opencv_apps" type="phase_corr">
+  <param name="use_camera_info" type="bool" value="False" />
+</node>
+\endverbatim
+

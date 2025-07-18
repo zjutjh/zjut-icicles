@@ -1,0 +1,98 @@
+# TransBot 循迹 PID 参数配置文件
+# 用于调整循迹控制的响应特性，解决摆头问题
+
+# PID控制参数
+pid_parameters:
+  # 比例系数 - 控制对当前误差的响应强度
+  # 原值40过大导致摆头，建议15-25
+  Kp: 15
+  
+  # 积分系数 - 控制对历史累积误差的响应
+  # 通常保持为0或很小值，避免积分饱和
+  Ki: 0
+  
+  # 微分系数 - 控制对误差变化率的响应，有助于减少超调
+  # 原值12可能对噪声敏感，建议5-8
+  Kd: 5
+  
+  # PID输出缩放因子
+  # 用于将PID输出转换为实际的角速度命令
+  scale: 1000
+
+# 速度控制参数  
+speed_parameters:
+  # 基础前进速度 (m/s)
+  linear_speed: 0.25
+  
+  # 最大角速度限制 (rad/s)
+  # 防止转向过快导致摆头
+  max_angular_speed: 1.2
+  
+  # 最小角速度阈值 (rad/s)
+  # 小于此值的角速度命令将被忽略，减少抖动
+  min_angular_speed: 0.05
+
+# 误差处理参数
+error_processing:
+  # 误差缩放因子 - 将像素偏差转换为控制误差
+  # 原值16，可以调整以改变敏感度
+  error_scale: 20
+  
+  # 图像中心X坐标 (像素)
+  image_center_x: 320
+  
+  # 死区范围 (像素) - 在此范围内的偏差将被忽略
+  dead_zone: 5
+
+# 滤波参数
+filtering:
+  # 角速度低通滤波系数 (0-1)
+  # 1表示无滤波，0.8表示20%的滤波
+  angular_velocity_filter: 0.85
+  
+  # 误差移动平均窗口大小
+  error_moving_average_size: 3
+
+# 调试和监控参数
+debug:
+  # 是否启用PID调试输出
+  enable_pid_debug: true
+  
+  # PID调试输出频率 (Hz)
+  debug_frequency: 5.0
+  
+  # 是否记录PID参数变化
+  log_parameter_changes: true
+
+# 动态调整参数
+dynamic_tuning:
+  # 是否启用动态PID调整
+  enable_dynamic_tuning: false
+  
+  # 基于速度的PID调整
+  speed_based_tuning:
+    # 低速时的PID参数 (< 0.2 m/s)
+    low_speed:
+      Kp: 25
+      Ki: 0
+      Kd: 8
+    
+    # 高速时的PID参数 (> 0.3 m/s)  
+    high_speed:
+      Kp: 15
+      Ki: 0
+      Kd: 4
+
+# 安全参数
+safety:
+  # 最大连续转向时间 (秒)
+  # 超过此时间将强制减速
+  max_continuous_turn_time: 2.0
+  
+  # 紧急停止条件
+  emergency_stop:
+    # 角速度过大阈值 (rad/s)
+    max_angular_velocity: 2.5
+    
+    # 连续大角速度命令次数阈值
+    max_high_angular_count: 10 

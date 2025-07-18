@@ -1,0 +1,12 @@
+\subsubsection usage Usage
+\verbatim
+<node name="people_detect" pkg="opencv_apps" type="people_detect">
+  <param name="use_camera_info" type="bool" value="False" />
+  <param name="hit_threshold" type="double" value="0.0" />
+  <param name="win_stride" type="int" value="8" />
+  <param name="padding" type="int" value="32" />
+  <param name="scale0" type="double" value="1.05" />
+  <param name="group_threshold" type="int" value="2" />
+</node>
+\endverbatim
+

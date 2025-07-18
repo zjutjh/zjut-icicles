@@ -1,0 +1,3 @@
+Flask
+psycopg2-binary
+Flask-Login 

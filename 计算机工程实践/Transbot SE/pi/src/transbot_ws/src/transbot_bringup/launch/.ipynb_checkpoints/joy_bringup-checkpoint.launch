@@ -1,0 +1,14 @@
+<launch>
+    <!--    启动相机设备服务-->
+    <node pkg="transbot_bringup" type="DeviceSrv.py" name="DeviceSrv" output="screen"/>
+    <!--    启动Transbot底层节点-->
+    <node pkg="transbot_bringup" type="transbot_driver.py" name="transbot_node" required="true" output="screen">
+        <param name="imu" value="/transbot/imu"/>
+        <param name="vel" value="/transbot/get_vel"/>
+        <param name="kp" value="1.0"/>
+        <param name="ki" value="0.0"/>
+        <param name="kd" value="4.0"/>
+    </node>
+    <!--    启动手柄控制节点-->
+    <include file="$(find transbot_ctrl)/launch/transbot_joy.launch"/>
+</launch>

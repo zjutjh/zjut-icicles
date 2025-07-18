@@ -1,0 +1,6 @@
+<launch>
+    <arg name="cloud_topic" default="/color_cloud"
+         doc="cloud_topic type [/color_cloud,/cloud_pcd,/camera/depth_registered/points]"/>
+    <param name="cloud_topic" type="string" value="$(arg cloud_topic)"/>
+    <node name="pointCloud_visualize" pkg="transbot_visual" type="pointCloud_visualize" output="screen"/>
+</launch>

@@ -1,0 +1,4 @@
+lyh_student_id,lyh_student_name,lyh_gender,lyh_birth_date,lyh_id_card,lyh_phone,lyh_email,lyh_address,lyh_major_id,lyh_admission_year,lyh_grade,lyh_duration,lyh_total_credits,lyh_current_gpa,lyh_academic_status
+2024001,赵明,男,2001-05-15,330101200105150011,13800138001,zhaoming@example.com,浙江省杭州市滨江区,CS0101,2024,1,4,0.00,0.00,在读
+2024002,李华,女,2001-06-20,330102200106200022,13900139002,lihua@example.com,浙江省杭州市上城区,CS0101,2024,1,4,0.00,0.00,在读
+2024003,王强,男,2001-07-25,330103200107250033,13700137003,wangqiang@example.com,浙江省宁波市江北区,BS0101,2024,1,4,0.00,0.00,在读

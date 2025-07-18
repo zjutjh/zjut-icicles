@@ -1,0 +1,89 @@
+<launch>
+  <arg name="gui" default="true" />
+  <arg name="use_sim_time" default="true" />
+  <node name="play_face_bag" pkg="rosbag" type="play" args="--clock -l $(find opencv_apps)/test/face_detector_withface_test_diamondback.bag" />
+
+  <group ns="wide_stereo/left" >
+    <node name="image_proc" pkg="image_proc" type="image_proc" />
+    <node name="image_view" pkg="image_view" type="image_view" args="image:=image_rect_color" if="$(arg gui)" />
+
+    <!-- smoothing.cpp  -->
+    <!-- 0: Homogeneous blur -->
+    <include file="$(find opencv_apps)/launch/smoothing.launch" >
+      <arg name="debug_view" value="$(arg gui)" />
+      <arg name="image" value="image_rect" />
+      <arg name="filter_type" value="0" />
+      <arg name="node_name" value="smooth_homogeneous_filter" />
+    </include>
+
+    <!-- Test Codes -->
+    <node name="smooth_homogeneous_filter_saver" pkg="image_view" type="image_saver" args="image:=smooth_homogeneous_filter/image" >
+      <param name="filename_format" value="$(find opencv_apps)/test/smooth_homogeneous_filter.png"/>
+    </node>
+    <param name="smooth_homogeneous_filter_test/topic" value="smooth_homogeneous_filter/image" />    <!-- opencv_apps/FaceArrayStamped -->
+    <test test-name="smooth_homogeneous_filter_test" pkg="rostest" type="hztest" name="smooth_homogeneous_filter_test" >
+      <param name="hz" value="20" />
+      <param name="hzerror" value="10" />
+      <param name="test_duration" value="5.0" /> 
+    </test>
+
+    <!-- 1: Gaussian blur -->
+    <include file="$(find opencv_apps)/launch/smoothing.launch" >
+      <arg name="debug_view" value="$(arg gui)" />
+      <arg name="image" value="image_rect" />
+      <arg name="filter_type" value="1" />
+      <arg name="node_name" value="smooth_gaussian_filter" />
+    </include>
+
+    <!-- Test Codes -->
+    <node name="smooth_gaussian_filter_saver" pkg="image_view" type="image_saver" args="image:=smooth_gaussian_filter/image" >
+      <param name="filename_format" value="$(find opencv_apps)/test/smooth_gaussian_filter.png"/>
+    </node>
+    <param name="smooth_gaussian_filter_test/topic" value="smooth_gaussian_filter/image" />
+    <test test-name="smooth_gaussian_filter_test" pkg="rostest" type="hztest" name="smooth_gaussian_filter_test" >
+      <param name="hz" value="20" />
+      <param name="hzerror" value="10" />
+      <param name="test_duration" value="5.0" />
+    </test>
+
+    <!-- 2: Median blur -->
+    <include file="$(find opencv_apps)/launch/smoothing.launch" >
+      <arg name="debug_view" value="$(arg gui)" />
+      <arg name="image" value="image_rect" />
+      <arg name="filter_type" value="2" />
+      <arg name="node_name" value="smooth_median_filter" />
+    </include>
+
+    <!-- Test Codes -->
+    <node name="smooth_median_filter_saver" pkg="image_view" type="image_saver" args="image:=smooth_median_filter/image" >
+      <param name="filename_format" value="$(find opencv_apps)/test/smooth_median_filter.png"/>
+    </node>
+    <param name="smooth_median_filter_test/topic" value="smooth_median_filter/image" />
+    <test test-name="smooth_median_filter_test" pkg="rostest" type="hztest" name="smooth_median_filter_test" >
+      <param name="hz" value="15" />
+      <param name="hzerror" value="14" />
+      <param name="test_duration" value="5.0" />
+    </test>
+
+    <!-- 3: Bilateral blur -->
+    <include file="$(find opencv_apps)/launch/smoothing.launch" >
+      <arg name="debug_view" value="$(arg gui)" />
+      <arg name="image" value="image_rect" />
+      <arg name="filter_type" value="3" />
+      <arg name="node_name" value="smooth_bilateral_filter" />
+    </include>
+
+    <!-- Test Codes -->
+    <node name="smooth_bilateral_filter_saver" pkg="image_view" type="image_saver" args="image:=smooth_bilateral_filter/image" >
+      <param name="filename_format" value="$(find opencv_apps)/test/smooth_bilateral_filter.png"/>
+    </node>
+    <param name="smooth_bilateral_filter_test/topic" value="smooth_bilateral_filter/image" />
+    <test test-name="smooth_bilateral_filter_test" pkg="rostest" type="hztest" name="smooth_bilateral_filter_test" >
+      <param name="hz" value="15" />
+      <param name="hzerror" value="14" />
+      <param name="test_duration" value="5.0" />
+    </test>
+
+
+  </group>
+</launch>

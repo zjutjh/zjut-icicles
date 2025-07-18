@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+<launch>
+  <!-- Auto Demo Launch File -->
+  
+  <!-- Start the auto demo script -->
+  <node name="auto_demo" pkg="transbot_composite_app" type="auto_demo.py" output="screen">
+    <param name="demo_mode" value="true"/>
+  </node>
+  
+</launch> 

@@ -1,0 +1,5 @@
+<launch>
+    
+    <include file="$(find transbot_bringup)/launch/bringup.launch"/>
+    <node name="msgToimg" pkg="arm_mediapipe" type="msgToimg.py" output="screen" required="true"/>
+</launch>

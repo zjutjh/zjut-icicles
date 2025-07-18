@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}教务管理系统{% endblock %}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    {% block head_extra %}{% endblock %}
+</head>
+<body>
+    <div class="page-wrapper">
+        <nav class="main-nav">
+            <a class="nav-brand" href="{{ url_for('main.dashboard') }}">教务系统</a>
+            <div class="nav-links">
+                <a href="{{ url_for('main.dashboard') }}">仪表盘</a>
+                <a href="{{ url_for('main.search_page') }}">全局搜索</a>
+                <!-- 根据用户角色，未来可以在这里添加更多链接 -->
+            </div>
+            <div class="nav-user">
+                <span>欢迎, {{ current_user.username }} ({{ current_user.role }})</span>
+                <a href="{{ url_for('auth.change_password') }}">修改密码</a>
+                <a href="{{ url_for('auth.logout') }}">退出</a>
+            </div>
+        </nav>
+
+        <main class="content-wrapper">
+            {% with messages = get_flashed_messages(with_categories=true) %}
+                {% if messages %}
+                    <div class="flash-container">
+                        {% for category, message in messages %}
+                            <div class="flash-message flash-{{ category }}">{{ message }}</div>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+            {% endwith %}
+            
+            {% block content %}{% endblock %}
+        </main>
+
+        <footer>
+            <p>数据库课程设计 &copy; 2024</p>
+        </footer>
+    </div>
+    {% block scripts_extra %}{% endblock %}
+</body>
+</html> 

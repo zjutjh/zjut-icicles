@@ -1,0 +1,3 @@
+<launch>
+    <node name="usb_cam_flip_py" pkg="transbot_visual" type="usb_cam_flip.py" output="screen"/>
+</launch>

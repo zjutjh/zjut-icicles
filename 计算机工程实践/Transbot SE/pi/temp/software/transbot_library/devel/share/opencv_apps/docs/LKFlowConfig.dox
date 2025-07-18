@@ -1,0 +1,10 @@
+\subsubsection parameters ROS parameters
+
+Reads and maintains the following parameters on the ROS server
+
+- \b "~use_camera_info" : \b [bool] Indicates that the camera_info topic should be subscribed to to get the default input_frame_id. Otherwise the frame from the image message will be used. min: False, default: False, max: True
+- \b "~quality_level" : \b [double] Parameter characterizing the minimal acceptance quality of image corners. min: 0.001, default: 0.01, max: 10.0
+- \b "~min_distance" : \b [int] Minimum possible Euclidean distance between the returned corners. min: 1, default: 10, max: 100
+- \b "~block_size" : \b [int] Size of an average block for computing a derivative covariation matrix over each pixel neighborhood. min: 1, default: 3, max: 100
+- \b "~harris_k" : \b [double] Free parameter of the Harris detector min: 0.001, default: 0.04, max: 10.0
+

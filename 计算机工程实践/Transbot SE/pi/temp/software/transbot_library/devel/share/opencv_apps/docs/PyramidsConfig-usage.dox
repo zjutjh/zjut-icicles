@@ -1,0 +1,9 @@
+\subsubsection usage Usage
+\verbatim
+<node name="pyramids" pkg="opencv_apps" type="pyramids">
+  <param name="use_camera_info" type="bool" value="False" />
+  <param name="pyramids_type" type="int" value="0" />
+  <param name="num_of_pyramids" type="int" value="1" />
+</node>
+\endverbatim
+

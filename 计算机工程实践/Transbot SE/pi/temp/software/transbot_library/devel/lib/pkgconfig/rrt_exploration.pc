@@ -1,0 +1,8 @@
+prefix=/root/software/transbot_library/devel
+
+Name: rrt_exploration
+Description: Description of rrt_exploration
+Version: 0.0.0
+Cflags: 
+Libs: -L${prefix}/lib 
+Requires: geometry_msgs message_runtime nav_msgs roscpp rospy rosmsg std_msgs tf transbot_msgs visualization_msgs

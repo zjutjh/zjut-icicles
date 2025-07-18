@@ -1,0 +1,12 @@
+\subsubsection parameters ROS parameters
+
+Reads and maintains the following parameters on the ROS server
+
+- \b "~use_camera_info" : \b [bool] Indicates that the camera_info topic should be subscribed to to get the default input_frame_id. Otherwise the frame from the image message will be used. min: False, default: False, max: True
+- \b "~hough_type" : \b [int] Hough Line Methods min: 0, default: 0, max: 1
+- \b "~threshold" : \b [int] Hough Line Threshold min: 50, default: 150, max: 150
+- \b "~rho" : \b [double] The resolution of the parameter r in pixels. We use 1 pixel. min: 1.0, default: 1.0, max: 100.0
+- \b "~theta" : \b [double] The resolution of the parameter 	heta in radians. We use 1 degree (CV_PI/180) min: 1.0, default: 1.0, max: 90.0
+- \b "~minLineLength" : \b [double] The minimum number of points that can form a line. Lines with less than this number of points are disregarded. min: 0.0, default: 30.0, max: 500.0
+- \b "~maxLineGap" : \b [double] The maximum gap between two points to be considered in the same line. min: 0.0, default: 10.0, max: 100.0
+

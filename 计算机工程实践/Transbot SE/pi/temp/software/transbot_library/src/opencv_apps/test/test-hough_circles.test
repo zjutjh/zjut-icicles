@@ -1,0 +1,28 @@
+<launch>
+  <arg name="gui" default="true" />
+  <node name="play_face_bag" pkg="rosbag" type="play" args="-l $(find opencv_apps)/test/face_detector_withface_test_diamondback.bag" />
+
+  <group ns="wide_stereo/left" >
+    <node name="image_proc" pkg="image_proc" type="image_proc" />
+    <node name="image_view" pkg="image_view" type="image_view" args="image:=image_rect_color" if="$(arg gui)" />
+
+    <!-- hough_circles.cpp -->
+    <include file="$(find opencv_apps)/launch/hough_circles.launch" >
+      <arg name="debug_view" value="$(arg gui)" />
+      <arg name="canny_threshold" value="200" />
+      <arg name="accumulator_threshold" value="20" />
+      <arg name="image" value="image_rect" />
+    </include>
+
+    <!-- Test Codes -->
+    <node name="hough_circles_saver" pkg="image_view" type="image_saver" args="image:=hough_circles/image" >
+      <param name="filename_format" value="$(find opencv_apps)/test/hough_circles.png"/>
+    </node>
+    <param name="hough_circles_test/topic" value="hough_circles/circles" />    <!-- opencv_apps/CircleArrayStamped -->
+    <test test-name="hough_circles_test" pkg="rostest" type="hztest" name="hough_circles_test" >
+      <param name="hz" value="20" />
+      <param name="hzerror" value="15" />
+      <param name="test_duration" value="5.0" /> 
+    </test>
+  </group>
+</launch>

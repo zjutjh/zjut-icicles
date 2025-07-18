@@ -1,0 +1,17 @@
+\subsubsection usage Usage
+\verbatim
+<node name="hough_circles" pkg="opencv_apps" type="hough_circles">
+  <param name="use_camera_info" type="bool" value="False" />
+  <param name="canny_threshold" type="double" value="200.0" />
+  <param name="accumulator_threshold" type="double" value="50.0" />
+  <param name="gaussian_blur_size" type="int" value="9" />
+  <param name="gaussian_sigma_x" type="double" value="2.0" />
+  <param name="gaussian_sigma_y" type="double" value="2.0" />
+  <param name="min_distance_between_circles" type="double" value="0.0" />
+  <param name="dp" type="double" value="2.0" />
+  <param name="min_circle_radius" type="int" value="0" />
+  <param name="max_circle_radius" type="int" value="0" />
+  <param name="debug_image_type" type="int" value="0" />
+</node>
+\endverbatim
+

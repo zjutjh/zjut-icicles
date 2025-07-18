@@ -1,0 +1,25 @@
+<launch>
+  <arg name="node_name" default="adding_images" />
+
+  <arg name="image1" default="image1" doc="The image topic. Should be remapped to the name of the real image topic." />
+  <arg name="image2" default="image2" doc="The image topic. Should be remapped to the name of the real image topic." />
+
+  <arg name="use_camera_info" default="false" doc="Indicates that the camera_info topic should be subscribed to to get the default input_frame_id. Otherwise the frame from the image message will be used." />
+  <arg name="debug_view" default="true" doc="Specify whether the node displays a window to show edge image" />
+  <arg name="queue_size" default="3" doc="Specigy queue_size of input image subscribers" />
+  <arg name="alpha" default="0.5" doc="Weight of the first array elements" />
+  <arg name="gamma" default="0" doc="Scalar added to each sum" />
+  <arg name="approximate_sync" default="false" doc="Flag of approximate_sync. If this value is false, image1 and image2 synchronize exact time." />
+
+  <!-- adding_images.cpp -->
+  <node name="$(arg node_name)" pkg="opencv_apps" type="adding_images" >
+    <remap from="image1" to="$(arg image1)" />
+    <remap from="image2" to="$(arg image2)" />
+    <param name="use_camera_info" value="$(arg use_camera_info)" />
+    <param name="debug_view" value="$(arg debug_view)" />
+    <param name="queue_size" value="$(arg queue_size)" />
+    <param name="alpha" value="$(arg alpha)" />
+    <param name="gamma" value="$(arg gamma)" />
+    <param name="approximate_sync" value="$(arg approximate_sync)" />
+  </node>
+</launch>

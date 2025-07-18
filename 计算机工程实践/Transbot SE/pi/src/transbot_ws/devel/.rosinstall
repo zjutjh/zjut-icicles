@@ -1,0 +1,2 @@
+- setup-file:
+    local-name: /root/transbot_ws/devel/setup.sh
