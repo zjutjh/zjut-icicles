@@ -1,4 +1,4 @@
-This is XeTeX, Version 3.141592653-2.6-0.999996 (MiKTeX 24.4) (preloaded format=xelatex 2025.4.5)  9 AUG 2025 20:05
+This is XeTeX, Version 3.141592653-2.6-0.999996 (MiKTeX 24.4) (preloaded format=xelatex 2025.4.5)  10 AUG 2025 01:50
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -1286,7 +1286,7 @@ LaTeX Warning: There were multiply-defined labels.
 Here is how much of TeX's memory you used:
  28039 strings out of 408759
  629711 string characters out of 5752044
- 1183039 words of memory out of 5000000
+ 1183038 words of memory out of 5000000
  50538 multiletter control sequences out of 15000+600000
  565214 words of font info for 105 fonts, out of 8000000 for 9000
  1348 hyphenation exceptions out of 8191
