@@ -1,5 +1,0 @@
-#request
-int32 Headlight
----
-#response
-bool result

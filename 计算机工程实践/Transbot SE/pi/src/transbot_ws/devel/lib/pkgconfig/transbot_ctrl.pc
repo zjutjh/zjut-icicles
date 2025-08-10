@@ -1,8 +1,0 @@
-prefix=/root/transbot_ws/devel
-
-Name: transbot_ctrl
-Description: Description of transbot_ctrl
-Version: 0.0.0
-Cflags: 
-Libs: -L${prefix}/lib 
-Requires: 

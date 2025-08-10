@@ -1,8 +1,0 @@
-prefix=/root/transbot_ws/devel
-
-Name: transbot_mediapipe
-Description: Description of transbot_mediapipe
-Version: 0.0.0
-Cflags: 
-Libs: -L${prefix}/lib 
-Requires: 

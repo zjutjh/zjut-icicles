@@ -1,8 +1,0 @@
-prefix=/root/catkin_ws/install
-
-Name: camera_viewer
-Description: Description of camera_viewer
-Version: 0.0.1
-Cflags: -I${prefix}/include
-Libs: -L${prefix}/lib 
-Requires: roscpp sensor_msgs std_msgs cv_bridge image_transport

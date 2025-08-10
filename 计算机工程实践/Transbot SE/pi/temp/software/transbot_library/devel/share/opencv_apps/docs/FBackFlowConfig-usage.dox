@@ -1,7 +1,0 @@
-\subsubsection usage Usage
-\verbatim
-<node name="fback_flow" pkg="opencv_apps" type="fback_flow">
-  <param name="use_camera_info" type="bool" value="False" />
-</node>
-\endverbatim
-

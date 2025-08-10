@@ -1,8 +1,0 @@
-prefix=/root/transbot_ws/install
-
-Name: transbot_track
-Description: Description of transbot_track
-Version: 0.0.0
-Cflags: -I${prefix}/include
-Libs: -L${prefix}/lib 
-Requires: 

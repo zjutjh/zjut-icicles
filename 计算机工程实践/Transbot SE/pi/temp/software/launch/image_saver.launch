@@ -1,9 +1,0 @@
-<launch>
-  <!-- 启动USB相机 -->
-  <include file="$(find usb_cam)/launch/usb_cam-test.launch" />
-  
-  <!-- 启动图像保存节点 -->
-  <node name="image_saver_node" pkg="rospy" type="image_saver_node.py" output="screen">
-    <param name="image_topic" value="/usb_cam/image_raw" />
-  </node>
-</launch>

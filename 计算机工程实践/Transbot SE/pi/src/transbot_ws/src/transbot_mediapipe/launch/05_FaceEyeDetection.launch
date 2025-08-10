@@ -1,3 +1,0 @@
-<launch>
-    <node pkg="transbot_mediapipe" type="05_FaceEyeDetection.py" name="FaceEyeDetection" required="true" output="screen"/>
-</launch>

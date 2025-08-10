@@ -1,2 +1,0 @@
-arm_mediapipe:transbot_bringup:transbot_composite_app:transbot_ctrl:transbot_facetracker:transbot_linefollow:transbot_mediapipe:transbot_mono:transbot_msgs:transbot_mulity:transbot_program:transbot_se_moveit_config:transbot_track:transbot_visual
--DCATKIN_DEVEL_PREFIX=/root/transbot_ws/devel -DCMAKE_INSTALL_PREFIX=/root/transbot_ws/install -G Unix Makefiles

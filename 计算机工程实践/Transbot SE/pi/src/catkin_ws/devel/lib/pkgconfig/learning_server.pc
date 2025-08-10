@@ -1,8 +1,0 @@
-prefix=/root/catkin_ws/devel
-
-Name: learning_server
-Description: Description of learning_server
-Version: 0.0.0
-Cflags: -I/root/catkin_ws/devel/include
-Libs: -L${prefix}/lib 
-Requires: 

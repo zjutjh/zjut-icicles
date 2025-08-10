@@ -1,8 +1,0 @@
-prefix=/root/transbot_ws/install
-
-Name: transbot_composite_app
-Description: Description of transbot_composite_app
-Version: 0.1.0
-Cflags: 
-Libs: -L${prefix}/lib 
-Requires: 

@@ -1,7 +1,0 @@
-<launch>
-  <!-- 先启动USB摄像头 -->
-  <include file="$(find usb_cam)/launch/usb_cam-test.launch" />
-  
-  <!-- 启动我们的查看器节点 -->
-  <node name="camera_viewer_node" pkg="camera_viewer" type="camera_viewer_node" output="screen" />
-</launch>

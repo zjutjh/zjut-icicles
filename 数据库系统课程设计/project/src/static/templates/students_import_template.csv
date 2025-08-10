@@ -1,4 +1,0 @@
-student_id,student_name,gender,major_id,grade,academic_status,birth_date,id_card,phone,email,address,admission_year,duration,total_credits,current_gpa
-2023006,刘八,男,CS0101,1,在读,2000-08-08,330108200008080066,13400134006,liuba2023006@example.com,浙江省杭州市滨江区,2023,4,3.50,3.20
-2023007,钱九,女,BS0101,1,在读,2000-09-09,320106200009090077,13300133007,qianjiu2023007@example.com,江苏省南京市鼓楼区,2023,4,4.00,3.80
-2023008,孙十,男,CS0101,1,在读,2000-10-10,330102200010100088,13200132008,sunshi2023008@example.com,浙江省杭州市上城区,2023,4,3.00,3.50 

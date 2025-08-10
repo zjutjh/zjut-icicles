@@ -1,3 +1,0 @@
-<launch>
-    <node name="HandCtrlArm_node" pkg="arm_mediapipe" type="01_HandCtrlArm.py" output="screen" required="true"/>
-</launch>

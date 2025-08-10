@@ -1,5 +1,0 @@
-#request
-string GetGev
----
-#response
-string camDevice

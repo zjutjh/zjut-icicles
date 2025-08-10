@@ -1,6 +1,0 @@
-#request
-int32 effect
-int32 speed
----
-#response
-bool result

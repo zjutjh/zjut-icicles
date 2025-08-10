@@ -1,3 +1,0 @@
-<launch>
-    <node pkg="transbot_mediapipe" type="02_PoseDetector.py" name="PoseDetector" required="true" output="screen"/>
-</launch>

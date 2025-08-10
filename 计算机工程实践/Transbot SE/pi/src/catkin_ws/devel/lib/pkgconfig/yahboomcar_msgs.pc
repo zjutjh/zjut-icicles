@@ -1,8 +1,0 @@
-prefix=/root/catkin_ws/devel
-
-Name: yahboomcar_msgs
-Description: Description of yahboomcar_msgs
-Version: 0.0.0
-Cflags: -I/root/catkin_ws/devel/include
-Libs: -L${prefix}/lib 
-Requires: actionlib_msgs geometry_msgs message_runtime

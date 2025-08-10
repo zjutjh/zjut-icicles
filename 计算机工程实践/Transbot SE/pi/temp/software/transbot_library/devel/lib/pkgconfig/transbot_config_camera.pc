@@ -1,8 +1,0 @@
-prefix=/root/software/transbot_library/devel
-
-Name: transbot_config_camera
-Description: Description of transbot_config_camera
-Version: 0.3.0
-Cflags: 
-Libs: -L${prefix}/lib 
-Requires: 

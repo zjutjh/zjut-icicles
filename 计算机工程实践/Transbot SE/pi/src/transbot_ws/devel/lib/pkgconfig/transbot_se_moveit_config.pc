@@ -1,8 +1,0 @@
-prefix=/root/transbot_ws/devel
-
-Name: transbot_se_moveit_config
-Description: Description of transbot_se_moveit_config
-Version: 0.3.0
-Cflags: 
-Libs: -L${prefix}/lib 
-Requires: 

@@ -1,3 +1,0 @@
-<launch>
-    <node pkg="transbot_composite_app" type="main.py" name="composite_main" output="screen" />
-</launch> 

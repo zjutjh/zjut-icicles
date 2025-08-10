@@ -1,5 +1,0 @@
-#request
-int32 buzzer
----
-#response
-bool result

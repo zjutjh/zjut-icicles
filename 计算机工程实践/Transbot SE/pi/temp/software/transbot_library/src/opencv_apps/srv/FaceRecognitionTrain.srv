@@ -1,6 +1,0 @@
-sensor_msgs/Image[] images
-Rect[] rects
-string[] labels
----
-bool ok
-string error

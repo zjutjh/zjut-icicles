@@ -1,2 +1,0 @@
-string Graphics
-string TrackState

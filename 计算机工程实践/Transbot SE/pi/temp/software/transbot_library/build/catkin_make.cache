@@ -1,2 +1,0 @@
-imu_calib:imu_filter_madgwick:opencv_apps:robot_localization:rrt_exploration:transbot_config_camera:transbot_se_description
--DCATKIN_DEVEL_PREFIX=/root/software/transbot_library/devel -DCMAKE_INSTALL_PREFIX=/root/software/transbot_library/install -G Unix Makefiles

@@ -1,8 +1,0 @@
-README.md
-setup.py
-Transbot_Lib/Transbot_Lib.py
-Transbot_Lib/__init__.py
-Transbot_Lib.egg-info/PKG-INFO
-Transbot_Lib.egg-info/SOURCES.txt
-Transbot_Lib.egg-info/dependency_links.txt
-Transbot_Lib.egg-info/top_level.txt

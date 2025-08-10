@@ -1,8 +1,0 @@
-prefix=/root/software/transbot_library/install
-
-Name: imu_filter_madgwick
-Description: Description of imu_filter_madgwick
-Version: 1.1.6
-Cflags: -I${prefix}/include -I/usr/include
-Libs: -L${prefix}/lib -limu_filter -limu_filter_nodelet /usr/lib/aarch64-linux-gnu/libboost_system.so /usr/lib/aarch64-linux-gnu/libboost_thread.so /usr/lib/aarch64-linux-gnu/libboost_signals.so /usr/lib/aarch64-linux-gnu/libboost_chrono.so /usr/lib/aarch64-linux-gnu/libboost_date_time.so /usr/lib/aarch64-linux-gnu/libboost_atomic.so /usr/lib/aarch64-linux-gnu/libpthread.so
-Requires: roscpp sensor_msgs geometry_msgs tf2_ros tf2_geometry_msgs nodelet pluginlib message_filters dynamic_reconfigure

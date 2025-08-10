@@ -1,3 +1,0 @@
-<launch>
-    <node pkg="transbot_mediapipe" type="01_HandDetector.py" name="handDetector" required="true" output="screen"/>
-</launch>

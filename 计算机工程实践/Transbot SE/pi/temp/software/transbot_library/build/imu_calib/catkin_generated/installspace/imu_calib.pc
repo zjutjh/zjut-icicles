@@ -1,8 +1,0 @@
-prefix=/root/software/transbot_library/install
-
-Name: imu_calib
-Description: Description of imu_calib
-Version: 0.0.0
-Cflags: -I${prefix}/include -I/usr/include/eigen3
-Libs: -L${prefix}/lib -laccel_calib
-Requires: cmake_modules roscpp sensor_msgs

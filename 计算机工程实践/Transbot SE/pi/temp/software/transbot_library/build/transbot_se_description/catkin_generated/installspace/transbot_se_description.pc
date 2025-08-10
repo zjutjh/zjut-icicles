@@ -1,8 +1,0 @@
-prefix=/root/software/transbot_library/install
-
-Name: transbot_se_description
-Description: Description of transbot_se_description
-Version: 1.0.0
-Cflags: 
-Libs: -L${prefix}/lib 
-Requires: 

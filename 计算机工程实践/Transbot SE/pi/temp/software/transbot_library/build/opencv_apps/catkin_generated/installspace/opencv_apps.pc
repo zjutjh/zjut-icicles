@@ -1,8 +1,0 @@
-prefix=/root/software/transbot_library/install
-
-Name: opencv_apps
-Description: Description of opencv_apps
-Version: 2.0.2
-Cflags: -I${prefix}/include
-Libs: -L${prefix}/lib -lopencv_apps
-Requires: dynamic_reconfigure message_runtime nodelet roscpp sensor_msgs std_msgs std_srvs

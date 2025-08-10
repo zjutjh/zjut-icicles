@@ -1,2 +1,0 @@
-camera_viewer:learning_server:learning_tf:learning_topic:view_detect:yahboomcar_msgs:yahboomcar_yolov4_tiny
--DCATKIN_DEVEL_PREFIX=/root/catkin_ws/devel -DCMAKE_INSTALL_PREFIX=/root/catkin_ws/install -G Unix Makefiles

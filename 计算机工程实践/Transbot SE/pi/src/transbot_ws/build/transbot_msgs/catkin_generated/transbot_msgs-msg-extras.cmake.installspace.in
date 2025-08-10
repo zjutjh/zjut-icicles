@@ -1,2 +1,0 @@
-set(transbot_msgs_MESSAGE_FILES "msg/Adjust.msg;msg/SensorState.msg;msg/Position.msg;msg/General.msg;msg/PWMServo.msg;msg/Joint.msg;msg/Arm.msg;msg/LaserAvoid.msg;msg/Image_Msg.msg;msg/JoyState.msg;msg/PatrolWarning.msg;msg/PointArray.msg;msg/Battery.msg;msg/Edition.msg")
-set(transbot_msgs_SERVICE_FILES "srv/Buzzer.srv;srv/RGBLight.srv;srv/Headlight.srv;srv/RobotArm.srv;srv/CamDevice.srv;srv/Patrol.srv")

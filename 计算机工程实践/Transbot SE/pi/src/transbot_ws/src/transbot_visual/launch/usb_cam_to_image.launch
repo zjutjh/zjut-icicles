@@ -1,3 +1,0 @@
-<launch>
-    <node name="usb_cam_to_image" pkg="transbot_visual" type="usb_cam_to_image.py" output="screen"/>
-</launch>

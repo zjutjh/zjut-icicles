@@ -1,5 +1,0 @@
-#request
-string apply
----
-#response
-Arm RobotArm
