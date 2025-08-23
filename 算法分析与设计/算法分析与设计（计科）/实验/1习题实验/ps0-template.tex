@@ -1,0 +1,289 @@
+
+\documentclass[12pt,twoside]{article}
+\usepackage{listings} % For better code formatting
+\usepackage{xcolor}   % For syntax highlighting (optional)
+
+% Define Python style for listings
+\lstset{
+language=Python,
+    basicstyle=\ttfamily\small,
+    keywordstyle=\color{blue}\bfseries,
+    commentstyle=\color{green!50!black}\itshape,
+    numbers=left,
+    numberstyle=\tiny,
+    stepnumber=1,
+    numbersep=5pt,
+    showspaces=false,
+    showstringspaces=false,
+    frame=single,
+    breaklines=true,
+    breakatwhitespace=true
+}
+\input{macros-sp23}
+\newcommand{\theproblemsetnum}{1}
+\newcommand{\releasedate}{2025.3.6}
+\newcommand{\partaduedate}{ 2025.3.14}
+
+\title{ 习题实验}
+\usepackage{xeCJK} 			% 写中文要用到
+\usepackage[UTF8]{ctex}
+\begin{document}
+
+\handout{习题实验 \theproblemsetnum}{\releasedate}
+\textbf{提交截止时间 {\bf \partaduedate}}\\
+请用\LaTeX 编辑所有解答。所有问题请给出简洁的回答。提交文件格式为PDF。
+
+\setlength{\parindent}{0pt}
+\medskip\hrulefill\medskip
+
+{\bf 姓名:} xxx\\
+{\bf 学号:} xxxxxxxx
+\medskip
+
+% 标注和谁讨论了
+%{\bf Collaborators:} Name1, Name2 
+
+\medskip\hrulefill
+
+\begin{problems}
+
+\problem  % Problem 1
+给定集合$A=\{i+ \binom{5}{i}|i\in \mathbb{Z}, o\leq i\leq 4\}$，集合$B=\{3i|i\in \{1, 2, 4, 5\}\}$。请分别给出以下运算的结果。\\
+\textbf{(a)}$A\cap B$ \\
+\textbf{(b)} $|A\cup B|$ \\
+\textbf{(c)} $|A-B|$ \\
+集合 $A$ 和 $B$ 的计算如下：
+\[
+A = \{ i + \binom{5}{i} \mid i \in \mathbb{Z}, 0 \leq i \leq 4 \}
+\]
+计算各项：
+\[
+\begin{aligned}
+i = 0 &: 0 + \binom{5}{0} = 1, \\
+i = 1 &: 1 + \binom{5}{1} = 6, \\
+i = 2 &: 2 + \binom{5}{2} = 12, \\
+i = 3 &: 3 + \binom{5}{3} = 13, \\
+i = 4 &: 4 + \binom{5}{4} = 9.
+\end{aligned}
+\]
+\[
+A = \{1, 6, 12, 13, 9\}
+\]
+集合 $B$ 计算如下：
+\[
+B = \{3i \mid i \in \{1, 2, 4, 5\} \}
+\]
+计算各项：
+\[
+\begin{aligned}
+i = 1 &: 3 \times 1 = 3, \\
+i = 2 &: 3 \times 2 = 6, \\
+i = 4 &: 3 \times 4 = 12, \\
+i = 5 &: 3 \times 5 = 15.
+\end{aligned}
+\]
+\[
+B = \{3, 6, 12, 15\}
+\]
+(a) 交集计算：
+\[
+A \cap B = \{6, 12\}
+\]
+(b) 并集计算：
+\[
+A \cup B = \{1, 6, 12, 13, 9, 3, 15\}
+\]
+\[
+|A \cup B| = 7
+\]
+(c) 差集计算：
+\[
+A - B = \{1, 13, 9\}
+\]
+\[
+|A - B| = 3
+\]
+最终答案：
+\[
+\textbf{(a)} \quad A \cap B = \{6, 12\}
+\]
+\[
+\textbf{(b)} \quad |A \cup B| = 7
+\]
+\[
+\textbf{(c)} \quad |A - B| = 3
+\]
+
+
+\newpage
+\problem  % Problem 2
+有2个随机变量$X$和$Y$。其中，$X$表示抛无偏硬币三次后看到的人头数。$Y$表示掷两个无偏六面骰子并将其值相乘的结果。请计算以下期望值，\\
+\textbf{(a)}$E[X]$ \\
+\textbf{(b)} $E[Y]$ \\
+设随机变量 $X$ 表示抛无偏硬币三次后看到的人头数，则 $X \sim \text{Bin}(3, \frac{1}{2})$，其期望为  
+\[
+E[X] = np = 3 \times \frac{1}{2} = \frac{3}{2}
+\]  
+设随机变量 $Y$ 表示掷两个无偏六面骰子并将其值相乘的结果，记 $X_1, X_2$ 为两个独立骰子的点数，则  
+\[
+E[Y] = E[X_1 X_2] = E[X_1]E[X_2]
+\]  
+由于 $X_1, X_2 \sim U\{1,2,3,4,5,6\}$，其期望为  
+\[
+E[X_1] = E[X_2] = \frac{1+2+3+4+5+6}{6} = \frac{7}{2}
+\]  
+故  
+\[
+E[Y] = \left(\frac{7}{2}\right) \times \left(\frac{7}{2}\right) = \frac{49}{4}
+\]  
+
+\newpage
+\problem  % Problem 3
+令$A=600/6$，$B=60 mod 42$。以下表达式正确的是？\\
+\textbf{(a)} $A\equiv B (mod~2)$\\
+\textbf{(b)} $A\equiv B (mod~3)$\\
+\textbf{(c)} $A\equiv B (mod~4)$\\
+设  
+\[
+A = \frac{600}{6} = 100, \quad B = 60 \mod 42 = 18
+\]  
+计算模运算：  
+\[
+A \mod 2 = 100 \mod 2 = 0, \quad B \mod 2 = 18\mod 2 = 0
+\]  
+\[
+A \mod 3 = 100\mod 3 = 1, \quad B\mod 3 = 18\mod 3 = 0
+\]  
+\[
+A \mod 4 = 100\mod 4 = 0, \quad B\mod 4 = 18\mod 4 = 2
+\]  
+因此，正确的表达式是  
+\[
+\textbf{(a)} \quad A\equiv B \pmod{2}
+\]  
+
+
+\newpage
+\problem  % Problem 4 
+利用数学归纳法证明$\sum_{i=1}^ni^3 = \left [\frac{n(n+1)}{2}\right]^2$，其中$n\geq 1$。\\
+
+
+
+\textbf{命题}：对所有 $n \geq 1$，有  
+\[
+\sum_{i=1}^n i^3 = \left( \frac{n(n+1)}{2} \right)^2
+\]  
+\textbf{证明}：利用数学归纳法。  
+
+\textbf{1. 基础情况}：当 $n=1$ 时，  
+\[
+\sum_{i=1}^1 i^3 = 1^3 = 1, \quad \left( \frac{1(1+1)}{2} \right)^2 = \left( \frac{2}{2} \right)^2 = 1
+\]  
+故命题对 $n=1$ 成立。  
+
+\textbf{2. 归纳假设}：假设对于 $n=k$，命题成立，即  
+\[
+\sum_{i=1}^k i^3 = \left( \frac{k(k+1)}{2} \right)^2
+\]  
+
+\textbf{3. 归纳推理}：考虑 $n=k+1$，有  
+\[
+\sum_{i=1}^{k+1} i^3 = \sum_{i=1}^{k} i^3 + (k+1)^3
+\]  
+由归纳假设，得  
+\[
+\sum_{i=1}^{k+1} i^3 = \left( \frac{k(k+1)}{2} \right)^2 + (k+1)^3
+\]  
+化简右侧：  
+\[
+\left( \frac{k(k+1)}{2} \right)^2 + (k+1)^3 = \frac{k^2(k+1)^2}{4} + (k+1)^3
+\]  
+\[
+= (k+1)^2 \left( \frac{k^2}{4} + k+1 \right)
+\]  
+\[
+= (k+1)^2 \left( \frac{k^2 + 4k + 4}{4} \right) = (k+1)^2 \left( \frac{(k+2)^2}{4} \right)
+\]  
+\[
+= \left( \frac{(k+1)(k+2)}{2} \right)^2
+\]  
+即  
+\[
+\sum_{i=1}^{k+1} i^3 = \left( \frac{(k+1)(k+2)}{2} \right)^2
+\]  
+故命题对 $n=k+1$ 亦成立。根据数学归纳法，命题对所有 $n \geq 1$ 成立。 
+
+
+\newpage
+\problem  % Problem 5
+利用数学归纳法证明有$n$个节点的图最多只有$n(n-1)/2$条边。\\
+\textbf{命题}：具有 $n$ 个节点的图最多有 $\frac{n(n-1)}{2}$ 条边。  
+
+\textbf{证明}：使用数学归纳法。  
+
+\textbf{1. 基础情况}：当 $n=1$ 时，图只有一个节点，不可能有边，因此最多有  
+\[
+\frac{1(1-1)}{2} = 0
+\]  
+条边，命题成立。  
+
+\textbf{2. 归纳假设}：假设对于 $n=k$，命题成立，即 $k$ 个节点的图最多有  
+\[
+\frac{k(k-1)}{2}
+\]  
+条边。  
+
+\textbf{3. 归纳推理}：考虑 $n=k+1$ 的情况。向一个 $k$ 个节点的最大边数图中加入一个新节点，该节点最多可以与已有的 $k$ 个节点相连，添加最多 $k$ 条边。因此，$k+1$ 个节点的图最多有  
+\[
+\frac{k(k-1)}{2} + k
+\]  
+条边，化简得  
+\[
+\frac{k(k-1) + 2k}{2} = \frac{k^2 - k + 2k}{2} = \frac{k^2 + k}{2} = \frac{k(k+1)}{2}
+\]  
+即 $n=k+1$ 时命题仍然成立。  
+
+根据数学归纳法，命题对所有 $n \geq 1$ 成立。
+
+\newpage
+\problem  % Problem 6
+数组中相邻的元素如果依次递增，那么这段递增的元素就称为数组的\textbf{递增子数组}。请给出函数$count\_long\_subarrays(A)$的具体实现，该函数返回数组$A$中最长递增子数组的个数，其中$A$包含$n>0$个正整数。
+
+\textbf{输入：}$A=(1, 3, 4, 2, 7, 5, 6, 9, 8)$
+
+\textbf{输出：}$count = 2$
+
+因为$A$中最长的递增子数组分别为$(1, 3, 4)$和$(5, 6, 9)$。
+
+\begin{lstlisting}
+def count_long_subarrays(A):
+    if not A:
+        return 0
+    
+    n = len(A)
+    current_length = 1
+    max_length = 1
+    count = 1
+    
+    for i in range(1, n):
+        if A[i] > A[i-1]:
+            current_length += 1
+        else:
+            current_length = 1
+        
+        if current_length > max_length:
+            max_length = current_length
+            count = 1
+        elif current_length == max_length:
+            count += 1
+    
+    return count
+\end{lstlisting}
+
+
+
+\end{problems}
+
+
+\end{document}
+

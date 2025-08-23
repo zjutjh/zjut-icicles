@@ -1,0 +1,112 @@
+%
+% 分治算法作业
+%
+\documentclass[12pt,twoside]{article}
+
+\input{macros-sp23}
+\newcommand{\theproblemsetnum}{2}
+\newcommand{\releasedate}{2025.3.20}
+\newcommand{\partaduedate}{ 2025.3.27}
+
+%\title{ 习题 3}
+
+\begin{document}
+
+\handout{实验 \theproblemsetnum}{\releasedate}
+\textbf{提交截止时间 {\bf \partaduedate}}。本次习题主要涉及分治算法。请用\LaTeX 编辑所有解答。所有问题请给出简洁的回答，任何冗余的回答可能会得低分。
+
+\setlength{\parindent}{0pt}
+\medskip\hrulefill\medskip
+
+{\bf 姓名:} xxx\\
+{\bf 学号:} xxxxxxxx\\
+
+
+\medskip
+
+\medskip\hrulefill
+
+\begin{problems}
+
+\problem {\bf 高效求解幂函数}\\
+给定两个整数$x$和$n$，其中$n$是非负整数，按照要求计算$x$的$n$次方，也就是$pow(x,n)$。
+
+\bparts
+\ppart 给出一个简单遍历的算法求解该问题，要求时间复杂度为$O(n)$。
+
+
+\ppart 给出分治算法求解该问题的步骤，要求时间复杂度为$O(\log n)$。
+
+\ppart 给出分治算法求解的代码。
+
+\eparts
+
+\newpage
+\problem {\bf 字符串最长公共前缀}  \\
+给定$n$个字符串，返回这些字符串最长的公共前缀。比如输入字符串序列是 technique, technician, technology, technical，那么应该返回techni。
+\bparts
+\ppart 如果输入字符串序列中，最长的一个字符串长度为$m$，描述一个时间复杂度为$O(mn)$的算法求解该问题。
+
+\ppart 描述一个时间复杂度为$O(m\log n)$的算法求解该问题。
+
+\ppart 给出以上时间复杂度为$O(mn)$算法的实现。
+\eparts
+
+
+\newpage
+\problem {\bf 有序序列中缺失的最小元素} \\
+给定一个序列，其中的元素都是有序的非负整数，要求找出其中缺失的最小的那个元素。
+
+\begin{probexamples}
+   {0, 1, 2, 6, 9, 11, 15}
+   {3}
+   {}
+\end{probexamples}
+
+\begin{probexamples}
+   {1, 2, 3, 4, 6, 9, 11, 15}
+   {0}
+   {}
+\end{probexamples}
+
+\begin{probexamples}
+   {0, 1, 2, 3, 4, 5, 6}
+   {7}
+   {}
+\end{probexamples}
+
+\bparts
+\ppart 给出一个时间复杂度为$O(n)$的算法求解该问题。
+
+\ppart 给出一个时间复杂度为$O(\log n)$的算法求解该问题。
+
+
+\ppart 给出时间复杂度为$O(\log n)$的算法实现代码。
+
+\eparts
+
+
+
+\newpage
+\problem {\bf 铺砖问题} \\
+地板长度$n$都是 2 的正整数幂，铺的都是唯一的同一种砖 (如图所示的L字形砖)， 但地板上会有一水泥点已经被覆盖，无需再用铺砖 (图中黑的砖块，这个砖块的位置是随机的)。如果$n=2$，则存在4个方格，其中，除一个方格外，其余3个方格可被一L型条块覆盖；当$n=4$时，则存在16个方格，其中，除一个方格外，其余15个方格被5个L型条块覆盖。输入一个正整数$n$，表示棋盘的大小是$n\times n$的。输出一个被L型条块覆盖的$n\times n$棋盘。该棋盘除一个方格外，其余各方格都被L型条块覆盖住。给出问题的分治求解过程、时间复杂度分析和实现代码。
+\begin{figure}[h]
+   \centering
+   \includegraphics[scale=0.15]{fig/tiles.png}
+\end{figure}
+
+\newpage
+\problem{\bf 序列逆序对数} \\
+给定一个序列$A$，找出序列中逆序对的个数。逆序是当$i<j$和$A[i]>A[j]$同时成立，那么$A[i]$与$A[j]$构成逆序对。比如$A=[1, 9, 6, 4, 5]$，该序列逆序对数为5，分别为$[9, 6], [9, 4], [9, 5], [6, 4], [6, 5]$。
+\bparts
+\ppart 给出一个时间复杂度为$O(n^2)$的算法求解该问题。
+
+\ppart 给出一个时间复杂度为$O(n\log n)$的算法求解该问题。
+
+\ppart 给出一个时间复杂度为$O(n\log n)$算法的实现代码。
+
+
+\eparts
+\end{problems}
+\end{document}
+

@@ -1,0 +1,68 @@
+\usepackage{tikz}% 画图用的包
+\usepackage{graphicx} %插入图片的宏包
+\usepackage{float} %设置图片浮动位置的宏包
+\usepackage{fancyhdr} %设置页眉页脚的宏包
+\usepackage{multirow} %合并多行单元格的宏包
+\usepackage{longtable} %不宽但很长的表格可以用longtable宏包来进行分页显示
+\usepackage{array} %一般用于数学公式中对数组或矩阵的排版
+\usepackage{makecell}% makecell命令对表格单元格中的数据进行一些变换的控制。我们可以使用 \ 命令进行换行，也可以使用p{(宽度)}选项控制列表的宽度
+\usepackage{threeparttable} %制作三线表格
+\usepackage{booktabs}%s三线表格中的上中下直线线型设置宏包，在这个包中水平线被教程\toprule、midrule、buttomrule。
+\usepackage{enumerate} %列举宏包
+
+% 以下是伪代码
+\usepackage{algorithm}
+\usepackage[noend]{algpseudocode}
+\floatname{algorithm}{算法}
+
+
+%页眉页脚设置
+\pagenumbering{arabic}
+\pagestyle{fancy}
+\setlength{\headheight}{15pt}
+\fancyhead[L]{\reportType}
+\fancyhead[R]{\className \reportSemester}
+\fancyhead[C]{}
+\fancyfoot[C]{\thepage}
+
+%标题序号长度设置
+\setcounter{secnumdepth}{3}
+
+%图片排版设置
+\renewcommand{\figurename}{图} %重定义编号前缀词
+% 注释掉subfigure相关设置，使用subcaption包代替
+% \renewcommand{\captionlabeldelim}{.~} %重定义分隔符
+%  %\roman是罗马数字编号，\alph是默认的字母编号，\arabic是阿拉伯数字编号，可按需替换下一行的相应位置
+% \renewcommand{\thesubfigure}{(\roman{subfigure})}%此外，还可设置图编号显示格式，加括号或者不加括号
+% \makeatletter \renewcommand{\@thesubfigure}{\thesubfigure \space}%子图编号与名称的间隔设置
+% \renewcommand{\p@subfigure}{} \makeatother
+
+%表头文字格式的详细设置
+\renewcommand\theadset{\renewcommand\arraystretch{0.85}%
+\setlength\extrarowheight{0pt}}%行距
+\renewcommand\theadfont{\small}%字体
+\renewcommand\theadalign{rt}%行列对齐
+\renewcommand\theadgape{\Gape[0.5cm][2mm]}%上下垂直距离
+
+\title{
+  \begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{./img/university.png}
+  \end{figure} 
+  \vspace{3em}
+  \huge \textbf{\reportName} \\ 
+  \vspace{1em}
+  \large \textbf{\className-\reportType}\\
+  \vspace{5em}
+  \large 学生姓名\hspace{0.7cm}\underline{\makebox[5.5cm]{\studentName}} \\
+  \large 学生学号\hspace{0.7cm}\underline{\makebox[5.5cm]{\studentID}} \\
+  \large 专业班级\hspace{0.7cm}\underline{\makebox[5.5cm]{\studentGrade}} \\
+  \large 指导教师\hspace{0.7cm}\underline{\makebox[5.5cm]{\prof}} \\
+  \large 提交日期\hspace{0.7cm}\underline{\makebox[5.5cm]{\the\year 年 \the\month 月 \the\day 日}} \\
+}
+
+\author{}
+\date{}
+
+\ctexset { section = { format={\Large \bfseries } } }
+
