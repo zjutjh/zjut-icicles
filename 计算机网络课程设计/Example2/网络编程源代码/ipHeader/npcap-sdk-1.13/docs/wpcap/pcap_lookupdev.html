@@ -1,0 +1,70 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+ "http://www.w3.org/TR/html4/loose.dtd">
+<html><head>
+<title>3PCAP man page</title>
+<meta name="generator" content="roffit">
+<STYLE type="text/css">
+pre {
+  overflow: auto;
+  margin: 0;
+}
+
+P.level0, pre.level0 {
+ padding-left: 2em;
+}
+
+P.level1, pre.level1 {
+ padding-left: 4em;
+}
+
+P.level2, pre.level2 {
+ padding-left: 6em;
+}
+
+span.emphasis {
+ font-style: italic;
+}
+
+span.bold {
+ font-weight: bold;
+}
+
+span.manpage {
+ font-weight: bold;
+}
+
+h2.nroffsh {
+ background-color: #e0e0e0;
+}
+
+span.nroffip {
+ font-weight: bold;
+ font-size: 120%;
+ font-family: monospace;
+}
+
+p.roffit {
+ text-align: center;
+ font-size: 80%;
+}
+</STYLE>
+</head><body>
+
+<p class="level0"><a name="NAME"></a><h2 class="nroffsh">NAME</h2>
+<p class="level0">pcap_lookupdev - find the default device on which to capture <a name="SYNOPSIS"></a><h2 class="nroffsh">SYNOPSIS</h2>
+<p class="level0"><pre class="level0">
+&#35;include &lt;pcap/pcap.h&gt;
+<pre class="level0">
+char errbuf[PCAP_ERRBUF_SIZE];
+[DEPRECATED] char *pcap_lookupdev(char *errbuf);
+</pre>
+
+<p class="level0"><a name="DESCRIPTION"></a><h2 class="nroffsh">DESCRIPTION</h2>
+<p class="level0"><span Class="bold">This interface is obsoleted by</span> <a Class="bold" href="./pcap_findalldevs.html">pcap_findalldevs</a>(3PCAP). To find a default device on which to capture, call <span Class="bold">pcap_findalldevs</span>() and, if the list it returns is not empty, use the first device in the list.  (If the list is empty, there are no devices on which capture is possible.) 
+<p class="level0"><span Class="bold">If</span> <a Class="bold" href="./pcap_init.html">pcap_init</a>(3PCAP) <span Class="bold">has been called, this interface always returns</span> <span Class="bold">NULL</span>. 
+<p class="level0"><span Class="bold">pcap_lookupdev</span>() returns a pointer to a string giving the name of a network device suitable for use with <a Class="bold" href="./pcap_create.html">pcap_create</a>(3PCAP) and <span Class="bold">\%pcap_activate</span>(3PCAP), or with <a Class="bold" href="./pcap_open_live.html">pcap_open_live</a>(3PCAP), and with <a Class="bold" href="./pcap_lookupnet.html">pcap_lookupnet</a>(3PCAP). If there is an error, or if <a Class="bold" href="./pcap_init.html">pcap_init</a>(3PCAP) has been called, <span Class="bold">NULL</span> is returned and <span Class="emphasis">errbuf</span> is filled in with an appropriate error message. <span Class="emphasis">errbuf</span> is assumed to be able to hold at least <span Class="bold">PCAP_ERRBUF_SIZE</span> chars. <a name="SEE"></a><h2 class="nroffsh">SEE ALSO</h2>
+<p class="level0"><a Class="bold" href="./pcap.html">pcap</a>(3PCAP) <a name="BUGS"></a><h2 class="nroffsh">BUGS</h2>
+<p class="level0">The pointer returned by <span Class="bold">pcap_lookupdev</span>() points to a static buffer; subsequent calls to <span Class="bold">pcap_lookupdev</span>() in the same thread, or calls to <span Class="bold">pcap_lookupdev</span>() in another thread, may overwrite that buffer. 
+<p class="level0">In WinPcap and Npcap, this function may return a UTF-16 string rather than an ASCII or UTF-8 string. <p class="roffit">
+ This HTML page was made with <a href="http://daniel.haxx.se/projects/roffit/">roffit</a>.
+</body></html>

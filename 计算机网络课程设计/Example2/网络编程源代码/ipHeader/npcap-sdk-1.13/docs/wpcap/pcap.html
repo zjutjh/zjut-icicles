@@ -1,0 +1,284 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+ "http://www.w3.org/TR/html4/loose.dtd">
+<html><head>
+<title>3PCAP man page</title>
+<meta name="generator" content="roffit">
+<STYLE type="text/css">
+pre {
+  overflow: auto;
+  margin: 0;
+}
+
+P.level0, pre.level0 {
+ padding-left: 2em;
+}
+
+P.level1, pre.level1 {
+ padding-left: 4em;
+}
+
+P.level2, pre.level2 {
+ padding-left: 6em;
+}
+
+span.emphasis {
+ font-style: italic;
+}
+
+span.bold {
+ font-weight: bold;
+}
+
+span.manpage {
+ font-weight: bold;
+}
+
+h2.nroffsh {
+ background-color: #e0e0e0;
+}
+
+span.nroffip {
+ font-weight: bold;
+ font-size: 120%;
+ font-family: monospace;
+}
+
+p.roffit {
+ text-align: center;
+ font-size: 80%;
+}
+</STYLE>
+</head><body>
+
+<p class="level0"><a name="NAME"></a><h2 class="nroffsh">NAME</h2>
+<p class="level0">pcap - Packet Capture library <a name="SYNOPSIS"></a><h2 class="nroffsh">SYNOPSIS</h2>
+<p class="level0"><pre class="level0">
+&#35;include &lt;pcap/pcap.h&gt;
+</pre>
+
+<p class="level0"><a name="DESCRIPTION"></a><h2 class="nroffsh">DESCRIPTION</h2>
+<p class="level0">The Packet Capture library provides a high level interface to packet capture systems. All packets on the network, even those destined for other hosts, are accessible through this mechanism. It also supports saving captured packets to a ``savefile&#39;&#39;, and reading packets from a ``savefile&#39;&#39;. <a name="Initializing"></a><h2 class="nroffsh">Initializing</h2>
+<p class="level0"><span Class="bold">pcap_init</span>() initializes the library.  It takes an argument giving options; currently, the options are: 
+<p class="level0"><span Class="bold">PCAP_CHAR_ENC_LOCAL</span> Treat all strings supplied as arguments, and return all strings to the caller, as being in the local character encoding. 
+<p class="level0"><span Class="bold">PCAP_CHAR_ENC_UTF_8</span> Treat all strings supplied as arguments, and return all strings to the caller, as being in UTF-8. 
+<p class="level0">On UNIX-like systems, the local character encoding is assumed to be UTF-8, so no character encoding transformations are done. 
+<p class="level0">On Windows, the local character encoding is the local ANSI code page. 
+<p class="level0">If <span Class="bold">pcap_init</span>() is called, the deprecated <span Class="bold">pcap_lookupdev</span>() routine always fails, so it should not be used, and, on Windows, <span Class="bold">pcap_create</span>() does not attempt to handle UTF-16LE strings. 
+<p class="level0">If <span Class="bold">pcap_init</span>() is not called, strings are treated as being in the local ANSI code page on Windows, <span Class="bold">pcap_lookupdev</span>() will succeed if there is a device on which to capture, and <span Class="bold">pcap_create</span>() makes an attempt to check whether the string passed as an argument is a UTF-16LE string - note that this attempt is unsafe, as it may run past the end of the string - to handle <span Class="bold">pcap_lookupdev</span>() returning a UTF-16LE string. Programs that don&#39;t call <span Class="bold">pcap_init</span>() should, on Windows, call <span Class="bold">pcap_wsockinit</span>() to initialize Winsock; this is not necessary if <span Class="bold">pcap_init</span>() is called, as <span Class="bold">pcap_init</span>() will initialize Winsock itself on Windows. 
+<p class="level0"><span Class="bold">Routines</span> 
+<p class="level1">
+<p class="level1"><a Class="bold" href="./pcap_init.html">pcap_init</a>(3PCAP) initialize the library 
+<p class="level0"><a name="Opening"></a><h2 class="nroffsh">Opening a capture handle for reading</h2>
+<p class="level0">To open a handle for a live capture, given the name of the network or other interface on which the capture should be done, call <span Class="bold">pcap_create</span>(), set the appropriate options on the handle, and then activate it with <span Class="bold">pcap_activate</span>(). If <span Class="bold">pcap_activate</span>() fails, the handle should be closed with <span Class="bold">pcap_close</span>(). 
+<p class="level0">To obtain a list of devices that can be opened for a live capture, call <span Class="bold">pcap_findalldevs</span>(); to free the list returned by <span Class="bold">pcap_findalldevs</span>(), call <span Class="bold">pcap_freealldevs</span>(). <span Class="bold">pcap_lookupdev</span>() will return the first device on that list that is not a ``loopback`` network interface. 
+<p class="level0">To open a handle for a ``savefile&#39;&#39; from which to read packets, given the pathname of the ``savefile&#39;&#39;, call <span Class="bold">pcap_open_offline</span>(); to set up a handle for a ``savefile&#39;&#39;, given a <span Class="bold">FILE\ *</span> referring to a file already opened for reading, call <span Class="bold">pcap_fopen_offline</span>(). 
+<p class="level0">In order to get a ``fake&#39;&#39; <span Class="bold">pcap_t</span> for use in routines that require a <span Class="bold">pcap_t</span> as an argument, such as routines to open a ``savefile&#39;&#39; for writing and to compile a filter expression, call <span Class="bold">pcap_open_dead</span>(). 
+<p class="level0"><span Class="bold">pcap_create</span>(), <span Class="bold">pcap_open_offline</span>(), <span Class="bold">pcap_fopen_offline</span>(), and <span Class="bold">pcap_open_dead</span>() return a pointer to a <span Class="bold">pcap_t</span>, which is the handle used for reading packets from the capture stream or the ``savefile&#39;&#39;, and for finding out information about the capture stream or ``savefile&#39;&#39;. To close a handle, use <span Class="bold">pcap_close</span>(). 
+<p class="level0">The options that can be set on a capture handle include 
+<p class="level0"><a name="snapshot"></a><span class="nroffip">snapshot length</span> 
+<p class="level1">If, when capturing, you capture the entire contents of the packet, that requires more CPU time to copy the packet to your application, more disk and possibly network bandwidth to write the packet data to a file, and more disk space to save the packet.  If you don&#39;t need the entire contents of the packet - for example, if you are only interested in the TCP headers of packets - you can set the &quot;snapshot length&quot; for the capture to an appropriate value.  If the snapshot length is set to <span Class="emphasis">snaplen</span>, and <span Class="emphasis">snaplen</span> is less than the size of a packet that is captured, only the first <span Class="emphasis">snaplen</span> bytes of that packet will be captured and provided as packet data. 
+<p class="level0"><a name=""></a><span class="nroffip"></span> 
+<p class="level1">A snapshot length of 65535 should be sufficient, on most if not all networks, to capture all the data available from the packet. 
+<p class="level0"><a name=""></a><span class="nroffip"></span> 
+<p class="level1">The snapshot length is set with <span Class="bold">pcap_set_snaplen</span>(). 
+<p class="level0"><a name="promiscuous"></a><span class="nroffip">promiscuous mode</span> 
+<p class="level1">On broadcast LANs such as Ethernet, if the network isn&#39;t switched, or if the adapter is connected to a &quot;mirror port&quot; on a switch to which all packets passing through the switch are sent, a network adapter receives all packets on the LAN, including unicast or multicast packets not sent to a network address that the network adapter isn&#39;t configured to recognize. 
+<p class="level0"><a name=""></a><span class="nroffip"></span> 
+<p class="level1">Normally, the adapter will discard those packets; however, many network adapters support &quot;promiscuous mode&quot;, which is a mode in which all packets, even if they are not sent to an address that the adapter recognizes, are provided to the host.  This is useful for passively capturing traffic between two or more other hosts for analysis. 
+<p class="level0"><a name=""></a><span class="nroffip"></span> 
+<p class="level1">Note that even if an application does not set promiscuous mode, the adapter could well be in promiscuous mode for some other reason. 
+<p class="level0"><a name=""></a><span class="nroffip"></span> 
+<p class="level1">For now, this doesn&#39;t work on the &quot;any&quot; device; if an argument of &quot;any&quot; or <span Class="bold">NULL</span> is supplied, the setting of promiscuous mode is ignored. 
+<p class="level0"><a name=""></a><span class="nroffip"></span> 
+<p class="level1">Promiscuous mode is set with <span Class="bold">pcap_set_promisc</span>(). 
+<p class="level0"><a name="monitor"></a><span class="nroffip">monitor mode</span> 
+<p class="level1">On IEEE 802.11 wireless LANs, even if an adapter is in promiscuous mode, it will supply to the host only frames for the network with which it&#39;s associated.  It might also supply only data frames, not management or control frames, and might not provide the 802.11 header or radio information pseudo-header for those frames. 
+<p class="level0"><a name=""></a><span class="nroffip"></span> 
+<p class="level1">In &quot;monitor mode&quot;, sometimes also called &quot;rfmon mode&quot; (for &quot;Radio Frequency MONitor&quot;), the adapter will supply all frames that it receives, with 802.11 headers, and might supply a pseudo-header with radio information about the frame as well. 
+<p class="level0"><a name=""></a><span class="nroffip"></span> 
+<p class="level1">Note that in monitor mode the adapter might disassociate from the network with which it&#39;s associated, so that you will not be able to use any wireless networks with that adapter.  This could prevent accessing files on a network server, or resolving host names or network addresses, if you are capturing in monitor mode and are not connected to another network with another adapter. 
+<p class="level0"><a name=""></a><span class="nroffip"></span> 
+<p class="level1">Monitor mode is set with <span Class="bold">pcap_set_rfmon</span>(), and <span Class="bold">pcap_can_set_rfmon</span>() can be used to determine whether an adapter can be put into monitor mode. 
+<p class="level0"><a name="packet"></a><span class="nroffip">packet buffer timeout</span> 
+<p class="level1">If, when capturing, packets are delivered as soon as they arrive, the application capturing the packets will be woken up for each packet as it arrives, and might have to make one or more calls to the operating system to fetch each packet. 
+<p class="level0"><a name=""></a><span class="nroffip"></span> 
+<p class="level1">If, instead, packets are not delivered as soon as they arrive, but are delivered after a short delay (called a &quot;packet buffer timeout&quot;), more than one packet can be accumulated before the packets are delivered, so that a single wakeup would be done for multiple packets, and each set of calls made to the operating system would supply multiple packets, rather than a single packet.  This reduces the per-packet CPU overhead if packets are arriving at a high rate, increasing the number of packets per second that can be captured. 
+<p class="level0"><a name=""></a><span class="nroffip"></span> 
+<p class="level1">The packet buffer timeout is required so that an application won&#39;t wait for the operating system&#39;s capture buffer to fill up before packets are delivered; if packets are arriving slowly, that wait could take an arbitrarily long period of time. 
+<p class="level0"><a name=""></a><span class="nroffip"></span> 
+<p class="level1">Not all platforms support a packet buffer timeout; on platforms that don&#39;t, the packet buffer timeout is ignored.  A zero value for the timeout, on platforms that support a packet buffer timeout, will cause a read to wait forever to allow enough packets to arrive, with no timeout. A negative value is invalid; the result of setting the timeout to a negative value is unpredictable. 
+<p class="level0"><a name=""></a><span class="nroffip"></span> 
+<p class="level1"><span Class="bold">NOTE</span>: the packet buffer timeout cannot be used to cause calls that read packets to return within a limited period of time, because, on some platforms, the packet buffer timeout isn&#39;t supported, and, on other platforms, the timer doesn&#39;t start until at least one packet arrives. This means that the packet buffer timeout should <span Class="bold">NOT</span> be used, for example, in an interactive application to allow the packet capture loop to ``poll&#39;&#39; for user input periodically, as there&#39;s no guarantee that a call reading packets will return after the timeout expires even if no packets have arrived. 
+<p class="level0"><a name=""></a><span class="nroffip"></span> 
+<p class="level1">The packet buffer timeout is set with <span Class="bold">pcap_set_timeout</span>(). 
+<p class="level0"><a name="immediate"></a><span class="nroffip">immediate mode</span> 
+<p class="level1">In immediate mode, packets are always delivered as soon as they arrive, with no buffering.  Immediate mode is set with <span Class="bold">pcap_set_immediate_mode</span>(). 
+<p class="level0"><a name="buffer"></a><span class="nroffip">buffer size</span> 
+<p class="level1">Packets that arrive for a capture are stored in a buffer, so that they do not have to be read by the application as soon as they arrive.  On some platforms, the buffer&#39;s size can be set; a size that&#39;s too small could mean that, if too many packets are being captured and the snapshot length doesn&#39;t limit the amount of data that&#39;s buffered, packets could be dropped if the buffer fills up before the application can read packets from it, while a size that&#39;s too large could use more non-pageable operating system memory than is necessary to prevent packets from being dropped. 
+<p class="level0"><a name=""></a><span class="nroffip"></span> 
+<p class="level1">The buffer size is set with <span Class="bold">pcap_set_buffer_size</span>(). 
+<p class="level0"><a name="timestamp"></a><span class="nroffip">timestamp type</span> 
+<p class="level1">On some platforms, the time stamp given to packets on live captures can come from different sources that can have different resolutions or that can have different relationships to the time values for the current time supplied by routines on the native operating system.  See <span Class="bold">\%pcap-tstamp</span>(7) for a list of time stamp types. 
+<p class="level0"><a name=""></a><span class="nroffip"></span> 
+<p class="level1">The time stamp type is set with <span Class="bold">pcap_set_tstamp_type</span>(). 
+<p class="level1">Reading packets from a network interface may require that you have special privileges: 
+<p class="level1"><span Class="bold">Under SunOS 3.x or 4.x with NIT or BPF:</span> You must have read access to <span Class="emphasis">/dev/nit</span> or <span Class="emphasis">/dev/bpf*</span>. 
+<p class="level1"><span Class="bold">Under Solaris with DLPI:</span> You must have read/write access to the network pseudo device, e.g. <span Class="emphasis">/dev/le</span>. On at least some versions of Solaris, however, this is not sufficient to allow <span Class="emphasis">tcpdump</span> to capture in promiscuous mode; on those versions of Solaris, you must be root, or the application capturing packets must be installed setuid to root, in order to capture in promiscuous mode.  Note that, on many (perhaps all) interfaces, if you don&#39;t capture in promiscuous mode, you will not see any outgoing packets, so a capture not done in promiscuous mode may not be very useful. 
+<p class="level0"><a name=""></a><span class="nroffip"></span> 
+<p class="level1">In newer versions of Solaris, you must have been given the <span Class="bold">net_rawaccess</span> privilege; this is both necessary and sufficient to give you access to the network pseudo-device - there is no need to change the privileges on that device.  A user can be given that privilege by, for example, adding that privilege to the user&#39;s <span Class="bold">defaultpriv</span> key with the <span Class="bold">usermod</span>(8) command. 
+<p class="level1"><span Class="bold">Under HP-UX with DLPI:</span> You must be root or the application capturing packets must be installed setuid to root. 
+<p class="level1"><span Class="bold">Under IRIX with snoop:</span> You must be root or the application capturing packets must be installed setuid to root. 
+<p class="level1"><span Class="bold">Under Linux:</span> You must be root or the application capturing packets must be installed setuid to root, unless your distribution has a kernel that supports capability bits such as CAP_NET_RAW and code to allow those capability bits to be given to particular accounts and to cause those bits to be set on a user&#39;s initial processes when they log in, in which case you must have CAP_NET_RAW in order to capture. 
+<p class="level1"><span Class="bold">Under ULTRIX and Digital UNIX/Tru64 UNIX:</span> Any user may capture network traffic. However, no user (not even the super-user) can capture in promiscuous mode on an interface unless the super-user has enabled promiscuous-mode operation on that interface using <span Class="emphasis">pfconfig</span>(8), and no user (not even the super-user) can capture unicast traffic received by or sent by the machine on an interface unless the super-user has enabled copy-all-mode operation on that interface using <span Class="emphasis">pfconfig</span>, so <span Class="emphasis">useful</span> packet capture on an interface probably requires that either promiscuous-mode or copy-all-mode operation, or both modes of operation, be enabled on that interface. 
+<p class="level1"><span Class="bold">Under BSD (this includes macOS):</span> You must have read access to <span Class="emphasis">/dev/bpf*</span> on systems that don&#39;t have a cloning BPF device, or to <span Class="emphasis">/dev/bpf</span> on systems that do. On BSDs with a devfs (this includes macOS), this might involve more than just having somebody with super-user access setting the ownership or permissions on the BPF devices - it might involve configuring devfs to set the ownership or permissions every time the system is booted, if the system even supports that; if it doesn&#39;t support that, you might have to find some other way to make that happen at boot time. 
+<p class="level1">Reading a saved packet file doesn&#39;t require special privileges. 
+<p class="level1">The packets read from the handle may include a ``pseudo-header&#39;&#39; containing various forms of packet meta-data, and probably includes a link-layer header whose contents can differ for different network interfaces.  To determine the format of the packets supplied by the handle, call <span Class="bold">pcap_datalink</span>(); <span Class="emphasis"><a href="https://www.tcpdump.org/linktypes.html">https://www.tcpdump.org/linktypes.html</a></span> lists the values it returns and describes the packet formats that correspond to those values. 
+<p class="level1">Do <span Class="bold">NOT</span> assume that the packets for a given capture or ``savefile`` will have any given link-layer header type, such as <span Class="bold">DLT_EN10MB</span> for Ethernet.  For example, the &quot;any&quot; device on Linux will have a link-layer header type of <span Class="bold">DLT_LINUX_SLL</span> or <span Class="bold">DLT_LINUX_SLL2</span> even if all devices on the system at the time the &quot;any&quot; device is opened have some other data link type, such as <span Class="bold">DLT_EN10MB</span> for Ethernet. 
+<p class="level1">To obtain the <span Class="bold">FILE\ *</span> corresponding to a <span Class="bold">pcap_t</span> opened for a ``savefile&#39;&#39;, call <span Class="bold">pcap_file</span>(). 
+<p class="level1"><span Class="bold">Routines</span> 
+<p class="level2">
+<p class="level2"><a Class="bold" href="./pcap_create.html">pcap_create</a>(3PCAP) get a <span Class="bold">pcap_t</span> for live capture 
+<p class="level2"><a Class="bold" href="./pcap_activate.html">pcap_activate</a>(3PCAP) activate a <span Class="bold">pcap_t</span> for live capture 
+<p class="level2"><a Class="bold" href="./pcap_findalldevs.html">pcap_findalldevs</a>(3PCAP) get a list of devices that can be opened for a live capture 
+<p class="level2"><span Class="bold">pcap_freealldevs</span>(3PCAP) free list of devices 
+<p class="level2"><a Class="bold" href="./pcap_lookupdev.html">pcap_lookupdev</a>(3PCAP) get first non-loopback device on that list 
+<p class="level2"><a Class="bold" href="./pcap_open_offline.html">pcap_open_offline</a>(3PCAP) open a <span Class="bold">pcap_t</span> for a ``savefile&#39;&#39;, given a pathname 
+<p class="level2"><span Class="bold">pcap_open_offline_with_tstamp_precision</span>(3PCAP) open a <span Class="bold">pcap_t</span> for a ``savefile&#39;&#39;, given a pathname, and specify the precision to provide for packet time stamps 
+<p class="level2"><span Class="bold">pcap_fopen_offline</span>(3PCAP) open a <span Class="bold">pcap_t</span> for a ``savefile&#39;&#39;, given a <span Class="bold">FILE\ *</span> 
+<p class="level2"><span Class="bold">pcap_fopen_offline_with_tstamp_precision</span>(3PCAP) open a <span Class="bold">pcap_t</span> for a ``savefile&#39;&#39;, given a <span Class="bold">FILE\ *</span>, and specify the precision to provide for packet time stamps 
+<p class="level2"><a Class="bold" href="./pcap_open_dead.html">pcap_open_dead</a>(3PCAP) create a ``fake&#39;&#39; <span Class="bold">pcap_t</span> 
+<p class="level2"><a Class="bold" href="./pcap_close.html">pcap_close</a>(3PCAP) close a <span Class="bold">pcap_t</span> 
+<p class="level2"><a Class="bold" href="./pcap_set_snaplen.html">pcap_set_snaplen</a>(3PCAP) set the snapshot length for a not-yet-activated <span Class="bold">pcap_t</span> for live capture 
+<p class="level2"><a Class="bold" href="./pcap_snapshot.html">pcap_snapshot</a>(3PCAP) get the snapshot length for a <span Class="bold">pcap_t</span> 
+<p class="level2"><a Class="bold" href="./pcap_set_promisc.html">pcap_set_promisc</a>(3PCAP) set promiscuous mode for a not-yet-activated <span Class="bold">pcap_t</span> for live capture 
+<p class="level2"><a Class="bold" href="./pcap_set_protocol_linux.html">pcap_set_protocol_linux</a>(3PCAP) set capture protocol for a not-yet-activated <span Class="bold">pcap_t</span> for live capture (Linux only) 
+<p class="level2"><a Class="bold" href="./pcap_set_rfmon.html">pcap_set_rfmon</a>(3PCAP) set monitor mode for a not-yet-activated <span Class="bold">pcap_t</span> for live capture 
+<p class="level2"><a Class="bold" href="./pcap_can_set_rfmon.html">pcap_can_set_rfmon</a>(3PCAP) determine whether monitor mode can be set for a <span Class="bold">pcap_t</span> for live capture 
+<p class="level2"><a Class="bold" href="./pcap_set_timeout.html">pcap_set_timeout</a>(3PCAP) set packet buffer timeout for a not-yet-activated <span Class="bold">pcap_t</span> for live capture 
+<p class="level2"><span Class="bold">pcap_set_immediate_mode</span>(3PCAP) set immediate mode for a not-yet-activated <span Class="bold">pcap_t</span> for live capture 
+<p class="level2"><a Class="bold" href="./pcap_set_buffer_size.html">pcap_set_buffer_size</a>(3PCAP) set buffer size for a not-yet-activated <span Class="bold">pcap_t</span> for live capture 
+<p class="level2"><a Class="bold" href="./pcap_set_tstamp_type.html">pcap_set_tstamp_type</a>(3PCAP) set time stamp type for a not-yet-activated <span Class="bold">pcap_t</span> for live capture 
+<p class="level2"><a Class="bold" href="./pcap_list_tstamp_types.html">pcap_list_tstamp_types</a>(3PCAP) get list of available time stamp types for a not-yet-activated <span Class="bold">pcap_t</span> for live capture 
+<p class="level2"><span Class="bold">pcap_free_tstamp_types</span>(3PCAP) free list of available time stamp types 
+<p class="level2"><a Class="bold" href="./pcap_tstamp_type_val_to_name.html">pcap_tstamp_type_val_to_name</a>(3PCAP) get name for a time stamp type 
+<p class="level2"><span Class="bold">pcap_tstamp_type_val_to_description</span>(3PCAP) get description for a time stamp type 
+<p class="level2"><a Class="bold" href="./pcap_tstamp_type_name_to_val.html">pcap_tstamp_type_name_to_val</a>(3PCAP) get time stamp type corresponding to a name 
+<p class="level2"><a Class="bold" href="./pcap_set_tstamp_precision.html">pcap_set_tstamp_precision</a>(3PCAP) set time stamp precision for a not-yet-activated <span Class="bold">pcap_t</span> for live capture 
+<p class="level2"><a Class="bold" href="./pcap_get_tstamp_precision.html">pcap_get_tstamp_precision</a>(3PCAP) get the time stamp precision of a <span Class="bold">pcap_t</span> for live capture 
+<p class="level2"><a Class="bold" href="./pcap_datalink.html">pcap_datalink</a>(3PCAP) get link-layer header type for a <span Class="bold">pcap_t</span> 
+<p class="level2"><a Class="bold" href="./pcap_file.html">pcap_file</a>(3PCAP) get the <span Class="bold">FILE\ *</span> for a <span Class="bold">pcap_t</span> opened for a ``savefile&#39;&#39; 
+<p class="level2"><a Class="bold" href="./pcap_is_swapped.html">pcap_is_swapped</a>(3PCAP) determine whether a ``savefile&#39;&#39; being read came from a machine with the opposite byte order 
+<p class="level2"><a Class="bold" href="./pcap_major_version.html">pcap_major_version</a>(3PCAP) 
+<p class="level2">
+<p class="level2"><span Class="bold">pcap_minor_version</span>(3PCAP) get the major and minor version of the file format version for a ``savefile&#39;&#39; 
+<p class="level2">
+<p class="level1"><a name="Selecting"></a><h2 class="nroffsh">Selecting a link-layer header type for a live capture</h2>
+<p class="level0">Some devices may provide more than one link-layer header type.  To obtain a list of all link-layer header types provided by a device, call <span Class="bold">pcap_list_datalinks</span>() on an activated <span Class="bold">pcap_t</span> for the device. To free a list of link-layer header types, call <span Class="bold">pcap_free_datalinks</span>(). To set the link-layer header type for a device, call <span Class="bold">pcap_set_datalink</span>(). This should be done after the device has been activated but before any packets are read and before any filters are compiled or installed. 
+<p class="level0"><span Class="bold">Routines</span> 
+<p class="level1">
+<p class="level1"><a Class="bold" href="./pcap_list_datalinks.html">pcap_list_datalinks</a>(3PCAP) get a list of link-layer header types for a device 
+<p class="level1"><span Class="bold">pcap_free_datalinks</span>(3PCAP) free list of link-layer header types 
+<p class="level1"><a Class="bold" href="./pcap_set_datalink.html">pcap_set_datalink</a>(3PCAP) set link-layer header type for a device 
+<p class="level1"><a Class="bold" href="./pcap_datalink_val_to_name.html">pcap_datalink_val_to_name</a>(3PCAP) get name for a link-layer header type 
+<p class="level1"><span Class="bold">pcap_datalink_val_to_description</span>(3PCAP) 
+<p class="level1">
+<p class="level1"><span Class="bold">pcap_datalink_val_to_description_or_dlt</span>(3PCAP) get description for a link-layer header type 
+<p class="level1">
+<p class="level1"><a Class="bold" href="./pcap_datalink_name_to_val.html">pcap_datalink_name_to_val</a>(3PCAP) get link-layer header type corresponding to a name 
+<p class="level0"><a name="Reading"></a><h2 class="nroffsh">Reading packets</h2>
+<p class="level0">Packets are read with <span Class="bold">pcap_dispatch</span>() or <span Class="bold">pcap_loop</span>(), which process one or more packets, calling a callback routine for each packet, or with <span Class="bold">pcap_next</span>() or <span Class="bold">pcap_next_ex</span>(), which return the next packet. The callback for <span Class="bold">pcap_dispatch</span>() and <span Class="bold">pcap_loop</span>() is supplied a pointer to a <span Class="emphasis">struct pcap_pkthdr</span>, which includes the following members: 
+<p class="level1">
+<p class="level1"><span Class="bold">ts</span> a <span Class="emphasis">struct timeval</span> containing the time when the packet was captured 
+<p class="level1"><span Class="bold">caplen</span> a <span Class="emphasis">bpf_u_int32</span> giving the number of bytes of the packet that are available from the capture 
+<p class="level1"><span Class="bold">len</span> a <span Class="emphasis">bpf_u_int32</span> giving the length of the packet, in bytes (which might be more than the number of bytes available from the capture, if the length of the packet is larger than the maximum number of bytes to capture). 
+<p class="level0">
+<p class="level0">The callback is also supplied a <span Class="emphasis">const u_char</span> pointer to the first <span Class="bold">caplen</span> (as given in the <span Class="emphasis">struct pcap_pkthdr</span> mentioned above) bytes of data from the packet.  This won&#39;t necessarily be the entire packet; to capture the entire packet, you will have to provide a value for <span Class="emphasis">snaplen</span> in your call to <span Class="bold">pcap_set_snaplen</span>() that is sufficiently large to get all of the packet&#39;s data - a value of 65535 should be sufficient on most if not all networks).  When reading from a ``savefile&#39;&#39;, the snapshot length specified when the capture was performed will limit the amount of packet data available. 
+<p class="level0"><span Class="bold">pcap_next</span>() is passed an argument that points to a <span Class="emphasis">struct pcap_pkthdr</span> structure, and fills it in with the time stamp and length values for the packet.  It returns a <span Class="emphasis">const u_char</span> to the first <span Class="bold">caplen</span> bytes of the packet on success, and <span Class="bold">NULL</span> on error. 
+<p class="level0"><span Class="bold">pcap_next_ex</span>() is passed two pointer arguments, one of which points to a <span Class="emphasis">struct</span>pcap_pkthdr<a class="emphasis" href="#">*</a> and one of which points to a <span Class="emphasis">const u_char</span>*. It sets the first pointer to point to a <span Class="emphasis">struct pcap_pkthdr</span> structure with the time stamp and length values for the packet, and sets the second pointer to point to the first <span Class="bold">caplen</span> bytes of the packet. 
+<p class="level0">To force the loop in <span Class="bold">pcap_dispatch</span>() or <span Class="bold">pcap_loop</span>() to terminate, call <span Class="bold">pcap_breakloop</span>(). 
+<p class="level0">By default, when reading packets from an interface opened for a live capture, <span Class="bold">pcap_dispatch</span>(), <span Class="bold">pcap_next</span>(), and <span Class="bold">pcap_next_ex</span>() will, if no packets are currently available to be read, block waiting for packets to become available.  On some, but <span Class="emphasis">not</span> all, platforms, if a packet buffer timeout was specified, the wait will terminate after the packet buffer timeout expires; applications should be prepared for this, as it happens on some platforms, but should not rely on it, as it does not happen on other platforms.  Note that the wait might, or might not, terminate even if no packets are available; applications should be prepared for this to happen, but must not rely on it happening. 
+<p class="level0">A handle can be put into ``non-blocking mode&#39;&#39;, so that those routines will, rather than blocking, return an indication that no packets are available to read.  Call <span Class="bold">pcap_setnonblock</span>() to put a handle into non-blocking mode or to take it out of non-blocking mode; call <span Class="bold">pcap_getnonblock</span>() to determine whether a handle is in non-blocking mode.  Note that non-blocking mode does not work correctly in Mac OS X 10.6. 
+<p class="level0">Non-blocking mode is often combined with routines such as <span Class="bold">select</span>(2) or <span Class="bold">poll</span>(2) or other routines a platform offers to wait for any of a set of descriptors to be ready to read.  To obtain, for a handle, a descriptor that can be used in those routines, call <span Class="bold">pcap_get_selectable_fd</span>(). If the routine indicates that data is available to read on the descriptor, an attempt should be made to read from the device. 
+<p class="level0">Not all handles have such a descriptor available; <span Class="bold">pcap_get_selectable_fd</span>() will return <span Class="bold">-1</span> if no such descriptor is available.  If no such descriptor is available, this may be because the device must be polled periodically for packets; in that case, <span Class="bold">pcap_get_required_select_timeout</span>() will return a pointer to a <span Class="bold">struct timeval</span> whose value can be used as a timeout in those routines.  When the routine returns, an attmept should be made to read packets from the device.  If <span Class="bold">pcap_get_required_select_timeout</span>() returns <span Class="bold">NULL</span>, no such timeout is available, and those routines cannot be used with the device. 
+<p class="level0">In addition, for various reasons, one or more of those routines will not work properly with the descriptor; the documentation for <span Class="bold">pcap_get_selectable_fd</span>() gives details.  Note that, just as an attempt to read packets from a <span Class="bold">pcap_t</span> may not return any packets if the packet buffer timeout expires, a <span Class="bold">select</span>(), <span Class="bold">poll</span>(), or other such call may, if the packet buffer timeout expires, indicate that a descriptor is ready to read even if there are no packets available to read. 
+<p class="level0"><span Class="bold">Routines</span> 
+<p class="level1">
+<p class="level1"><span Class="bold">pcap_dispatch</span>(3PCAP) read a bufferful of packets from a <span Class="bold">pcap_t</span> open for a live capture or the full set of packets from a <span Class="bold">pcap_t</span> open for a ``savefile&#39;&#39; 
+<p class="level1"><a Class="bold" href="./pcap_loop.html">pcap_loop</a>(3PCAP) read packets from a <span Class="bold">pcap_t</span> until an interrupt or error occurs 
+<p class="level1"><span Class="bold">pcap_next</span>(3PCAP) read the next packet from a <span Class="bold">pcap_t</span> without an indication whether an error occurred 
+<p class="level1"><a Class="bold" href="./pcap_next_ex.html">pcap_next_ex</a>(3PCAP) read the next packet from a <span Class="bold">pcap_t</span> with an error indication on an error 
+<p class="level1"><a Class="bold" href="./pcap_breakloop.html">pcap_breakloop</a>(3PCAP) prematurely terminate the loop in <span Class="bold">pcap_dispatch</span>() or <span Class="bold">pcap_loop</span>() 
+<p class="level1"><a Class="bold" href="./pcap_setnonblock.html">pcap_setnonblock</a>(3PCAP) set or clear non-blocking mode on a <span Class="bold">pcap_t</span> 
+<p class="level1"><span Class="bold">pcap_getnonblock</span>(3PCAP) get the state of non-blocking mode for a <span Class="bold">pcap_t</span> 
+<p class="level1"><a Class="bold" href="./pcap_get_selectable_fd.html">pcap_get_selectable_fd</a>(3PCAP) attempt to get a descriptor for a <span Class="bold">pcap_t</span> that can be used in calls such as <span Class="bold">select</span>() and <span Class="bold">poll</span>() 
+<p class="level1"><a Class="bold" href="./pcap_get_required_select_timeout.html">pcap_get_required_select_timeout</a>(3PCAP) attempt to get a timeout required for using a <span Class="bold">pcap_t</span> in calls such as <span Class="bold">select</span>() and <span Class="bold">poll</span>() 
+<p class="level0"><a name="Filters"></a><h2 class="nroffsh">Filters</h2>
+<p class="level0">In order to cause only certain packets to be returned when reading packets, a filter can be set on a handle.  For a live capture, the filtering will be performed in kernel mode, if possible, to avoid copying ``uninteresting&#39;&#39; packets from the kernel to user mode. 
+<p class="level0">A filter can be specified as a text string; the syntax and semantics of the string are as described by <span Class="bold">\%pcap-filter</span>(7). A filter string is compiled into a program in a pseudo-machine-language by <span Class="bold">pcap_compile</span>() and the resulting program can be made a filter for a handle with <span Class="bold">pcap_setfilter</span>(). The result of <span Class="bold">pcap_compile</span>() can be freed with a call to <span Class="bold">pcap_freecode</span>(). <span Class="bold">pcap_compile</span>() may require a network mask for certain expressions in the filter string; <span Class="bold">pcap_lookupnet</span>() can be used to find the network address and network mask for a given capture device. 
+<p class="level0">A compiled filter can also be applied directly to a packet that has been read using <span Class="bold">pcap_offline_filter</span>(). 
+<p class="level0"><span Class="bold">Routines</span> 
+<p class="level1">
+<p class="level1"><a Class="bold" href="./pcap_compile.html">pcap_compile</a>(3PCAP) compile filter expression to a pseudo-machine-language code program 
+<p class="level1"><a Class="bold" href="./pcap_freecode.html">pcap_freecode</a>(3PCAP) free a filter program 
+<p class="level1"><a Class="bold" href="./pcap_setfilter.html">pcap_setfilter</a>(3PCAP) set filter for a <span Class="bold">pcap_t</span> 
+<p class="level1"><a Class="bold" href="./pcap_lookupnet.html">pcap_lookupnet</a>(3PCAP) get network address and network mask for a capture device 
+<p class="level1"><a Class="bold" href="./pcap_offline_filter.html">pcap_offline_filter</a>(3PCAP) apply a filter program to a packet 
+<p class="level0"><a name="Incoming"></a><h2 class="nroffsh">Incoming and outgoing packets</h2>
+<p class="level0">By default, libpcap will attempt to capture both packets sent by the machine and packets received by the machine.  To limit it to capturing only packets received by the machine or, if possible, only packets sent by the machine, call <span Class="bold">pcap_setdirection</span>(). 
+<p class="level0"><span Class="bold">Routines</span> 
+<p class="level1">
+<p class="level1"><a Class="bold" href="./pcap_setdirection.html">pcap_setdirection</a>(3PCAP) specify whether to capture incoming packets, outgoing packets, or both 
+<p class="level0"><a name="Capture"></a><h2 class="nroffsh">Capture statistics</h2>
+<p class="level0">To get statistics about packets received and dropped in a live capture, call <span Class="bold">pcap_stats</span>(). 
+<p class="level0"><span Class="bold">Routines</span> 
+<p class="level1">
+<p class="level1"><a Class="bold" href="./pcap_stats.html">pcap_stats</a>(3PCAP) get capture statistics 
+<p class="level0"><a name="Opening"></a><h2 class="nroffsh">Opening a handle for writing captured packets</h2>
+<p class="level0">To open a ``savefile`` to which to write packets, given the pathname the ``savefile&#39;&#39; should have, call <span Class="bold">pcap_dump_open</span>(). To open a ``savefile`` to which to write packets, given the pathname the ``savefile&#39;&#39; should have, call <span Class="bold">pcap_dump_open</span>(); to set up a handle for a ``savefile&#39;&#39;, given a <span Class="bold">FILE\ *</span> referring to a file already opened for writing, call <span Class="bold">pcap_dump_fopen</span>(). They each return pointers to a <span Class="bold">pcap_dumper_t</span>, which is the handle used for writing packets to the ``savefile&#39;&#39;.  If it succeeds, it will have created the file if it doesn&#39;t exist and truncated the file if it does exist. To close a <span Class="bold">pcap_dumper_t</span>, call <span Class="bold">pcap_dump_close</span>(). 
+<p class="level0"><span Class="bold">Routines</span> 
+<p class="level1">
+<p class="level1"><a Class="bold" href="./pcap_dump_open.html">pcap_dump_open</a>(3PCAP) open a <span Class="bold">pcap_dumper_t</span> for a ``savefile``, given a pathname, replacing any existing data 
+<p class="level1"><span Class="bold">pcap_dump_open_append</span>(3PCAP) open a <span Class="bold">pcap_dumper_t</span> for a ``savefile``, given a pathname, appending to the existing data 
+<p class="level1"><span Class="bold">pcap_dump_fopen</span>(3PCAP) open a <span Class="bold">pcap_dumper_t</span> for a ``savefile``, given a <span Class="bold">FILE\ *</span>, assuming an empty file 
+<p class="level1"><a Class="bold" href="./pcap_dump_close.html">pcap_dump_close</a>(3PCAP) close a <span Class="bold">pcap_dumper_t</span> 
+<p class="level1"><a Class="bold" href="./pcap_dump_file.html">pcap_dump_file</a>(3PCAP) get the <span Class="bold">FILE\ *</span> for a <span Class="bold">pcap_dumper_t</span> opened for a ``savefile&#39;&#39; 
+<p class="level0"><a name="Writing"></a><h2 class="nroffsh">Writing packets</h2>
+<p class="level0">To write a packet to a <span Class="bold">pcap_dumper_t</span>, call <span Class="bold">pcap_dump</span>(). Packets written with <span Class="bold">pcap_dump</span>() may be buffered, rather than being immediately written to the ``savefile&#39;&#39;.  Closing the <span Class="bold">pcap_dumper_t</span> will cause all buffered-but-not-yet-written packets to be written to the ``savefile&#39;&#39;. To force all packets written to the <span Class="bold">pcap_dumper_t</span>, and not yet written to the ``savefile&#39;&#39; because they&#39;re buffered by the <span Class="bold">pcap_dumper_t</span>, to be written to the ``savefile&#39;&#39;, without closing the <span Class="bold">pcap_dumper_t</span>, call <span Class="bold">pcap_dump_flush</span>(). 
+<p class="level0"><span Class="bold">Routines</span> 
+<p class="level1">
+<p class="level1"><a Class="bold" href="./pcap_dump.html">pcap_dump</a>(3PCAP) write packet to a <span Class="bold">pcap_dumper_t</span> 
+<p class="level1"><a Class="bold" href="./pcap_dump_flush.html">pcap_dump_flush</a>(3PCAP) flush buffered packets written to a <span Class="bold">pcap_dumper_t</span> to the ``savefile&#39;&#39; 
+<p class="level1"><a Class="bold" href="./pcap_dump_ftell.html">pcap_dump_ftell</a>(3PCAP) get current file position for a <span Class="bold">pcap_dumper_t</span> 
+<p class="level0"><a name="Injecting"></a><h2 class="nroffsh">Injecting packets</h2>
+<p class="level0">If you have the required privileges, you can inject packets onto a network with a <span Class="bold">pcap_t</span> for a live capture, using <span Class="bold">pcap_inject</span>() or <span Class="bold">pcap_sendpacket</span>(). (The two routines exist for compatibility with both OpenBSD and WinPcap/Npcap; they perform the same function, but have different return values.) 
+<p class="level0"><span Class="bold">Routines</span> 
+<p class="level1">
+<p class="level1"><a Class="bold" href="./pcap_inject.html">pcap_inject</a>(3PCAP) 
+<p class="level1">
+<p class="level1"><span Class="bold">pcap_sendpacket</span>(3PCAP) transmit a packet 
+<p class="level1">
+<p class="level0"><a name="Reporting"></a><h2 class="nroffsh">Reporting errors</h2>
+<p class="level0">Some routines return error or warning status codes; to convert them to a string, use <span Class="bold">pcap_statustostr</span>(). 
+<p class="level0"><span Class="bold">Routines</span> 
+<p class="level1">
+<p class="level1"><a Class="bold" href="./pcap_statustostr.html">pcap_statustostr</a>(3PCAP) get a string for an error or warning status code 
+<p class="level0"><a name="Getting"></a><h2 class="nroffsh">Getting library version information</h2>
+<p class="level0">To get a string giving version information about libpcap, call <span Class="bold">pcap_lib_version</span>(). 
+<p class="level0"><span Class="bold">Routines</span> 
+<p class="level1">
+<p class="level1"><a Class="bold" href="./pcap_lib_version.html">pcap_lib_version</a>(3PCAP) get library version string 
+<p class="level0"><a name="BACKWARD"></a><h2 class="nroffsh">BACKWARD COMPATIBILITY</h2>
+<p class="level0">
+<p class="level0">In versions of libpcap prior to 1.0, the <span Class="bold">pcap.h</span> header file was not in a <span Class="bold">pcap</span> directory on most platforms; if you are writing an application that must work on versions of libpcap prior to 1.0, include <span Class="bold">&lt;pcap.h&gt;</span>, which will include <span Class="bold">&lt;pcap/pcap.h&gt;</span> for you, rather than including <span Class="bold">&lt;pcap/pcap.h&gt;</span>. 
+<p class="level0"><span Class="bold">pcap_create</span>() and <span Class="bold">pcap_activate</span>() were not available in versions of libpcap prior to 1.0; if you are writing an application that must work on versions of libpcap prior to 1.0, either use <span Class="bold">pcap_open_live</span>() to get a handle for a live capture or, if you want to be able to use the additional capabilities offered by using <span Class="bold">pcap_create</span>() and <span Class="bold">pcap_activate</span>(), use an <span Class="bold">autoconf</span>(1) script or some other configuration script to check whether the libpcap 1.0 APIs are available and use them only if they are. <a name="SEE"></a><h2 class="nroffsh">SEE ALSO</h2>
+<p class="level0"><span Class="bold">autoconf</span>(1), <span Class="bold">tcpdump</span>(1), <span Class="bold">tcpslice</span>(1), <span Class="bold">\%pcap-filter</span>(7), <span Class="bold">pfconfig</span>(8), <span Class="bold">usermod</span>(8) <a name="AUTHORS"></a><h2 class="nroffsh">AUTHORS</h2>
+<p class="level0">The original authors of libpcap are: 
+<p class="level0">Van Jacobson, Craig Leres and Steven McCanne, all of the Lawrence Berkeley National Laboratory, University of California, Berkeley, CA. 
+<p class="level0">The current version is available from &quot;The Tcpdump Group&quot;&#39;s Web site at 
+<p class="level0">
+<p class="level1"><span Class="emphasis"><a href="https://www.tcpdump.org/">https://www.tcpdump.org/</a></span> 
+<p class="level0"><a name="BUGS"></a><h2 class="nroffsh">BUGS</h2>
+<p class="level0">To report a security issue please send an e-mail to %security@tcpdump.org. 
+<p class="level0">To report bugs and other problems, contribute patches, request a feature, provide generic feedback etc please see the file <span Class="emphasis">CONTRIBUTING.md</span> in the libpcap source tree root. <p class="roffit">
+ This HTML page was made with <a href="http://daniel.haxx.se/projects/roffit/">roffit</a>.
+</body></html>

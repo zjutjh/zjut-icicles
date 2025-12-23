@@ -1,0 +1,88 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+ "http://www.w3.org/TR/html4/loose.dtd">
+<html><head>
+<title>PCAP-TSTAMP man page</title>
+<meta name="generator" content="roffit">
+<STYLE type="text/css">
+pre {
+  overflow: auto;
+  margin: 0;
+}
+
+P.level0, pre.level0 {
+ padding-left: 2em;
+}
+
+P.level1, pre.level1 {
+ padding-left: 4em;
+}
+
+P.level2, pre.level2 {
+ padding-left: 6em;
+}
+
+span.emphasis {
+ font-style: italic;
+}
+
+span.bold {
+ font-weight: bold;
+}
+
+span.manpage {
+ font-weight: bold;
+}
+
+h2.nroffsh {
+ background-color: #e0e0e0;
+}
+
+span.nroffip {
+ font-weight: bold;
+ font-size: 120%;
+ font-family: monospace;
+}
+
+p.roffit {
+ text-align: center;
+ font-size: 80%;
+}
+</STYLE>
+</head><body>
+
+<p class="level0"><a name="NAME"></a><h2 class="nroffsh">NAME</h2>
+<p class="level0">pcap-tstamp - packet time stamps in libpcap <a name="DESCRIPTION"></a><h2 class="nroffsh">DESCRIPTION</h2>
+<p class="level0">When capturing traffic, each packet is given a time stamp representing, for incoming packets, the arrival time of the packet and, for outgoing packets, the transmission time of the packet.  This time is an approximation of the arrival or transmission time.  If it is supplied by the operating system running on the host on which the capture is being done, there are several reasons why it might not precisely represent the arrival or transmission time: 
+<p class="level0"><a name=""></a><span class="nroffip"></span> 
+<p class="level1">if the time stamp is applied to the packet when the networking stack receives the packet, the networking stack might not see the packet until an interrupt is delivered for the packet or a timer event causes the networking device driver to poll for packets, and the time stamp might not be applied until the packet has had some processing done by other code in the networking stack, so there might be a significant delay between the time when the last bit of the packet is received by the capture device and when the networking stack time-stamps the packet; 
+<p class="level0"><a name=""></a><span class="nroffip"></span> 
+<p class="level1">the timer used to generate the time stamps might have low resolution, for example, it might be a timer updated once per host operating system timer tick, with the host operating system timer ticking once every few milliseconds; 
+<p class="level0"><a name=""></a><span class="nroffip"></span> 
+<p class="level1">a high-resolution timer might use a counter that runs at a rate dependent on the processor clock speed, and that clock speed might be adjusted upwards or downwards over time and the timer might not be able to compensate for all those adjustments; 
+<p class="level0"><a name=""></a><span class="nroffip"></span> 
+<p class="level1">the host operating system&#39;s clock might be adjusted over time to match a time standard to which the host is being synchronized, which might be done by temporarily slowing down or speeding up the clock or by making a single adjustment; 
+<p class="level0"><a name=""></a><span class="nroffip"></span> 
+<p class="level1">different CPU cores on a multi-core or multi-processor system might be running at different speeds, or might not have time counters all synchronized, so packets time-stamped by different cores might not have consistent time stamps; 
+<p class="level0"><a name=""></a><span class="nroffip"></span> 
+<p class="level1">some time sources, such as those that supply POSIX &quot;seconds since the Epoch&quot; time, do not count leap seconds, meaning that the seconds portion (<span Class="bold">tv_sec</span>) of the time stamp might not be incremented for a leap second, so that the fraction-of-a-second part of the time stamp might roll over past zero but the second part would not change, or the clock might run slightly more slowly for a period before the leap second. 
+<p class="level1">For these reasons, time differences between packet time stamps will not necessarily accurately reflect the time differences between the receipt or transmission times of the packets. 
+<p class="level1">In addition, packets time-stamped by different cores might be time-stamped in one order and added to the queue of packets for libpcap to read in another order, so time stamps might not be monotonically increasing. 
+<p class="level1">Some capture devices on some platforms can provide time stamps for packets; those time stamps are usually high-resolution time stamps, and are usually applied to the packet when the first or last bit of the packet arrives, and are thus more accurate than time stamps provided by the host operating system.  Those time stamps might not, however, be synchronized with the host operating system&#39;s clock, so that, for example, the time stamp of a packet might not correspond to the time stamp of an event on the host triggered by the arrival of that packet. If they are synchronized with the host operating system&#39;s clock, some of the issues listed above with time stamps supplied by the host operating system may also apply to time stamps supplied by the capture device. 
+<p class="level1">Depending on the capture device and the software on the host, libpcap might allow different types of time stamp to be used.  The <a Class="bold" href="./pcap_list_tstamp_types.html">pcap_list_tstamp_types</a>(3PCAP) routine provides, for a packet capture handle created by <a Class="bold" href="./pcap_create.html">pcap_create</a>(3PCAP) but not yet activated by <a Class="bold" href="./pcap_activate.html">pcap_activate</a>(3PCAP), a list of time stamp types supported by the capture device for that handle. The list might be empty, in which case no choice of time stamp type is offered for that capture device.  If the list is not empty, the <a Class="bold" href="./pcap_set_tstamp_type.html">pcap_set_tstamp_type</a>(3PCAP) routine can be used after a <span Class="bold">pcap_create</span>() call and before a <span Class="bold">pcap_activate</span>() call to specify the type of time stamp to be used on the device. The time stamp types are listed here; the first value is the &#35;define to use in code, the second value is the value returned by <a Class="bold" href="./pcap_tstamp_type_val_to_name.html">pcap_tstamp_type_val_to_name</a>(3PCAP) and accepted by <a Class="bold" href="./pcap_tstamp_type_name_to_val.html">pcap_tstamp_type_name_to_val</a>(3PCAP)<a class="bold" href="#">.</a> 
+<p class="level2">
+<p class="level2"><span Class="bold">PCAP_TSTAMP_HOST</span> - <span Class="bold">host</span> Time stamp provided by the host on which the capture is being done.  The precision of this time stamp is unspecified; it might or might not be synchronized with the host operating system&#39;s clock. 
+<p class="level2"><span Class="bold">PCAP_TSTAMP_HOST_LOWPREC</span> - <span Class="bold">host_lowprec</span> Time stamp provided by the host on which the capture is being done. This is a low-precision time stamp, synchronized with the host operating system&#39;s clock. 
+<p class="level2"><span Class="bold">PCAP_TSTAMP_HOST_HIPREC</span> - <span Class="bold">host_hiprec</span> Time stamp provided by the host on which the capture is being done. This is a high-precision time stamp, synchronized with the host operating system&#39;s clock. It might be more expensive to fetch than <span Class="bold">PCAP_TSTAMP_HOST_LOWPREC</span>. 
+<p class="level2"><span Class="bold">PCAP_TSTAMP_HOST_HIPREC_UNSYNCED</span> - <span Class="bold">host_hiprec_unsynced</span> Time stamp provided by the host on which the capture is being done. This is a high-precision time stamp, not synchronized with the host operating system&#39;s clock. It might be more expensive to fetch than <span Class="bold">PCAP_TSTAMP_HOST_LOWPREC</span>. 
+<p class="level2"><span Class="bold">PCAP_TSTAMP_ADAPTER</span> - <span Class="bold">adapter</span> Time stamp provided by the network adapter on which the capture is being done.  This is a high-precision time stamp, synchronized with the host operating system&#39;s clock. 
+<p class="level2"><span Class="bold">PCAP_TSTAMP_ADAPTER_UNSYNCED</span> - <span Class="bold">adapter_unsynced</span> Time stamp provided by the network adapter on which the capture is being done.  This is a high-precision time stamp; it is not synchronized with the host operating system&#39;s clock. 
+<p class="level1">
+<p class="level1">Time stamps synchronized with the system clock can go backwards, as the system clock can go backwards. If a clock is not in sync with the system clock, that could be because the system clock isn&#39;t keeping accurate time, because the other clock isn&#39;t keeping accurate time, or both. 
+<p class="level1">Host-provided time stamps generally correspond to the time when the time-stamping code sees the packet; this could be some unknown amount of time after the first or last bit of the packet is received by the network adapter, due to batching of interrupts for packet arrival, queueing delays, etc.. 
+<p class="level1">By default, when performing a live capture or reading from a savefile, time stamps are supplied as seconds since January 1, 1970, 00:00:00 UTC, and microseconds since that seconds value, even if higher-resolution time stamps are available from the capture device or in the savefile. If, when reading a savefile, the time stamps in the file have a higher resolution than one microsecond, the additional digits of resolution are discarded. 
+<p class="level1">The <a Class="bold" href="./pcap_set_tstamp_precision.html">pcap_set_tstamp_precision</a>(3PCAP) routine can be used after a <span Class="bold">pcap_create</span>() call and after a <span Class="bold">pcap_activate</span>() call to specify the resolution of the time stamps to get for the device. If the hardware or software cannot supply a higher-resolution time stamp, the <span Class="bold">pcap_set_tstamp_precision</span>() call will fail, and the time stamps supplied after the <span Class="bold">pcap_activate</span>() call will have microsecond resolution. 
+<p class="level1">When opening a savefile, the <span Class="bold">\%pcap_open_offline_with_tstamp_precision</span>(3PCAP) and <span Class="bold">\%pcap_fopen_offline_with_tstamp_precision</span>(3PCAP) routines can be used to specify the resolution of time stamps to be read from the file; if the time stamps in the file have a lower resolution, the fraction-of-a-second portion of the time stamps will be scaled to the specified resolution. 
+<p class="level1">The <a Class="bold" href="./pcap_get_tstamp_precision.html">pcap_get_tstamp_precision</a>(3PCAP) routine returns the resolution of time stamps that will be supplied; when capturing packets, this does not reflect the actual precision of the time stamp supplied by the hardware or operating system and, when reading a savefile, this does not indicate the actual precision of time stamps in the file. <a name="SEE"></a><h2 class="nroffsh">SEE ALSO</h2>
+<p class="level0"><a Class="bold" href="./pcap.html">pcap</a>(3PCAP) <p class="roffit">
+ This HTML page was made with <a href="http://daniel.haxx.se/projects/roffit/">roffit</a>.
+</body></html>

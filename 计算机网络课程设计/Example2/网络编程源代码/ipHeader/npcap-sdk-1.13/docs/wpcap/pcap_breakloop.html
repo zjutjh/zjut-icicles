@@ -1,0 +1,70 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+ "http://www.w3.org/TR/html4/loose.dtd">
+<html><head>
+<title>3PCAP man page</title>
+<meta name="generator" content="roffit">
+<STYLE type="text/css">
+pre {
+  overflow: auto;
+  margin: 0;
+}
+
+P.level0, pre.level0 {
+ padding-left: 2em;
+}
+
+P.level1, pre.level1 {
+ padding-left: 4em;
+}
+
+P.level2, pre.level2 {
+ padding-left: 6em;
+}
+
+span.emphasis {
+ font-style: italic;
+}
+
+span.bold {
+ font-weight: bold;
+}
+
+span.manpage {
+ font-weight: bold;
+}
+
+h2.nroffsh {
+ background-color: #e0e0e0;
+}
+
+span.nroffip {
+ font-weight: bold;
+ font-size: 120%;
+ font-family: monospace;
+}
+
+p.roffit {
+ text-align: center;
+ font-size: 80%;
+}
+</STYLE>
+</head><body>
+
+<p class="level0"><a name="NAME"></a><h2 class="nroffsh">NAME</h2>
+<p class="level0">pcap_breakloop - force a pcap_dispatch() or pcap_loop() call to return <a name="SYNOPSIS"></a><h2 class="nroffsh">SYNOPSIS</h2>
+<p class="level0"><pre class="level0">
+&#35;include &lt;pcap/pcap.h&gt;
+void pcap_breakloop(pcap_t *);
+</pre>
+
+<p class="level0"><a name="DESCRIPTION"></a><h2 class="nroffsh">DESCRIPTION</h2>
+<p class="level0"><span Class="bold">pcap_breakloop</span>() sets a flag that will force <span Class="bold">pcap_dispatch</span>(3PCAP) or <a Class="bold" href="./pcap_loop.html">pcap_loop</a>(3PCAP) to return rather than looping; they will return the number of packets that have been processed so far, or <span Class="bold">PCAP_ERROR_BREAK</span> if no packets have been processed so far. 
+<p class="level0">This routine is safe to use inside a signal handler on UNIX or a console control handler on Windows, as it merely sets a flag that is checked within the loop. 
+<p class="level0">The flag is checked in loops reading packets from the OS - a signal by itself will not necessarily terminate those loops - as well as in loops processing a set of packets returned by the OS. Note that if you are catching signals on UNIX systems that support restarting system calls after a signal, and calling pcap_breakloop() in the signal handler, you must specify, when catching those signals, that system calls should NOT be restarted by that signal.  Otherwise, if the signal interrupted a call reading packets in a live capture, when your signal handler returns after calling pcap_breakloop(), the call will be restarted, and the loop will not terminate until more packets arrive and the call completes. 
+<p class="level0">Note also that, in a multi-threaded application, if one thread is blocked in pcap_dispatch(), pcap_loop(), pcap_next(3PCAP), or pcap_next_ex(3PCAP), a call to pcap_breakloop() in a different thread will not unblock that thread. You will need to use whatever mechanism the OS provides for breaking a thread out of blocking calls in order to unblock the thread, such as thread cancellation or thread signalling in systems that support POSIX threads, or <span Class="bold">SetEvent</span>() on the result of <span Class="bold">pcap_getevent</span>() on a <span Class="bold">pcap_t</span> on which the thread is blocked on Windows.  Asynchronous procedure calls will not work on Windows, as a thread blocked on a <span Class="bold">pcap_t</span> will not be in an alertable state. 
+<p class="level0">Note that <span Class="bold">pcap_next</span>() and <span Class="bold">pcap_next_ex</span>() will, on some platforms, loop reading packets from the OS; that loop will not necessarily be terminated by a signal, so <span Class="bold">pcap_breakloop</span>() should be used to terminate packet processing even if <span Class="bold">pcap_next</span>() or <span Class="bold">pcap_next_ex</span>() is being used. 
+<p class="level0"><span Class="bold">pcap_breakloop</span>() does not guarantee that no further packets will be processed by <span Class="bold">pcap_dispatch</span>() or <span Class="bold">pcap_loop</span>() after it is called; at most one more packet might be processed. 
+<p class="level0">If <span Class="bold">PCAP_ERROR_BREAK</span> is returned from <span Class="bold">pcap_dispatch</span>() or <span Class="bold">pcap_loop</span>(), the flag is cleared, so a subsequent call will resume reading packets. If a positive number is returned, the flag is not cleared, so a subsequent call will return <span Class="bold">PCAP_ERROR_BREAK</span> and clear the flag. <a name="SEE"></a><h2 class="nroffsh">SEE ALSO</h2>
+<p class="level0"><a Class="bold" href="./pcap.html">pcap</a>(3PCAP) <p class="roffit">
+ This HTML page was made with <a href="http://daniel.haxx.se/projects/roffit/">roffit</a>.
+</body></html>

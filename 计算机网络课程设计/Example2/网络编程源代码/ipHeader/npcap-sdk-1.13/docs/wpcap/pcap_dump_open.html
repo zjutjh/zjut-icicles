@@ -1,0 +1,73 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+ "http://www.w3.org/TR/html4/loose.dtd">
+<html><head>
+<title>3PCAP man page</title>
+<meta name="generator" content="roffit">
+<STYLE type="text/css">
+pre {
+  overflow: auto;
+  margin: 0;
+}
+
+P.level0, pre.level0 {
+ padding-left: 2em;
+}
+
+P.level1, pre.level1 {
+ padding-left: 4em;
+}
+
+P.level2, pre.level2 {
+ padding-left: 6em;
+}
+
+span.emphasis {
+ font-style: italic;
+}
+
+span.bold {
+ font-weight: bold;
+}
+
+span.manpage {
+ font-weight: bold;
+}
+
+h2.nroffsh {
+ background-color: #e0e0e0;
+}
+
+span.nroffip {
+ font-weight: bold;
+ font-size: 120%;
+ font-family: monospace;
+}
+
+p.roffit {
+ text-align: center;
+ font-size: 80%;
+}
+</STYLE>
+</head><body>
+
+<p class="level0"><a name="NAME"></a><h2 class="nroffsh">NAME</h2>
+<p class="level0">pcap_dump_open, pcap_dump_open_append, pcap_dump_fopen - open a file to which to write packets <a name="SYNOPSIS"></a><h2 class="nroffsh">SYNOPSIS</h2>
+<p class="level0"><pre class="level0">
+&#35;include &lt;pcap/pcap.h&gt;
+<pre class="level0">
+pcap_dumper_t *pcap_dump_open(pcap_t *p, const char *fname);
+pcap_dumper_t *pcap_dump_open_append(pcap_t *p, const char *fname);
+pcap_dumper_t *pcap_dump_fopen(pcap_t *p, FILE *fp);
+</pre>
+
+<p class="level0"><a name="DESCRIPTION"></a><h2 class="nroffsh">DESCRIPTION</h2>
+<p class="level0"><span Class="bold">pcap_dump_open</span>() is called to open a ``savefile&#39;&#39; for writing. <span Class="emphasis">fname</span> specifies the name of the file to open. The file will have the same format as those used by <span Class="bold">tcpdump</span>(1) and <span Class="bold">tcpslice</span>(1). If the file does not exist, it will be created; if the file exists, it will be truncated and overwritten. The name &quot;-&quot; is a synonym for <span Class="bold">stdout</span>. 
+<p class="level0"><span Class="bold">pcap_dump_fopen</span>() is called to write data to an existing open stream <span Class="emphasis">fp</span>; this stream will be closed by a subsequent call to <a Class="bold" href="./pcap_dump_close.html">pcap_dump_close</a>(3PCAP). The stream is assumed to be at the beginning of a file that has been newly created or truncated, so that writes will start at the beginning of the file. Note that on Windows, that stream should be opened in binary mode. 
+<p class="level0"><span Class="emphasis">p</span> is a capture or ``savefile&#39;&#39; handle returned by an earlier call to <a Class="bold" href="./pcap_create.html">pcap_create</a>(3PCAP) and activated by an earlier call to <span Class="bold">\%pcap_activate</span>(3PCAP), or returned by an earlier call to <span Class="bold">\%pcap_open_offline</span>(3PCAP), <a Class="bold" href="./pcap_open_live.html">pcap_open_live</a>(3PCAP), or <a Class="bold" href="./pcap_open_dead.html">pcap_open_dead</a>(3PCAP). The time stamp precision, link-layer type, and snapshot length from <span Class="emphasis">p</span> are used as the link-layer type and snapshot length of the output file. 
+<p class="level0"><span Class="bold">pcap_dump_open_append</span>() is like <span Class="bold">pcap_dump_open</span>() but, if the file already exists, and is a pcap file with the same byte order as the host opening the file, and has the same time stamp precision, link-layer header type, and snapshot length as <span Class="emphasis">p</span>, it will write new packets at the end of the file. <a name="RETURN"></a><h2 class="nroffsh">RETURN VALUE</h2>
+<p class="level0">A pointer to a <span Class="bold">pcap_dumper_t</span> structure to use in subsequent <a Class="bold" href="./pcap_dump.html">pcap_dump</a>(3PCAP) and <a Class="bold" href="./pcap_dump_close.html">pcap_dump_close</a>(3PCAP) calls is returned on success. <span Class="bold">NULL</span> is returned on failure. If <span Class="bold">NULL</span> is returned, <a Class="bold" href="./pcap_geterr.html">pcap_geterr</a>(3PCAP) can be used to get the error text. <a name="BACKWARD"></a><h2 class="nroffsh">BACKWARD COMPATIBILITY</h2>
+<p class="level0">
+<p class="level0">The <span Class="bold">pcap_dump_open_append</span>() function became available in libpcap release 1.7.2.  In previous releases, there is no support for appending packets to an existing savefile. <a name="SEE"></a><h2 class="nroffsh">SEE ALSO</h2>
+<p class="level0"><a Class="bold" href="./pcap.html">pcap</a>(3PCAP), <span Class="bold">\%pcap-savefile</span>(5) <p class="roffit">
+ This HTML page was made with <a href="http://daniel.haxx.se/projects/roffit/">roffit</a>.
+</body></html>

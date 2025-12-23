@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+ "http://www.w3.org/TR/html4/loose.dtd">
+<html><head>
+<title>3PCAP man page</title>
+<meta name="generator" content="roffit">
+<STYLE type="text/css">
+pre {
+  overflow: auto;
+  margin: 0;
+}
+
+P.level0, pre.level0 {
+ padding-left: 2em;
+}
+
+P.level1, pre.level1 {
+ padding-left: 4em;
+}
+
+P.level2, pre.level2 {
+ padding-left: 6em;
+}
+
+span.emphasis {
+ font-style: italic;
+}
+
+span.bold {
+ font-weight: bold;
+}
+
+span.manpage {
+ font-weight: bold;
+}
+
+h2.nroffsh {
+ background-color: #e0e0e0;
+}
+
+span.nroffip {
+ font-weight: bold;
+ font-size: 120%;
+ font-family: monospace;
+}
+
+p.roffit {
+ text-align: center;
+ font-size: 80%;
+}
+</STYLE>
+</head><body>
+
+<p class="level0"><a name="NAME"></a><h2 class="nroffsh">NAME</h2>
+<p class="level0">pcap_list_datalinks, pcap_free_datalinks - get a list of link-layer header types supported by a capture device, and free that list <a name="SYNOPSIS"></a><h2 class="nroffsh">SYNOPSIS</h2>
+<p class="level0"><pre class="level0">
+&#35;include &lt;pcap/pcap.h&gt;
+int pcap_list_datalinks(pcap_t *p, int **dlt_buf);
+void pcap_free_datalinks(int *dlt_list);
+</pre>
+
+<p class="level0"><a name="DESCRIPTION"></a><h2 class="nroffsh">DESCRIPTION</h2>
+<p class="level0"><span Class="bold">pcap_list_datalinks</span>() is used to get a list of the supported link-layer header types of the interface associated with the pcap descriptor. <span Class="bold">pcap_list_datalinks</span>() allocates an array to hold the list and sets <span Class="emphasis">*dlt_buf</span> to point to that array. 
+<p class="level0">The caller is responsible for freeing the array with <span Class="bold">pcap_free_datalinks</span>(), which frees the list of link-layer header types pointed to by <span Class="emphasis">dlt_list</span>. 
+<p class="level0">It must not be called on a pcap descriptor created by <span Class="bold">\%pcap_create</span>(3PCAP) that has not yet been activated by <span Class="bold">\%pcap_activate</span>(3PCAP). <a name="RETURN"></a><h2 class="nroffsh">RETURN VALUE</h2>
+<p class="level0"><span Class="bold">pcap_list_datalinks</span>() returns the number of link-layer header types in the array on success, <span Class="bold">PCAP_ERROR_NOT_ACTIVATED</span> if called on a capture handle that has been created but not activated, and <span Class="bold">PCAP_ERROR</span> on other errors. If <span Class="bold">PCAP_ERROR</span> is returned, <a Class="bold" href="./pcap_geterr.html">pcap_geterr</a>(3PCAP) or <span Class="bold">\%pcap_perror</span>(3PCAP) may be called with <span Class="emphasis">p</span> as an argument to fetch or display the error text. <a name="SEE"></a><h2 class="nroffsh">SEE ALSO</h2>
+<p class="level0"><a Class="bold" href="./pcap.html">pcap</a>(3PCAP), <a Class="bold" href="./pcap_datalink_val_to_name.html">pcap_datalink_val_to_name</a>(3PCAP), <a Class="bold" href="./pcap-linktype.html">pcap-linktype</a>(7) <p class="roffit">
+ This HTML page was made with <a href="http://daniel.haxx.se/projects/roffit/">roffit</a>.
+</body></html>

@@ -1,0 +1,69 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+ "http://www.w3.org/TR/html4/loose.dtd">
+<html><head>
+<title>3PCAP man page</title>
+<meta name="generator" content="roffit">
+<STYLE type="text/css">
+pre {
+  overflow: auto;
+  margin: 0;
+}
+
+P.level0, pre.level0 {
+ padding-left: 2em;
+}
+
+P.level1, pre.level1 {
+ padding-left: 4em;
+}
+
+P.level2, pre.level2 {
+ padding-left: 6em;
+}
+
+span.emphasis {
+ font-style: italic;
+}
+
+span.bold {
+ font-weight: bold;
+}
+
+span.manpage {
+ font-weight: bold;
+}
+
+h2.nroffsh {
+ background-color: #e0e0e0;
+}
+
+span.nroffip {
+ font-weight: bold;
+ font-size: 120%;
+ font-family: monospace;
+}
+
+p.roffit {
+ text-align: center;
+ font-size: 80%;
+}
+</STYLE>
+</head><body>
+
+<p class="level0"><a name="NAME"></a><h2 class="nroffsh">NAME</h2>
+<p class="level0">pcap_list_tstamp_types, pcap_free_tstamp_types - get a list of time stamp types supported by a capture device, and free that list <a name="SYNOPSIS"></a><h2 class="nroffsh">SYNOPSIS</h2>
+<p class="level0"><pre class="level0">
+&#35;include &lt;pcap/pcap.h&gt;
+int pcap_list_tstamp_types(pcap_t *p, int **tstamp_typesp);
+void pcap_free_tstamp_types(int *tstamp_types);
+</pre>
+
+<p class="level0"><a name="DESCRIPTION"></a><h2 class="nroffsh">DESCRIPTION</h2>
+<p class="level0"><span Class="bold">pcap_list_tstamp_types</span>() is used to get a list of the supported time stamp types of the interface associated with the pcap descriptor. <span Class="bold">pcap_list_tstamp_types</span>() allocates an array to hold the list and sets <span Class="emphasis">*tstamp_typesp</span> to point to the array. See <span Class="bold">\%pcap-tstamp</span>(7) for a list of all the time stamp types. 
+<p class="level0">The caller is responsible for freeing the array with <span Class="bold">pcap_free_tstamp_types</span>(), which frees the list pointed to by <span Class="emphasis">tstamp_types</span>. <a name="RETURN"></a><h2 class="nroffsh">RETURN VALUE</h2>
+<p class="level0"><span Class="bold">pcap_list_tstamp_types</span>() returns the number of time stamp types in the array on success and <span Class="bold">PCAP_ERROR</span> on failure. A return value of one means that the only time stamp type supported is the one in the list, which is the capture device&#39;s default time stamp type.  A return value of zero means that the only time stamp type supported is <span Class="bold">PCAP_TSTAMP_HOST</span>, which is the capture device&#39;s default time stamp type (only older versions of libpcap will return that; newer versions will always return one or more types). If <span Class="bold">PCAP_ERROR</span> is returned, <a Class="bold" href="./pcap_geterr.html">pcap_geterr</a>(3PCAP) or <span Class="bold">pcap_perror</span>(3PCAP) may be called with <span Class="emphasis">p</span> as an argument to fetch or display the error text. <a name="BACKWARD"></a><h2 class="nroffsh">BACKWARD COMPATIBILITY</h2>
+<p class="level0">
+<p class="level0">These functions became available in libpcap release 1.2.1.  In previous releases, the time stamp type cannot be set; only the default time stamp type offered by a capture source is available. <a name="SEE"></a><h2 class="nroffsh">SEE ALSO</h2>
+<p class="level0"><a Class="bold" href="./pcap.html">pcap</a>(3PCAP), <a Class="bold" href="./pcap_tstamp_type_val_to_name.html">pcap_tstamp_type_val_to_name</a>(3PCAP), <span Class="bold">\%pcap-tstamp</span>(7) <p class="roffit">
+ This HTML page was made with <a href="http://daniel.haxx.se/projects/roffit/">roffit</a>.
+</body></html>

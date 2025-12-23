@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>UserManagementDialog</class>
+ <widget class="QDialog" name="UserManagementDialog">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>400</width>
+    <height>500</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>用户管理系统</string>
+  </property>
+  <layout class="QVBoxLayout" name="verticalLayout">
+   <item>
+    <widget class="QGroupBox" name="addUserGroupBox">
+     <property name="title">
+      <string>添加用户</string>
+     </property>
+     <layout class="QFormLayout" name="formLayoutAdd">
+      <item row="0" column="0">
+       <widget class="QLabel" name="addUsernameLabel">
+        <property name="text">
+         <string>用户名：</string>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="1">
+       <widget class="QLineEdit" name="addUsernameLineEdit"/>
+      </item>
+      <item row="1" column="0">
+       <widget class="QLabel" name="addPasswordLabel">
+        <property name="text">
+         <string>密码：</string>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="1">
+       <widget class="QLineEdit" name="addPasswordLineEdit">
+        <property name="echoMode">
+         <enum>QLineEdit::EchoMode::Password</enum>
+        </property>
+       </widget>
+      </item>
+      <item row="2" column="0" colspan="2">
+       <widget class="QPushButton" name="addUserButton">
+        <property name="text">
+         <string>添加用户</string>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item>
+    <widget class="QGroupBox" name="queryUsersGroupBox">
+     <property name="title">
+      <string>查询用户</string>
+     </property>
+     <layout class="QVBoxLayout" name="verticalLayoutQuery">
+      <item>
+       <widget class="QPushButton" name="queryUsersButton">
+        <property name="text">
+         <string>显示所有用户</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QTextEdit" name="usersTextEdit">
+        <property name="readOnly">
+         <bool>true</bool>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item>
+    <widget class="QGroupBox" name="deleteUserGroupBox">
+     <property name="title">
+      <string>删除用户</string>
+     </property>
+     <layout class="QFormLayout" name="formLayoutDelete">
+      <item row="0" column="0">
+       <widget class="QLabel" name="deleteUsernameLabel">
+        <property name="text">
+         <string>用户名：</string>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="1">
+       <widget class="QLineEdit" name="deleteUsernameLineEdit"/>
+      </item>
+      <item row="1" column="0" colspan="2">
+       <widget class="QPushButton" name="deleteUserButton">
+        <property name="text">
+         <string>删除用户</string>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </item>
+  </layout>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>

@@ -1,0 +1,73 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+ "http://www.w3.org/TR/html4/loose.dtd">
+<html><head>
+<title>3PCAP man page</title>
+<meta name="generator" content="roffit">
+<STYLE type="text/css">
+pre {
+  overflow: auto;
+  margin: 0;
+}
+
+P.level0, pre.level0 {
+ padding-left: 2em;
+}
+
+P.level1, pre.level1 {
+ padding-left: 4em;
+}
+
+P.level2, pre.level2 {
+ padding-left: 6em;
+}
+
+span.emphasis {
+ font-style: italic;
+}
+
+span.bold {
+ font-weight: bold;
+}
+
+span.manpage {
+ font-weight: bold;
+}
+
+h2.nroffsh {
+ background-color: #e0e0e0;
+}
+
+span.nroffip {
+ font-weight: bold;
+ font-size: 120%;
+ font-family: monospace;
+}
+
+p.roffit {
+ text-align: center;
+ font-size: 80%;
+}
+</STYLE>
+</head><body>
+
+<p class="level0"><a name="NAME"></a><h2 class="nroffsh">NAME</h2>
+<p class="level0">pcap_get_required_select_timeout - get a timeout to be used when doing select() for a live capture <a name="SYNOPSIS"></a><h2 class="nroffsh">SYNOPSIS</h2>
+<p class="level0"><pre class="level0">
+&#35;include &lt;pcap/pcap.h&gt;
+const struct timeval *pcap_get_required_select_timeout(pcap_t *p);
+</pre>
+
+<p class="level0"><a name="DESCRIPTION"></a><h2 class="nroffsh">DESCRIPTION</h2>
+<p class="level0"><span Class="bold">pcap_get_required_select_timeout</span>() returns, on UNIX, a pointer to a <span Class="bold">struct timeval</span> containing a value that must be used as the minimum timeout in <span Class="bold">select</span>(2), <span Class="bold">poll</span>(2), <span Class="bold">epoll_wait</span>(2), and <span Class="bold">kevent</span>(2) calls, or <span Class="bold">NULL</span> if there is no such timeout. If a non-<span Class="bold">NULL</span> value is returned, it must be used regardless of whether <a Class="bold" href="./pcap_get_selectable_fd.html">pcap_get_selectable_fd</a>(3PCAP) returns <span Class="bold">-1</span> for any descriptor on which those calls are being done. <span Class="bold">pcap_get_required_select_timeout</span>() should be called for all <span Class="bold">pcap_t</span>s before a call to <span Class="bold">select</span>(), <span Class="bold">poll</span>(), <span Class="bold">epoll_wait</span>(), or <span Class="bold">kevent</span>(), and any timeouts used for those calls should be updated as appropriate given the new value of the timeout. 
+<p class="level0">For <span Class="bold">kevent</span>(), one <span Class="bold">EVFILT_TIMER</span> filter per selectable descriptor can be used, rather than using the timeout argument to <span Class="bold">kevent</span>(); if the <span Class="bold">EVFILT_TIMER</span> event for a particular selectable descriptor signals an event, <span Class="bold">pcap_dispatch</span>(3PCAP) should be called for the corresponding <span Class="bold">pcap_t</span>. 
+<p class="level0">On Linux systems with <span Class="bold">timerfd_create</span>(2), one timer object created by <span Class="bold">timerfd_create</span>() per selectable descriptor can be used, rather than using the timeout argument to <span Class="bold">epoll_wait</span>(); if the timer object for a particular selectable descriptor signals an event, <span Class="bold">pcap_dispatch</span>(3PCAP) should be called for the corresponding <span Class="bold">pcap_t</span>. 
+<p class="level0">Otherwise, a timeout value no larger than the smallest of all timeouts returned by <span Class="bold">\%pcap_get_required_select_timeout</span>() for devices from which packets will be captured and any other timeouts to be used in the call should be used as the timeout for the call, and, when the call returns, <span Class="bold">pcap_dispatch</span>(3PCAP) should be called for all <span Class="bold">pcap_t</span>s for which a non-<span Class="bold">NULL</span> timeout was returned, regardless of whether it&#39;s indicated as having anything to read from it or not. 
+<p class="level0">All devices with a non-<span Class="bold">NULL</span> timeout must be put in non-blocking mode with <a Class="bold" href="./pcap_setnonblock.html">pcap_setnonblock</a>(3PCAP). 
+<p class="level0">Note that a device on which a read can be done without blocking may, on some platforms, not have any packets to read if the packet buffer timeout has expired.  A call to <span Class="bold">pcap_dispatch</span>() or <a Class="bold" href="./pcap_next_ex.html">pcap_next_ex</a>(3PCAP) will return <span Class="bold">0</span> in this case, but will not block. 
+<p class="level0"><span Class="bold">pcap_get_required_select_timeout</span>() is not available on Windows. <a name="RETURN"></a><h2 class="nroffsh">RETURN VALUE</h2>
+<p class="level0">A pointer to a <span Class="bold">struct timeval</span> is returned if the timeout is required; otherwise <span Class="bold">NULL</span> is returned. <a name="BACKWARD"></a><h2 class="nroffsh">BACKWARD COMPATIBILITY</h2>
+<p class="level0">This function became available in libpcap release 1.9.0.  In previous releases, <span Class="bold">select</span>(), <span Class="bold">poll</span>(), <span Class="bold">epoll_wait</span>(), and <span Class="bold">kevent</span>() could not be used for devices that don&#39;t provide a selectable file descriptor (in other words, on any capture source for that <span Class="bold">pcap_get_selectable_fd</span>() returns <span Class="bold">-1</span>). 
+<p class="level0">In libpcap release 1.10.0 and later, the timeout value can change from call to call, so <span Class="bold">pcap_get_required_select_timeout</span>() must be called before each call to <span Class="bold">select</span>(), <span Class="bold">poll</span>(), <span Class="bold">epoll_wait</span>(), or <span Class="bold">kevent</span>(), and the new value must be used to calculate timeouts for the call.  Code that does that will also work with libpcap 1.9.x releases, so code using <span Class="bold">pcap_get_required_select_timeout</span>() should be changed to call it for each call to <span Class="bold">select</span>(), <span Class="bold">poll</span>(), <span Class="bold">epoll_wait</span>(), or <span Class="bold">kevent</span>() even if the code must also work with libpcap 1.9.x. <a name="SEE"></a><h2 class="nroffsh">SEE ALSO</h2>
+<p class="level0"><a Class="bold" href="./pcap.html">pcap</a>(3PCAP), <a Class="bold" href="./pcap_get_selectable_fd.html">pcap_get_selectable_fd</a>(3PCAP), <span Class="bold">select</span>(2), <span Class="bold">poll</span>(2), <span Class="bold">epoll_wait</span>(2), <span Class="bold">kqueue</span>(2) <p class="roffit">
+ This HTML page was made with <a href="http://daniel.haxx.se/projects/roffit/">roffit</a>.
+</body></html>

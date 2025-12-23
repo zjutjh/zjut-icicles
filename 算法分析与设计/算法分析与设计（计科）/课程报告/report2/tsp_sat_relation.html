@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>TSP与SAT问题的关系</title>
+    <style>
+        body {
+            font-family: SimSun, "Microsoft YaHei", Arial, sans-serif;
+            background-color: #f8f8f8;
+            margin: 0;
+            padding: 40px;
+        }
+        .container {
+            width: 1200px;
+            height: 900px;
+            position: relative;
+            margin: 0 auto;
+            background-color: white;
+            box-shadow: 0 0 15px rgba(0,0,0,0.1);
+            padding: 40px;
+            border-radius: 12px;
+        }
+        .title {
+            text-align: center;
+            font-size: 32px;
+            font-weight: bold;
+            margin: 20px 0 60px 0;
+            color: #333;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
+        }
+        .examples-container {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 200px;
+            padding: 0 40px;
+        }
+        .tsp-example {
+            width: 45%;
+            height: 320px;
+            background-color: #D6EAF8;
+            border: 1px solid #85C1E9;
+            border-radius: 12px;
+            padding: 25px;
+            text-align: center;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        .sat-example {
+            width: 45%;
+            height: 320px;
+            background-color: #E6F5D0;
+            border: 1px solid #A9DFBF;
+            border-radius: 12px;
+            padding: 25px;
+            text-align: center;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        .reduction-container {
+            position: relative;
+            height: 80px;
+            margin: -160px auto 50px;
+            text-align: center;
+        }
+        .arrow {
+            width: 300px;
+            height: 20px;
+            position: relative;
+            margin: 0 auto;
+        }
+        .arrow:after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            right: 0;
+            width: 0;
+            height: 0;
+            border: 12px solid transparent;
+            border-left-color: #E74C3C;
+            transform: translateY(-50%);
+        }
+        .arrow:before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 0;
+            right: 12px;
+            height: 3px;
+            background-color: #E74C3C;
+            transform: translateY(-50%);
+        }
+        .reduction-label {
+            color: #E74C3C;
+            font-weight: bold;
+            margin-top: 15px;
+            font-size: 18px;
+        }
+        .variables {
+            width: 70%;
+            margin: 0 auto 60px;
+            background-color: white;
+            border: 1px solid #D5D8DC;
+            border-radius: 10px;
+            padding: 25px 30px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        .significance {
+            width: 80%;
+            margin: 0 auto;
+            background-color: #FFE6CC;
+            border: 1px solid #F5B041;
+            border-radius: 12px;
+            padding: 30px;
+            text-align: center;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        .significance h3 {
+            margin-top: 0;
+            color: #E67E22;
+            margin-bottom: 20px;
+            font-size: 22px;
+        }
+        .tsp-graph {
+            width: 100%;
+            height: 180px;
+            position: relative;
+            margin-top: 20px;
+        }
+        .tsp-node {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: skyblue;
+            border: 2px solid #2980B9;
+            position: absolute;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            box-shadow: 0 3px 6px rgba(0,0,0,0.2);
+            font-size: 16px;
+        }
+        .section-title {
+            font-weight: bold;
+            margin-bottom: 20px;
+            color: #2C3E50;
+            font-size: 20px;
+            border-bottom: 2px solid #3498DB;
+            padding-bottom: 8px;
+            display: inline-block;
+        }
+        .description {
+            background-color: white;
+            border-radius: 8px;
+            padding: 12px 15px;
+            margin-top: 20px;
+            font-size: 16px;
+            border: 1px solid #E5E7E9;
+        }
+        ul {
+            text-align: left;
+            margin: 15px 0;
+            padding-left: 25px;
+        }
+        ul li {
+            margin-bottom: 12px;
+            position: relative;
+            padding-left: 5px;
+            font-size: 16px;
+        }
+        .formula {
+            background-color: white;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 20px 0;
+            font-family: "Courier New", monospace;
+            border: 1px solid #E5E7E9;
+            line-height: 1.8;
+            font-size: 16px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="title">TSP与SAT问题的关系</div>
+        
+        <div class="examples-container">
+            <!-- TSP示例 -->
+            <div class="tsp-example">
+                <div class="section-title">TSP问题示例</div>
+                <div class="tsp-graph">
+                    <!-- 节点 -->
+                    <div class="tsp-node" style="top: 60px; left: 60px;">A</div>
+                    <div class="tsp-node" style="top: 15px; left: 120px;">B</div>
+                    <div class="tsp-node" style="top: 40px; left: 180px;">C</div>
+                    <div class="tsp-node" style="top: 15px; left: 240px;">D</div>
+                    <div class="tsp-node" style="top: 60px; left: 300px;">E</div>
+                    
+                    <!-- 边 - 使用SVG绘制 -->
+                    <svg width="100%" height="100%" style="position: absolute; top: 0; left: 0;">
+                        <!-- A-B -->
+                        <line x1="80" y1="80" x2="140" y2="35" stroke="#2980B9" stroke-width="2.5" />
+                        <text x="110" y="48" text-anchor="middle" font-size="14" fill="black" stroke="white" stroke-width="5" paint-order="stroke">5</text>
+                        
+                        <!-- A-C -->
+                        <line x1="80" y1="80" x2="200" y2="60" stroke="#2980B9" stroke-width="2.5" />
+                        <text x="140" y="80" text-anchor="middle" font-size="14" fill="black" stroke="white" stroke-width="5" paint-order="stroke">7</text>
+                        
+                        <!-- B-C -->
+                        <line x1="140" y1="35" x2="200" y2="60" stroke="#2980B9" stroke-width="2.5" />
+                        <text x="170" y="38" text-anchor="middle" font-size="14" fill="black" stroke="white" stroke-width="5" paint-order="stroke">4</text>
+                        
+                        <!-- C-D -->
+                        <line x1="200" y1="60" x2="260" y2="35" stroke="#2980B9" stroke-width="2.5" />
+                        <text x="230" y="58" text-anchor="middle" font-size="14" fill="black" stroke="white" stroke-width="5" paint-order="stroke">6</text>
+                        
+                        <!-- D-E -->
+                        <line x1="260" y1="35" x2="320" y2="80" stroke="#2980B9" stroke-width="2.5" />
+                        <text x="290" y="48" text-anchor="middle" font-size="14" fill="black" stroke="white" stroke-width="5" paint-order="stroke">3</text>
+                        
+                        <!-- E-A (完成回路) -->
+                        <line x1="320" y1="80" x2="80" y2="80" stroke="#2980B9" stroke-width="2.5" stroke-dasharray="6,6" />
+                        <text x="200" y="100" text-anchor="middle" font-size="14" fill="black" stroke="white" stroke-width="5" paint-order="stroke">8</text>
+                    </svg>
+                </div>
+                <div class="description">
+                    目标：找出访问所有城市并返回起点的最短路径
+                </div>
+            </div>
+            
+            <!-- SAT示例 -->
+            <div class="sat-example">
+                <div class="section-title">SAT问题示例</div>
+                <div class="formula">
+                    (x1 OR x2 OR NOT x3) AND<br>
+                    (NOT x1 OR NOT x2 OR x4) AND<br>
+                    (x2 OR NOT x3 OR NOT x4) AND<br>
+                    (x1 OR x3 OR x4)
+                </div>
+                <div class="description">
+                    目标：找出使公式为真的变量赋值
+                </div>
+            </div>
+        </div>
+        
+        <!-- 归约过程 -->
+        <div class="reduction-container">
+            <div class="arrow"></div>
+            <div class="reduction-label">多项式时间归约</div>
+        </div>
+        
+        <!-- 变量设计 -->
+        <div class="variables">
+            <strong style="font-size: 18px;">变量设计:</strong>
+            <ul>
+                <li>x[i,j,p]: 城市i在位置p访问城市j</li>
+                <li>位置唯一性约束</li>
+                <li>访问唯一性约束</li>
+                <li>路径连续性约束</li>
+                <li>路径长度约束</li>
+            </ul>
+        </div>
+        
+        <!-- 理论意义 -->
+        <div class="significance">
+            <h3>理论意义</h3>
+            <ul>
+                <li>证明了TSP和SAT都是NP完全问题</li>
+                <li>归约建立了问题之间的桥梁</li>
+                <li>任何一个问题的多项式解法都意味着P=NP</li>
+                <li>为算法设计提供了不同视角</li>
+                <li>启发了混合求解策略的开发</li>
+            </ul>
+        </div>
+    </div>
+</body>
+</html> 

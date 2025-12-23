@@ -1,0 +1,69 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+ "http://www.w3.org/TR/html4/loose.dtd">
+<html><head>
+<title>3PCAP man page</title>
+<meta name="generator" content="roffit">
+<STYLE type="text/css">
+pre {
+  overflow: auto;
+  margin: 0;
+}
+
+P.level0, pre.level0 {
+ padding-left: 2em;
+}
+
+P.level1, pre.level1 {
+ padding-left: 4em;
+}
+
+P.level2, pre.level2 {
+ padding-left: 6em;
+}
+
+span.emphasis {
+ font-style: italic;
+}
+
+span.bold {
+ font-weight: bold;
+}
+
+span.manpage {
+ font-weight: bold;
+}
+
+h2.nroffsh {
+ background-color: #e0e0e0;
+}
+
+span.nroffip {
+ font-weight: bold;
+ font-size: 120%;
+ font-family: monospace;
+}
+
+p.roffit {
+ text-align: center;
+ font-size: 80%;
+}
+</STYLE>
+</head><body>
+
+<p class="level0"><a name="NAME"></a><h2 class="nroffsh">NAME</h2>
+<p class="level0">pcap_datalink_val_to_name, pcap_datalink_val_to_description, pcap_datalink_val_to_description_or_dlt - get a name or description for a link-layer header type value <a name="SYNOPSIS"></a><h2 class="nroffsh">SYNOPSIS</h2>
+<p class="level0"><pre class="level0">
+&#35;include &lt;pcap.h&gt;
+const char *pcap_datalink_val_to_name(int dlt);
+const char *pcap_datalink_val_to_description(int dlt);
+const char *pcap_datalink_val_to_description_or_dlt(int dlt);
+</pre>
+
+<p class="level0"><a name="DESCRIPTION"></a><h2 class="nroffsh">DESCRIPTION</h2>
+<p class="level0"><span Class="bold">pcap_datalink_val_to_name</span>() translates a link-layer header type value to the corresponding link-layer header type name, which is the <span Class="bold">DLT_</span> name for the link-layer header type value with the <span Class="bold">DLT_</span> removed. <span Class="bold">NULL</span> is returned if the type value does not correspond to a known <span Class="bold">DLT_</span> value. 
+<p class="level0"><span Class="bold">pcap_datalink_val_to_description</span>() translates a link-layer header type value to a short description of that link-layer header type. <span Class="bold">NULL</span> is returned if the type value does not correspond to a known <span Class="bold">DLT_</span> value. 
+<p class="level0"><span Class="bold">pcap_datalink_val_to_description_or_dlt</span>() translates a link-layer header type value to a short description of that link-layer header type just like <span Class="bold">pcap_datalink_val_to_description</span>(). If the type value does not correspond to a known <span Class="bold">DLT_</span> value, the string &quot;DLT n&quot; is returned, where n is the value of the dlt argument. <a name="BACKWARD"></a><h2 class="nroffsh">BACKWARD COMPATIBILITY</h2>
+<p class="level0">The <span Class="bold">pcap_datalink_val_to_description_or_dlt</span>() function first became available in libpcap release 1.10.0.  In previous releases, <span Class="bold">pcap_datalink_val_to_description</span>() would have to be called and, if it returned <span Class="bold">NULL</span>, a default string would have to be constructed. <a name="SEE"></a><h2 class="nroffsh">SEE ALSO</h2>
+<p class="level0"><a Class="bold" href="./pcap.html">pcap</a>(3PCAP) <p class="roffit">
+ This HTML page was made with <a href="http://daniel.haxx.se/projects/roffit/">roffit</a>.
+</body></html>

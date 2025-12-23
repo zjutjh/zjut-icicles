@@ -1,0 +1,92 @@
+\documentclass[tikz,border=10pt]{standalone}
+\usepackage{tikz}
+\usepackage{ctex} % 支持中文
+\usetikzlibrary{arrows.meta,shapes,positioning,calc,fit}
+
+\begin{document}
+\begin{tikzpicture}[
+    node distance=1cm,
+    box/.style={rectangle, draw, rounded corners, minimum width=4cm, minimum height=3cm, fill=#1, text width=3.8cm, align=center},
+    tsp-node/.style={circle, draw, fill=cyan!30, minimum size=0.8cm, font=\bfseries},
+    edge/.style={->, >=stealth, thick},
+    weight/.style={font=\small, fill=white, inner sep=1pt, circle},
+    title/.style={font=\bfseries},
+    description/.style={fill=white, rounded corners, inner sep=5pt},
+    arrow/.style={-{Stealth[scale=1.5]}, thick, red},
+    list-item/.style={font=\small}
+]
+
+% 标题
+\node[title, font=\Large] at (0,5) {TSP与SAT问题的关系};
+
+% TSP示例框
+\node[box=blue!10] (tsp) at (-4,1) {};
+\node[title] at ($(tsp.north)+(0,-0.3)$) {TSP问题示例};
+
+% TSP图
+\node[tsp-node] (A) at ($(tsp.center)+(-1.5,-0.5)$) {A};
+\node[tsp-node] (B) at ($(tsp.center)+(-0.75,0.5)$) {B};
+\node[tsp-node] (C) at ($(tsp.center)+(0,0)$) {C};
+\node[tsp-node] (D) at ($(tsp.center)+(0.75,0.5)$) {D};
+\node[tsp-node] (E) at ($(tsp.center)+(1.5,-0.5)$) {E};
+
+% TSP边
+\draw[edge] (A) -- (B) node[weight, midway, above left] {5};
+\draw[edge] (B) -- (C) node[weight, midway, above] {4};
+\draw[edge] (C) -- (D) node[weight, midway, above] {6};
+\draw[edge] (D) -- (E) node[weight, midway, above right] {3};
+\draw[edge, dashed] (E) -- (A) node[weight, midway, below] {8};
+\draw[edge] (A) -- (C) node[weight, midway, below left] {7};
+
+% TSP描述
+\node[description] at ($(tsp.south)+(0,0.5)$) {目标：找出访问所有城市\\并返回起点的最短路径};
+
+% SAT示例框
+\node[box=green!10] (sat) at (4,1) {};
+\node[title] at ($(sat.north)+(0,-0.3)$) {SAT问题示例};
+
+% SAT公式
+\node[description] (formula) at ($(sat.center)+(0,0)$) {
+\begin{tabular}{l}
+(x1 OR x2 OR NOT x3) AND\\
+(NOT x1 OR NOT x2 OR x4) AND\\
+(x2 OR NOT x3 OR NOT x4) AND\\
+(x1 OR x3 OR x4)
+\end{tabular}
+};
+
+% SAT描述
+\node[description] at ($(sat.south)+(0,0.5)$) {目标：找出使公式为真的变量赋值};
+
+% 归约箭头
+\draw[arrow] ($(tsp.east)+(0,0)$) -- ($(sat.west)+(0,0)$);
+\node[title, red] at (0,1.5) {多项式时间归约};
+
+% 变量设计
+\node[draw, rounded corners, fill=white, text width=5cm, align=left] (vars) at (0,-1) {
+\textbf{变量设计:}
+\begin{itemize}[leftmargin=*]
+\item[*] x[i,j,p]: 城市i在位置p访问城市j
+\item[*] 位置唯一性约束
+\item[*] 访问唯一性约束
+\item[*] 路径连续性约束
+\item[*] 路径长度约束
+\end{itemize}
+};
+
+% 理论意义
+\node[box=orange!20] (theory) at (0,-4.5) {};
+\node[title] at ($(theory.north)+(0,-0.3)$) {理论意义};
+
+\node[text width=5cm, align=left] at ($(theory.center)+(0,-0.3)$) {
+\begin{itemize}[leftmargin=*]
+\item[*] 证明了TSP和SAT都是NP完全问题
+\item[*] 归约建立了问题之间的桥梁
+\item[*] 任何一个问题的多项式解法都意味着P=NP
+\item[*] 为算法设计提供了不同视角
+\item[*] 启发了混合求解策略的开发
+\end{itemize}
+};
+
+\end{tikzpicture}
+\end{document} 

@@ -1,0 +1,71 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+ "http://www.w3.org/TR/html4/loose.dtd">
+<html><head>
+<title>3PCAP man page</title>
+<meta name="generator" content="roffit">
+<STYLE type="text/css">
+pre {
+  overflow: auto;
+  margin: 0;
+}
+
+P.level0, pre.level0 {
+ padding-left: 2em;
+}
+
+P.level1, pre.level1 {
+ padding-left: 4em;
+}
+
+P.level2, pre.level2 {
+ padding-left: 6em;
+}
+
+span.emphasis {
+ font-style: italic;
+}
+
+span.bold {
+ font-weight: bold;
+}
+
+span.manpage {
+ font-weight: bold;
+}
+
+h2.nroffsh {
+ background-color: #e0e0e0;
+}
+
+span.nroffip {
+ font-weight: bold;
+ font-size: 120%;
+ font-family: monospace;
+}
+
+p.roffit {
+ text-align: center;
+ font-size: 80%;
+}
+</STYLE>
+</head><body>
+
+<p class="level0"><a name="NAME"></a><h2 class="nroffsh">NAME</h2>
+<p class="level0">pcap_inject, pcap_sendpacket - transmit a packet <a name="SYNOPSIS"></a><h2 class="nroffsh">SYNOPSIS</h2>
+<p class="level0"><pre class="level0">
+&#35;include &lt;pcap/pcap.h&gt;
+int pcap_inject(pcap_t *p, const void *buf, size_t size);
+int pcap_sendpacket(pcap_t *p, const u_char *buf, int size);
+</pre>
+
+<p class="level0"><a name="DESCRIPTION"></a><h2 class="nroffsh">DESCRIPTION</h2>
+<p class="level0"><span Class="bold">pcap_inject</span>() sends a raw packet through the network interface; <span Class="emphasis">buf</span> points to the data of the packet, including the link-layer header, and <span Class="emphasis">size</span> is the number of bytes in the packet. 
+<p class="level0">Note that, even if you successfully open the network interface, you might not have permission to send packets on it, or it might not support sending packets; as <a Class="bold" href="./pcap_open_live.html">pcap_open_live</a>(3PCAP) doesn&#39;t have a flag to indicate whether to open for capturing, sending, or capturing and sending, you cannot request an open that supports sending and be notified at open time whether sending will be possible. Note also that some devices might not support sending packets. 
+<p class="level0">Note that, on some platforms, the link-layer header of the packet that&#39;s sent might not be the same as the link-layer header of the packet supplied to <span Class="bold">pcap_inject</span>(), as the source link-layer address, if the header contains such an address, might be changed to be the address assigned to the interface on which the packet it sent, if the platform doesn&#39;t support sending completely raw and unchanged packets.  Even worse, some drivers on some platforms might change the link-layer type field to whatever value libpcap used when attaching to the device, even on platforms that <span Class="emphasis">do</span> nominally support sending completely raw and unchanged packets. 
+<p class="level0"><span Class="bold">pcap_sendpacket</span>() is like <span Class="bold">pcap_inject</span>(), but it returns <span Class="bold">0</span> on success, rather than returning the number of bytes written. (<span Class="bold">pcap_inject</span>() comes from OpenBSD; <span Class="bold">pcap_sendpacket</span>() comes from WinPcap/Npcap.  Both are provided for compatibility.) <a name="RETURN"></a><h2 class="nroffsh">RETURN VALUE</h2>
+<p class="level0"><span Class="bold">pcap_inject</span>() returns the number of bytes written on success, <span Class="bold">PCAP_ERROR_NOT_ACTIVATED</span> if called on a capture handle that has been created but not activated, and <span Class="bold">PCAP_ERROR</span> on other errors. 
+<p class="level0"><span Class="bold">pcap_sendpacket</span>() returns <span Class="bold">0</span> on success, <span Class="bold">PCAP_ERROR_NOT_ACTIVATED</span> if called on a capture handle that has been created but not activated, and <span Class="bold">PCAP_ERROR</span> on other errors. 
+<p class="level0">If <span Class="bold">PCAP_ERROR</span> is returned, <a Class="bold" href="./pcap_geterr.html">pcap_geterr</a>(3PCAP) or <span Class="bold">pcap_perror</span>(3PCAP) may be called with <span Class="emphasis">p</span> as an argument to fetch or display the error text. <a name="SEE"></a><h2 class="nroffsh">SEE ALSO</h2>
+<p class="level0"><a Class="bold" href="./pcap.html">pcap</a>(3PCAP) <p class="roffit">
+ This HTML page was made with <a href="http://daniel.haxx.se/projects/roffit/">roffit</a>.
+</body></html>

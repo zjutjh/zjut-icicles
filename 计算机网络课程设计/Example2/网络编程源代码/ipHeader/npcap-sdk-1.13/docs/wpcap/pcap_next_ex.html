@@ -1,0 +1,71 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+ "http://www.w3.org/TR/html4/loose.dtd">
+<html><head>
+<title>3PCAP man page</title>
+<meta name="generator" content="roffit">
+<STYLE type="text/css">
+pre {
+  overflow: auto;
+  margin: 0;
+}
+
+P.level0, pre.level0 {
+ padding-left: 2em;
+}
+
+P.level1, pre.level1 {
+ padding-left: 4em;
+}
+
+P.level2, pre.level2 {
+ padding-left: 6em;
+}
+
+span.emphasis {
+ font-style: italic;
+}
+
+span.bold {
+ font-weight: bold;
+}
+
+span.manpage {
+ font-weight: bold;
+}
+
+h2.nroffsh {
+ background-color: #e0e0e0;
+}
+
+span.nroffip {
+ font-weight: bold;
+ font-size: 120%;
+ font-family: monospace;
+}
+
+p.roffit {
+ text-align: center;
+ font-size: 80%;
+}
+</STYLE>
+</head><body>
+
+<p class="level0"><a name="NAME"></a><h2 class="nroffsh">NAME</h2>
+<p class="level0">pcap_next_ex, pcap_next - read the next packet from a pcap_t <a name="SYNOPSIS"></a><h2 class="nroffsh">SYNOPSIS</h2>
+<p class="level0"><pre class="level0">
+&#35;include &lt;pcap/pcap.h&gt;
+int pcap_next_ex(pcap_t *p, struct pcap_pkthdr **pkt_header,
+&nbsp;&nbsp;&nbsp;&nbsp;const u_char **pkt_data);
+const u_char *pcap_next(pcap_t *p, struct pcap_pkthdr *h);
+</pre>
+
+<p class="level0"><a name="DESCRIPTION"></a><h2 class="nroffsh">DESCRIPTION</h2>
+<p class="level0"><span Class="bold">pcap_next_ex</span>() reads the next packet and returns a success/failure indication. If the packet was read without problems, the pointer pointed to by the <span Class="emphasis">pkt_header</span> argument is set to point to the <span Class="emphasis">pcap_pkthdr</span> struct for the packet, and the pointer pointed to by the <span Class="emphasis">pkt_data</span> argument is set to point to the data in the packet.  The <span Class="emphasis">struct pcap_pkthdr</span> and the packet data are not to be freed by the caller, and are not guaranteed to be valid after the next call to <span Class="bold">pcap_next_ex</span>(), <span Class="bold">pcap_next</span>(), <a Class="bold" href="./pcap_loop.html">pcap_loop</a>(3PCAP), or <span Class="bold">pcap_dispatch</span>(3PCAP); if the code needs them to remain valid, it must make a copy of them. 
+<p class="level0"><span Class="bold">pcap_next</span>() reads the next packet (by calling <span Class="bold">pcap_dispatch</span>() with a <span Class="emphasis">cnt</span> of 1) and returns a <span Class="emphasis">u_char</span> pointer to the data in that packet.  The packet data is not to be freed by the caller, and is not guaranteed to be valid after the next call to <span Class="bold">pcap_next_ex</span>(), <span Class="bold">pcap_next</span>(), <span Class="bold">pcap_loop</span>(), or <span Class="bold">pcap_dispatch</span>(); if the code needs it to remain valid, it must make a copy of it. The <span Class="emphasis">pcap_pkthdr</span> structure pointed to by <span Class="emphasis">h</span> is filled in with the appropriate values for the packet. 
+<p class="level0">The bytes of data from the packet begin with a link-layer header.  The format of the link-layer header is indicated by the return value of the <a Class="bold" href="./pcap_datalink.html">pcap_datalink</a>(3PCAP) routine when handed the <span Class="bold">pcap_t</span> value also passed to <span Class="bold">pcap_loop</span>() or <span Class="bold">pcap_dispatch</span>(). <span Class="emphasis"><a href="https://www.tcpdump.org/linktypes.html">https://www.tcpdump.org/linktypes.html</a></span> lists the values <span Class="bold">pcap_datalink</span>() can return and describes the packet formats that correspond to those values.  The value it returns will be valid for all packets received unless and until <a Class="bold" href="./pcap_set_datalink.html">pcap_set_datalink</a>(3PCAP) is called; after a successful call to <span Class="bold">pcap_set_datalink</span>(), all subsequent packets will have a link-layer header of the type specified by the link-layer header type value passed to <span Class="bold">pcap_set_datalink</span>(). 
+<p class="level0">Do <span Class="bold">NOT</span> assume that the packets for a given capture or ``savefile`` will have any given link-layer header type, such as <span Class="bold">DLT_EN10MB</span> for Ethernet.  For example, the &quot;any&quot; device on Linux will have a link-layer header type of <span Class="bold">DLT_LINUX_SLL</span> or <span Class="bold">DLT_LINUX_SLL2</span> even if all devices on the system at the time the &quot;any&quot; device is opened have some other data link type, such as <span Class="bold">DLT_EN10MB</span> for Ethernet. <a name="RETURN"></a><h2 class="nroffsh">RETURN VALUE</h2>
+<p class="level0"><span Class="bold">pcap_next_ex</span>() returns <span Class="bold">1</span> if the packet was read without problems, <span Class="bold">0</span> if packets are being read from a live capture and the packet buffer timeout expired, <span Class="bold">PCAP_ERROR_BREAK</span> if packets are being read from a ``savefile&#39;&#39; and there are no more packets to read from the savefile, <span Class="bold">PCAP_ERROR_NOT_ACTIVATED</span> if called on a capture handle that has been created but not activated, or <span Class="bold">PCAP_ERROR</span> if an error occurred while reading the packet.  If <span Class="bold">PCAP_ERROR</span> is returned, <a Class="bold" href="./pcap_geterr.html">pcap_geterr</a>(3PCAP) or <span Class="bold">pcap_perror</span>(3PCAP) may be called with <span Class="emphasis">p</span> as an argument to fetch or display the error text. 
+<p class="level0"><span Class="bold">pcap_next</span>() returns a pointer to the packet data on success, and returns <span Class="bold">NULL</span> if an error occurred, or if no packets were read from a live capture (if, for example, they were discarded because they didn&#39;t pass the packet filter, or if, on platforms that support a packet buffer timeout that starts before any packets arrive, the timeout expires before any packets arrive, or if the file descriptor for the capture device is in non-blocking mode and no packets were available to be read), or if no more packets are available in a ``savefile.&#39;&#39; Unfortunately, there is no way to determine whether an error occurred or not. <a name="SEE"></a><h2 class="nroffsh">SEE ALSO</h2>
+<p class="level0"><a Class="bold" href="./pcap.html">pcap</a>(3PCAP) <p class="roffit">
+ This HTML page was made with <a href="http://daniel.haxx.se/projects/roffit/">roffit</a>.
+</body></html>
