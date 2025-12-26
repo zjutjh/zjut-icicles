@@ -49,7 +49,7 @@ Welcome to Zjut!
 - 请勿上传盗版电子书/付费电子书
 - 请勿上传盗版/破解版/绿色版付费软件及其安装包
 - 请勿上传教师明确表示勿外传的内部资料
-- **请大家自觉遵守开源规则，请勿上传至其他付费解锁平台，例如`某某某口袋`等**
+- **请大家自觉遵守开源规则，请勿上传至其他付费解锁平台**
 
 如果你认为本仓库的一些文件侵犯了您的权益，请联系我们。我们将会从仓库中彻底清除这些文件
 
@@ -66,3 +66,13 @@ Welcome to Zjut!
 [CC-BY-NC-SA：署名-非商业性使用-相同方式共享](https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh)
 
 其他部分的版权归属于其各自的作者。资料仅供参考，请自己判断其适用性。
+
+## Star History
+
+<a href="https://www.star-history.com/#zjutjh/zjut-icicles&type=date&legend=top-left">
+ <picture>
+   <source media="(prefers-color-scheme: dark)" srcset="https://api.star-history.com/svg?repos=zjutjh/zjut-icicles&type=date&theme=dark&legend=top-left" />
+   <source media="(prefers-color-scheme: light)" srcset="https://api.star-history.com/svg?repos=zjutjh/zjut-icicles&type=date&legend=top-left" />
+   <img alt="Star History Chart" src="https://api.star-history.com/svg?repos=zjutjh/zjut-icicles&type=date&legend=top-left" />
+ </picture>
+</a>
