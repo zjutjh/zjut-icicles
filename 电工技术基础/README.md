@@ -6,9 +6,6 @@ Version:2025-2026(1) Edit by xlle-er
 
 本课程要求在[<kbd>浙江省高等学校在线开放课程共享平台</kbd>](https://www.zjooc.cn)(点击可快速进入)中进行刷课和作业、测验、期中考试的提交。~~（这个系统真的烂到家了）~~
 
-[![zjooc图标](https://www.zjooc.cn/dist/assets_65ac40fca7be57b93f02/img/logo.png)](https://www.zjooc.cn)
-注：该网站logo是透明底，所以白色浏览器背景可能看不到
-
 ## 刷课
 几乎大部分课程视频都支持4倍速播放，用心的话有两节课差不多就可以刷完
 
