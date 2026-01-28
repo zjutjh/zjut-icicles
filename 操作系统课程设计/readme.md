@@ -1,13 +1,13 @@
-threads 35/36
+# 操作系统课程设计
 
-![image](./img/Snipaste_2024-01-19_20-11-16.png)
+**！！！任课老师说明代码会进行跨年级查重，请勿直接复制使用！！！**
 
-userporg 92/96 浮点数有问题
+- 参考代码1 为2023-2024学年秋季学期的代码版本，贡献者为 [ygrzxc](https://github.com/ygrzxc)；
 
-![image](./img/Snipaste_2024-01-19_22-11-48.png)
-![image](./img/Snipaste_2024-01-19_22-11-58.png)
+- 参考代码2 为2025-2026学年秋季学期的代码版本。
 
-filesys 46/46
+- 傻瓜式教学.md 为2025-2026学年秋季学期代码版本教程，贡献者为 [gansongtao](https://github.com/gansongtao)。
 
-![image](./img/Snipaste_2024-01-19_22-13-39.png)
-![image](./img/Snipaste_2024-01-19_22-13-46.png)
+申优答辩环节会有较深入代码问答环节，如要申优，请务必理解代码而不是仅仅复制粘贴。
+
+鉴于期末考试复习需要，请尽量提早完成。
