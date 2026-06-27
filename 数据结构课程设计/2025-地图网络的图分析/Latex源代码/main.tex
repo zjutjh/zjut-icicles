@@ -1,0 +1,4120 @@
+% !TeX program = xelatex
+\documentclass[UTF8,12pt,a4paper]{ctexart}
+\usepackage{float}
+\usepackage{enumitem}
+\usepackage{listings}
+\usepackage{xcolor}
+\usepackage{multirow}
+\usepackage{array}
+
+\lstset{
+  language=C++,
+  basicstyle=\ttfamily\small,
+  keywordstyle=\color{blue},
+  commentstyle=\color{gray},
+  stringstyle=\color{red},
+  numbers=left,
+  numberstyle=\tiny,
+  stepnumber=1,
+  numbersep=6pt,
+  frame=single,
+  breaklines=true,
+  showstringspaces=false
+}
+% ================= 页面与行距 =================
+\usepackage[a4paper,margin=2.5cm]{geometry}
+\usepackage{setspace}
+\onehalfspacing
+
+% ================= 页眉页脚 =================
+\usepackage{fancyhdr}
+\usepackage{lastpage}
+
+\pagestyle{fancy}
+\fancyhf{} % 清空默认页眉页脚
+
+% 页眉：左 固定文字；右 当前一级标题（section）
+\fancyhead[L]{数据结构课程设计}
+\fancyhead[C]{学生XX}
+\fancyhead[R]{\nouppercase{\leftmark}}
+
+% 页脚：中间页码
+\fancyfoot[C]{\thepage}
+
+% 页眉页脚的线（可按需保留/去掉）
+\renewcommand{\headrulewidth}{0.4pt}
+\renewcommand{\footrulewidth}{0pt}
+
+% 让 \leftmark 显示为 “一、课程的目的和任务” 这种（包含编号）
+\renewcommand{\sectionmark}[1]{\markboth{\thesection\ #1}{}}
+
+% 头部高度，避免 fancyhdr 报警告
+\setlength{\headheight}{15pt}
+
+
+% ================= 字体：中文宋体 + 英文新罗马 =================
+\usepackage{fontspec}
+
+% 中文：宋体（需要你上传 simsun.ttc 到项目根目录）
+\setCJKmainfont[
+  Path = ./,
+  Extension = .ttc
+]{simsun}
+
+% 英文/数字：Times New Roman
+\setmainfont{Times New Roman}
+
+% 正文：小四
+\AtBeginDocument{\zihao{-4}}
+
+% ================= 标题样式与编号体系 =================
+\usepackage{titlesec}
+
+% ---------- 一级标题：一、二、三、（黑体） ----------
+\renewcommand{\thesection}{\chinese{section}、}
+\titleformat{\section}
+  {\zihao{3}\heiti}
+  {\thesection}{0.3em}{}
+
+% ---------- 二级标题：2.1 / 2.2 / 2.3（黑体，小四） ----------
+\renewcommand{\thesubsection}{\arabic{section}.\arabic{subsection}}
+\titleformat{\subsection}
+  {\zihao{-4}\heiti}
+  {\thesubsection}{0.3em}{}
+
+% ---------- 三级标题：2.1.1 / 2.1.2 ...（黑体，小四） ----------
+\renewcommand{\thesubsubsection}{\thesubsection.\arabic{subsubsection}}
+\titleformat{\subsubsection}
+  {\zihao{-4}\heiti}
+  {\thesubsubsection}{0.3em}{}
+
+% 正文显示到三级标题
+\setcounter{secnumdepth}{3}
+
+
+
+% ================= 目录标题：用 ctex 官方接口（保证严格居中） =================
+\ctexset{
+  contentsname = {目\ 录},
+  contentsnameformat = \centering\zihao{3}\bfseries\heiti,
+  contentsnameskip = 1em
+}
+
+% ================= 目录条目格式：用 tocloft（只管缩进/点线） =================
+\usepackage{tocloft}
+
+% 目录深度：显示到 subsubsection（2.1.1 那层）
+\setcounter{tocdepth}{3}
+
+% 点线密度（接近 Word）
+\renewcommand{\cftdotsep}{1.5}
+
+% 目录条目字体：一级加粗，其余不加粗（均小四）
+\renewcommand{\cftsecfont}{\zihao{-4}\bfseries}
+\renewcommand{\cftsecpagefont}{\zihao{-4}\bfseries}
+
+\renewcommand{\cftsubsecfont}{\zihao{-4}}
+\renewcommand{\cftsubsecpagefont}{\zihao{-4}}
+
+\renewcommand{\cftsubsubsecfont}{\zihao{-4}}
+\renewcommand{\cftsubsubsecpagefont}{\zihao{-4}}
+
+% 目录缩进与“编号-标题”距离
+\setlength{\cftsecindent}{0em}
+% 注意：一级编号现在是“一、”，一般 1.8em 够；若后面有“十二、十三、”可适当调大
+\setlength{\cftsecnumwidth}{0em}
+
+\setlength{\cftsubsecindent}{1.5em}
+\setlength{\cftsubsecnumwidth}{2.1em}
+
+\setlength{\cftsubsubsecindent}{3.0em}
+\setlength{\cftsubsubsecnumwidth}{2.8em}
+
+% ================= 图表（备用） =================
+\usepackage{graphicx}
+\usepackage{caption}
+\renewcommand{\figurename}{图}
+\renewcommand{\tablename}{表}
+
+\begin{document}
+
+% ================= 封面（单独文件） =================
+\input{cover.tex}
+
+% ================= 目录 =================
+\tableofcontents
+\newpage
+
+% =================================================
+% 一、课程的目的和任务
+% =================================================
+\section{实验题目和要求}
+
+\subsection{问题描述}
+
+地图网络可以被看作是一个图，其中节点代表城市或地区，边代表城市或地区之间的交通路线。请设计一个程序来模拟地图网络，并使用图来表示这个网络。系统需要有用户登录功能，用户能够查看整个地图网络信息，添加/删除节点和边，查找特定节点的所有邻近节点，以及查找两个节点之间的最短路径，用于点到点的导航。
+
+\subsection{基本要求}
+
+\begin{enumerate}[label=（\arabic*）, leftmargin=2em, itemsep=0.6em]
+  \item 自己编程实现图结构，包括邻接矩阵与邻接表，及其相关功能，不允许使用标准模板类的图结构和函数。同时要求根         据图的变化情况，进行相应的图遍历操作，包括但不限于深度优先搜索和广度优先搜索。测试时，各种情况都需要测         试，并附上测试截图；
+  \item 要求采用类的设计思路，不允许出现类以外的函数定义，但允许友元函数；
+  \item 要求采用多文件方式：.h文件存储类的声明，.cpp文件存储类的实现，主函数main存储在另外一个单独的cpp文件中        。如果采用类模板，则类的声明和实现都放在.h文件中；
+  \item 不强制要求采用类模板；不强制要求采用可视化窗口，但若采用可视化窗口可适当提高考核分数；要求源程序中有相应       注释；
+  \item 要求测试例子要比较详尽，各种极限情况也要考虑到，测试的输出信息要详细易懂，表明各个功能的执行正确。
+\end{enumerate}
+
+\subsection{实现提示}
+
+\begin{enumerate}[label=（\arabic*）, leftmargin=2em, itemsep=0.6em]
+  \item 城市或地区信息(即城市或地区名称和交通路线)可以存储在文件中，当程序启动时，从文件中读取所有的城市或地区信       息，并建立合适的图结构；
+  \item 验证过程时，需要根据城市或地区名称，遍历整个图，找到匹配的城市或地区，进行验证；更新交通路线时，也需要         遍历图，找到匹配项后进行更新，同时更新文件中存储的交通路线；
+  \item 路径的搜索实现可以利用栈或队列结构；
+  \item 添加城市或地区时，不仅需要在文件中添加，也需要在图中添加相应的节点；删除城市或地区时，也是如此；
+  \item 地图网络系统可以联系实际，扩展相应功能。例如，实现地图网络的可视化等。
+\end{enumerate}
+
+\subsection{运行结果要求}
+
+要求有程序菜单，能够实现用户的登录管理、地区信息增删改查、地区间导航功能及相应的信息展示，实验报告要求有详细的功能测试截图。
+
+\subsection{排版要求}
+
+\begin{enumerate}[label=（\arabic*）, leftmargin=2em, itemsep=0.6em]
+  \item 要求采用WORD进行文档撰写和排版；
+  \item 要求有封面，目录和页码，要求采用多级标题方式进行排版；
+  \item 正文字体建议为宋体，正文字体大小为小四或五号；正文行间距建议为1.5倍行间距；
+  \item 正文不要用黑体或彩色；粘贴的代码可以比正文字体小一号，代码及其注释要适当排版；
+  \item 实验报告中的图和表，要求进行编号。图和图的说明不要跨页，表格也尽量不要跨页；
+  \item 要求注意排版，排版的优劣将直接影响评分。
+\end{enumerate}
+
+% =================================================
+% 二、课程的基本内容和要求
+% =================================================
+\newpage
+\section{设计思路}
+
+\subsection{系统总体设计}
+
+本文通过三个角度对系统总体设计进行叙述，首先是系统总体框架的选取，介绍课设系统的主体分层结构；然后是核心算法的介绍，介绍应用的主要算法，即最短路算法和次短路算法；然后介绍系统的存储结构，即红黑树等。
+
+\subsubsection{系统总体框架设计}
+
+结合系统的功能需求，并充分考虑实现的难易程度，本系统采用分层设计思想，整体上可划分为表示层（GUI 层）、业务逻辑层和数据结构层。各层之间职责明确、相互解耦，从而将用户界面开发和数据处理分离，使得开发过程更有层次，不会陷入混乱。
+
+\vspace{1em}
+\noindent {\heiti 表示层}
+
+系统的表示层基于 Qt 框架实现，主要由 MainWindow、MapView、UserManager 类构成。该层负责完成用户的交互操作，如地图展示、起点终点选择、路径结果显示等。Qt 层不涉及具体算法实现，而是通过接口调用业务逻辑层，从而保证界面与算法的分离。
+
+\vspace{1em}
+\noindent {\heiti 业务逻辑层}
+
+业务逻辑层负责系统功能的组织与调度，主要完成路径查询请求的解析、算法选择以及结果的统一封装。该层作为 GUI 与底层数据结构和算法之间的桥梁，使系统整体结构更加清晰。
+
+\vspace{1em}
+\noindent {\heiti 数据结构与算法层}
+
+数据结构与算法层是系统的核心，实现了图结构、最短路径算法以及相关数据结构。该层与界面无关，保证了算法实现的通用性和可复用性。
+
+\subsubsection{核心算法设计思路}
+
+\vspace{1em}
+\noindent {\heiti 图模型建模思想}
+
+在本系统中，路径规划问题是核心研究对象。为便于算法设计与实现，系统首先对实际地图场景进行抽象建模，将其转化为图论中的路径搜索问题。
+
+系统将整个地图抽象为一个带权图结构，其中顶点（Vertex）用于表示地图中的地点或关键位置，边（Edge）用于表示地点之间的道路连接关系。每条边均附带相应的权值，用以描述道路的代价信息，例如距离长度、行驶时间或综合权重等。通过这种方式，现实世界中的路径选择问题被统一转化为图中的最短路径求解问题。本系统采取的是无向图系统，但其具有较好的可拓展性，可以修改为有向图系统。
+
+\vspace{1em}
+\noindent {\heiti Dijkstra 最短路径算法设计}
+
+在完成图模型构建后，系统首先需要解决的是从给定起点到终点的最短路径问题。针对该需求，系统选用经典的 Dijkstra 单源最短路径算法 作为基础算法，并使用优先队列进行优化。
+
+在具体实现过程中，算法结合优先队列等高效数据结构对传统 Dijkstra 算法进行优化，使得整体时间复杂度控制在
+\[
+O\big((V + E)\log V\big)
+\]
+其中，$V$ 表示图中的顶点数量，$E$ 表示边的数量。该时间复杂度在实际地图规模下能够满足系统对路径规划效率的要求。
+
+\vspace{1em}
+\noindent {\heiti Yen 最短路径算法设计}
+
+在实际应用场景中，仅提供一条最短路径往往难以满足用户需求。例如，当最短路径存在拥堵、施工或其他不可控因素时，用户往往希望获得多条可选路径进行比较。因此，系统在 Dijkstra 算法的基础上，引入了 Yen 算法，用于求解 K 条最短路径问题。本系统种，取次短路这一情况，进行双路径推荐模式，增强了整体功能的完整性和实用价值。
+
+\subsubsection{数据存储结构设计}
+
+在数据存储方面，系统需要维护大量的节点信息以及点和边的数据。若采用线性表等顺序存储结构，其查找、插入与删除操作的时间复杂度为 $O(n)$，在数据规模较大或操作频繁的情况下，效率较低，难以满足系统对性能的要求。
+
+为提高数据访问效率和维护性能，系统引入基于二叉搜索树的数据组织方式。然而，普通二叉搜索树在极端情况下可能退化为链式结构，导致其时间复杂度接近线性，从而严重影响系统运行效率。针对这一问题，系统采用红黑树（Red-Black Tree）作为核心数据存储结构。
+
+红黑树是一种自平衡二叉搜索树，通过对节点颜色及结构约束的维护，能够在任意情况下保证树的高度保持在对数级别，从而使查找、插入和删除等基本操作的时间复杂度稳定在 $O(\log n)$。相较于线性表和普通二叉搜索树，红黑树在保证效率的同时具有更好的稳定性，相当于STL容器种 \ map\  的作用。
+
+本系统种，红黑树用于存储边权，同时存储禁用集合来辅助Yen最短路径算法的实现。
+
+\subsection{系统功能设计}
+
+课设系统主要分为：用户登录注册、管理员账号、图结构修改、地图查询等，详细的系统功能为结构图1所示。
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.8\textwidth]{figures/XiTongGongNeng.png}
+  \caption{系统功能结构}
+  \label{fig:SJJG}
+\end{figure}
+
+以下对各个功能模块进行介绍：
+
+\subsubsection{登录模块}
+
+登录模块提供登录接口，依次输入账号密码即可进行登录。登录时匹配用户身份为管理员或普通用户，给予相应的权限，并跳转到不同的功能菜单进行后续的交互。
+
+不同用户所拥有的权限如下：
+
+  \begin{itemize}
+    \item \texttt{管理员}：可以进行导航功能，并对图结构进行修改，为固定账号不可注册。
+    \item \texttt{普通用户}：可以进行导航功能，不能修改图结构，可以注册。
+  \end{itemize}
+
+登录模块由 QT 文件实现可视化，分为用户类别选择，账号登录等，账户信息存储在本地文件中，如果账号类别有误或者不存在，会分别进行对应的错误提示，提醒用户进一步的操作。主体界面由输入框（输入账号密码）以及若干Button（对应功能模块跳转）组成，详细信息可以查看图2。
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=1\textwidth]{figures/login.png}
+  \caption{登录界面}
+  \label{fig:SJJG}
+\end{figure}
+
+\subsubsection{注册模块}
+系统提供了注册模块，仅能对普通用户进行注册，管理员账号为指定账号，不可注册。注册时将对账号信息进行查重，并对密码进行合法性检验"位数限制"等，确保注册的用户名不重复，如果不满足条件，会返回提示，如用户已存在，密码不合法等。在用户注册信息检验通过后，将保存在本地user.user文件中，此文件也存储了包括admin在内的所有用户信息。
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=1\textwidth]{figures/register.png}
+  \caption{注册界面}
+  \label{fig:SJJG}
+\end{figure}
+
+\subsubsection{管理员账号模块}
+
+管理员模块拥有较高权限，在拥有导航功能的同时，可以对图结构进行修改，具体功能如下：
+
+  \begin{itemize}
+    \item 可以进行导航功能，查询两个地点之间的最短路径和次短路径。
+    \item 可以导入新的地图或者对修改后的地图进行保存,存储在本地test.map文件。
+    \item 可以进行地区（顶点）的增加和删除操作。
+    \item 可以对已有的路径进行删除或者修改，也可以在两点间进行新路径的添加。
+    \item 可以通过可视化模块查看每个点周边的所有城市。
+  \end{itemize}
+
+详细可视化模块操作请见图4中Button指示。
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=1\textwidth]{figures/admin.png}
+  \caption{管理员界面}
+  \label{fig:SJJG}
+\end{figure}
+
+\subsubsection{普通用户模块}
+
+普通用户板块这里只能进行导航，查询两点之间的最短路，同时可以借助写好的可视化模块，观察可视化的地图结构，也可以查询对应的相邻城市的信息，其中可视化模块为可以触碰，便于用户更好的操作，可视化的实现也有助于用户更好的了解地图结果，而不是局限于文本。
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=1\textwidth]{figures/user.png}
+  \caption{普通用户界面}
+  \label{fig:SJJG}
+\end{figure}
+
+
+
+% ---------- 2.3 类的设计 ----------
+\subsection{类的设计}
+
+\subsubsection{Graph 类（图结构管理类）}
+Graph 类是系统中图结构的核心管理类，用于描述和维护整个地图的拓扑结构。
+
+该类负责统一管理图中的顶点和边信息，提供顶点与边的添加、查询等基础操作，并为最短路径算法提供统一的数据接口。通过 Graph 类，系统将实际地图抽象为标准的带权图结构，为路径规划算法的实现奠定基础，详细成员如表1所示。
+
+\begin{table}[H]
+\centering
+\caption{Graph 类的成员函数与成员}
+\renewcommand{\arraystretch}{1.3}
+\begin{tabular}{|
+c|
+>{\centering\arraybackslash}m{4cm}|
+>{\centering\arraybackslash}m{9cm}|}
+\hline
+\textbf{类名} & \textbf{具体操作} & \textbf{功能函数} \\
+\hline
+\multirow{18}{*}{Graph 类}
+& 无参构造函数
+& Graph(); \\
+\cline{2-3}
+
+& 析构函数
+& \textasciitilde Graph(); \\
+\cline{2-3}
+
+& 拷贝构造
+& Graph(const Graph\&) = delete; \\
+\cline{2-3}
+
+& 拷贝赋值
+& Graph\& operator=(const Graph\&) = delete; \\
+\cline{2-3}
+
+& 移动构造
+& Graph(Graph\&\&) noexcept; \\
+\cline{2-3}
+
+& 移动赋值
+& Graph\& operator=(Graph\&\&) noexcept; \\
+\cline{2-3}
+
+& 添加顶点
+& int addVertex(const std::string\& name, double x = 0.0, double y = 0.0); \\
+\cline{2-3}
+
+& 删除顶点
+& bool removeVertex(int id); \\
+\cline{2-3}
+
+& 添加边
+& bool addEdge(int u, int v, double weight); \\
+\cline{2-3}
+
+& 删除边
+& bool removeEdge(int u, int v); \\
+\cline{2-3}
+
+& 判断顶点是否存在
+& bool hasVertex(int id) const; \\
+\cline{2-3}
+
+& 判断边是否存在
+& bool hasEdge(int u, int v) const; \\
+\cline{2-3}
+
+& 获取边权值
+& double getWeight(int u, int v) const; \\
+\cline{2-3}
+
+& 获取邻接边
+& const std::vector$<$Edge$>$\& adjEdges(int u) const; \\
+\cline{2-3}
+
+& 获取邻接顶点
+& std::vector$<$int$>$ neighbors(int u) const; \\
+\cline{2-3}
+
+& 获取顶点数量
+& int vertexCount() const; \\
+\cline{2-3}
+
+& 获取顶点集合
+& const std::vector$<$Vertex$>$\& vertices() const; \\
+\cline{2-3}
+
+& 清空图结构
+& void clear(); \\
+\cline{2-3}
+
+& 内部数据成员
+& std::vector$<$Vertex$>$ mVertices; \newline
+  std::vector$<$std::vector$<$Edge$>>$ mAdjList; \newline
+  RBTree$<$long long, double$>$ mEdgeIndex; \\
+\hline
+\end{tabular}
+\end{table}
+
+
+\subsubsection{Vertex 类（顶点类）}
+
+Vertex 类用于表示图中的顶点节点，对应地图中的地点或关键位置。
+
+该类通常包含顶点的唯一标识信息，以及与该顶点相关的属性数据。每个 Vertex 对象作为图结构中的基本组成单元，被 Graph 类统一管理，并参与最短路径算法的计算过程,其成员如表2所示。
+
+\begin{table}[H]
+\centering
+\caption{Vertex 类的成员函数与成员}
+\renewcommand{\arraystretch}{1.3}
+\begin{tabular}{|
+c|
+>{\centering\arraybackslash}m{4cm}|
+>{\centering\arraybackslash}m{9cm}|}
+\hline
+\textbf{类名} & \textbf{具体操作} & \textbf{功能函数 / 成员} \\
+\hline
+\multirow{9}{*}{Vertex 类}
+& 默认构造函数
+& Vertex(); \\
+\cline{2-3}
+
+& 带参数构造函数
+& Vertex(int id, const std::string\& name, double x = 0.0, double y = 0.0); \\
+\cline{2-3}
+
+& 获取顶点编号
+& int id() const; \\
+\cline{2-3}
+
+& 获取顶点名称
+& const std::string\& name() const; \\
+\cline{2-3}
+
+& 获取顶点横坐标
+& double x() const; \\
+\cline{2-3}
+
+& 获取顶点纵坐标
+& double y() const; \\
+\cline{2-3}
+
+& 设置顶点名称
+& void setName(const std::string\& name); \\
+\cline{2-3}
+
+& 设置顶点坐标
+& void setPosition(double x, double y); \\
+\cline{2-3}
+
+& 成员变量
+& {\centering
+  int mId;\\[0.5ex]
+  std::string mName;\\[0.5ex]
+  double mX;\\[0.5ex]
+  double mY;}\\
+\hline
+
+\end{tabular}
+\end{table}
+
+
+\subsubsection{Edge 类（边类）}
+
+Edge 类用于描述图中两个顶点之间的连接关系。
+
+该类封装了边的起点、终点以及对应的权值信息，用于表示地图中道路的长度。通过边对象的组织，系统能够准确反映地图中各地点之间的连接情况，并为路径算法提供必要的权重数据支持，其成员如表3所示。
+
+\begin{table}[H]
+\centering
+\caption{Edge 结构体的成员函数与成员}
+\renewcommand{\arraystretch}{1.3}
+\begin{tabular}{|
+c|
+>{\centering\arraybackslash}m{4cm}|
+>{\centering\arraybackslash}m{9cm}|}
+\hline
+\textbf{类名} & \textbf{具体操作} & \textbf{功能函数 / 成员} \\
+\hline
+\multirow{3}{*}{Edge 类}
+& 默认构造函数
+& Edge() = default; \\
+\cline{2-3}
+
+& 带参数构造函数
+& Edge(int from, int to, double weight); \\
+\cline{2-3}
+
+& 成员变量
+& {\centering
+  int from = -1; \\[0.5ex]
+  int to = -1; \\[0.5ex]
+  double weight = 0.0;
+}\\
+\hline
+\end{tabular}
+\end{table}
+
+\subsubsection{Path 类（路径封装类）}
+
+Path 类用于对路径信息进行统一封装和管理。
+
+该类通常包含路径经过的顶点序列、路径总权值等信息，用于存储算法计算得到的结果。通过 Path 类，系统能够方便地对多条路径进行比较、排序以及结果展示。其成员如表4所示。
+
+\begin{table}[H]
+\centering
+\caption{Path 类（路径封装类）的成员函数与成员}
+\renewcommand{\arraystretch}{1.3}
+\begin{tabular}{|
+c|
+>{\centering\arraybackslash}m{4cm}|
+>{\centering\arraybackslash}m{9cm}|}
+\hline
+\textbf{类名} & \textbf{具体操作} & \textbf{功能函数 / 成员} \\
+\hline
+\multirow{4}{*}{Path 类}
+& 成员变量
+& {\centering
+  std::vector<int> nodes; \\[0.5ex]
+  double cost = 0.0;
+}\\
+\cline{2-3}
+
+& 判断路径是否为空
+& bool empty() const; \\
+\cline{2-3}
+
+& 路径转字符串
+& std::string toString() const; \\
+\hline
+\end{tabular}
+\end{table}
+
+\subsubsection{UserManager 类（用户管理类）}
+
+UserManager 类用于实现系统的用户管理功能。
+
+该类负责用户信息的维护，包括用户的注册、登录验证、权限区分以及账户信息管理等功能。通过该类，系统能够对不同类型用户进行统一管理，并保证系统操作的安全性和规范性。其成员如表5所示。
+
+\begin{table}[H]
+\centering
+\caption{UserManager 类（用户管理类）的成员函数与成员}
+\renewcommand{\arraystretch}{1.3}
+\begin{tabular}{|
+c|
+>{\centering\arraybackslash}m{4cm}|
+>{\centering\arraybackslash}m{9cm}|}
+\hline
+\textbf{类名} & \textbf{具体操作} & \textbf{功能函数 / 成员} \\
+\hline
+\multirow{8}{*}{UserManager 类}
+& 数据加载
+& bool load(const QString\& fileName); \\
+\cline{2-3}
+
+& 数据保存
+& bool save(const QString\& fileName) const; \\
+\cline{2-3}
+
+& 默认管理员维护
+& void ensureDefaultAdmin(const QString\& fileName); \\
+\cline{2-3}
+
+& 用户注册
+& bool registerUser(const QString\& username,
+                     const QString\& password,
+                     QString\& err); \\
+\cline{2-3}
+
+& 用户登录
+& bool login(const QString\& username,
+              const QString\& password,
+              UserRole role,
+              QString\& err) const; \\
+\cline{2-3}
+
+& 查找用户索引
+& int findUserIndex(const QString\& username) const; \\
+\cline{2-3}
+
+& 成员变量
+& {\centering
+  QVector<UserRecord> users;
+}\\
+\hline
+\end{tabular}
+\end{table}
+
+
+\subsubsection{FileIO 类（文件读写类）}
+
+FileIO 类负责系统中数据的文件读写操作。
+
+该类主要用于地图数据、用户数据等信息的加载与保存，实现系统数据的持久化存储。通过将文件读写操作集中封装在 FileIO 类中，系统的其他模块无需关注具体的文件格式和读写细节，从而提高了系统的模块化程度。其成员如表6所示。
+
+\begin{table}[H]
+\centering
+\caption{FileIO 类（文件读写类）的接口函数}
+\renewcommand{\arraystretch}{1.3}
+\begin{tabular}{|
+c|
+>{\centering\arraybackslash}m{4cm}|
+>{\centering\arraybackslash}m{9cm}|}
+\hline
+\textbf{类名} & \textbf{具体操作} & \textbf{功能函数 / 成员} \\
+\hline
+\multirow{2}{*}{FileIO 类}
+& 加载地图文件
+& bool loadMapFile(const std::string\& fileName, Graph\& graph); \\
+\cline{2-3}
+
+& 保存地图文件
+& bool saveMapFile(const std::string\& fileName, const Graph\& graph); \\
+\hline
+\end{tabular}
+\end{table}
+
+
+\subsubsection{RBTree 类（红黑树类）}
+
+RBTree 类实现了红黑树这一自平衡二叉搜索树结构。
+
+该类用于对系统中的关键数据进行高效存储和管理。红黑树能够在任意情况下保持近似平衡，从而保证查找、插入和删除操作的时间复杂度稳定在 $O(logn)$ 该结构有效提升了系统在数据量较大时的运行效率和稳定性。其成员如表7所示。
+
+\begin{table}[H]
+\centering
+\caption{RBTree 类（红黑树模板类）的成员函数与成员}
+\renewcommand{\arraystretch}{1.3}
+\begin{tabular}{|
+c|
+>{\centering\arraybackslash}m{4cm}|
+>{\centering\arraybackslash}m{9cm}|}
+\hline
+\textbf{类名} & \textbf{具体操作} & \textbf{功能函数 / 成员} \\
+\hline
+\multirow{10}{*}{RBTree 类}
+& 默认构造函数
+& RBTree(); \\
+\cline{2-3}
+
+& 析构函数
+& \textasciitilde RBTree(); \\
+\cline{2-3}
+
+& 插入键值对
+& bool insert(const Key\& key, const Value\& value); \\
+\cline{2-3}
+
+& 插入或赋值
+& void insertOrAssign(const Key\& key, const Value\& value); \\
+\cline{2-3}
+
+& 删除指定键
+& bool erase(const Key\& key); \\
+\cline{2-3}
+
+& 查找键是否存在
+& bool contains(const Key\& key) const; \\
+\cline{2-3}
+
+& 查找并获取值
+& bool tryGet(const Key\& key, Value\& outValue) const; \\
+\cline{2-3}
+
+& 查找并返回指针
+& Value* find(const Key\& key); \\
+\cline{2-3}
+
+& 中序遍历
+& template<typename Func> void inorder(Func func) const; \\
+\cline{2-3}
+
+& 成员变量
+& {\centering
+  Node* mRoot; \\[0.5ex]
+  Node* mNil; \\[0.5ex]
+  std::size\_t mSize; \\[0.5ex]
+  Compare mComp;
+}\\
+\hline
+\end{tabular}
+\end{table}
+
+一颗合法的红黑树满足：节点为红色或者黑色；空叶子节点（NIL）为黑色；红色节点的子节点为黑色；从根节点到叶子节点经过的黑色节点数量相同。
+
+下面是一颗合法的红黑树，其支持插入、删除、修改等操作。
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.8\textwidth]{figures/RBTree.png}
+  \caption{红黑树}
+  \label{fig:SJJG}
+\end{figure}
+
+\vspace{1em}
+\noindent {\heiti 旋转}
+
+旋转操作是多数平衡树能够维持平衡的关键，它能在不改变一棵合法 BST 中序遍历结果的情况下改变局部节点的深度．
+
+\begin{lstlisting}[caption={红黑树左旋操作}]
+void rotateLeft(Node* x) {
+    Node* y = x->right;
+    x->right = y->left;
+    if (y->left != mNil) {
+        y->left->parent = x;
+    }
+    y->parent = x->parent;
+
+    if (x->parent == mNil) {
+        mRoot = y;
+    } else if (x == x->parent->left) {
+        x->parent->left = y;
+    } else {
+        x->parent->right = y;
+    }
+
+    y->left = x;
+    x->parent = y;
+}
+\end{lstlisting}
+
+上述为红黑树的左旋代码，接下来给出相应的右旋代码。
+
+
+\newpage
+\begin{lstlisting}[caption={红黑树右旋操作}]
+void rotateRight(Node* y) {
+    Node* x = y->left;
+    y->left = x->right;
+    if (x->right != mNil) {
+        x->right->parent = y;
+    }
+    x->parent = y->parent;
+
+    if (y->parent == mNil) {
+        mRoot = x;
+    } else if (y == y->parent->right) {
+        y->parent->right = x;
+    } else {
+        y->parent->left = x;
+    }
+
+    x->right = y;
+    y->parent = x;
+}
+\end{lstlisting}
+
+上述旋转操作是红黑树维持平衡性的核心步骤。左旋和右旋通过调整节点之间的父子关系，在不破坏二叉搜索树中序遍历顺序的前提下，改变局部子树的结构。
+
+在左旋操作中，以节点 $x$ 为旋转中心，其右子节点 $y$ 上升为子树新的根节点，而 $x$ 成为 $y$ 的左子节点；右旋操作与之对称。旋转过程中同时维护父指针及根节点指针，保证树结构的正确性。示意图可见下图。
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.6\textwidth]{figures/rotate.png}
+  \caption{红黑树旋转}
+  \label{fig:SJJG}
+\end{figure}
+
+\vspace{1em}
+\noindent {\heiti 插入}
+
+红黑树的插入操作与普通的 BST 类似，对于红黑树来说，新插入的节点初始为红色，完成插入后需根据插入节点及相关节点的状态进行修正以满足上文提到的四条性质．下面给出插入接口的部分代码。
+
+\begin{lstlisting}[caption={红黑树插入接口（insert / insertOrAssign）}]
+bool insert(const Key& key, const Value& value) {
+    return insertImpl(key, value, false);
+}
+
+void insertOrAssign(const Key& key, const Value& value) {
+    insertImpl(key, value, true);
+}
+\end{lstlisting}
+
+该部分提供两种插入接口：insert 在键已存在时不覆盖旧值，而 insertOrAssign 在键已存在时更新其 value。两者最终统一调用 insertImpl 完成插入逻辑，便于复用代码并保持接口语义清晰。
+
+\vspace{1em}
+\noindent {\heiti 插入后的平衡维护}
+
+\begin{lstlisting}[caption={红黑树插入后的平衡维护（insertFixup）}]
+void insertFixup(Node* z) {
+    while (z->parent->color == Color::Red) {
+        if (z->parent == z->parent->parent->left) {
+            Node* y = z->parent->parent->right; // uncle
+            if (y->color == Color::Red) {
+                z->parent->color = Color::Black;
+                y->color = Color::Black;
+                z->parent->parent->color = Color::Red;
+                z = z->parent->parent;
+            } else {
+                if (z == z->parent->right) {
+                    z = z->parent;
+                    rotateLeft(z);
+                }
+                z->parent->color = Color::Black;
+                z->parent->parent->color = Color::Red;
+                rotateRight(z->parent->parent);
+            }
+        } else {
+            Node* y = z->parent->parent->left; // uncle
+            if (y->color == Color::Red) {
+                z->parent->color = Color::Black;
+                y->color = Color::Black;
+                z->parent->parent->color = Color::Red;
+                z = z->parent->parent;
+            } else {
+                if (z == z->parent->left) {
+                    z = z->parent;
+                    rotateRight(z);
+                }
+                z->parent->color = Color::Black;
+                z->parent->parent->color = Color::Red;
+                rotateLeft(z->parent->parent);
+            }
+        }
+    }
+    mRoot->color = Color::Black;
+    mRoot->parent = mNil;
+}
+\end{lstlisting}
+
+插入新节点初始为红色，可能导致“红红相连”破坏红黑树性质。insertFixup 通过分情况讨论叔叔节点颜色：若叔叔为红色则通过重新着色向上调整；若叔叔为黑色则通过一次或两次旋转配合重新着色恢复平衡，最终确保根节点为黑色。具体情况如下：
+
+\begin{enumerate}[label=（\arabic*）, leftmargin=2em, itemsep=0.6em]
+  \item $p$ 与 $u$ 均为红色．此时我们只需重新染色即可．
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.35\textwidth]{figures/RB1.png}
+  \caption{红黑树插入平衡1}
+  \label{fig:SJJG}
+\end{figure}
+
+\newpage
+
+  \item $p$ 为红色，$u$ 为黑色，$p$ 的方向和 $n$ 的方向不同．
+
+            此时我们需要旋转 $p$ 节点来转为第三种情况．
+            
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.35\textwidth]{figures/RB2.png}
+  \caption{红黑树插入平衡2}
+  \label{fig:SJJG}
+\end{figure}
+
+\newpage
+    
+  \item $p$ 为红色，$u$ 为黑色，$p$ 的方向和 $n$ 的方向相同．
+
+        此时我们需要旋转 $g$ 节点以将 $p$ 转为子树的根，之后交换 $p$ 和 $g$ 的颜色即可．
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.35\textwidth]{figures/RB3.png}
+  \caption{红黑树插入平衡3}
+  \label{fig:SJJG}
+\end{figure}
+
+\end{enumerate}
+
+\vspace{1em}
+\noindent {\heiti 删除}
+
+红黑树的删除操作相较于普通二叉搜索树（BST）需要执行更多的维护步骤，以保证红黑树的平衡性和性质不被破坏。具体而言，其删除过程可分为以下几种情况：
+
+\begin{itemize}
+    \item 若待删除节点 $n$ 具有两个子节点，则用 $n$ 的右子树中最小节点 $s$ 的数据替换节点 $n$，并将删除操作转化为对节点 $s$ 的删除。此时节点 $n$ 将不再同时拥有两个子节点，从而简化后续处理过程。
+    
+    \item 若待删除节点 $n$ 仅具有一个子节点 $s$，根据红黑树的性质可知，节点 $s$ 必为红色节点，而节点 $n$ 为黑色节点。此时只需将节点 $n$ 在其父节点 $p$ 中对应的指针替换为 $s$，同时将节点 $s$ 的父指针指向 $p$，并将节点 $s$ 的颜色修改为黑色，即可保持红黑树的性质不变。
+    
+    \item 若待删除节点 $n$ 不具有子节点，则可进一步分情况讨论：当 $n$ 为根节点或红色节点时，可直接删除；当 $n$ 为黑色节点时，直接删除将破坏红黑树的性质，需要通过一系列旋转和重新着色操作对红黑树进行调整，以维持其平衡性。
+\end{itemize}
+
+代码如下：
+
+\begin{lstlisting}[caption={红黑树删除操作（erase）}]
+bool erase(const Key& key) {
+    Node* z = findNode(key);
+    if (z == mNil) return false;
+
+    Node* y = z; Color yOriginalColor = y->color; Node* x = mNil;
+
+    if (z->left == mNil) {
+        x = z->right;
+        transplant(z, z->right);
+    } else if (z->right == mNil) {
+        x = z->left;
+        transplant(z, z->left);
+    } else {
+        y = minimum(z->right);
+        yOriginalColor = y->color;
+        x = y->right;
+        if (y->parent == z) {
+            x->parent = y;
+        } else {
+            transplant(y, y->right);
+            y->right = z->right;
+            y->right->parent = y;
+        }
+
+        transplant(z, y);
+        y->left = z->left; y->left->parent = y; y->color = z->color;
+    }
+    delete z; mSize--;
+    
+    if (yOriginalColor == Color::Black) {
+        deleteFixup(x);
+    }
+    
+    return true;
+}
+\end{lstlisting}
+
+
+\vspace{1em}
+\noindent {\heiti 删除后的平衡维护}
+
+该部分代码如下：
+
+\begin{lstlisting}[caption={红黑树删除后的平衡维护（deleteFixup）}]
+void deleteFixup(Node* x) {
+    while (x != mRoot && x->color == Color::Black) {
+        if (x == x->parent->left) {
+            Node* w = x->parent->right;
+            if (w->color == Color::Red) {
+                w->color = Color::Black;
+                x->parent->color = Color::Red;
+                rotateLeft(x->parent);
+                w = x->parent->right;
+            }
+
+            if (w->left->color == Color::Black && w->right->color == Color::Black) {
+                w->color = Color::Red;
+                x = x->parent;
+            } else {
+                if (w->right->color == Color::Black) {
+                    w->left->color = Color::Black;
+                    w->color = Color::Red;
+                    rotateRight(w);
+                    w = x->parent->right;
+                }
+                w->color = x->parent->color;
+                x->parent->color = Color::Black;
+                w->right->color = Color::Black;
+                rotateLeft(x->parent);
+                x = mRoot;
+            }
+        } else {
+            Node* w = x->parent->left;
+            if (w->color == Color::Red) {
+                w->color = Color::Black;
+                x->parent->color = Color::Red;
+                rotateRight(x->parent);
+                w = x->parent->left;
+            }
+
+            if (w->right->color == Color::Black && w->left->color == Color::Black) {
+                w->color = Color::Red;
+                x = x->parent;
+            } else {
+                if (w->left->color == Color::Black) {
+                    w->right->color = Color::Black;
+                    w->color = Color::Red;
+                    rotateLeft(w);
+                    w = x->parent->left;
+                }
+                w->color = x->parent->color;
+                x->parent->color = Color::Black;
+                w->left->color = Color::Black;
+                rotateRight(x->parent);
+                x = mRoot;
+            }
+        }
+    }
+    x->color = Color::Black;
+    mRoot->parent = mNil;
+}
+\end{lstlisting}
+
+删除黑色节点可能造成“额外的黑色”问题（黑高不一致）。deleteFixup 以 x 为当前需要修复的节点，根据其兄弟节点 w 的颜色以及 w 的子节点颜色分情况处理：当兄弟为红色时先旋转转换为兄弟为黑色的情形；当兄弟为黑色且其子节点全黑时通过重新着色把问题上移；否则通过一次或两次旋转配合着色消除失衡，最终恢复红黑树性质。具体情况如下：
+
+\begin{enumerate}[label=（\arabic*）, leftmargin=2em, itemsep=0.6em]
+  \item $s$ 为红色．
+  
+            此时我们旋转 $p$，将 $s$ 转为子树根节点，之后交换 $s$ 和 $p$ 的颜色来转为其余三种情况之一．
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.4\textwidth]{figures/RB4.png}
+  \caption{红黑树删除平衡1}
+  \label{fig:SJJG}
+\end{figure}
+
+  \item $p$ 颜色不确定，$s$,$c$ 和 $d$ 均为黑色。
+
+            此时将 $s$ 染红即可。
+            
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.35\textwidth]{figures/RB5.png}
+  \caption{红黑树删除平衡2}
+  \label{fig:SJJG}
+\end{figure}
+         
+  \item $p$ 的颜色不确定，$s$、$d$ 均为黑色，$c$ 为红色。
+
+        此时需要旋转 $s$ 使 $c$ 为原来 $s$ 对应子树的根节点，并交换 $s$ 和 $c$ 的颜色转为第四种情况即可。
+
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.4\textwidth]{figures/RB6.png}
+  \caption{红黑树删除平衡3}
+  \label{fig:SJJG}
+\end{figure}
+
+\newpage
+
+  \item $p$、$c$ 的颜色不确定，$s$ 为黑色，$d$ 为红色。
+
+        此时需要旋转 $p$ 使 $s$ 为子树的根节点，交换 $s$ 和 $p$ 的颜色，并将 $d$ 染黑即可终止维护平衡。
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.4\textwidth]{figures/RB7.png}
+  \caption{红黑树删除平衡4}
+  \label{fig:SJJG}
+\end{figure}
+
+\end{enumerate}
+
+通过上述可能出现的情况讨论，结合旋转操作以及红黑树的四条性质，我们便可以通过旋转以及染色来对增加/删除的节点进行染色来平衡红黑树，进而实现插入、删除操作。而修改操作可以基于这两个操作完成。进而存储边权以及禁用集合。
+
+\subsubsection{MapView 类（地图显示与交互类）}
+
+MapView 类主要负责地图的显示与可视化交互功能。
+
+该类通常与 Qt 图形界面结合，用于将图结构中的节点和路径以直观方式呈现给用户，并响应用户的交互操作。该设计实现了系统算法逻辑与界面显示的有效分离。 其成员见表8。
+
+\begin{table}[H]
+\centering
+\caption{MapView 类（地图显示与交互类）的成员函数与成员}
+\renewcommand{\arraystretch}{1.3}
+\begin{tabular}{|
+c|
+>{\centering\arraybackslash}m{4cm}|
+>{\centering\arraybackslash}m{9cm}|}
+\hline
+\textbf{类名} & \textbf{具体操作} & \textbf{功能函数 / 成员} \\
+\hline
+\multirow{5}{*}{MapView 类}
+& 构造函数
+& explicit MapView(QWidget* parent = nullptr); \\
+\cline{2-3}
+
+& 节点点击信号
+& void nodeClicked(int nodeId); \\
+\cline{2-3}
+
+& 鼠标滚轮事件
+& void wheelEvent(QWheelEvent* event) override; \\
+\cline{2-3}
+
+& 鼠标按下事件
+& void mousePressEvent(QMouseEvent* event) override; \\
+\cline{2-3}
+
+& 类继承关系
+& {\centering
+  class MapView : public QGraphicsView
+}\\
+\hline
+\end{tabular}
+\end{table}
+
+
+\subsubsection{MainWindow 类（主窗口类）}
+
+MainWindow 类是系统的图形界面主窗口类。
+
+该类基于 Qt 框架实现，负责系统界面的整体布局、菜单控制以及用户操作事件的响应。MainWindow 通过调用后台业务逻辑和算法模块，实现用户操作与系统功能之间的衔接。该类过于庞大，分两个表进行展示，详见表9与表10；
+
+\begin{table}[H]
+\centering
+\caption{MainWindow 类的成员变量}
+\renewcommand{\arraystretch}{1.3}
+\begin{tabular}{|
+c|
+>{\centering\arraybackslash}m{4cm}|
+>{\centering\arraybackslash}m{9cm}|}
+\hline
+\textbf{类名} & \textbf{变量类别} & \textbf{成员变量} \\
+\hline
+\multirow{5}{*}{MainWindow 类}
+& 系统状态变量
+& {\centering
+  UserManager userManager; \\[0.5ex]
+  QString currentUser; \\[0.5ex]
+  UserRole currentRole; \\[0.5ex]
+  Graph graph; \\[0.5ex]
+  bool graphLoaded;
+}\\
+\cline{2-3}
+
+& 用户选点状态
+& {\centering
+  bool nextClickFillSource; \\[0.5ex]
+  int selectedSourceId; \\[0.5ex]
+  int selectedTargetId;
+}\\
+\cline{2-3}
+
+& 页面切换组件
+& {\centering
+  QStackedWidget* stackedWidget;
+}\\
+\cline{2-3}
+
+& 地图显示组件
+& {\centering
+  MapView* mapView; \\[0.5ex]
+  QGraphicsScene* scene;
+}\\
+\cline{2-3}
+
+& 可视化缓存
+& {\centering
+  QHash<long long, QGraphicsLineItem*> edgeItems; \\[0.5ex]
+  QHash<int, QGraphicsEllipseItem*> nodeItems; \\[0.5ex]
+  QList<QGraphicsLineItem*> highlightedShortest; \\[0.5ex]
+  QList<QGraphicsLineItem*> highlightedSecond;
+}\\
+\hline
+\end{tabular}
+\end{table}
+
+接下来展示主窗口类的成员函数，详见表10。
+
+\begin{table}[H]
+\centering
+\caption{MainWindow 类的成员函数}
+\renewcommand{\arraystretch}{1.3}
+\begin{tabular}{|
+c|
+>{\centering\arraybackslash}m{4cm}|
+>{\centering\arraybackslash}m{9cm}|}
+\hline
+\textbf{类名} & \textbf{具体操作} & \textbf{功能函数} \\
+\hline
+\multirow{7}{*}{MainWindow 类}
+& 构造函数
+& explicit MainWindow(QWidget* parent = nullptr); \\
+\cline{2-3}
+
+& 页面切换槽函数
+& {\centering
+  void onGoRegisterClicked(); \\[0.5ex]
+  void onBackToLoginClicked();
+}\\
+\cline{2-3}
+
+& 登录与注册槽函数
+& {\centering
+  void onLoginClicked(); \\[0.5ex]
+  void onDoRegisterClicked(); \\[0.5ex]
+  void onLogoutClicked();
+}\\
+\cline{2-3}
+
+& 路径导航槽函数
+& void onRunClicked(); \\
+\cline{2-3}
+
+& 管理员管理槽函数
+& {\centering
+  void onLoadMapClicked(); \\[0.5ex]
+  void onSaveMapClicked(); \\[0.5ex]
+  void onAddVertexClicked(); \\[0.5ex]
+  void onRemoveVertexClicked(); \\[0.5ex]
+  void onAddEdgeClicked(); \\[0.5ex]
+  void onRemoveEdgeClicked(); \\[0.5ex]
+  void onEditEdgeClicked();
+}\\
+\cline{2-3}
+
+& 节点点击响应
+& void onNodeClicked(int nodeId); \\
+\cline{2-3}
+
+& 私有功能函数
+& {\centering
+  void buildUi(); \\[0.5ex]
+  void applyTheme(); \\[0.5ex]
+  void showLoginPage(); \\[0.5ex]
+  void showRegisterPage(); \\[0.5ex]
+  void showMainPage(); \\[0.5ex]
+  void applyRoleUi(); \\[0.5ex]
+  bool ensureGraphLoadedForUser(); \\[0.5ex]
+  void rebuildScene(); \\[0.5ex]
+  void clearPathHighlight(); \\[0.5ex]
+  void highlightPath(const Path\& p, bool isShortest); \\[0.5ex]
+  void refreshNodeSelectionStyle(); \\[0.5ex]
+  QString formatPath(const Path\& p) const; \\[0.5ex]
+  long long edgeKey(int u, int v) const;
+}\\
+\hline
+\end{tabular}
+\end{table}
+
+
+\newpage
+\subsection{主要函数和功能设计}
+
+本系统围绕地图网络的构建、管理与路径规划展开，结合 Qt 图形界面实现用户交互。系统主要函数及功能设计如下：
+
+\begin{enumerate}[label=（\arabic*）, leftmargin=2em, itemsep=0.6em]
+
+  \item {\heiti 用户登录与注册功能：}
+  系统通过 \texttt{UserManager} 类实现用户管理功能。用户信息以 \texttt{UserRecord} 结构体的形式进行存储，包含用户名、密码及用户角色信息。系统支持普通用户与管理员两种角色，并在登录时要求用户选择对应身份。在注册过程中，仅允许注册普通用户账号，并对用户名合法性及重复性进行检测。同时，系统通过默认管理员账号机制，保证系统始终具备管理权限。
+
+  \item {\heiti 地图数据的导入与导出：}
+  地图数据的导入与导出功能由 \texttt{FileIO} 模块完成。在导入地图前，系统会检测当前图结构状态，避免误覆盖已有数据；导入过程中解析文件中的顶点信息、边信息及权值，构建对应的图结构。导出地图时，将当前图中的节点和边信息按约定格式写入文件，实现地图数据的持久化存储。
+
+  \item {\heiti 地图编辑与管理功能：}
+  系统通过 \texttt{Graph} 类对地图网络进行统一管理，支持顶点和边的动态增删改操作。管理员用户可对城市节点及道路连接关系进行维护，相关操作会同步更新图的邻接结构，并在操作完成后重绘地图视图，以保证界面显示与底层数据一致。
+
+  \item {\heiti 地图可视化与交互设计：}
+  地图的可视化显示由 \texttt{MapView} 类实现，该类继承自 QGraphicsView，并通过重写鼠标滚轮和鼠标点击事件实现地图缩放及节点选择功能。用户通过点击地图节点选择起点和终点，系统通过信号与槽机制将交互事件传递至主窗口进行处理。
+
+  \item {\heiti 最短路径与多路径查询功能：}
+  系统在单路径查询中采用 Dijkstra 算法求解起点到目标点的最短路径，并将结果封装为 \texttt{Path} 结构体。在此基础上，引入 Yen 算法实现 $K$ 条最短路径搜索（本系统特指次短路），通过禁用节点与禁用边的方式多次调用 Dijkstra 算法，为用户提供多种可选路径方案。
+
+核心代码如下：
+
+\begin{lstlisting}[caption={Dijkstra 算法的主循环与松弛过程}]
+while (!pq.empty()) {
+    State cur = pq.top();
+    pq.pop();
+
+    // 若节点已访问，跳过（防止重复处理）
+    int u = cur.v;
+    if (visited[u]) continue;
+    visited[u] = true;
+
+    // 到达目标点，提前终止
+    if (u == target) break;
+
+    // 遍历从u出发的所有边，进行松弛操作
+    for (const Edge& e : graph.adjEdges(u)) {
+        int v = e.to;
+
+        // 跳过被禁用的节点或边
+        if (isBannedNode(v, bannedNodes)) continue;
+        if (isBannedEdge(u, v, bannedEdges)) continue;
+
+        // 验证边的权值有效
+        double w = e.weight;
+        if (!isValidWeight(w)) continue;
+
+        // 松弛边(u,v)：尝试通过u到达v，如果距离更短则更新
+        double nd = dist[u] + w;
+        if (nd < dist[v]) {
+            dist[v] = nd;
+            parent[v] = u;
+            pq.push({dist[v], v});
+        }
+    }
+}
+\end{lstlisting}
+
+  其中，最短路算法流程图如图15所示。
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.55\textwidth]{figures/Dijkstra.png}
+  \caption{Dijkstra算法流程图}
+  \label{fig:SJJG}
+\end{figure}
+
+通过实现Dijkstra算法，我们可以在此基础上通过枚举最短路径点集进而求出次短路。
+
+方法为：首先利用 Dijkstra 算法求出从源点到目标点的 最短路径，记为第一条路径。随后，将这条最短路径上的各个节点依次作为“分支点”，在保持路径前缀不变的前提下，通过 临时禁用部分节点或边 的方式，强制路径在分支点处发生偏移，从而生成一组候选路径。对每一条候选路径，重新调用 Dijkstra 算法计算其最短可行路径，并将这些候选路径按总代价进行排序。
+
+在所有候选路径中，代价最小的路径即为第二条最短路径；若继续迭代该过程，则可以依次得到第 3 条、第 4 条……最短路径。整个算法通过“最短路径 + 偏移生成 + 候选集筛选”的方式，逐步构建出按代价递增排列的多条简单路径。
+
+求次短路的流程图如图16所示：
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.55\textwidth]{figures/Yen.png}
+  \caption{次短路算法流程图}
+  \label{fig:SJJG}
+\end{figure}
+
+  \item {\heiti 路径结果展示与高亮显示：}
+  路径计算完成后，系统将路径信息输出至界面文本区域，并在地图中对路径进行高亮显示。最短路径与次优路径采用不同颜色进行区分，在执行新的路径查询或切换操作时，系统会清除已有高亮效果，保证界面显示的清晰性与一致性。具体见图17。
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.6\textwidth]{figures/lightXianShi.png}
+  \caption{路径显示}
+  \label{fig:SJJG}
+\end{figure}
+
+其中红色实线为最短路，蓝色虚线为次短路。
+
+\subsection{主程序的设计}
+
+由于是使用 QT 制作图形界面，所以主程序只需要展示登录即可（前文已展示，这里不重复）。
+
+主程序main.cpp代码如下：
+\begin{lstlisting}[caption={main.cpp 主函数源码}]
+#include "mainwindow.h"
+#include <QApplication>
+
+int main(int argc, char *argv[]) {
+    QApplication a(argc, argv);
+    MainWindow w;
+    w.show();
+    return a.exec();
+}
+\end{lstlisting}
+
+
+整个程序的运行逻辑以及结构如图18所示。
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=1\textwidth]{figures/main.png}
+  \caption{主程序流程图}
+  \label{fig:SJJG}
+\end{figure}
+
+\end{enumerate}
+
+\newpage
+\section{调试分析}
+
+\subsection{技术难点分析}
+
+\subsubsection{红黑树的实现复杂}
+
+红黑树的实现过于复杂，其基于BST实现，但拥有四条性质，由于这四条性质的存在，使得红黑树的插入操作以及删除操作情况繁多，需要实现的内容多，整体花费事件复杂，内容庞大，实现较为困难。
+
+\subsubsection{负权边的存在}
+
+一开始的数据没有加入限制，导致负权边的错误输出，由于Dijkstra算法是无法处理负权的，如果需要处理负权需要SPFA、Johnson或者Bellman算法，Dijkstra基于贪心思想实现，所以负权会使整个算法出现错误，得到错误的结果。
+
+\subsubsection{输入数据的检测复杂}
+
+考虑到负权边会对Dijkstra产生影响，对该情况加以限制，加上其余限制：密码长度限制、地区名字合法性限制、边权合法性限制、边的长度仅能是正浮点数、点的编号为自然数等等，需要检查的数据过于繁杂，实现较为复杂。
+
+\subsection{调试错误分析}
+
+\subsubsection{顶点名称问题}
+
+修改前，顶点名称可以为空，因为存储方式是字符串，空字符串是合法的，这也使得城市名称可能为空，修改前代码如下：
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.9\textwidth]{figures/tiaoshi1.png}
+  \caption{顶点名称问题（未修改）}
+  \label{fig:SJJG}
+\end{figure}
+
+修改后，添加数据验证，修改后代码如下：
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.9\textwidth]{figures/tiaoshi11.png}
+  \caption{顶点名称问题（修改后）}
+  \label{fig:SJJG}
+\end{figure}
+
+\subsubsection{注册信息合法检测}
+
+修改前，用户的注册信息没有检验，即用户可以输出一个超长的字符串作为账号或者密码，这会对我们本地存储造成负担，详见下列存储：
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.9\textwidth]{figures/tiaoshi2.png}
+  \caption{注册信息检测（未修改）}
+  \label{fig:SJJG}
+\end{figure}
+
+修改后添加了数据检测逻辑，可以对用户输入的密码长度进行合法性检测，如下图所示。
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.55\textwidth]{figures/tiaoshi22.png}
+  \caption{注册信息检测（修改后）}
+  \label{fig:SJJG}
+\end{figure}
+
+\subsubsection{重载运算符错误}
+
+由于使用了优先队列优化Dijkstra算法，在算法执行中，由于需要比较点距这一变量，所以需要对运算符进行重载，原算法中重载运算符写颠倒了，代码如下所示：
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.9\textwidth]{figures/tiaoshi3.png}
+  \caption{运算符重载错误（未修改）}
+  \label{fig:SJJG}
+\end{figure}
+
+这会使得算法出现错误，将其中小于号改为大于号即可，详见下图：
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.9\textwidth]{figures/tiaoshi33.png}
+  \caption{运算符重载错误（修改后）}
+  \label{fig:SJJG}
+\end{figure}
+
+\section{测试结果分析}
+
+\subsection{登录界面}
+
+运行程序后，我们进入登录界面，如下图：
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=1\textwidth]{figures/login.png}
+  \caption{登录界面}
+  \label{fig:SJJG}
+\end{figure}
+
+登录界面有账号信息检验，首先是身份信息匹配，即管理员账号需要通过管理员选项登录，普通用户需要选普通用户，如果错误选择，会提示下面信息。
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=1\textwidth]{figures/BuPiPei.png}
+  \caption{身份信息不匹配错误提醒}
+  \label{fig:SJJG}
+\end{figure}
+
+如果输入的密码是错误的，会进行下述提示：
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=1\textwidth]{figures/MiMaCuoWu.png}
+  \caption{密码错误错误提醒}
+  \label{fig:SJJG}
+\end{figure}
+
+如果信息正确，则可进入对应的模块，亦可以选择Button中"去注册"，前往注册模块。
+
+\subsection{注册界面}
+
+普通用户无法注册管理员账号，管理员账号是固定的，如果尝试注册admin，会提示下述错误。
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=1\textwidth]{figures/NoAdmin.png}
+  \caption{无法注册管理员错误提醒}
+  \label{fig:SJJG}
+\end{figure}
+
+同一用户名只能存在一个，如果注册的用户名已经存在，会提示下述错误。
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=1\textwidth]{figures/YiCunZai.png}
+  \caption{用户已存在错误提醒}
+  \label{fig:SJJG}
+\end{figure}
+
+用户的密码有6-128位的长度要求，如果输入的密码格式有误，会提示下述错误。
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=1\textwidth]{figures/tiaoshi33.png}
+  \caption{密码长度错误提醒}
+  \label{fig:SJJG}
+\end{figure}
+
+用户注册成功会返回提示信息，并提醒用户前往登录界面登录。
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=1\textwidth]{figures/ZhuCeSuccess.png}
+  \caption{成功注册提醒}
+  \label{fig:SJJG}
+\end{figure}
+
+信息会保存在本地的user.user文件夹中。
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.6\textwidth]{figures/yonghubaocun.png}
+  \caption{用户信息存储}
+  \label{fig:SJJG}
+\end{figure}
+
+\subsection{管理员界面}
+
+来到管理员界面，我们对功能一个个进行讲解，首先是地区的增加与删除。
+
+先是新增地区，按照需求进行填写。
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=1\textwidth]{figures/do_xinzengdiqu.png}
+  \caption{新增地区操作}
+  \label{fig:SJJG}
+\end{figure}
+
+新增Test如下：
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=1\textwidth]{figures/xinzengdiqu.png}
+  \caption{新增地区演示}
+  \label{fig:SJJG}
+\end{figure}
+
+接着我们删除地区，Test的地区ID为22，我们进行删除，得到下面结果。
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=1\textwidth]{figures/shanchu.png}
+  \caption{删除地区演示}
+  \label{fig:SJJG}
+\end{figure}
+
+然后我们添加道路，下面是添加道路的操作以及添加后的图结构。
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=1\textwidth]{figures/do_xinzengdaolu.png}
+  \caption{添加道路演示}
+  \label{fig:SJJG}
+\end{figure}
+
+下面演示修改道路功能，下面是修改前后导航返回的结果。
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=1\textwidth]{figures/xiugai.png}
+  \caption{修改道路演示}
+  \label{fig:SJJG}
+\end{figure}
+
+发现导航路径从1变为2，说明道路长度成功修改，然后我们删除MI之间的道路，进一步查询，来演示删除道路功能。
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=1\textwidth]{figures/shanchudaolu.png}
+  \caption{删除道路演示}
+  \label{fig:SJJG}
+\end{figure}
+
+我们保存修改后的道路到本地test.map中，便完成的图的修改与保存。
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=1\textwidth]{figures/ditubaocun.png}
+  \caption{地图保存演示}
+  \label{fig:SJJG}
+\end{figure}
+
+\subsection{普通用户界面}
+
+普通用户尽可以进行导航功能，查询两个节点的最短路和次短路，以及通过可视化模块查询整个图结构以及每个城市的相信城市，演示图如下：
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=1\textwidth]{figures/userduan.png}
+  \caption{普通用户功能演示}
+  \label{fig:SJJG}
+\end{figure}
+
+\newpage
+\section{实验总结与收获}
+
+通过本次数据结构课程设计的完成，我对数据结构和算法在实际系统中的作用有了更加直观和深入的认识。本系统围绕地图网络展开，实现了用户登录管理、地图数据的导入与维护、路径搜索以及结果的可视化展示，整体功能完整，结构清晰，能够较好地满足任务书提出的各项要求。
+
+在系统实现过程中，我逐步体会到了模块化设计的重要性。通过将用户管理、图结构维护、路径算法以及界面显示等功能进行拆分，各模块之间的职责更加明确，代码结构也更加清晰。
+
+在数据结构的实现方面，我自行编写了红黑树类作为系统中的基础数据结构之一，用于管理边索引以及算法中的禁用节点和禁用边集合。在实现插入、删除及平衡维护的过程中，我对红黑树的旋转操作、颜色调整以及平衡恢复过程有了更深入的理解，也切身体会到了自平衡树在保证操作效率方面的优势。
+
+在路径搜索功能的实现中，我完成了 Dijkstra 算法的完整实现，并在此基础上结合 Yen 算法实现了多条最短路径的搜索。通过对算法流程的逐步调试和优化，我更加清楚地认识到图算法中“松弛操作”和优先队列在提高算法效率中的关键作用，同时也加深了我对算法与数据结构相互配合关系的理解。
+
+此外，在本次课程设计过程中，我还进一步熟悉了 Qt 框架下图形界面的开发方式，并能够将算法结果以较为直观的形式展示出来。在实验报告的撰写过程中，我也逐渐掌握了使用 Word 进行论文排版的方法，使报告结构更加规范。
+
+总体来看，本次课程设计不仅提升了我对数据结构和算法的理解，也锻炼了我将理论知识应用到实际系统中的能力，对今后进一步学习相关课程和进行软件开发实践具有积极的帮助。
+
+\newpage
+\section{附录：源代码}
+
+\subsection{main.cpp}
+
+\begin{lstlisting}[caption={main.cpp 主函数源码}]
+#include "mainwindow.h"
+#include <QApplication>
+
+int main(int argc, char *argv[]) {
+    QApplication a(argc, argv);
+    MainWindow w;
+    w.show();
+    return a.exec();
+}
+\end{lstlisting}
+
+\subsection{Dijkstra.cpp}
+
+\begin{lstlisting}[caption={Dijkstra.cpp源码}]
+#include "Dijkstra.h"
+#include <queue>
+#include <vector>
+#include <limits>
+#include <algorithm>
+
+// 迪杰斯特拉算法的辅助函数和工具
+namespace {
+    // 将两个顶点ID编码为一个唯一的长整数，用于快速查找边
+    long long encodeEdgeKey(int u, int v) {
+        return static_cast<long long>(u) * 1000000LL + v;
+    }
+
+    // 检查某个节点是否在禁用集合中
+    bool isBannedNode(int node, const BannedNodeSet* bannedNodes) {
+        if (!bannedNodes) return false;
+        return bannedNodes->contains(node);
+    }
+
+    // 检查某条边是否在禁用集合中
+    bool isBannedEdge(int u, int v, const BannedEdgeSet* bannedEdges) {
+        if (!bannedEdges) return false;
+        return bannedEdges->contains(encodeEdgeKey(u, v));
+    }
+
+    // 保守校验：迪杰斯特拉算法只允许非负边权，且拒绝异常大值以避免溢出
+    bool isValidWeight(double w) {
+        // 检查是否为 NaN 或 Inf
+        if (w != w || w == std::numeric_limits<double>::infinity() || 
+            w == -std::numeric_limits<double>::infinity()) {
+            return false;
+        }
+        if (w < 0.0) return false;
+        // 这个阈值足够大：课设地图不可能需要更大；同时避免 dist + w 溢出成 inf
+        if (w > 1e18) return false;
+        return true;
+    }
+}
+
+// 迪杰斯特拉最短路算法
+// 参数：图，源点，目标点，禁用节点集合，禁用边集合，返回的路径
+// 返回值：是否找到有效路径
+bool dijkstraShortestPath(
+    const Graph& graph,
+    int source,
+    int target,
+    const BannedNodeSet* bannedNodes,
+    const BannedEdgeSet* bannedEdges,
+    Path& result
+) {
+    // 初始化结果路径
+    result.nodes.clear();
+    result.cost = 0.0;
+
+    // 验证源点和目标点都存在于图中
+    if (!graph.hasVertex(source) || !graph.hasVertex(target)) return false;
+
+    // 特殊情况：源点等于目标点
+    if (source == target) {
+        if (isBannedNode(source, bannedNodes)) return false;
+        result.nodes = {source};
+        result.cost = 0.0;
+        return true;
+    }
+
+    // 检查源点和目标点是否被禁用
+    if (isBannedNode(source, bannedNodes) || isBannedNode(target, bannedNodes)) return false;
+
+    // 初始化迪杰斯特拉算法的数据结构
+    const int n = graph.vertexCount();
+    const double inf = std::numeric_limits<double>::infinity();
+
+    // 距离数组、父节点数组、访问标记
+    std::vector<double> dist(n, inf);
+    std::vector<int> parent(n, -1);
+    std::vector<bool> visited(n, false);
+
+    // 优先队列中的状态结构：包含距离和顶点ID
+    struct State {
+        double d;
+        int v;
+    };
+    // 比较器：使用最小堆，距离小的节点优先出队
+    struct Cmp {
+        bool operator()(const State& a, const State& b) const {
+            return a.d > b.d; 
+        }
+    };
+
+    // 初始化优先队列和源点距离
+    std::priority_queue<State, std::vector<State>, Cmp> pq;
+
+    dist[source] = 0.0;
+    pq.push({0.0, source});
+
+    // 主循环：从优先队列中取距离最小的节点进行松弛
+    while (!pq.empty()) {
+        State cur = pq.top();
+        pq.pop();
+
+        // 若节点已访问，跳过（防止重复处理）
+        int u = cur.v;
+        if (visited[u]) continue;
+        visited[u] = true;
+
+        // 到达目标点，提前终止
+        if (u == target) break;
+
+        // 遍历从u出发的所有边，进行松弛操作
+        for (const Edge& e : graph.adjEdges(u)) {
+            int v = e.to;
+
+            // 跳过被禁用的节点或边
+            if (isBannedNode(v, bannedNodes)) continue;
+            if (isBannedEdge(u, v, bannedEdges)) continue;
+
+            // 验证边的权值有效
+            double w = e.weight;
+            if (!isValidWeight(w)) continue;
+
+            // 松弛边(u,v)：尝试通过u到达v，如果距离更短则更新
+            // dist[u]可能是inf，这里保守处理
+            double nd = dist[u] + w;
+            if (nd < dist[v]) {
+                dist[v] = nd;
+                parent[v] = u;
+                pq.push({dist[v], v});
+            }
+        }
+    }
+
+    if (dist[target] == inf) {
+        return false;
+    }
+
+    // 从目标点反向回溯源点，还原最短路径
+    std::vector<int> rev;
+    for (int v = target; v != -1; v = parent[v]) {
+        rev.push_back(v);
+        if (v == source) break;
+    }
+    if (rev.empty() || rev.back() != source) {
+        return false;
+    }
+
+    std::reverse(rev.begin(), rev.end());
+    result.nodes = std::move(rev);
+    result.cost = dist[target];
+    return true;
+}
+\end{lstlisting}
+
+\subsection{Dijkstra.h}
+
+\begin{lstlisting}[caption={Dijkstra.h 源码}]
+#pragma once
+#include "Graph.h"
+#include "Path.h"
+#include "RBTree.h"
+
+// 禁用集合类型（给Yen算法使用）
+using BannedNodeSet = RBTree<int, bool>;
+using BannedEdgeSet = RBTree<long long, bool>;
+
+// 迪杰斯特拉最短路算法（支持禁用节点/边）
+// 参数：图、源点、目标点、禁用节点集合、禁用边集合、返回的路径
+// 返回：找到路径返回true，并写入result；否则false（result会被清空）
+bool dijkstraShortestPath(
+    const Graph& graph,
+    int source,
+    int target,
+    const BannedNodeSet* bannedNodes,
+    const BannedEdgeSet* bannedEdges,
+    Path& result
+);
+\end{lstlisting}
+
+\subsection{Edge.h}
+
+\begin{lstlisting}[caption={Edge.h 源码}]
+#pragma once
+
+// 边结构体：表示图中两个顶点之间的有向边
+struct Edge {
+    int from = -1;           // 起点顶点ID
+    int to = -1;             // 终点顶点ID
+    double weight = 0.0;     // 边的权重（距离）
+
+    Edge() = default;
+    Edge(int from, int to, double weight)
+        : from(from), to(to), weight(weight) {}
+};
+\end{lstlisting}
+
+\subsection{FileIO.cpp}
+
+\begin{lstlisting}[caption={FileIO.cpp 源码}]
+#include "FileIO.h"
+#include <fstream>
+#include <sstream>
+#include <iostream>
+
+// 从文件加载地图数据到图中
+bool loadMapFile(const std::string& fileName, Graph& graph) {
+    std::ifstream fin(fileName);
+    if (!fin.is_open()) {
+        std::cerr << "打开文件失败: " << fileName << "\n";
+        return false;
+    }
+
+    graph.clear();
+
+    std::string line;
+
+    // 跳过注释，读取 vertexCount edgeCount
+    int vertexCount = 0;
+    int edgeCount = 0;
+    while (std::getline(fin, line)) {
+        if (line.empty() || line[0] == '#') continue;
+        std::stringstream ss(line);
+        ss >> vertexCount >> edgeCount;
+        break;
+    }
+
+    if (vertexCount <= 0) {
+        std::cerr << "顶点数量无效\n";
+        return false;
+    }
+
+    // 读取顶点
+    int readVertices = 0;
+    while (readVertices < vertexCount && std::getline(fin, line)) {
+        if (line.empty() || line[0] == '#') continue;
+
+        std::stringstream ss(line);
+        int id;
+        std::string name;
+        double x, y;
+        if (!(ss >> id >> name >> x >> y)) {
+            std::cerr << "顶点数据格式错误\n";
+            return false;
+        }
+
+        // 验证顶点名称不为空
+        if (name.empty()) {
+            std::cerr << "顶点名称不能为空\n";
+            return false;
+        }
+
+        // 验证顶点ID是否与预期顺序匹配（应为 0,1,2,...）
+        if (id != readVertices) {
+            std::cerr << "顶点ID顺序错误：期望 " << readVertices << " 但得到 " << id << "\n";
+            return false;
+        }
+
+        // 验证坐标值的有效性（合理范围：-1e6 到 1e6）
+        if (x < -1e6 || x > 1e6 || y < -1e6 || y > 1e6) {
+            std::cerr << "顶点坐标超出有效范围: (" << x << ", " << y << ")\n";
+            return false;
+        }
+
+        // 按顺序 addVertex，id 用于校验
+        int newId = graph.addVertex(name, x, y);
+        if (newId != id) {
+            // addVertex 返回 -1 表示名称验证失败
+            std::cerr << "添加顶点失败: " << name << " （可能名称无效或过长）\n";
+            return false;
+        }
+        readVertices++;
+    }
+
+    // 验证读取的顶点数量与声明的数量匹配
+    if (readVertices != vertexCount) {
+        std::cerr << "顶点数量不匹配：期望 " << vertexCount << " 但读取 " << readVertices << "\n";
+        return false;
+    }
+
+    // 读取边
+    int readEdges = 0;
+    while (readEdges < edgeCount && std::getline(fin, line)) {
+        if (line.empty() || line[0] == '#') continue;
+
+        std::stringstream ss(line);
+        int u, v;
+        double w;
+        if (!(ss >> u >> v >> w)) {
+            std::cerr << "边数据格式错误\n";
+            return false;
+        }
+
+        // 验证边权值的有效性（必须为正数且不超过1e18）
+        if (w <= 0.0 || w > 1e18) {
+            std::cerr << "边权值无效: " << w << "（必须在 (0, 1e18] 范围内）\n";
+            return false;
+        }
+
+        if (!graph.addEdge(u, v, w)) {
+            std::cerr << "添加边失败: " << u << " " << v << "\n";
+            return false;
+        }
+        readEdges++;
+    }
+
+    // 验证读取的边数量与声明的数量匹配
+    if (readEdges != edgeCount) {
+        std::cerr << "边数量不匹配：期望 " << edgeCount << " 但读取 " << readEdges << "\n";
+        return false;
+    }
+
+    fin.close();
+    return true;
+}
+
+// 将图的数据保存到文件中
+bool saveMapFile(const std::string& fileName, const Graph& graph) {
+    std::ofstream fout(fileName);
+    if (!fout.is_open()) {
+        std::cerr << "写入文件失败: " << fileName << "\n";
+        return false;
+    }
+
+    const auto& vertices = graph.vertices();
+    int vertexCount = static_cast<int>(vertices.size());
+
+    // 统计边数（因为是无向图，每条边只记录一次）
+    int edgeCount = 0;
+    for (int u = 0; u < vertexCount; u++) {
+        for (const Edge& e : graph.adjEdges(u)) {
+            if (e.from < e.to) edgeCount++;
+        }
+    }
+
+    fout << "# 图导航系统的地图文件\n";
+    fout << vertexCount << " " << edgeCount << "\n\n";
+
+    fout << "# 顶点: id 名称 x坐标 y坐标\n";
+    for (const Vertex& v : vertices) {
+        fout << v.id() << " "
+             << v.name() << " "
+             << v.x() << " "
+             << v.y() << "\n";
+    }
+
+    fout << "\n# 边: 起点 终点 权重\n";
+    for (int u = 0; u < vertexCount; u++) {
+        for (const Edge& e : graph.adjEdges(u)) {
+            if (e.from < e.to) {
+                fout << e.from << " "
+                     << e.to << " "
+                     << e.weight << "\n";
+            }
+        }
+    }
+
+    fout.close();
+    return true;
+}
+\end{lstlisting}
+
+\subsection{FileIO.h}
+
+\begin{lstlisting}[caption={FileIO.h 源码}]
+#pragma once
+#include <string>
+#include "Graph.h"
+
+// 从文件加载地图数据到图中
+bool loadMapFile(const std::string& fileName, Graph& graph);
+
+// 将图的数据保存到文件中
+bool saveMapFile(const std::string& fileName, const Graph& graph);
+
+\end{lstlisting}
+
+\subsection{Graph.cpp}
+
+\begin{lstlisting}[caption={Graph.cpp 源码}]
+#include "Graph.h"
+
+Graph::Graph() = default;
+Graph::~Graph() = default;
+
+// 添加顶点，返回分配的ID
+int Graph::addVertex(const std::string& name, double x, double y) {
+    int id = static_cast<int>(mVertices.size());
+    mVertices.emplace_back(id, name, x, y);
+    mAdjList.emplace_back();
+    return id;
+}
+
+// 删除顶点及其关联的所有边
+bool Graph::removeVertex(int id) {
+    if (!isValidId(id)) return false;
+
+    // 删除与该点相关的所有边
+    // 遍历该顶点的所有邻接边
+    for (const Edge& e : mAdjList[id]) {
+        int v = e.to;
+        // 从对端邻接表中移除
+        auto& list = mAdjList[v];
+        for (auto it = list.begin(); it != list.end(); ) {
+            if (it->to == id) it = list.erase(it);
+            else ++it;
+        }
+        // 从索引中移除双向边
+        mEdgeIndex.erase(encodeEdge(id, v));
+        mEdgeIndex.erase(encodeEdge(v, id));
+    }
+
+    // 清空自身邻接
+    mAdjList[id].clear();
+
+    // 标记顶点为无效（保持 id 稳定，便于课设）
+    mVertices[id].setName("[removed]");
+    return true;
+}
+
+// 添加边（无向图，自动双向添加），若边已存在则更新权值
+bool Graph::addEdge(int u, int v, double weight) {
+    // 验证两个顶点有效且不相同
+    if (!isValidId(u) || !isValidId(v) || u == v) return false;
+
+    // 验证边权值有效性（必须为正数且不超过1e18）
+    if (weight <= 0.0 || weight > 1e18) return false;
+
+    // 若已存在，更新权值
+    if (hasEdge(u, v)) {
+        mEdgeIndex.insertOrAssign(encodeEdge(u, v), weight);
+        mEdgeIndex.insertOrAssign(encodeEdge(v, u), weight);
+
+        for (Edge& e : mAdjList[u]) if (e.to == v) e.weight = weight;
+        for (Edge& e : mAdjList[v]) if (e.to == u) e.weight = weight;
+        return true;
+    }
+
+    // 新增
+    mAdjList[u].emplace_back(u, v, weight);
+    mAdjList[v].emplace_back(v, u, weight);
+
+    mEdgeIndex.insert(encodeEdge(u, v), weight);
+    mEdgeIndex.insert(encodeEdge(v, u), weight);
+    return true;
+}
+
+// 删除两顶点间的边（无向图，同时删除两个方向）
+bool Graph::removeEdge(int u, int v) {
+    if (!hasEdge(u, v)) return false;
+
+    auto& lu = mAdjList[u];
+    for (auto it = lu.begin(); it != lu.end(); ) {
+        if (it->to == v) it = lu.erase(it);
+        else ++it;
+    }
+
+    auto& lv = mAdjList[v];
+    for (auto it = lv.begin(); it != lv.end(); ) {
+        if (it->to == u) it = lv.erase(it);
+        else ++it;
+    }
+
+    mEdgeIndex.erase(encodeEdge(u, v));
+    mEdgeIndex.erase(encodeEdge(v, u));
+    return true;
+}
+
+// 检查顶点是否存在
+bool Graph::hasVertex(int id) const {
+    return isValidId(id);
+}
+
+// 检查两顶点间是否存在边
+bool Graph::hasEdge(int u, int v) const {
+    if (!isValidId(u) || !isValidId(v)) return false;
+    return mEdgeIndex.contains(encodeEdge(u, v));
+}
+
+// 获取边的权值，若边不存在返回无穷大
+double Graph::getWeight(int u, int v) const {
+    const double* w = mEdgeIndex.find(encodeEdge(u, v));
+    if (!w) return std::numeric_limits<double>::infinity();
+    return *w;
+}
+
+// 获取顶点u的所有邻接边
+const std::vector<Edge>& Graph::adjEdges(int u) const {
+    static const std::vector<Edge> empty;
+    if (!isValidId(u)) return empty;
+    return mAdjList[u];
+}
+
+// 获取顶点u的所有邻接顶点
+std::vector<int> Graph::neighbors(int u) const {
+    std::vector<int> result;
+    if (!isValidId(u)) return result;
+    for (const Edge& e : mAdjList[u]) {
+        result.push_back(e.to);
+    }
+    return result;
+}
+
+// 获取图中顶点总数
+int Graph::vertexCount() const {
+    return static_cast<int>(mVertices.size());
+}
+
+// 获取所有顶点
+const std::vector<Vertex>& Graph::vertices() const {
+    return mVertices;
+}
+
+// 清空图中所有顶点和边
+void Graph::clear() {
+    mVertices.clear();
+    mAdjList.clear();
+    mEdgeIndex.clear();
+}
+
+// 检查顶点ID是否有效
+bool Graph::isValidId(int id) const {
+    return id >= 0 && id < static_cast<int>(mVertices.size());
+}
+
+// 将两个顶点ID编码为唯一的长整数用于索引
+long long Graph::encodeEdge(int u, int v) const {
+    // 假设顶点数 < 1e6，足够课设使用
+    // 利用进制编码：u作为高位，v作为低位
+    return static_cast<long long>(u) * 1000000LL + v;
+}
+\end{lstlisting}
+
+\subsection{Graph.h}
+
+\begin{lstlisting}[caption={Graph.h 源码}]
+#pragma once
+#include <vector>
+#include <string>
+#include <limits>
+#include "Vertex.h"
+#include "Edge.h"
+#include "RBTree.h"
+
+
+class Graph {
+public:
+    Graph();
+    ~Graph();
+    Graph(const Graph&) = delete;
+    Graph& operator=(const Graph&) = delete;
+
+    Graph(Graph&&) noexcept = default;
+    Graph& operator=(Graph&&) noexcept = default;
+
+    // 顶点操作
+    int addVertex(const std::string& name, double x = 0.0, double y = 0.0);
+    bool removeVertex(int id);
+
+    // 边的操作（无向图）
+    bool addEdge(int u, int v, double weight);
+    bool removeEdge(int u, int v);
+
+    // 查询操作
+    bool hasVertex(int id) const;
+    bool hasEdge(int u, int v) const;
+    double getWeight(int u, int v) const;
+
+    // 获取顶点的所有邻接边
+    const std::vector<Edge>& adjEdges(int u) const;
+    
+    // 获取顶点的所有邻接顶点
+    std::vector<int> neighbors(int u) const;
+
+    int vertexCount() const;
+    const std::vector<Vertex>& vertices() const;
+
+    void clear();
+
+private:
+    std::vector<Vertex> mVertices;
+    std::vector<std::vector<Edge>> mAdjList;
+
+    // 边索引：key = encodeEdge(u, v) -> 权重
+    RBTree<long long, double> mEdgeIndex;
+
+private:
+    bool isValidId(int id) const;
+    long long encodeEdge(int u, int v) const;
+};
+
+\end{lstlisting}
+
+\subsection{Path.h}
+
+\begin{lstlisting}[caption={Path.h 源码}]
+#pragma once
+#include <vector>
+#include <string>
+
+// 路径结构体：表示一条从源到目标的路径
+struct Path {
+    std::vector<int> nodes;  // 路径上的节点序列
+    double cost = 0.0;       // 路径的总代价（权重之和）
+
+    bool empty() const { return nodes.empty(); }
+    std::string toString() const;
+};
+
+\end{lstlisting}
+
+\subsection{RBTree.h}
+
+\begin{lstlisting}[caption={RBTree.h 源码}]
+#pragma once
+#include <cstddef>
+#include <functional>
+#include <utility>
+
+// 红黑树模板类：一个自平衡的二叉搜索树实现
+template <typename Key, typename Value, typename Compare = std::less<Key>>
+class RBTree {
+public:
+    RBTree() {
+        initNil();
+        mRoot = mNil;
+        mSize = 0;
+    }
+
+    RBTree(const RBTree& other) = delete;
+    RBTree& operator=(const RBTree& other) = delete;
+
+    RBTree(RBTree&& other) noexcept {
+        // 移动：直接接管指针（简单处理）
+        mNil = other.mNil;
+        mRoot = other.mRoot;
+        mSize = other.mSize;
+        mComp = std::move(other.mComp);
+
+        other.mNil = nullptr;
+        other.mRoot = nullptr;
+        other.mSize = 0;
+    }
+
+    RBTree& operator=(RBTree&& other) noexcept {
+        if (this == &other) return *this;
+        destroyAll();
+
+        mNil = other.mNil;
+        mRoot = other.mRoot;
+        mSize = other.mSize;
+        mComp = std::move(other.mComp);
+
+        other.mNil = nullptr;
+        other.mRoot = nullptr;
+        other.mSize = 0;
+        return *this;
+    }
+
+    ~RBTree() {
+        destroyAll();
+    }
+
+    std::size_t size() const { return mSize; }
+    bool empty() const { return mSize == 0; }
+
+    void clear() {
+        if (!mNil) return; // 兼容 move 后对象
+        clearSubtree(mRoot);
+        mRoot = mNil;
+        mSize = 0;
+    }
+
+    // 插入：若key不存在则插入，存在则不改value，返回是否截插
+    bool insert(const Key& key, const Value& value) {
+        return insertImpl(key, value, false);
+    }
+
+    // 插入或赋值：若key存在则覆盖value，若不存在则插入
+    void insertOrAssign(const Key& key, const Value& value) {
+        insertImpl(key, value, true);
+    }
+
+    // 检查是否包含key
+    bool contains(const Key& key) const {
+        return findNode(key) != mNil;
+    }
+
+    // 查找：找到返回true，并将value写入outValue；找不到返回false
+    bool tryGet(const Key& key, Value& outValue) const {
+        Node* node = findNode(key);
+        if (node == mNil) return false;
+        outValue = node->value;
+        return true;
+    }
+
+    // 返回指针，找不到返回 nullptr（便于你后面禁用集合做标记）
+    const Value* find(const Key& key) const {
+        Node* node = findNode(key);
+        if (node == mNil) return nullptr;
+        return &node->value;
+    }
+
+    Value* find(const Key& key) {
+        Node* node = findNode(key);
+        if (node == mNil) return nullptr;
+        return &node->value;
+    }
+
+    // 删除：存在则删除并返回 true，否则 false
+    bool erase(const Key& key) {
+        Node* z = findNode(key);
+        if (z == mNil) return false;
+
+        Node* y = z;
+        Color yOriginalColor = y->color;
+        Node* x = mNil;
+
+        if (z->left == mNil) {
+            x = z->right;
+            transplant(z, z->right);
+        } else if (z->right == mNil) {
+            x = z->left;
+            transplant(z, z->left);
+        } else {
+            y = minimum(z->right);
+            yOriginalColor = y->color;
+            x = y->right;
+            if (y->parent == z) {
+                x->parent = y;
+            } else {
+                transplant(y, y->right);
+                y->right = z->right;
+                y->right->parent = y;
+            }
+
+            transplant(z, y);
+            y->left = z->left;
+            y->left->parent = y;
+            y->color = z->color;
+        }
+
+        delete z;
+        mSize--;
+
+        if (yOriginalColor == Color::Black) {
+            deleteFixup(x);
+        }
+        return true;
+    }
+
+    // 中序遍历（调试/导出用）
+    template <typename Func>
+    void inorder(Func func) const {
+        inorderImpl(mRoot, func);
+    }
+
+private:
+    enum class Color { Red, Black };
+
+    struct Node {
+        Key key;
+        Value value;
+        Color color = Color::Red;
+        Node* parent = nullptr;
+        Node* left = nullptr;
+        Node* right = nullptr;
+
+        Node() = default;
+        Node(const Key& k, const Value& v) : key(k), value(v) {}
+    };
+
+    Node* mNil = nullptr;   // 哨兵 NIL（黑色）
+    Node* mRoot = nullptr;
+    std::size_t mSize = 0;
+    Compare mComp = Compare();
+
+private:
+    void initNil() {
+        mNil = new Node();
+        mNil->color = Color::Black;
+        mNil->parent = mNil;
+        mNil->left = mNil;
+        mNil->right = mNil;
+    }
+
+    void destroyAll() {
+        if (!mNil) return;
+        clear();
+        delete mNil;
+        mNil = nullptr;
+        mRoot = nullptr;
+    }
+
+    bool isEqualKey(const Key& a, const Key& b) const {
+        return !mComp(a, b) && !mComp(b, a);
+    }
+
+    Node* findNode(const Key& key) const {
+        if (!mNil) return nullptr; // move 后保护
+        Node* cur = mRoot;
+        while (cur != mNil) {
+            if (isEqualKey(key, cur->key)) return cur;
+            if (mComp(key, cur->key)) cur = cur->left;
+            else cur = cur->right;
+        }
+        return mNil;
+    }
+
+    bool insertImpl(const Key& key, const Value& value, bool assignIfExists) {
+        Node* y = mNil;
+        Node* x = mRoot;
+
+        while (x != mNil) {
+            y = x;
+            if (isEqualKey(key, x->key)) {
+                if (assignIfExists) {
+                    x->value = value;
+                }
+                return false; // 已存在
+            }
+            if (mComp(key, x->key)) x = x->left;
+            else x = x->right;
+        }
+
+        Node* z = new Node(key, value);
+        z->left = mNil;
+        z->right = mNil;
+        z->parent = y;
+        z->color = Color::Red;
+
+        if (y == mNil) {
+            mRoot = z;
+        } else if (mComp(key, y->key)) {
+            y->left = z;
+        } else {
+            y->right = z;
+        }
+
+        mSize++;
+        insertFixup(z);
+        return true;
+    }
+
+    void rotateLeft(Node* x) {
+        Node* y = x->right;
+        x->right = y->left;
+        if (y->left != mNil) {
+            y->left->parent = x;
+        }
+        y->parent = x->parent;
+
+        if (x->parent == mNil) {
+            mRoot = y;
+        } else if (x == x->parent->left) {
+            x->parent->left = y;
+        } else {
+            x->parent->right = y;
+        }
+
+        y->left = x;
+        x->parent = y;
+    }
+
+    void rotateRight(Node* y) {
+        Node* x = y->left;
+        y->left = x->right;
+        if (x->right != mNil) {
+            x->right->parent = y;
+        }
+        x->parent = y->parent;
+
+        if (y->parent == mNil) {
+            mRoot = x;
+        } else if (y == y->parent->right) {
+            y->parent->right = x;
+        } else {
+            y->parent->left = x;
+        }
+
+        x->right = y;
+        y->parent = x;
+    }
+
+    void insertFixup(Node* z) {
+        while (z->parent->color == Color::Red) {
+            if (z->parent == z->parent->parent->left) {
+                Node* y = z->parent->parent->right; // uncle
+                if (y->color == Color::Red) {
+                    z->parent->color = Color::Black;
+                    y->color = Color::Black;
+                    z->parent->parent->color = Color::Red;
+                    z = z->parent->parent;
+                } else {
+                    if (z == z->parent->right) {
+                        z = z->parent;
+                        rotateLeft(z);
+                    }
+                    z->parent->color = Color::Black;
+                    z->parent->parent->color = Color::Red;
+                    rotateRight(z->parent->parent);
+                }
+            } else {
+                Node* y = z->parent->parent->left; // uncle
+                if (y->color == Color::Red) {
+                    z->parent->color = Color::Black;
+                    y->color = Color::Black;
+                    z->parent->parent->color = Color::Red;
+                    z = z->parent->parent;
+                } else {
+                    if (z == z->parent->left) {
+                        z = z->parent;
+                        rotateRight(z);
+                    }
+                    z->parent->color = Color::Black;
+                    z->parent->parent->color = Color::Red;
+                    rotateLeft(z->parent->parent);
+                }
+            }
+        }
+        mRoot->color = Color::Black;
+        mRoot->parent = mNil;
+    }
+
+    void transplant(Node* u, Node* v) {
+        if (u->parent == mNil) {
+            mRoot = v;
+        } else if (u == u->parent->left) {
+            u->parent->left = v;
+        } else {
+            u->parent->right = v;
+        }
+        v->parent = u->parent;
+    }
+
+    Node* minimum(Node* x) const {
+        while (x->left != mNil) x = x->left;
+        return x;
+    }
+
+    void deleteFixup(Node* x) {
+        while (x != mRoot && x->color == Color::Black) {
+            if (x == x->parent->left) {
+                Node* w = x->parent->right;
+                if (w->color == Color::Red) {
+                    w->color = Color::Black;
+                    x->parent->color = Color::Red;
+                    rotateLeft(x->parent);
+                    w = x->parent->right;
+                }
+
+                if (w->left->color == Color::Black && w->right->color == Color::Black) {
+                    w->color = Color::Red;
+                    x = x->parent;
+                } else {
+                    if (w->right->color == Color::Black) {
+                        w->left->color = Color::Black;
+                        w->color = Color::Red;
+                        rotateRight(w);
+                        w = x->parent->right;
+                    }
+                    w->color = x->parent->color;
+                    x->parent->color = Color::Black;
+                    w->right->color = Color::Black;
+                    rotateLeft(x->parent);
+                    x = mRoot;
+                }
+            } else {
+                Node* w = x->parent->left;
+                if (w->color == Color::Red) {
+                    w->color = Color::Black;
+                    x->parent->color = Color::Red;
+                    rotateRight(x->parent);
+                    w = x->parent->left;
+                }
+
+                if (w->right->color == Color::Black && w->left->color == Color::Black) {
+                    w->color = Color::Red;
+                    x = x->parent;
+                } else {
+                    if (w->left->color == Color::Black) {
+                        w->right->color = Color::Black;
+                        w->color = Color::Red;
+                        rotateLeft(w);
+                        w = x->parent->left;
+                    }
+                    w->color = x->parent->color;
+                    x->parent->color = Color::Black;
+                    w->left->color = Color::Black;
+                    rotateRight(x->parent);
+                    x = mRoot;
+                }
+            }
+        }
+        x->color = Color::Black;
+        mRoot->parent = mNil;
+    }
+
+    void clearSubtree(Node* node) {
+        if (node == mNil) return;
+        clearSubtree(node->left);
+        clearSubtree(node->right);
+        delete node;
+    }
+
+    template <typename Func>
+    void inorderImpl(Node* node, Func func) const {
+        if (node == mNil) return;
+        inorderImpl(node->left, func);
+        func(node->key, node->value);
+        inorderImpl(node->right, func);
+    }
+};
+
+\end{lstlisting}
+
+\subsection{Vertex.cpp}
+
+\begin{lstlisting}[caption={Vertex.cpp 源码}]
+#include "Vertex.h"
+
+// 默认构造函数
+Vertex::Vertex() : mId(-1), mName(""), mX(0.0), mY(0.0) {}
+
+// 有参数构造函数
+Vertex::Vertex(int id, const std::string& name, double x, double y)
+    : mId(id), mName(name), mX(x), mY(y) {}
+
+// 取值函数
+int Vertex::id() const { return mId; }
+const std::string& Vertex::name() const { return mName; }
+double Vertex::x() const { return mX; }
+double Vertex::y() const { return mY; }
+
+// 设置顶点名称
+void Vertex::setName(const std::string& name) {
+    mName = name;
+}
+
+// 设置顶点位置
+void Vertex::setPosition(double x, double y) {
+    mX = x;
+    mY = y;
+}
+
+\end{lstlisting}
+
+\subsection{Vertex.h}
+
+\begin{lstlisting}[caption={Vertex.h 源码}]
+#pragma once
+#include <string>
+
+// 顶点类：表示图中的一个顶点（节点）
+class Vertex {
+public:
+    Vertex();
+    Vertex(int id, const std::string& name, double x = 0.0, double y = 0.0);
+
+    // 获取方法
+    int id() const;
+    const std::string& name() const;
+    double x() const;
+    double y() const;
+
+    // 设置方法
+    void setName(const std::string& name);
+    void setPosition(double x, double y);
+
+private:
+    int mId;
+    std::string mName;
+    double mX;
+    double mY;
+};
+
+\end{lstlisting}
+
+\subsection{Yen.cpp}
+
+\begin{lstlisting}[caption={Yen.cpp 源码}]
+#include "Yen.h"
+#include "Dijkstra.h"
+#include <queue>
+#include <string>
+#include <vector>
+#include <limits>
+
+namespace {
+    // 编码边的键（与Dijkstra中的编码方式相同）
+    long long encodeEdgeKey(int u, int v) {
+        return static_cast<long long>(u) * 1000000LL + v;
+    }
+
+    // 计算路径前缀 [0..endIndex] 的代价（endIndex >= 0）
+    // 例如 nodes = [s,a,b,t]，endIndex=2 => s->a->b 的代价
+    double prefixCost(const Graph& graph, const std::vector<int>& nodes, int endIndex) {
+        if (endIndex <= 0) return 0.0;
+        double sum = 0.0;
+        for (int i = 0; i < endIndex; i++) {
+            int u = nodes[i];
+            int v = nodes[i + 1];
+            double w = graph.getWeight(u, v);
+            if (w == std::numeric_limits<double>::infinity()) {
+                return std::numeric_limits<double>::infinity();
+            }
+            sum += w;
+        }
+        return sum;
+    }
+
+    std::string pathSignature(const std::vector<int>& nodes) {
+        // 简单签名：用 '-' 连接，避免候选路径重复
+        // 例如 0-3-5-2
+        std::string s;
+        s.reserve(nodes.size() * 4);
+        for (std::size_t i = 0; i < nodes.size(); i++) {
+            s += std::to_string(nodes[i]);
+            if (i + 1 < nodes.size()) s += "-";
+        }
+        return s;
+    }
+
+    struct Candidate {
+        Path path;
+        std::string sig;
+    };
+
+    struct CandidateCmp {
+        bool operator()(const Candidate& a, const Candidate& b) const {
+            return a.path.cost > b.path.cost; // min-heap
+        }
+    };
+}
+
+// Yen算法：求取第K条最短路径（K=2时求次短路）
+// 参数：图，源点，目标点，返回最短路径，返回次短路径
+// 返回值：是否找到至少一条有效路径
+bool yenK2(
+    const Graph& graph,
+    int source,
+    int target,
+    Path& shortestPath,
+    Path& secondShortestPath
+) {
+    // 初始化返回的路径
+    shortestPath.nodes.clear();
+    shortestPath.cost = 0.0;
+    secondShortestPath.nodes.clear();
+    secondShortestPath.cost = 0.0;
+
+    // 第0步：先求最短路 P1
+    if (!dijkstraShortestPath(graph, source, target, nullptr, nullptr, shortestPath)) {
+        return false;
+    }
+
+    // 如果最短路只有一个点（source==target），次短路一般无意义
+    if (shortestPath.nodes.size() <= 1) {
+        return true;
+    }
+
+    // 候选集合（按代价最小出堆）
+    std::priority_queue<Candidate, std::vector<Candidate>, CandidateCmp> candidates;
+
+    // 用 RBTree 做去重（你也可以改成别的，但这里保持“全 RBTree”风格）
+    RBTree<std::string, bool> seenCandidate;
+
+    const std::vector<int>& p1 = shortestPath.nodes;
+    const int len = static_cast<int>(p1.size());
+
+    // 第1步：枚举分支点i（终点不作为分支点）
+    for (int i = 0; i <= len - 2; i++) {
+        int spurNode = p1[i];
+
+        // 根路径 = p1[0..i]
+        // 禁用节点：根路径中除分支点外的节点都禁用，保证简单路径
+        BannedNodeSet bannedNodes;
+        for (int k = 0; k <= i - 1; k++) {
+            bannedNodes.insertOrAssign(p1[k], true);
+        }
+
+        // 禁用边：禁用让分支点继续沿着P1走的那条边，从而强制分叉
+        BannedEdgeSet bannedEdges;
+        int nextNodeOnP1 = p1[i + 1];
+        bannedEdges.insertOrAssign(encodeEdgeKey(spurNode, nextNodeOnP1), true);
+        // 无向图：反向也禁用更安全
+        bannedEdges.insertOrAssign(encodeEdgeKey(nextNodeOnP1, spurNode), true);
+
+        // 分支路径：从分支点到目标点
+        Path spurPath;
+        bool ok = dijkstraShortestPath(graph, spurNode, target, &bannedNodes, &bannedEdges, spurPath);
+        if (!ok) continue;
+
+        // 拼接总路径 = 根路径[:-1] + 分支路径
+        std::vector<int> totalNodes;
+        totalNodes.reserve((i + 1) + spurPath.nodes.size());
+
+        // 根路径去掉最后一个分支点，避免重复
+        for (int k = 0; k < i; k++) {
+            totalNodes.push_back(p1[k]);
+        }
+        // 加上分支路径（第一个就是分支点）
+        for (int v : spurPath.nodes) {
+            totalNodes.push_back(v);
+        }
+
+        // 代价 = 根路径代价(0..i) + 分支路径代价
+        // 注意：根路径代价包含到分支点的代价，所以 endIndex=i
+        double rootCost = prefixCost(graph, p1, i);
+        if (rootCost == std::numeric_limits<double>::infinity()) continue;
+
+        Path totalPath;
+        totalPath.nodes = std::move(totalNodes);
+        totalPath.cost = rootCost + spurPath.cost;
+
+        // 去重：相同节点序列只保留一次
+        std::string sig = pathSignature(totalPath.nodes);
+        if (seenCandidate.contains(sig)) continue;
+        seenCandidate.insertOrAssign(sig, true);
+
+        candidates.push({totalPath, sig});
+    }
+
+    // 第2步：取最小候选作为第2条最短路
+    if (candidates.empty()) {
+        // 次短路不存在
+        return true;
+    }
+
+    secondShortestPath = candidates.top().path;
+    return true;
+}
+
+\end{lstlisting}
+
+\subsection{Yen.h}
+
+\begin{lstlisting}[caption={Yen.h 源码}]
+#pragma once
+#include "Graph.h"
+#include "Path.h"
+
+// Yen算法（K=2）：求出最短路径和次短路径（非严格次短，允许等长）
+// 参数：图、源点、目标点、返回的最短路径、返回的次短路径
+// 返回：最短路径不存在时返回false
+//      最短路径存在时返回true（secondShortestPath可能为空表示无次短路）
+bool yenK2(
+    const Graph& graph,
+    int source,
+    int target,
+    Path& shortestPath,
+    Path& secondShortestPath
+);
+
+\end{lstlisting}
+
+\subsection{MapView.cpp}
+
+\begin{lstlisting}[caption={MapView.cpp 源码}]
+#include "MapView.h"
+
+#include <QWheelEvent>
+#include <QMouseEvent>
+#include <QGraphicsItem>
+
+// 构造培训每个图形首选项
+MapView::MapView(QWidget* parent) : QGraphicsView(parent) {
+    setRenderHint(QPainter::Antialiasing, true);
+    setRenderHint(QPainter::TextAntialiasing, true);
+
+    setDragMode(QGraphicsView::ScrollHandDrag);
+    setTransformationAnchor(QGraphicsView::AnchorUnderMouse);
+    setResizeAnchor(QGraphicsView::AnchorUnderMouse);
+
+    setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+    setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+    setViewportUpdateMode(QGraphicsView::BoundingRectViewportUpdate);
+}
+
+// 鼠标滱轮事件：实现图的缩放功能
+void MapView::wheelEvent(QWheelEvent* event) {
+    const QPoint angleDelta = event->angleDelta();
+    if (angleDelta.y() == 0) {
+        event->accept();
+        return;
+    }
+
+    const qreal zoomInFactor = 1.15;
+    const qreal zoomOutFactor = 1.0 / zoomInFactor;
+
+    if (angleDelta.y() > 0) {
+        scale(zoomInFactor, zoomInFactor);
+    } else {
+        scale(zoomOutFactor, zoomOutFactor);
+    }
+    event->accept();
+}
+
+// 鼠标按下事件：检测是否点击了节点
+void MapView::mousePressEvent(QMouseEvent* event) {
+    if (event->button() == Qt::LeftButton) {
+        // itemAt 使用视口坐标
+        QGraphicsItem* item = itemAt(event->pos());
+        if (item) {
+            // 我们在 MainWindow::rebuildScene() 里给节点圆点设置了 data(0)=id
+            QVariant v = item->data(0);
+            if (v.isValid()) {
+                bool ok = false;
+                int id = v.toInt(&ok);
+                if (ok) {
+                    emit nodeClicked(id);
+                    // 不 return：仍然允许拖拽/选择等默认行为
+                }
+            }
+        }
+    }
+
+    QGraphicsView::mousePressEvent(event);
+}
+
+\end{lstlisting}
+
+\subsection{MapView.h}
+
+\begin{lstlisting}[caption={MapView.h 源码}]
+#pragma once
+#include <QGraphicsView>
+
+class QWheelEvent;
+class QMouseEvent;
+
+// 地图视图：自定义QGraphicsView，支持缩放和节点点击
+class MapView : public QGraphicsView {
+    Q_OBJECT
+public:
+    explicit MapView(QWidget* parent = nullptr);
+
+signals:
+    // 当节点被点击时发出此信号
+    void nodeClicked(int nodeId);
+
+protected:
+    // 鼠标滚轮事件：实现缩放功能
+    void wheelEvent(QWheelEvent* event) override;
+    // 鼠标按下事件：检测节点点击
+    void mousePressEvent(QMouseEvent* event) override;
+};
+
+\end{lstlisting}
+
+\subsection{UserManager.cpp}
+
+\begin{lstlisting}[caption={UserManager.cpp 源码}]
+#include "UserManager.h"
+#include <QFile>
+#include <QTextStream>
+
+// 根据用户名查找用户索引，未找到返回-1
+int UserManager::findUserIndex(const QString& username) const {
+    for (int i = 0; i < users.size(); ++i) {
+        if (users[i].username == username) return i;
+    }
+    return -1;
+}
+
+// 从文件中会载用户信息
+bool UserManager::load(const QString& fileName) {
+    users.clear();
+
+    QFile f(fileName);
+    if (!f.exists()) return true;
+    if (!f.open(QIODevice::ReadOnly | QIODevice::Text)) return false;
+
+    QTextStream in(&f);
+    while (!in.atEnd()) {
+        QString line = in.readLine().trimmed();
+        if (line.isEmpty() || line.startsWith("#")) continue;
+
+        QStringList parts = line.split(' ', Qt::SkipEmptyParts);
+        if (parts.size() < 3) continue;
+
+        UserRecord u;
+        u.username = parts[0];
+        u.password = parts[1];
+        u.role = (parts[2].toLower() == "admin") ? UserRole::Admin : UserRole::User;
+        users.push_back(u);
+    }
+    return true;
+}
+
+// 将用户信息保存到文件
+bool UserManager::save(const QString& fileName) const {
+    QFile f(fileName);
+    if (!f.open(QIODevice::WriteOnly | QIODevice::Text)) return false;
+
+    QTextStream out(&f);
+    out << "# 用户名 密码 消息(user/admin)\n";
+    for (const auto& u : users) {
+        out << u.username << " " << u.password << " " << (u.role == UserRole::Admin ? "admin" : "user") << "\n";
+    }
+    return true;
+}
+
+// 确保系统中存在admin账户，不存在则创建
+void UserManager::ensureDefaultAdmin(const QString& fileName) {
+    if (findUserIndex("admin") != -1) return;
+    users.push_back({"admin", "admin", UserRole::Admin});
+    save(fileName);
+}
+
+// 注册新用户（普通用户）
+bool UserManager::registerUser(const QString& username,
+                               const QString& password,
+                               QString& err) {
+    QString u = username.trimmed();
+    if (u.isEmpty() || password.isEmpty()) {
+        err = "用户名或密码不能为空";
+        return false;
+    }
+
+    // 验证用户名长度（1-32 字符）
+    if (u.length() < 1 || u.length() > 32) {
+        err = "用户名长度必须在 1-32 字符之间";
+        return false;
+    }
+
+    // 验证密码长度（6-128 字符）
+    if (password.length() < 6 || password.length() > 128) {
+        err = "密码长度必须在 6-128 字符之间";
+        return false;
+    }
+
+    if (u.toLower() == "admin") {
+        err = "admin 为系统默认管理员账号，不能注册";
+        return false;
+    }
+    if (findUserIndex(u) != -1) {
+        err = "用户名已存在";
+        return false;
+    }
+
+    // 只注册普通用户
+    users.push_back({u, password, UserRole::User});
+    err.clear();
+    return true;
+}
+
+// 用户登录验证
+bool UserManager::login(const QString& username,
+                        const QString& password,
+                        UserRole role,
+                        QString& err) const {
+    QString u = username.trimmed();
+    int idx = findUserIndex(u);
+    if (idx == -1) {
+        err = "用户不存在";
+        return false;
+    }
+    if (users[idx].password != password) {
+        err = "密码错误";
+        return false;
+    }
+    if (users[idx].role != role) {
+        err = "身份不匹配（管理员/普通用户选择错误）";
+        return false;
+    }
+    err.clear();
+    return true;
+}
+
+\end{lstlisting}
+
+\subsection{UserManager.h}
+
+\begin{lstlisting}[caption={UserManager.h 源码}]
+#pragma once
+#include <QString>
+#include <QVector>
+
+enum class UserRole {
+    User = 0,
+    Admin = 1
+};
+
+struct UserRecord {
+    QString username;
+    QString password;
+    UserRole role = UserRole::User;
+};
+
+class UserManager {
+public:
+    bool load(const QString& fileName);
+    bool save(const QString& fileName) const;
+
+    // 系统默认管理员 admin/admin（如果不存在就写入）
+    void ensureDefaultAdmin(const QString& fileName);
+
+    // 只允许注册普通用户（不允许注册管理员，不允许注册 admin）
+    bool registerUser(const QString& username,
+                      const QString& password,
+                      QString& err);
+
+    // 登录时需要选择身份（管理员/普通用户）
+    bool login(const QString& username,
+               const QString& password,
+               UserRole role,
+               QString& err) const;
+
+private:
+    QVector<UserRecord> users;
+
+    int findUserIndex(const QString& username) const;
+};
+
+\end{lstlisting}
+
+\subsection{mainwindow.cpp}
+
+\begin{lstlisting}[caption={mainwindow.cpp 源码}]
+#include "mainwindow.h"
+#include "MapView.h"
+
+#include <QStackedWidget>
+#include <QWidget>
+#include <QVBoxLayout>
+#include <QHBoxLayout>
+#include <QFormLayout>
+#include <QLineEdit>
+#include <QTextEdit>
+#include <QPushButton>
+#include <QRadioButton>
+#include <QLabel>
+#include <QMessageBox>
+#include <QFileDialog>
+#include <QInputDialog>
+#include <QFrame>
+
+#include <QGraphicsScene>
+#include <QGraphicsEllipseItem>
+#include <QGraphicsLineItem>
+#include <QGraphicsSimpleTextItem>
+#include <QPen>
+#include <QBrush>
+
+static const char* kUserFile = "users.user";
+
+MainWindow::MainWindow(QWidget* parent) : QMainWindow(parent) {
+    buildUi();
+    applyTheme();
+
+    userManager.load(kUserFile);
+    userManager.ensureDefaultAdmin(kUserFile);
+
+    resize(1120, 720);
+    showLoginPage();
+}
+
+long long MainWindow::edgeKey(int u, int v) const {
+    if (u > v) std::swap(u, v);
+    return static_cast<long long>(u) * 1000000LL + v;
+}
+
+void MainWindow::applyTheme() {
+    setStyleSheet(R"(
+QMainWindow { background: #FFF6D6; }
+
+QLabel { color: #3F2F1F; font-size: 14px; }
+QLabel#titleLabel { font-size: 22px; font-weight: 700; }
+QLabel#subtitleLabel { font-size: 16px; font-weight: 700; }
+QLabel#hintLabel { color: #6B563A; font-size: 13px; }
+
+QWidget#card {
+    background: #FFFEF6;
+    border: 1px solid #E8D7A8;
+    border-radius: 18px;
+}
+
+QLineEdit {
+    background: #FFFFFF;
+    border: 1px solid #E3D0A0;
+    border-radius: 12px;
+    padding: 10px 12px;
+    font-size: 14px;
+    selection-background-color: #FFE08A;
+}
+
+QTextEdit {
+    background: #FFFFFF;
+    border: 1px solid #E3D0A0;
+    border-radius: 14px;
+    padding: 12px;
+    font-size: 14px;
+}
+
+QPushButton {
+    background: #FFE08A;
+    border: 1px solid #D9B86B;
+    border-radius: 14px;
+    padding: 10px 18px;
+    font-weight: 700;
+}
+QPushButton:hover { background: #FFD56A; }
+QPushButton:pressed { background: #F3C757; }
+
+QPushButton#secondaryBtn {
+    background: #FFF2C2;
+    border: 1px solid #D9C48A;
+}
+QPushButton#secondaryBtn:hover { background: #FFE8A8; }
+
+QRadioButton { color: #3F2F1F; font-size: 14px; }
+
+QFrame#divider { background: #E8D7A8; }
+)");
+}
+
+void MainWindow::buildUi() {
+    stackedWidget = new QStackedWidget(this);
+    setCentralWidget(stackedWidget);
+
+    // ================== Login Page ==================
+    QWidget* loginPage = new QWidget();
+    QVBoxLayout* pageRoot = new QVBoxLayout(loginPage);
+    pageRoot->setContentsMargins(28, 28, 28, 28);
+
+    QWidget* loginCard = new QWidget();
+    loginCard->setObjectName("card");
+    QVBoxLayout* cardLayout = new QVBoxLayout(loginCard);
+    cardLayout->setContentsMargins(28, 24, 28, 24);
+    cardLayout->setSpacing(14);
+
+    QLabel* title = new QLabel("地图导航系统");
+    title->setObjectName("titleLabel");
+    cardLayout->addWidget(title);
+
+    QLabel* subtitle = new QLabel("登录");
+    subtitle->setObjectName("subtitleLabel");
+    cardLayout->addWidget(subtitle);
+
+    QFormLayout* form = new QFormLayout();
+    form->setHorizontalSpacing(14);
+    form->setVerticalSpacing(12);
+
+    loginUserEdit = new QLineEdit();
+    loginPassEdit = new QLineEdit();
+    loginPassEdit->setEchoMode(QLineEdit::Password);
+    loginUserEdit->setPlaceholderText("输入用户名");
+    loginPassEdit->setPlaceholderText("输入密码");
+
+    form->addRow("用户名：", loginUserEdit);
+    form->addRow("密码：", loginPassEdit);
+    cardLayout->addLayout(form);
+
+    QHBoxLayout* roleRow = new QHBoxLayout();
+    adminRadio = new QRadioButton("管理员");
+    userRadio = new QRadioButton("普通用户");
+    userRadio->setChecked(true);
+    roleRow->addWidget(adminRadio);
+    roleRow->addWidget(userRadio);
+    roleRow->addStretch();
+    cardLayout->addLayout(roleRow);
+
+    QLabel* hint = new QLabel("管理员账号由系统初始化创建，请勿注册管理员。");
+    hint->setObjectName("hintLabel");
+    cardLayout->addWidget(hint);
+
+    QHBoxLayout* btnRow = new QHBoxLayout();
+    loginButton = new QPushButton("登录");
+    goRegisterButton = new QPushButton("去注册");
+    goRegisterButton->setObjectName("secondaryBtn");
+    btnRow->addWidget(loginButton);
+    btnRow->addWidget(goRegisterButton);
+    btnRow->addStretch();
+    cardLayout->addLayout(btnRow);
+
+    QHBoxLayout* centerRow = new QHBoxLayout();
+    centerRow->addStretch();
+    centerRow->addWidget(loginCard);
+    centerRow->addStretch();
+    pageRoot->addStretch();
+    pageRoot->addLayout(centerRow);
+    pageRoot->addStretch();
+
+    loginCard->setFixedWidth(520);
+
+    // ================== Register Page ==================
+    QWidget* registerPage = new QWidget();
+    QVBoxLayout* regPageRoot = new QVBoxLayout(registerPage);
+    regPageRoot->setContentsMargins(28, 28, 28, 28);
+
+    QWidget* regCard = new QWidget();
+    regCard->setObjectName("card");
+    QVBoxLayout* regLayout = new QVBoxLayout(regCard);
+    regLayout->setContentsMargins(28, 24, 28, 24);
+    regLayout->setSpacing(14);
+
+    QLabel* regTitle = new QLabel("注册普通用户");
+    regTitle->setObjectName("subtitleLabel");
+    regLayout->addWidget(regTitle);
+
+    QFormLayout* regForm = new QFormLayout();
+    regForm->setHorizontalSpacing(14);
+    regForm->setVerticalSpacing(12);
+
+    regUserEdit = new QLineEdit();
+    regPassEdit = new QLineEdit();
+    regPass2Edit = new QLineEdit();
+    regPassEdit->setEchoMode(QLineEdit::Password);
+    regPass2Edit->setEchoMode(QLineEdit::Password);
+
+    regUserEdit->setPlaceholderText("用户名（不能是 admin）");
+    regPassEdit->setPlaceholderText("密码");
+    regPass2Edit->setPlaceholderText("再次输入密码");
+
+    regForm->addRow("用户名：", regUserEdit);
+    regForm->addRow("密码：", regPassEdit);
+    regForm->addRow("确认密码：", regPass2Edit);
+    regLayout->addLayout(regForm);
+
+    QLabel* regHint = new QLabel("注册仅创建普通用户。管理员请联系管理方获取密码。");
+    regHint->setObjectName("hintLabel");
+    regLayout->addWidget(regHint);
+
+    QHBoxLayout* regBtnRow = new QHBoxLayout();
+    doRegisterButton = new QPushButton("注册");
+    backToLoginButton = new QPushButton("返回登录");
+    backToLoginButton->setObjectName("secondaryBtn");
+    regBtnRow->addWidget(doRegisterButton);
+    regBtnRow->addWidget(backToLoginButton);
+    regBtnRow->addStretch();
+    regLayout->addLayout(regBtnRow);
+
+    regCard->setFixedWidth(520);
+
+    QHBoxLayout* regCenter = new QHBoxLayout();
+    regCenter->addStretch();
+    regCenter->addWidget(regCard);
+    regCenter->addStretch();
+
+    regPageRoot->addStretch();
+    regPageRoot->addLayout(regCenter);
+    regPageRoot->addStretch();
+
+    // ================== Main Page ==================
+    QWidget* mainPage = new QWidget();
+    QHBoxLayout* mainRoot = new QHBoxLayout(mainPage);
+    mainRoot->setContentsMargins(18, 18, 18, 18);
+    mainRoot->setSpacing(14);
+
+    QWidget* mapCard = new QWidget();
+    mapCard->setObjectName("card");
+    QVBoxLayout* mapLayout = new QVBoxLayout(mapCard);
+    mapLayout->setContentsMargins(16, 16, 16, 16);
+    mapLayout->setSpacing(10);
+
+    QLabel* mapTitle = new QLabel("地图视图（拖拽移动 / 滚轮缩放 / 点击节点选点）");
+    mapTitle->setObjectName("subtitleLabel");
+    mapLayout->addWidget(mapTitle);
+
+    mapInfoLabel = new QLabel("未加载地图");
+    mapInfoLabel->setObjectName("hintLabel");
+    mapLayout->addWidget(mapInfoLabel);
+
+    scene = new QGraphicsScene(this);
+    mapView = new MapView();
+    mapView->setScene(scene);
+    mapView->setMinimumSize(640, 520);
+    mapLayout->addWidget(mapView, 1);
+
+    mainRoot->addWidget(mapCard, 2);
+
+    QFrame* divider = new QFrame();
+    divider->setObjectName("divider");
+    divider->setFixedWidth(2);
+    mainRoot->addWidget(divider);
+
+    QWidget* panelCard = new QWidget();
+    panelCard->setObjectName("card");
+    QVBoxLayout* panelLayout = new QVBoxLayout(panelCard);
+    panelLayout->setContentsMargins(16, 16, 16, 16);
+    panelLayout->setSpacing(10);
+
+    QLabel* panelTitle = new QLabel("操作面板");
+    panelTitle->setObjectName("subtitleLabel");
+    panelLayout->addWidget(panelTitle);
+
+    QHBoxLayout* adminRow = new QHBoxLayout();
+    adminRow->setSpacing(8);
+
+    loadMapButton = new QPushButton("导入地图");
+    saveMapButton = new QPushButton("保存地图");
+    addVertexButton = new QPushButton("新增地区");
+    removeVertexButton = new QPushButton("删除地区");
+    addEdgeButton = new QPushButton("新增道路");
+    removeEdgeButton = new QPushButton("删除道路");
+    editEdgeButton = new QPushButton("改长度");
+
+    adminRow->addWidget(loadMapButton);
+    adminRow->addWidget(saveMapButton);
+    adminRow->addWidget(addVertexButton);
+    adminRow->addWidget(removeVertexButton);
+    adminRow->addWidget(addEdgeButton);
+    adminRow->addWidget(removeEdgeButton);
+    adminRow->addWidget(editEdgeButton);
+    panelLayout->addLayout(adminRow);
+
+    QLabel* clickTip = new QLabel("点击节点自动填入：先起点后终点（再点回到起点）。");
+    clickTip->setObjectName("hintLabel");
+    panelLayout->addWidget(clickTip);
+
+    QFormLayout* queryForm = new QFormLayout();
+    queryForm->setHorizontalSpacing(12);
+    queryForm->setVerticalSpacing(10);
+
+    sourceEdit = new QLineEdit();
+    targetEdit = new QLineEdit();
+    sourceEdit->setPlaceholderText("例如：0（或点击地图节点）");
+    targetEdit->setPlaceholderText("例如：3（或点击地图节点）");
+    queryForm->addRow("起点ID：", sourceEdit);
+    queryForm->addRow("终点ID：", targetEdit);
+    panelLayout->addLayout(queryForm);
+
+    QHBoxLayout* runRow = new QHBoxLayout();
+    runRow->setSpacing(8);
+    runButton = new QPushButton("导航（最短+次短）");
+    logoutButton = new QPushButton("退出登录");
+    logoutButton->setObjectName("secondaryBtn");
+    runRow->addWidget(runButton);
+    runRow->addWidget(logoutButton);
+    runRow->addStretch();
+    panelLayout->addLayout(runRow);
+
+    outputEdit = new QTextEdit();
+    outputEdit->setReadOnly(true);
+    outputEdit->setMinimumHeight(260);
+    panelLayout->addWidget(outputEdit, 1);
+
+    mainRoot->addWidget(panelCard, 1);
+
+    // pages
+    stackedWidget->addWidget(loginPage);     // 0
+    stackedWidget->addWidget(registerPage);  // 1
+    stackedWidget->addWidget(mainPage);      // 2
+
+    // connect
+    connect(loginButton, &QPushButton::clicked, this, &MainWindow::onLoginClicked);
+    connect(goRegisterButton, &QPushButton::clicked, this, &MainWindow::onGoRegisterClicked);
+    connect(doRegisterButton, &QPushButton::clicked, this, &MainWindow::onDoRegisterClicked);
+    connect(backToLoginButton, &QPushButton::clicked, this, &MainWindow::onBackToLoginClicked);
+
+    connect(logoutButton, &QPushButton::clicked, this, &MainWindow::onLogoutClicked);
+    connect(runButton, &QPushButton::clicked, this, &MainWindow::onRunClicked);
+
+    connect(loadMapButton, &QPushButton::clicked, this, &MainWindow::onLoadMapClicked);
+    connect(saveMapButton, &QPushButton::clicked, this, &MainWindow::onSaveMapClicked);
+    connect(addVertexButton, &QPushButton::clicked, this, &MainWindow::onAddVertexClicked);
+    connect(removeVertexButton, &QPushButton::clicked, this, &MainWindow::onRemoveVertexClicked);
+    connect(addEdgeButton, &QPushButton::clicked, this, &MainWindow::onAddEdgeClicked);
+    connect(removeEdgeButton, &QPushButton::clicked, this, &MainWindow::onRemoveEdgeClicked);
+    connect(editEdgeButton, &QPushButton::clicked, this, &MainWindow::onEditEdgeClicked);
+
+    connect(mapView, &MapView::nodeClicked, this, &MainWindow::onNodeClicked);
+}
+
+void MainWindow::showLoginPage() {
+    stackedWidget->setCurrentIndex(0);
+    setWindowTitle("地图导航系统 - 登录");
+}
+
+void MainWindow::showRegisterPage() {
+    stackedWidget->setCurrentIndex(1);
+    setWindowTitle("地图导航系统 - 注册");
+}
+
+void MainWindow::showMainPage() {
+    stackedWidget->setCurrentIndex(2);
+    applyRoleUi();
+    outputEdit->setPlainText(QString("欢迎，%1。\n请先导入地图（管理员）或确保运行目录有 test.map。\n点击地图节点可自动选起点/终点。")
+                                 .arg(currentUser));
+}
+
+void MainWindow::applyRoleUi() {
+    bool isAdmin = (currentRole == UserRole::Admin);
+    setWindowTitle(QString("地图导航系统 - %1（%2）").arg(currentUser, isAdmin ? "管理员" : "普通用户"));
+
+    loadMapButton->setVisible(isAdmin);
+    saveMapButton->setVisible(isAdmin);
+    addVertexButton->setVisible(isAdmin);
+    removeVertexButton->setVisible(isAdmin);
+    addEdgeButton->setVisible(isAdmin);
+    removeEdgeButton->setVisible(isAdmin);
+    editEdgeButton->setVisible(isAdmin);
+}
+
+QString MainWindow::formatPath(const Path& p) const {
+    if (p.nodes.empty()) return "(empty)";
+    QString s;
+    for (int i = 0; i < (int)p.nodes.size(); i++) {
+        s += QString::number(p.nodes[i]);
+        if (i + 1 < (int)p.nodes.size()) s += " -> ";
+    }
+    s += QString("    cost = %1").arg(p.cost);
+    return s;
+}
+
+bool MainWindow::ensureGraphLoadedForUser() {
+    if (graphLoaded) return true;
+
+    graph.clear();
+    if (loadMapFile("test.map", graph)) {
+        graphLoaded = true;
+        rebuildScene();
+        return true;
+    }
+
+    outputEdit->setPlainText("未加载地图文件。\n管理员请点击【导入地图】加载 .map 文件。\n（默认会尝试读取运行目录的 test.map）");
+    return false;
+}
+
+void MainWindow::rebuildScene() {
+    scene->clear();
+    edgeItems.clear();
+    nodeItems.clear();
+    highlightedShortest.clear();
+    highlightedSecond.clear();
+
+    selectedSourceId = -1;
+    selectedTargetId = -1;
+    nextClickFillSource = true;
+
+    const auto& verts = graph.vertices();
+    const int n = (int)verts.size();
+
+    int edgeCount = 0;
+    for (int u = 0; u < n; u++) {
+        for (const Edge& e : graph.adjEdges(u)) {
+            if (e.from < e.to) edgeCount++;
+        }
+    }
+    mapInfoLabel->setText(QString("顶点：%1   道路：%2   （滚轮缩放，拖拽移动）").arg(n).arg(edgeCount));
+
+    double minX = 1e18, minY = 1e18, maxX = -1e18, maxY = -1e18;
+    for (int i = 0; i < n; i++) {
+        const auto& v = verts[i];
+        const double x = v.x();
+        const double y = v.y();
+        minX = std::min(minX, x);
+        minY = std::min(minY, y);
+        maxX = std::max(maxX, x);
+        maxY = std::max(maxY, y);
+    }
+
+    QPen edgePen(QColor("#C9B27A"));
+    edgePen.setWidthF(2.0);
+
+    // draw edges
+    for (int u = 0; u < n; u++) {
+        for (const Edge& e : graph.adjEdges(u)) {
+            int v = e.to;
+            if (u >= v) continue;
+
+            const auto& vu = verts[u];
+            const auto& vv = verts[v];
+
+            auto* line = scene->addLine(vu.x(), vu.y(), vv.x(), vv.y(), edgePen);
+            line->setZValue(1);
+            edgeItems.insert(edgeKey(u, v), line);
+        }
+    }
+
+    // draw nodes
+    const qreal r = 10.0;
+    QBrush nodeBrush(QColor("#FFE08A"));
+    QPen nodePen(QColor("#B0893E"));
+    nodePen.setWidthF(2.0);
+
+    for (int i = 0; i < n; i++) {
+        const auto& v = verts[i];
+        QString name = QString::fromStdString(v.name());
+        if (name == "[removed]") continue;
+
+        auto* ellipse = scene->addEllipse(v.x() - r, v.y() - r, 2*r, 2*r, nodePen, nodeBrush);
+        ellipse->setZValue(10);
+        ellipse->setData(0, i);
+        ellipse->setToolTip(QString("ID: %1\nName: %2").arg(i).arg(name));
+        nodeItems.insert(i, ellipse);
+
+        auto* text = scene->addSimpleText(name);
+        text->setPos(v.x() + 12, v.y() - 10);
+        text->setZValue(11);
+    }
+
+    scene->setSceneRect(minX - 60, minY - 60, (maxX - minX) + 120, (maxY - minY) + 120);
+    mapView->fitInView(scene->sceneRect(), Qt::KeepAspectRatio);
+    mapView->scale(1.02, 1.02);
+}
+
+void MainWindow::clearPathHighlight() {
+    QPen edgePen(QColor("#C9B27A"));
+    edgePen.setWidthF(2.0);
+
+    for (auto* item : highlightedShortest) if (item) item->setPen(edgePen);
+    for (auto* item : highlightedSecond) if (item) item->setPen(edgePen);
+
+    highlightedShortest.clear();
+    highlightedSecond.clear();
+}
+
+void MainWindow::highlightPath(const Path& p, bool isShortest) {
+    if (p.nodes.size() < 2) return;
+
+    QPen pen = isShortest ? QPen(QColor("#D35400")) : QPen(QColor("#2E86C1"));
+    pen.setWidthF(isShortest ? 5.0 : 4.0);
+    if (!isShortest) pen.setStyle(Qt::DashLine);
+
+    for (int i = 0; i + 1 < (int)p.nodes.size(); i++) {
+        int u = p.nodes[i];
+        int v = p.nodes[i + 1];
+        auto it = edgeItems.find(edgeKey(u, v));
+        if (it != edgeItems.end() && it.value()) {
+            it.value()->setPen(pen);
+            if (isShortest) highlightedShortest.push_back(it.value());
+            else highlightedSecond.push_back(it.value());
+        }
+    }
+}
+
+void MainWindow::refreshNodeSelectionStyle() {
+    // 默认样式
+    QBrush normalBrush(QColor("#FFE08A"));
+    QPen normalPen(QColor("#B0893E"));
+    normalPen.setWidthF(2.0);
+
+    // 起点：更深的橙色
+    QBrush sourceBrush(QColor("#FFB347"));
+    QPen sourcePen(QColor("#C65A00"));
+    sourcePen.setWidthF(3.0);
+
+    // 终点：蓝色
+    QBrush targetBrush(QColor("#7FB3D5"));
+    QPen targetPen(QColor("#1F618D"));
+    targetPen.setWidthF(3.0);
+
+    // 先全恢复
+    for (auto it = nodeItems.begin(); it != nodeItems.end(); ++it) {
+        if (it.value()) {
+            it.value()->setBrush(normalBrush);
+            it.value()->setPen(normalPen);
+        }
+    }
+
+    // 再给起点/终点上色
+    if (nodeItems.contains(selectedSourceId) && nodeItems[selectedSourceId]) {
+        nodeItems[selectedSourceId]->setBrush(sourceBrush);
+        nodeItems[selectedSourceId]->setPen(sourcePen);
+    }
+    if (nodeItems.contains(selectedTargetId) && nodeItems[selectedTargetId]) {
+        nodeItems[selectedTargetId]->setBrush(targetBrush);
+        nodeItems[selectedTargetId]->setPen(targetPen);
+    }
+}
+
+// ===== click node: fill source then target =====
+void MainWindow::onNodeClicked(int nodeId) {
+    if (!graphLoaded) {
+        outputEdit->setPlainText("请先加载地图后再点击节点。");
+        return;
+    }
+
+    if (nextClickFillSource) {
+        selectedSourceId = nodeId;
+        sourceEdit->setText(QString::number(nodeId));
+        nextClickFillSource = false;
+        outputEdit->setPlainText(QString("已选择起点：%1\n（再点击一个节点选择终点）").arg(nodeId));
+    } else {
+        selectedTargetId = nodeId;
+        targetEdit->setText(QString::number(nodeId));
+        nextClickFillSource = true;
+        outputEdit->setPlainText(QString("已选择终点：%1\n（再点击节点将重新选择起点）").arg(nodeId));
+    }
+
+    refreshNodeSelectionStyle();
+}
+
+// ===== page actions =====
+void MainWindow::onGoRegisterClicked() {
+    regUserEdit->setText(loginUserEdit->text().trimmed());
+    regPassEdit->clear();
+    regPass2Edit->clear();
+    showRegisterPage();
+}
+
+void MainWindow::onBackToLoginClicked() {
+    showLoginPage();
+}
+
+// ===== register =====
+void MainWindow::onDoRegisterClicked() {
+    QString username = regUserEdit->text().trimmed();
+    QString pass1 = regPassEdit->text();
+    QString pass2 = regPass2Edit->text();
+
+    if (pass1 != pass2) {
+        QMessageBox::warning(this, "注册失败", "两次输入的密码不一致");
+        return;
+    }
+
+    QString err;
+    if (!userManager.registerUser(username, pass1, err)) {
+        QMessageBox::warning(this, "注册失败", err);
+        return;
+    }
+
+    if (!userManager.save(kUserFile)) {
+        QMessageBox::warning(this, "提示", "注册成功，但保存用户文件失败");
+    } else {
+        QMessageBox::information(this, "注册成功", "注册成功，请返回登录");
+        showLoginPage();
+    }
+}
+
+// ===== login =====
+void MainWindow::onLoginClicked() {
+    QString username = loginUserEdit->text().trimmed();
+    QString password = loginPassEdit->text();
+    UserRole role = adminRadio->isChecked() ? UserRole::Admin : UserRole::User;
+
+    QString err;
+    if (!userManager.login(username, password, role, err)) {
+        QMessageBox::warning(this, "登录失败", err);
+        return;
+    }
+
+    currentUser = username;
+    currentRole = role;
+
+    showMainPage();
+    ensureGraphLoadedForUser();
+}
+
+void MainWindow::onLogoutClicked() {
+    currentUser.clear();
+    currentRole = UserRole::User;
+
+    graph.clear();
+    graphLoaded = false;
+    scene->clear();
+    edgeItems.clear();
+    nodeItems.clear();
+    mapInfoLabel->setText("未加载地图");
+
+    loginPassEdit->clear();
+    showLoginPage();
+}
+
+// ===== navigation =====
+void MainWindow::onRunClicked() {
+    bool ok1 = false, ok2 = false;
+    int source = sourceEdit->text().toInt(&ok1);
+    int target = targetEdit->text().toInt(&ok2);
+
+    if (!ok1 || !ok2) {
+        QMessageBox::warning(this, "输入错误", "请输入合法的起点/终点ID（整数）");
+        return;
+    }
+
+    if (!ensureGraphLoadedForUser()) return;
+
+    Path shortest;
+    Path secondShortest;
+    bool hasPath = yenK2(graph, source, target, shortest, secondShortest);
+
+    clearPathHighlight();
+
+    if (!hasPath) {
+        outputEdit->setPlainText(QString("找不到从 %1 到 %2 的路径。").arg(source).arg(target));
+        return;
+    }
+
+    highlightPath(shortest, true);
+    highlightPath(secondShortest, false);
+
+    QString out;
+    out += "Shortest path:\n";
+    out += formatPath(shortest);
+    out += "\n\nSecond shortest path:\n";
+    out += formatPath(secondShortest);
+    out += "\n\n（地图中已高亮：最短=橙色实线，次短=蓝色虚线）";
+    outputEdit->setPlainText(out);
+}
+
+// ===== admin map management =====
+void MainWindow::onLoadMapClicked() {
+    if (currentRole != UserRole::Admin) return;
+
+    QString fileName = QFileDialog::getOpenFileName(this, "选择地图文件", "", "Map Files (*.map);;All Files (*)");
+    if (fileName.isEmpty()) return;
+
+    graph.clear();
+    if (!loadMapFile(fileName.toStdString(), graph)) {
+        QMessageBox::warning(this, "导入失败", "地图文件读取失败或格式错误");
+        graphLoaded = false;
+        return;
+    }
+
+    graphLoaded = true;
+    rebuildScene();
+    outputEdit->setPlainText(QString("导入成功：%1\n顶点数：%2").arg(fileName).arg(graph.vertexCount()));
+}
+
+void MainWindow::onSaveMapClicked() {
+    if (currentRole != UserRole::Admin) return;
+    if (!graphLoaded) {
+        QMessageBox::warning(this, "提示", "当前没有加载地图，无法保存");
+        return;
+    }
+
+    QString fileName = QFileDialog::getSaveFileName(this, "保存地图文件", "", "Map Files (*.map);;All Files (*)");
+    if (fileName.isEmpty()) return;
+
+    if (!saveMapFile(fileName.toStdString(), graph)) {
+        QMessageBox::warning(this, "保存失败", "保存地图文件失败");
+        return;
+    }
+
+    outputEdit->setPlainText(QString("保存成功：%1").arg(fileName));
+}
+
+void MainWindow::onAddVertexClicked() {
+    if (currentRole != UserRole::Admin) return;
+
+    bool ok = false;
+    QString name = QInputDialog::getText(this, "新增地区", "地区名称：", QLineEdit::Normal, "", &ok);
+    if (!ok || name.trimmed().isEmpty()) return;
+
+    double x = QInputDialog::getDouble(this, "新增地区", "x 坐标：", 100.0, -1e9, 1e9, 2, &ok);
+    if (!ok) return;
+    double y = QInputDialog::getDouble(this, "新增地区", "y 坐标：", 100.0, -1e9, 1e9, 2, &ok);
+    if (!ok) return;
+
+    int id = graph.addVertex(name.toStdString(), x, y);
+    graphLoaded = true;
+    rebuildScene();
+    outputEdit->setPlainText(QString("新增地区成功：id=%1, name=%2").arg(id).arg(name));
+}
+
+void MainWindow::onRemoveVertexClicked() {
+    if (currentRole != UserRole::Admin) return;
+    if (!graphLoaded) {
+        QMessageBox::warning(this, "提示", "未加载地图");
+        return;
+    }
+
+    bool ok = false;
+    int id = QInputDialog::getInt(this, "删除地区", "地区ID：", 0, 0, 1000000, 1, &ok);
+    if (!ok) return;
+
+    if (!graph.removeVertex(id)) {
+        QMessageBox::warning(this, "失败", "删除失败：ID 不存在或已删除");
+        return;
+    }
+
+    rebuildScene();
+    outputEdit->setPlainText(QString("删除地区成功：id=%1").arg(id));
+}
+
+void MainWindow::onAddEdgeClicked() {
+    if (currentRole != UserRole::Admin) return;
+    if (!graphLoaded) {
+        QMessageBox::warning(this, "提示", "未加载地图（可先新增地区或导入地图）");
+        return;
+    }
+
+    bool ok = false;
+    int u = QInputDialog::getInt(this, "新增道路", "起点ID u：", 0, 0, 1000000, 1, &ok);
+    if (!ok) return;
+    int v = QInputDialog::getInt(this, "新增道路", "终点ID v：", 0, 0, 1000000, 1, &ok);
+    if (!ok) return;
+    double w = QInputDialog::getDouble(this, "新增道路", "道路长度/权值 w：", 1.0, 0.0, 1e18, 2, &ok);
+    if (!ok) return;
+
+    if (!graph.addEdge(u, v, w)) {
+        QMessageBox::warning(this, "失败", "新增道路失败：检查ID是否存在、u!=v 等");
+        return;
+    }
+
+    rebuildScene();
+    outputEdit->setPlainText(QString("新增/更新道路成功：%1 <-> %2, w=%3").arg(u).arg(v).arg(w));
+}
+
+void MainWindow::onRemoveEdgeClicked() {
+    if (currentRole != UserRole::Admin) return;
+    if (!graphLoaded) {
+        QMessageBox::warning(this, "提示", "未加载地图");
+        return;
+    }
+
+    bool ok = false;
+    int u = QInputDialog::getInt(this, "删除道路", "起点ID u：", 0, 0, 1000000, 1, &ok);
+    if (!ok) return;
+    int v = QInputDialog::getInt(this, "删除道路", "终点ID v：", 0, 0, 1000000, 1, &ok);
+    if (!ok) return;
+
+    if (!graph.removeEdge(u, v)) {
+        QMessageBox::warning(this, "失败", "删除道路失败：该道路不存在");
+        return;
+    }
+
+    rebuildScene();
+    outputEdit->setPlainText(QString("删除道路成功：%1 <-> %2").arg(u).arg(v));
+}
+
+void MainWindow::onEditEdgeClicked() {
+    if (currentRole != UserRole::Admin) return;
+    if (!graphLoaded) {
+        QMessageBox::warning(this, "提示", "未加载地图");
+        return;
+    }
+
+    bool ok = false;
+    int u = QInputDialog::getInt(this, "修改道路长度", "起点ID u：", 0, 0, 1000000, 1, &ok);
+    if (!ok) return;
+    int v = QInputDialog::getInt(this, "修改道路长度", "终点ID v：", 0, 0, 1000000, 1, &ok);
+    if (!ok) return;
+
+    if (!graph.hasEdge(u, v)) {
+        QMessageBox::warning(this, "失败", "该道路不存在，无法修改");
+        return;
+    }
+
+    double w = QInputDialog::getDouble(this, "修改道路长度", "新长度/权值 w：", 1.0, 0.0, 1e18, 2, &ok);
+    if (!ok) return;
+
+    graph.addEdge(u, v, w);
+    rebuildScene();
+    outputEdit->setPlainText(QString("修改道路成功：%1 <-> %2, w=%3").arg(u).arg(v).arg(w));
+}
+
+\end{lstlisting}
+
+\subsection{mainwindow.h}
+
+\begin{lstlisting}[caption={mainwindow.h 源码}]
+#pragma once
+#include <QMainWindow>
+#include <QString>
+#include <QHash>
+#include <QList>
+
+#include "Graph.h"
+#include "Yen.h"
+#include "FileIO.h"
+#include "UserManager.h"
+
+class QStackedWidget;
+class QLineEdit;
+class QTextEdit;
+class QPushButton;
+class QRadioButton;
+class QLabel;
+class QGraphicsScene;
+class QGraphicsLineItem;
+class QGraphicsEllipseItem;
+
+class MapView;
+
+class MainWindow : public QMainWindow {
+    Q_OBJECT
+public:
+    explicit MainWindow(QWidget* parent = nullptr);
+
+private slots:
+    // 页面切换
+    void onGoRegisterClicked();
+    void onBackToLoginClicked();
+
+    // 登录/注册
+    void onLoginClicked();
+    void onDoRegisterClicked();
+    void onLogoutClicked();
+
+    // 导航
+    void onRunClicked();
+
+    // 管理员地图管理
+    void onLoadMapClicked();
+    void onSaveMapClicked();
+    void onAddVertexClicked();
+    void onRemoveVertexClicked();
+    void onAddEdgeClicked();
+    void onRemoveEdgeClicked();
+    void onEditEdgeClicked();
+
+    // 可视化交互：点击节点
+    void onNodeClicked(int nodeId);
+
+private:
+    void buildUi();
+    void applyTheme();
+    void showLoginPage();
+    void showRegisterPage();
+    void showMainPage();
+    void applyRoleUi();
+
+    bool ensureGraphLoadedForUser();
+
+    void rebuildScene();
+    void clearPathHighlight();
+    void highlightPath(const Path& p, bool isShortest);
+
+    void refreshNodeSelectionStyle();
+
+    QString formatPath(const Path& p) const;
+    long long edgeKey(int u, int v) const;
+
+private:
+    // ===== state =====
+    UserManager userManager;
+    QString currentUser;
+    UserRole currentRole = UserRole::User;
+
+    Graph graph;
+    bool graphLoaded = false;
+
+    // 点击选点：先填起点后填终点
+    bool nextClickFillSource = true;
+    int selectedSourceId = -1;
+    int selectedTargetId = -1;
+
+    // ===== UI =====
+    QStackedWidget* stackedWidget = nullptr;
+
+    // Login Page
+    QLineEdit* loginUserEdit = nullptr;
+    QLineEdit* loginPassEdit = nullptr;
+    QRadioButton* adminRadio = nullptr;
+    QRadioButton* userRadio = nullptr;
+    QPushButton* loginButton = nullptr;
+    QPushButton* goRegisterButton = nullptr;
+
+    // Register Page
+    QLineEdit* regUserEdit = nullptr;
+    QLineEdit* regPassEdit = nullptr;
+    QLineEdit* regPass2Edit = nullptr;
+    QPushButton* doRegisterButton = nullptr;
+    QPushButton* backToLoginButton = nullptr;
+
+    // Main Page (Map + Panel)
+    MapView* mapView = nullptr;
+    QGraphicsScene* scene = nullptr;
+
+    QLabel* mapInfoLabel = nullptr;
+
+    QLineEdit* sourceEdit = nullptr;
+    QLineEdit* targetEdit = nullptr;
+    QPushButton* runButton = nullptr;
+    QTextEdit* outputEdit = nullptr;
+    QPushButton* logoutButton = nullptr;
+
+    // Admin buttons
+    QPushButton* loadMapButton = nullptr;
+    QPushButton* saveMapButton = nullptr;
+    QPushButton* addVertexButton = nullptr;
+    QPushButton* removeVertexButton = nullptr;
+    QPushButton* addEdgeButton = nullptr;
+    QPushButton* removeEdgeButton = nullptr;
+    QPushButton* editEdgeButton = nullptr;
+
+    // ===== visualization caches =====
+    // 无向边：u<v 的 key
+    QHash<long long, QGraphicsLineItem*> edgeItems;
+
+    // 节点：id -> 圆点 item
+    QHash<int, QGraphicsEllipseItem*> nodeItems;
+
+    QList<QGraphicsLineItem*> highlightedShortest;
+    QList<QGraphicsLineItem*> highlightedSecond;
+};
+
+\end{lstlisting}
+
+\end{document}
