@@ -1,0 +1,1573 @@
+% !TeX program = xelatex
+\documentclass[UTF8,12pt,a4paper]{ctexart}
+
+% ================= 页面设置 =================
+\usepackage[a4paper,margin=2.5cm]{geometry}
+
+% ================= 行距与段落 =================
+\usepackage{setspace}
+\usepackage{indentfirst}
+\setstretch{1.25}
+
+\setlength{\parindent}{2em}
+\setlength{\parskip}{0pt}
+
+% ================= 图片与浮动体 =================
+\usepackage{graphicx}
+\usepackage{float}
+\usepackage{caption}
+
+\captionsetup{
+font=small,
+labelsep=quad
+}
+
+% ================= 表格 =================
+\usepackage{booktabs}
+\usepackage{array}
+\usepackage{tabularx}
+\usepackage{multirow}
+\usepackage{longtable}
+
+% ================= 数学公式 =================
+\usepackage{amsmath}
+\usepackage{amssymb}
+
+% ================= 字体：中文宋体 + 英文新罗马 =================
+\usepackage{fontspec}
+
+\setmainfont{Times New Roman}
+
+% 如果 simsun.ttc 和 main.tex 在同一文件夹，用这一组
+\setCJKmainfont[
+Path = ./,
+Extension = .ttc,
+BoldFont = simsun.ttc,
+ItalicFont = simsun.ttc
+]{simsun}
+
+\setCJKsansfont[
+Path = ./,
+Extension = .ttc,
+BoldFont = simsun.ttc,
+ItalicFont = simsun.ttc
+]{simsun}
+
+\setCJKmonofont[
+Path = ./,
+Extension = .ttc,
+BoldFont = simsun.ttc,
+ItalicFont = simsun.ttc
+]{simsun}
+
+% 正文小四宋体
+\AtBeginDocument{\zihao{-4}\songti}
+
+% ================= 页眉页脚 =================
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\fancyhf{}
+
+\fancyhead[L]{\zihao{-5}计算机组成原理课程设计}
+\fancyhead[R]{\zihao{-5}中断GCD程序}
+\fancyfoot[C]{\zihao{-5}\thepage}
+
+\renewcommand{\headrulewidth}{0.4pt}
+\renewcommand{\footrulewidth}{0pt}
+\setlength{\headheight}{15pt}
+
+% ================= 标题格式 =================
+\usepackage{titlesec}
+
+% 一级标题：一、二、三……
+\renewcommand{\thesection}{\chinese{section}、}
+
+\titleformat{\section}
+{\centering\zihao{4}\heiti\bfseries}
+{\thesection}{0.3em}{}
+
+\titlespacing*{\section}
+{0pt}{1.2em}{0.8em}
+
+% 二级标题：3.1 3.2……
+\renewcommand{\thesubsection}{\arabic{section}.\arabic{subsection}}
+
+\titleformat{\subsection}
+{\zihao{-4}\heiti\bfseries}
+{\thesubsection}{0.5em}{}
+
+\titlespacing*{\subsection}
+{0pt}{0.8em}{0.4em}
+
+% 三级标题：3.1.1 3.1.2……
+% tocdepth=2 表示三级标题显示编号，但不进入目录
+\renewcommand{\thesubsubsection}{\thesubsection.\arabic{subsubsection}}
+
+\titleformat{\subsubsection}
+{\zihao{-4}\heiti\bfseries}
+{\thesubsubsection}{0.5em}{}
+
+\titlespacing*{\subsubsection}
+{0pt}{0.6em}{0.3em}
+
+\setcounter{secnumdepth}{3}
+\setcounter{tocdepth}{2}
+
+% ================= 代码环境：汇编/机器码高亮 =================
+\usepackage{xcolor}
+\usepackage{listings}
+
+\definecolor{codebg}{RGB}{248,248,248}
+\definecolor{codeframe}{RGB}{180,180,180}
+\definecolor{codekeyword}{RGB}{0,0,150}
+\definecolor{codecomment}{RGB}{0,120,0}
+\definecolor{coderegister}{RGB}{150,0,0}
+\definecolor{codeaddr}{RGB}{120,0,120}
+
+\lstdefinelanguage{TDASM}{
+  morekeywords={
+    LDI,OUT,IN,MOV,SUB,BZC,JMP,STI,CLI,IRET,
+    R0,R1,R2,R3,SP
+  },
+  sensitive=true,
+  morecomment=[l]{;},
+}
+
+\lstdefinestyle{tdasmstyle}{
+  language=TDASM,
+  backgroundcolor=\color{codebg},
+  frame=single,
+  rulecolor=\color{codeframe},
+  basicstyle=\zihao{5}\ttfamily,
+  keywordstyle=\color{codekeyword}\bfseries,
+  commentstyle=\color{codecomment},
+  numbers=left,
+  numberstyle=\tiny\color{gray},
+  numbersep=8pt,
+  columns=fullflexible,
+  keepspaces=true,
+  breaklines=true,
+  breakatwhitespace=false,
+  showstringspaces=false,
+  tabsize=2,
+  xleftmargin=2em,
+  xrightmargin=1em,
+  framexleftmargin=1.5em,
+  captionpos=b,
+  escapeinside={(*@}{@*)}
+}
+
+\lstset{
+  style=tdasmstyle
+}
+
+% ================= 常用命令 =================
+\newcommand{\hex}[1]{\texttt{#1H}}
+\newcommand{\reg}[1]{\texttt{#1}}
+\newcommand{\inst}[1]{\texttt{#1}}
+\newcommand{\prog}[1]{\texttt{\$P #1}}
+\newcommand{\micro}[1]{\texttt{\$M #1}}
+
+% 正文内部小标题：(1) xxx，不进入目录
+\newcommand{\minorheading}[2]{%
+  \vspace{0.6em}
+  \noindent\textbf{(#1)\quad #2}\par
+  \vspace{0.3em}
+}
+
+% ================= 目录名称 =================
+\renewcommand{\contentsname}{目\quad 录}
+
+% ================= 超链接 =================
+\usepackage[hidelinks]{hyperref}
+
+% ================= 正文开始 =================
+\begin{document}
+\zihao{-4}\songti
+
+% ================= 封面 =================
+\input{cover.tex}
+\clearpage
+
+% ================= 自动目录 =================
+\pagenumbering{Roman}
+\setcounter{page}{1}
+\thispagestyle{fancy}
+
+\begin{spacing}{1.35}
+\tableofcontents
+\end{spacing}
+
+\clearpage
+
+% ================= 正文 =================
+\pagenumbering{arabic}
+\setcounter{page}{1}
+\zihao{-4}\songti
+
+\begin{center}
+{\zihao{3}\heiti TD-CMA复杂模型机中断GCD程序设计}
+\end{center}
+
+\vspace{0.8cm}
+
+\section{实验目的}
+
+综合运用所学计算机组成原理知识，在 TD-CMA 复杂模型机平台上设计并实现较为完整的计算机系统程序。本次课程设计以“中断 GCD 程序”为主题，通过修改和使用模型机指令系统、编写机器程序和分析微程序执行过程，实现带中断处理能力的更相减损法求最大公约数功能。
+
+本实验的目的主要包括以下几个方面：
+
+1. 理解并掌握计算机的整机结构，熟悉 TD-CMA 复杂模型机中运算器、控制器、寄存器组、主存、I/O 接口和系统总线之间的连接关系与工作过程。
+
+2. 掌握基本功能模块的工作原理和操作方法，能够理解 PC、IR、AR、SP、通用寄存器、暂存器 A/B、ALU、标志位 FC/FZ 等部件在指令执行过程中的作用。
+
+3. 掌握控制器的微程序实现方法，理解机器指令和微指令之间的关系，能够根据一条机器指令分析其对应的微操作流程。
+
+4. 掌握复杂模型机指令系统的基本格式，能够分析 \inst{LDI}、\inst{IN}、\inst{OUT}、\inst{MOV}、\inst{SUB}、\inst{JMP}、\inst{BZC}、\inst{STI}、\inst{CLI}、\inst{IRET} 等指令的机器码含义。
+
+5. 理解中断系统的基本工作过程，掌握 8259 中断控制器初始化、中断向量设置、开中断、关中断、中断响应和中断返回等内容。
+
+6. 理解堆栈在中断处理中的作用，明确 SP 初始化、中断返回地址保存以及 \inst{IRET} 恢复 PC 的基本过程。
+
+7. 训练逻辑分析和故障排查能力，能够通过单步运行观察寄存器、PC、标志位和端口输出状态，定位机器程序或微程序中的错误。
+
+\section{实验内容}
+
+\vspace{0.3em}
+
+本课程设计围绕 TD-CMA 复杂模型机展开，主要完成以下三项内容：
+
+1.\quad 设计并实现一套完整的指令系统；
+
+2.\quad 设计并实现完整的计算机，即采用上述指令系统的复杂模型机；
+
+3.\quad 利用该计算机实现\underline{带中断系统的更相减损法求最大公约数}。
+
+\vspace{0.8em}
+
+围绕上述三项内容，本实验进一步展开如下具体设计与实现工作：
+
+\begin{itemize}
+  \item 设计并实现一套能够完成本项目功能的指令系统。根据 GCD 运算和中断处理的需要，分析并使用 \inst{LDI}、\inst{IN}、\inst{OUT}、\inst{MOV}、\inst{SUB}、\inst{JMP}、\inst{BZC}、\inst{STI}、\inst{CLI}、\inst{IRET} 等指令。其中，本项目将原指令系统中 \texttt{0000} 入口对应的运算功能改造为减法，使其能够支持更相减损法中的核心相减操作。
+
+  \item 设计并实现完整的模型机程序。主程序从 \hex{00} 单元开始，负责初始化 8259 中断控制器、设置中断向量相关信息、设置屏蔽字、初始化堆栈指针 SP、执行 \inst{STI} 开中断，并通过 \inst{JMP 13H} 进入等待循环。
+
+  \item 设置中断向量。在 \hex{30} 单元写入 \hex{40}，即 \prog{30 40}，表示 IR0 中断发生后，CPU 根据中断向量进入 \hex{40} 单元执行中断服务程序。这样主程序不需要直接跳转到服务程序，而是由外部中断触发进入服务程序，更能体现中断机制。
+
+  \item 编写中断服务程序。中断服务程序从 \hex{40} 单元开始，首先执行 \inst{CLI} 关中断，避免服务程序执行过程中再次响应中断；然后通过 \inst{IN R1,00H} 和 \inst{IN R2,00H} 从输入端口读入两个数，分别存入 \reg{R1} 和 \reg{R2}。
+
+  \item 利用复杂模型机实现带中断系统的更相减损法求最大公约数。程序使用 \reg{R3} 作为比较临时寄存器，通过 \inst{SUB R3,R1} 产生 FC/FZ 标志位，并利用 \inst{BZC} 判断是否需要跳转；使用 \reg{R0} 作为交换临时寄存器，实现 \reg{R1} 和 \reg{R2} 的交换；通过循环相减直到两个数相等。
+
+  \item 完成结果输出和中断返回。当计算结束后，最大公约数保存在 \reg{R1} 中，程序执行 \inst{OUT 40H,R1} 将结果输出到端口 \hex{40}，随后执行 \inst{IRET}，从堆栈恢复返回地址，使 CPU 回到主程序继续等待下一次中断。
+
+  \item 对机器程序和微程序进行写入、校验和调试。重点检查主程序地址、中断向量地址、服务程序入口地址、\inst{BZC} 跳转地址、\inst{SUB} 微程序减法功能、\inst{STI}/\inst{CLI} 中断控制以及 \inst{IRET} 返回过程是否正确。
+\end{itemize}
+
+通过以上内容，本课设最终实现了从主程序初始化、中断触发、输入数据、GCD 运算、结果输出到中断返回的完整流程，能够较好地体现复杂模型机指令系统、微程序控制、中断响应和堆栈返回机制之间的关系。形象地，具体实验内容如下所示
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.7\textwidth]{figures/p1}
+\caption{实验内容图}
+\label{fig:p1}
+\end{figure}
+
+\section{实验原理}
+
+\subsection{指令系统及分析}
+
+\subsubsection{指令格式}
+
+TD-CMA 复杂模型机的机器指令通常由单字节指令、双字节指令以及微指令配合完成。机器指令用于描述程序员希望 CPU 完成的操作，微指令用于在控制器内部产生更具体的控制信号。本节主要对本课设中用到的指令格式进行说明。
+
+\minorheading{1}{单字节指令格式}
+
+单字节指令（ADD、AND、INC、SUB、OR、RR、HLT、MOV）一般只需要一个字节即可说明操作类型和寄存器编号。其基本格式如表 \ref{tab:single-byte-format} 所示。
+
+\begin{table}[H]
+\centering
+\caption{单字节指令格式}
+\label{tab:single-byte-format}
+\renewcommand{\arraystretch}{1.25}
+\begin{tabular}{|*{8}{>{\centering\arraybackslash}p{1.35cm}|}}
+\hline
+I7 & I6 & I5 & I4 & I3 & I2 & I1 & I0 \\
+\hline
+\multicolumn{4}{|c|}{OP-CODE} &
+\multicolumn{2}{c|}{RS} &
+\multicolumn{2}{c|}{RD} \\
+\hline
+\end{tabular}
+\end{table}
+
+其中，OP-CODE 表示操作码，用来确定当前指令执行什么操作；RS 表示源寄存器编号，RD 表示目的寄存器编号。比如 \inst{MOV RD,RS} 的含义就是将 RS 所指定寄存器的内容送入 RD 所指定的寄存器。
+
+\minorheading{2}{RS 或 RD 选定的寄存器}
+
+RS 和 RD 字段均为 2 位，因此最多可以表示 4 个通用寄存器。寄存器编码如表 \ref{tab:rs-rd-register} 所示。
+
+\begin{table}[H]
+\centering
+\caption{RS 或 RD 选定的寄存器}
+\label{tab:rs-rd-register}
+\renewcommand{\arraystretch}{1.35}
+\begin{tabular}{|>{\centering\arraybackslash}p{2.4cm}
+                |>{\centering\arraybackslash}p{2.4cm}
+                |>{\centering\arraybackslash}p{2.4cm}
+                |>{\centering\arraybackslash}p{2.4cm}
+                |>{\centering\arraybackslash}p{2.4cm}|}
+\hline
+\textbf{RS 或 RD} & 00 & 01 & 10 & 11 \\
+\hline
+\textbf{寄存器} & R0 & R1 & R2 & R3 \\
+\hline
+\end{tabular}
+\end{table}
+
+例如，机器码 \hex{4B} 的二进制形式为 \texttt{0100 1011}，其中高四位 \texttt{0100} 表示 \inst{MOV}，中间两位 \texttt{10} 表示源寄存器 \reg{R2}，低两位 \texttt{11} 表示目的寄存器 \reg{R3}，因此该指令为：
+
+\[
+MOV\ R3,R2
+\]
+
+其功能是：
+
+\[
+R2 \rightarrow R3
+\]
+
+\minorheading{3}{IN 和 OUT 的指令格式}
+
+IN 和 OUT 指令属于双字节指令。第一字节说明操作码和寄存器信息，第二字节给出端口地址 P。其格式如表 \ref{tab:in-out-format} 所示。
+
+\begin{table}[H]
+\centering
+\caption{IN 和 OUT 的指令格式}
+\label{tab:in-out-format}
+\renewcommand{\arraystretch}{1.25}
+\begin{tabular}{|*{8}{>{\centering\arraybackslash}p{1.05cm}|}>{\centering\arraybackslash}p{1.7cm}|}
+\hline
+\multicolumn{8}{|c|}{\textbf{第一字节}} &
+\textbf{第二字节} \\
+\hline
+I7 & I6 & I5 & I4 & I3 & I2 & I1 & I0 & I7$\sim$I0 \\
+\hline
+\multicolumn{4}{|c|}{OP-CODE} &
+\multicolumn{2}{c|}{RS} &
+\multicolumn{2}{c|}{RD} &
+P \\
+\hline
+\end{tabular}
+\end{table}
+
+本设计中，\inst{IN R1,00H} 的机器码为：
+
+\[
+\prog{41 21},\quad \prog{42 00}
+\]
+
+其含义是从端口 \hex{00} 输入数据到 \reg{R1}。同理，\inst{OUT 40H,R1} 的机器码为：
+
+\[
+\prog{4E 34},\quad \prog{4F 40}
+\]
+
+其含义是将 \reg{R1} 中的 GCD 结果输出到端口 \hex{40}。
+
+\minorheading{4}{LDI 指令格式}
+
+除了普通的单字节寄存器指令外，本课设中还用到了 \inst{LDI} 这类双字节指令。双字节指令的特点是第一字节说明操作码和寄存器字段，第二字节给出具体的数据或地址。\inst{LDI} 指令中的第二字节是立即数 Data，用于直接装入指定寄存器。
+
+\noindent LDI 指令格式如表 \ref{tab:ldi-format} 所示。
+
+\begin{table}[H]
+\centering
+\caption{LDI 指令格式}
+\label{tab:ldi-format}
+\renewcommand{\arraystretch}{1.25}
+\begin{tabular}{|*{8}{>{\centering\arraybackslash}p{1.05cm}|}>{\centering\arraybackslash}p{1.8cm}|}
+\hline
+\multicolumn{8}{|c|}{\textbf{第一字节}} &
+\textbf{第二字节} \\
+\hline
+I7 & I6 & I5 & I4 & I3 & I2 & I1 & I0 & I7$\sim$I0 \\
+\hline
+\multicolumn{4}{|c|}{OP-CODE} &
+\multicolumn{2}{c|}{RS} &
+\multicolumn{2}{c|}{RD} &
+Data \\
+\hline
+\end{tabular}
+\end{table}
+
+\inst{LDI} 指令的功能是把第二字节的立即数送入指定寄存器。例如本课设主程序开头：
+
+\[
+\prog{00 60},\quad \prog{01 13}
+\]
+
+合起来表示：
+
+\[
+LDI\ R0,13H
+\]
+
+其含义是把立即数 \hex{13} 装入 \reg{R0}。后续程序再通过 \inst{OUT C0H,R0} 将 \reg{R0} 中的数据写入 8259 的控制端口，用于完成中断控制器初始化。
+
+本课设中还使用了：
+
+\[
+\prog{10 63},\quad \prog{11 A0}
+\]
+
+这条指令在本中断模型机中解释为 \inst{LDI SP,A0H}，用于将堆栈指针 SP 初始化为 \hex{A0}，为中断响应时保存返回地址做准备。
+
+
+\minorheading{5}{LAD、STA、JMP、BZC 指令格式}
+
+\inst{LAD}、\inst{STA}、\inst{JMP}、\inst{BZC} 这类指令也属于双字节指令。它们的第一字节包含操作码 OP-CODE、寻址方式 M 和寄存器字段 RD；第二字节为地址字段 D。CPU 执行这类指令时，会根据 M 字段和 D 字段形成有效地址 E。
+
+\noindent LAD、STA、JMP、BZC 的指令格式如表 \ref{tab:lad-sta-jmp-bzc-format} 所示。
+
+\begin{table}[H]
+\centering
+\caption{LAD、STA、JMP、BZC 指令格式}
+\label{tab:lad-sta-jmp-bzc-format}
+\renewcommand{\arraystretch}{1.25}
+\begin{tabular}{|*{8}{>{\centering\arraybackslash}p{1.05cm}|}>{\centering\arraybackslash}p{1.8cm}|}
+\hline
+\multicolumn{8}{|c|}{\textbf{第一字节}} &
+\textbf{第二字节} \\
+\hline
+I7 & I6 & I5 & I4 & I3 & I2 & I1 & I0 & I7$\sim$I0 \\
+\hline
+\multicolumn{4}{|c|}{OP-CODE} &
+\multicolumn{2}{c|}{M} &
+\multicolumn{2}{c|}{RD} &
+D \\
+\hline
+\end{tabular}
+\end{table}
+
+其中，高四位 OP-CODE 用来区分指令类型。例如 \inst{JMP} 的操作码为 \texttt{1110}，\inst{BZC} 的操作码为 \texttt{1111}。中间两位 M 表示寻址方式，决定第二字节 D 应该如何解释。低两位 RD 在 \inst{LAD}、\inst{STA} 中一般用于指定寄存器，而在 \inst{JMP}、\inst{BZC} 中通常不起主要作用。
+
+本课设主要使用了其中的 \inst{JMP} 和 \inst{BZC} 指令。\inst{JMP} 用于主程序等待循环，例如 \inst{JMP 13H}；\inst{BZC} 用于根据 FC/FZ 标志位进行条件转移，例如 \inst{BZC 51H} 和 \inst{BZC 4EH}。
+
+
+\minorheading{6}{寻址方式与本课设中的转移指令分析}
+
+寻址方式 M 决定了地址字段 D 如何转换为最终使用的有效地址 E。对于 \inst{JMP} 和 \inst{BZC} 这类转移指令来说，寻址方式会直接影响 PC 的装入结果。寻址模式如表 \ref{tab:addr-mode} 所示。
+
+\begin{table}[H]
+\centering
+\caption{寻址模式表}
+\label{tab:addr-mode}
+\renewcommand{\arraystretch}{1.25}
+\begin{tabular}{|>{\centering\arraybackslash}p{3.2cm}
+                |>{\centering\arraybackslash}p{4.2cm}
+                |>{\centering\arraybackslash}p{4.2cm}|}
+\hline
+\textbf{寻址模式 M} & \textbf{有效地址 E} & \textbf{说明} \\
+\hline
+00 & E=D & 直接寻址 \\
+\hline
+01 & E=(D) & 间接寻址 \\
+\hline
+10 & E=(RI)+D & RI 变址寻址 \\
+\hline
+11 & E=(PC)+D & 相对寻址 \\
+\hline
+\end{tabular}
+\end{table}
+
+本课设中，\inst{JMP 13H} 和 \inst{BZC 51H} 都采用直接寻址，即 M=00。直接寻址时，有效地址就是第二字节给出的地址字段 D，因此比较容易分析。
+
+例如主程序等待循环中的两条机器码为：
+
+\[
+\prog{13 E0},\quad \prog{14 13}
+\]
+
+其中，\hex{E0}=1110 0000，高四位 \texttt{1110} 表示 \inst{JMP}，中间两位 M=00 表示直接寻址，第二字节 \hex{13} 是目标地址。由于直接寻址时 E=D，所以该指令执行后：
+
+\[
+PC \leftarrow 13H
+\]
+
+也就是说，主程序会一直回到 \hex{13} 单元执行，形成等待中断的循环。
+
+再看中断服务程序中的条件转移：
+
+\[
+\prog{47 F0},\quad \prog{48 51}
+\]
+
+其中，\hex{F0}=1111 0000，高四位 \texttt{1111} 表示 \inst{BZC}，中间两位 M=00 表示直接寻址，第二字节 \hex{51} 是目标地址。因此这两条机器码合起来表示：
+
+\[
+BZC\ 51H
+\]
+
+\inst{BZC} 的含义是：如果上一条 \inst{SUB} 指令使 FC=1 或 FZ=1，则将有效地址 E 装入 PC，也就是跳转到 \hex{51} 单元；如果 FC 和 FZ 都不为 1，则不跳转，程序继续顺序执行。这个设计正好用于本课设中的大小比较和交换分支判断。
+
+例如程序在 \hex{46} 执行 \inst{SUB R3,R1} 后，如果发现 \reg{R2} 小于或等于 \reg{R1}，则 FC 或 FZ 会被置 1，接着 \hex{47} 处的 \inst{BZC 51H} 就会跳转到交换分支。这样程序就能在没有专门比较指令的情况下，利用减法结果和标志位完成条件判断。
+
+\minorheading{7}{微指令格式}
+
+微指令是控制器发出的基本控制命令，描述的是机器指令所描述操作的进一步具体动作。本实验中，一条微指令为 24 位，通常用 6 个十六进制数表示。其格式如表 \ref{tab:microinstruction-format} 所示。
+
+\begin{table}[H]
+\centering
+\caption{微指令格式}
+\label{tab:microinstruction-format}
+\renewcommand{\arraystretch}{1.25}
+
+% 第一行：23~19 位
+\begin{tabular}{|>{\centering\arraybackslash}p{2.2cm}
+                |>{\centering\arraybackslash}p{2.2cm}
+                |>{\centering\arraybackslash}p{2.2cm}
+                |>{\centering\arraybackslash}p{2.2cm}
+                |>{\centering\arraybackslash}p{2.2cm}|}
+\hline
+23 & 22 & 21 & 20 & 19 \\
+\hline
+M23 & INTA & WR & RD & IOM \\
+\hline
+\end{tabular}
+
+\vspace{0.4em}
+
+% 第二行：18~0 位
+\begin{tabular}{|>{\centering\arraybackslash}p{2.2cm}
+                |>{\centering\arraybackslash}p{2.2cm}
+                |>{\centering\arraybackslash}p{2.2cm}
+                |>{\centering\arraybackslash}p{2.2cm}
+                |>{\centering\arraybackslash}p{2.2cm}|}
+\hline
+18$\sim$15 & 14$\sim$12 & 11$\sim$9 & 8$\sim$6 & 5$\sim$0 \\
+\hline
+S3$\sim$S0 & A字段 & B字段 & C字段 & MA5$\sim$MA0 \\
+\hline
+\end{tabular}
+\end{table}
+
+
+其中，WR、RD、IOM 用于控制主存或 I/O 读写；S3$\sim$S0 用于选择 ALU 的运算功能；A 字段控制数据写入位置；B 字段控制数据来源；C 字段控制判别条件或特殊控制；MA5$\sim$MA0 表示下一条微指令地址。为了便于后续分析，A、B、C 字段的编码分别列于表 \ref{tab:a-field}、表 \ref{tab:b-field} 和表 \ref{tab:c-field}。
+
+\begin{table}[H]
+\centering
+\caption{A 字段编码表}
+\label{tab:a-field}
+\renewcommand{\arraystretch}{1.25}
+\begin{tabular}{|>{\centering\arraybackslash}p{1.4cm}
+                |>{\centering\arraybackslash}p{1.4cm}
+                |>{\centering\arraybackslash}p{1.4cm}
+                |>{\centering\arraybackslash}p{4.2cm}|}
+\hline
+14 & 13 & 12 & 选择 \\
+\hline
+0 & 0 & 0 & NOP \\
+\hline
+0 & 0 & 1 & LDA \\
+\hline
+0 & 1 & 0 & LDB \\
+\hline
+0 & 1 & 1 & LDRi \\
+\hline
+1 & 0 & 0 & LDSP \\
+\hline
+1 & 0 & 1 & LOAD \\
+\hline
+1 & 1 & 0 & LDAR \\
+\hline
+1 & 1 & 1 & LDIR \\
+\hline
+\end{tabular}
+\end{table}
+
+A 字段主要控制“总线上的数据写到哪里”。例如 LDA 表示将总线数据送入暂存器 A，LDB 表示送入暂存器 B，LDRi 表示将数据写回相应寄存器。
+
+\begin{table}[H]
+\centering
+\caption{B 字段编码表}
+\label{tab:b-field}
+\renewcommand{\arraystretch}{1.25}
+\begin{tabular}{|>{\centering\arraybackslash}p{1.4cm}
+                |>{\centering\arraybackslash}p{1.4cm}
+                |>{\centering\arraybackslash}p{1.4cm}
+                |>{\centering\arraybackslash}p{4.2cm}|}
+\hline
+11 & 10 & 9 & 选择 \\
+\hline
+0 & 0 & 0 & NOP \\
+\hline
+0 & 0 & 1 & ALU\_B \\
+\hline
+0 & 1 & 0 & R0\_B \\
+\hline
+0 & 1 & 1 & PD\_B \\
+\hline
+1 & 0 & 0 & RI\_B \\
+\hline
+1 & 0 & 1 & SP\_B \\
+\hline
+1 & 1 & 0 & PC\_B \\
+\hline
+1 & 1 & 1 & 保留 \\
+\hline
+\end{tabular}
+\end{table}
+
+B 字段主要控制“谁把数据送到总线”。例如 ALU\_B 表示 ALU 输出送总线，PC\_B 表示 PC 内容送总线，SP\_B 表示堆栈指针 SP 内容送总线。
+
+\begin{table}[H]
+\centering
+\caption{C 字段编码表}
+\label{tab:c-field}
+\renewcommand{\arraystretch}{1.25}
+\begin{tabular}{|>{\centering\arraybackslash}p{1.4cm}
+                |>{\centering\arraybackslash}p{1.4cm}
+                |>{\centering\arraybackslash}p{1.4cm}
+                |>{\centering\arraybackslash}p{4.2cm}|}
+\hline
+8 & 7 & 6 & 选择 \\
+\hline
+0 & 0 & 0 & NOP \\
+\hline
+0 & 0 & 1 & P<1> \\
+\hline
+0 & 1 & 0 & P<2> \\
+\hline
+0 & 1 & 1 & P<3> \\
+\hline
+1 & 0 & 0 & P<4> \\
+\hline
+1 & 0 & 1 & LDPC \\
+\hline
+1 & 1 & 0 & STI \\
+\hline
+1 & 1 & 1 & CLI \\
+\hline
+\end{tabular}
+\end{table}
+
+C 字段主要用于微程序流程控制和特殊控制。比如 P<1>、P<2>、P<3>、P<4> 用于微程序判别，LDPC 用于将目标地址装入 PC，STI 和 CLI 分别用于开中断和关中断。
+
+本课设中，\inst{SUB} 指令的微操作可以理解为：
+
+\[
+RD \rightarrow A
+\]
+
+\[
+RS \rightarrow B
+\]
+
+\[
+A-B \rightarrow RD
+\]
+
+以 \inst{SUB R2,R1} 为例，就是先把 \reg{R2} 送入暂存器 A，再把 \reg{R1} 送入暂存器 B，最后由 ALU 执行 $A-B$，并把结果写回 \reg{R2}。因此，\inst{SUB} 能否正确执行，关键在于微指令中的 S3$\sim$S0 是否选择了减法功能。
+
+
+\minorheading{8}{机器连线图}
+
+复杂模型机的程序运行不仅依赖机器码和微程序，也依赖实验箱各模块之间的正确连线。机器连线图主要反映 8259 中断控制单元、时序与操作台单元、微程序控制单元、ALU 与寄存器单元、PC 与 AR 单元、主存单元和 I/O 单元之间的连接关系。
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.72\textwidth]{figures/machine-connection.png}
+\caption{TD-CMA带中断的复杂模型机实验连线图}
+\label{fig:machine-connection}
+\end{figure}
+
+从图 \ref{fig:machine-connection} 可以看出，模型机内部主要通过控制总线、地址总线和数据总线连接各个功能模块。控制总线传递 WR、RD、IOM、INTA、STI、CLI 等控制信号；地址总线用于选择主存或 I/O 端口；数据总线用于在寄存器、主存、I/O 和 ALU 之间传送数据。
+
+本课设中，中断部分主要依赖 8259 单元与 CPU 控制部分之间的连接。按下 KK/IR0 后，8259 产生中断请求信号，CPU 在开中断状态下响应该请求，并根据中断向量进入 \hex{40} 单元的中断服务程序。GCD 运算部分则主要依赖 ALU 与寄存器单元，\reg{R1}、\reg{R2}、\reg{R3} 和 \reg{R0} 分别承担输入、比较、相减和交换等功能。
+
+
+\minorheading{9}{微指令判别条件}
+
+微程序并不是始终按顺序执行。对于不同机器指令，控制器需要根据操作码、寻址方式、标志位和中断状态决定下一条微指令地址。P<1>、P<2>、P<3>、P<4> 就是用于改变微程序流程的判别条件。
+
+\begin{table}[H]
+\centering
+\caption{指令格式位说明}
+\label{tab:instruction-bit-format}
+\renewcommand{\arraystretch}{1.25}
+\begin{tabular}{|*{8}{>{\centering\arraybackslash}p{1.35cm}|}}
+\hline
+I7 & I6 & I5 & I4 & I3 & I2 & I1 & I0 \\
+\hline
+最高位 & 第7位 & 第6位 & 第5位 & 第4位 & 第3位 & 第2位 & 最低位 \\
+\hline
+\end{tabular}
+\end{table}
+
+P<1> 主要根据机器指令操作码进行分支。微程序通过指令寄存器 IR 中的 I7$\sim$I0 判断当前指令属于哪一类，再进入对应的微程序入口。其散转下址生成规则如表 \ref{tab:p1-rule} 所示。
+
+\begin{table}[H]
+\centering
+\caption{P<1> 散转下址生成规则}
+\label{tab:p1-rule}
+\renewcommand{\arraystretch}{1.25}
+\begin{tabular}{|>{\centering\arraybackslash}p{1.7cm}
+                |>{\centering\arraybackslash}p{1.7cm}
+                |>{\centering\arraybackslash}p{1.7cm}
+                |>{\centering\arraybackslash}p{1.7cm}
+                |>{\centering\arraybackslash}p{1.7cm}
+                |>{\centering\arraybackslash}p{1.7cm}
+                |>{\centering\arraybackslash}p{1.7cm}|}
+\hline
+I7I6 & SE5 & SE4 & SE3 & SE2 & SE1 & SE0 \\
+\hline
+\ne$11 & MA5 & MA4 & I7 & I6 & I5 & I4 \\
+\hline
+=11 & MA5 & MA4 & 1 & 1 & I3 & I2 \\
+\hline
+\end{tabular}
+\end{table}
+
+P<2> 主要用于寻址方式判别。对于 \inst{LAD}、\inst{STA}、\inst{JMP}、\inst{BZC} 等带 M 字段的指令，需要根据 M 字段形成有效地址 E。P<2> 的散转下址生成规则如表 \ref{tab:p2-rule} 所示。
+
+\begin{table}[H]
+\centering
+\caption{P<2> 散转下址生成规则}
+\label{tab:p2-rule}
+\renewcommand{\arraystretch}{1.25}
+\begin{tabular}{|>{\centering\arraybackslash}p{1.9cm}
+                |>{\centering\arraybackslash}p{1.9cm}
+                |>{\centering\arraybackslash}p{1.9cm}
+                |>{\centering\arraybackslash}p{1.9cm}
+                |>{\centering\arraybackslash}p{1.9cm}
+                |>{\centering\arraybackslash}p{1.9cm}|}
+\hline
+SE5 & SE4 & SE3 & SE2 & SE1 & SE0 \\
+\hline
+MA5 & MA4 & MA3 & MA2 & I5 & I4 \\
+\hline
+\end{tabular}
+\end{table}
+
+P<3> 与条件转移有关，是本课设中比较关键的判别条件。\inst{BZC} 指令要求当 FC=1 或 FZ=1 时跳转，因此 P<3> 判别需要结合标志位 FC 和 FZ。其逻辑表达式和散转下址生成规则如下：
+
+\[
+SE4=\overline{P_3}\cdot(FZ+FC)
+\]
+
+\begin{table}[H]
+\centering
+\caption{P<3> 散转下址生成规则}
+\label{tab:p3-rule}
+\renewcommand{\arraystretch}{1.25}
+\begin{tabular}{|>{\centering\arraybackslash}p{1.9cm}
+                |>{\centering\arraybackslash}p{2.4cm}
+                |>{\centering\arraybackslash}p{1.9cm}
+                |>{\centering\arraybackslash}p{1.9cm}
+                |>{\centering\arraybackslash}p{1.9cm}
+                |>{\centering\arraybackslash}p{1.9cm}|}
+\hline
+SE5 & SE4 & SE3 & SE2 & SE1 & SE0 \\
+\hline
+MA5 & FC 或 FZ & MA3 & MA2 & MA1 & MA0 \\
+\hline
+\end{tabular}
+\end{table}
+
+在本课设中，P<3> 主要用于两处 \inst{BZC} 判断。第一处是 \hex{47} 的 \inst{BZC 51H}，用于判断是否进入交换分支；第二处是 \hex{4A} 的 \inst{BZC 4EH}，用于判断相减结果是否为 0 并跳转到输出位置。也就是说，更相减损法能否正常循环，很大程度上取决于 FC/FZ 标志位和 P<3> 判别是否正确。
+
+P<4> 用于中断判别。当外部中断请求 INTR 到来，并且中断允许标志 EI 为 1 时，CPU 才会进入中断响应流程。其逻辑表达式和散转下址生成规则如下：
+
+\[
+SE5=\overline{P_4}\cdot INTR \cdot EI
+\]
+
+\begin{table}[H]
+\centering
+\caption{P<4> 散转下址生成规则}
+\label{tab:p4-rule}
+\renewcommand{\arraystretch}{1.25}
+\begin{tabular}{|>{\centering\arraybackslash}p{2.4cm}
+                |>{\centering\arraybackslash}p{1.8cm}
+                |>{\centering\arraybackslash}p{1.8cm}
+                |>{\centering\arraybackslash}p{1.8cm}
+                |>{\centering\arraybackslash}p{1.8cm}
+                |>{\centering\arraybackslash}p{1.8cm}|}
+\hline
+SE5 & SE4 & SE3 & SE2 & SE1 & SE0 \\
+\hline
+INTR 与 EI & MA4 & MA3 & MA2 & MA1 & MA0 \\
+\hline
+\end{tabular}
+\end{table}
+
+本课设中，主程序执行 \inst{STI} 后打开中断，使 EI=1；按下 KK/IR0 后产生中断请求，P<4> 判别成立，CPU 才根据中断向量进入 \hex{40} 单元的中断服务程序。服务程序入口处执行 \inst{CLI}，关闭中断，避免在 GCD 运算过程中再次响应中断。
+
+\subsubsection{指令分析}
+
+本课设用到的指令主要包括数据传送、输入输出、算术运算、程序转移和中断控制几类。表 \ref{tab:inst-analysis} 对主要指令的汇编符号、指令格式和功能进行整理，其中红色部分表示在原有指令系统基础上新增或改造的指令。
+
+\begin{longtable}{|>{\centering\arraybackslash}m{3.6cm}
+                  |>{\centering\arraybackslash}m{4.7cm}
+                  |>{\centering\arraybackslash}m{5.2cm}|}
+\caption{本课设主要指令分析}
+\label{tab:inst-analysis}\\
+\hline
+\textbf{汇编符号} & \textbf{指令格式} & \textbf{指令功能} \\
+\hline
+\endfirsthead
+
+\hline
+\textbf{汇编符号} & \textbf{指令格式} & \textbf{指令功能} \\
+\hline
+\endhead
+
+\renewcommand{\arraystretch}{1.35}
+\begin{tabular}{@{}c@{}}
+\inst{MOV RD,RS} \\[0.35em]
+\textcolor{red}{\inst{SUB RD,RS}} \\[0.35em]
+\inst{CLI} \\[0.35em]
+\textcolor{red}{\inst{XOR RD,RS}} \\[0.35em]
+\inst{STI}
+\end{tabular}
+&
+\renewcommand{\arraystretch}{1.35}
+\begin{tabular}{|c|c|c|}
+\hline
+0100 & RS & RD \\
+\hline
+0000 & RS & RD \\
+\hline
+1000 & ** & ** \\
+\hline
+1001 & RS & RD \\
+\hline
+0111 & ** & ** \\
+\hline
+\end{tabular}
+&
+\renewcommand{\arraystretch}{1.35}
+\begin{tabular}{@{}c@{}}
+$RS \rightarrow RD$ \\[0.35em]
+$RD-RS \rightarrow RD$ \\[0.35em]
+CPU 关中断 \\[0.35em]
+$RD \oplus RS \rightarrow RD$ \\[0.35em]
+CPU 开中断
+\end{tabular}
+\\
+\hline
+
+\inst{IRET}
+&
+\renewcommand{\arraystretch}{1.35}
+\begin{tabular}{|c|c|c|}
+\hline
+1011 & ** & ** \\
+\hline
+\end{tabular}
+&
+中断返回
+\\
+\hline
+
+\renewcommand{\arraystretch}{1.35}
+\begin{tabular}{@{}c@{}}
+\inst{LAD M,D,RD} \\[0.35em]
+\inst{STA M,D,RS} \\[0.35em]
+\inst{JMP M,D} \\[0.35em]
+\inst{BZC M,D}
+\end{tabular}
+&
+\renewcommand{\arraystretch}{1.35}
+\begin{tabular}{|c|c|c|c|}
+\hline
+1100 & M & RD & D \\
+\hline
+1101 & M & RD & D \\
+\hline
+1110 & M & ** & D \\
+\hline
+1111 & M & ** & D \\
+\hline
+\end{tabular}
+&
+\renewcommand{\arraystretch}{1.35}
+\begin{tabular}{@{}c@{}}
+$E \rightarrow RD$ \\[0.35em]
+$RD \rightarrow E$ \\[0.35em]
+$E \rightarrow PC$ \\[0.35em]
+当 FC=1/FZ=1 时，$E \rightarrow PC$
+\end{tabular}
+\\
+\hline
+
+\renewcommand{\arraystretch}{1.35}
+\begin{tabular}{@{}c@{}}
+\inst{IN RD,P} \\[0.35em]
+\inst{OUT P,RS}
+\end{tabular}
+&
+\renewcommand{\arraystretch}{1.35}
+\begin{tabular}{|c|c|c|c|}
+\hline
+0010 & ** & RD & P \\
+\hline
+0011 & RS & ** & P \\
+\hline
+\end{tabular}
+&
+\renewcommand{\arraystretch}{1.35}
+\begin{tabular}{@{}c@{}}
+$[P] \rightarrow RD$ \\[0.35em]
+$RS \rightarrow [P]$
+\end{tabular}
+\\
+\hline
+
+\inst{LDI RD,D}
+&
+\renewcommand{\arraystretch}{1.35}
+\begin{tabular}{|c|c|c|c|}
+\hline
+0110 & ** & RD & D \\
+\hline
+\end{tabular}
+&
+$D \rightarrow RD$
+\\
+\hline
+
+\inst{HALT}
+&
+\renewcommand{\arraystretch}{1.35}
+\begin{tabular}{|c|c|c|}
+\hline
+0101 & ** & ** \\
+\hline
+\end{tabular}
+&
+停机
+\\
+\hline
+
+\end{longtable}
+
+从表 \ref{tab:inst-analysis} 可以看出，本课设实际使用的核心指令为 \inst{LDI}、\inst{IN}、\inst{OUT}、\inst{MOV}、\inst{SUB}、\inst{JMP}、\inst{BZC}、\inst{STI}、\inst{CLI} 和 \inst{IRET}。其中，\inst{LDI} 和 \inst{OUT} 主要用于 8259 初始化和 SP 设置；\inst{IN} 用于输入数据；\inst{MOV} 用于寄存器复制和交换；\inst{SUB} 用于完成更相减损法中的相减操作；\inst{BZC} 依据 FC/FZ 标志位实现条件转移；\inst{STI}、\inst{CLI} 和 \inst{IRET} 用于中断控制和中断返回。
+
+本课设在原有指令系统基础上进行了适当调整：将原 \texttt{0000} 运算入口改造为 \textcolor{red}{\inst{SUB RD,RS}}，实现 $RD-RS \rightarrow RD$；新增 \textcolor{red}{\inst{XOR RD,RS}}，实现 $RD \oplus RS \rightarrow RD$；删除或不再使用原有的 \inst{ADD}、\inst{PUSH}、\inst{POP} 等指令。对于本项目而言，\inst{SUB} 是实现 GCD 运算的关键指令。
+
+\subsection{指令框图及分析}
+
+本课设的指令执行过程可以分为取指译码、指令执行和返回取指三个阶段。主程序负责初始化中断系统并循环等待；中断发生后，CPU 根据中断向量进入 \hex{40} 单元的中断服务程序；服务程序完成数据输入、GCD 运算、结果输出和中断返回。整体流程如表 \ref{tab:flow-text} 所示。
+
+\begin{table}[H]
+\centering
+\caption{程序流程框图文字说明}
+\label{tab:flow-text}
+\renewcommand{\arraystretch}{1.35}
+\begin{tabularx}{0.95\textwidth}{
+>{\centering\arraybackslash}p{3.2cm}
+>{\centering\arraybackslash}X
+}
+\toprule
+流程阶段 & 具体内容 \\
+\midrule
+主程序初始化 & 初始化 8259，设置中断向量、屏蔽字和堆栈指针 SP \\
+主程序等待 & 执行 \inst{STI} 开中断后，通过 \inst{JMP 13H} 循环等待 \\
+中断响应 & IR0 触发后，CPU 保存返回地址，并根据中断向量进入 \hex{40} \\
+数据输入 & 通过 \inst{IN R1,00H} 和 \inst{IN R2,00H} 读入两个操作数 \\
+比较判断 & 使用 \reg{R3} 临时保存 \reg{R2}，通过减法产生 FC/FZ 标志位 \\
+循环相减 & 根据 \inst{BZC} 判断是否交换或继续执行相减循环 \\
+结果输出 & 当相减结果为 0 时，输出 \reg{R1} 中的 GCD 结果 \\
+中断返回 & 执行 \inst{IRET}，从堆栈恢复返回地址并回到主程序 \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+本课设中新增的改造指令为 \inst{SUB RD,RS}。课本原有指令系统中，\texttt{0000} 运算入口通常对应 \inst{ADD}，而本设计为了实现更相减损法求最大公约数，需要频繁完成“大数减小数”的操作，因此将该入口对应的微程序改造为减法功能，使其实现 $RD-RS \rightarrow RD$。
+
+从微操作角度看，\inst{SUB} 指令的执行过程如下：先将目的寄存器 RD 的内容送入暂存器 A，再将源寄存器 RS 的内容送入暂存器 B，最后由 ALU 执行 $A-B$ 运算，并将结果写回目的寄存器 RD。该指令执行后会影响 FC 和 FZ 标志位，后续 \inst{BZC} 指令正是根据这两个标志位完成条件转移。因此，\inst{SUB} 不仅承担了 GCD 运算中的核心相减功能，也为程序中的大小判断和循环控制提供了依据。对应的新增指令框图如图 \ref{fig:p3-sub} 所示。
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.8\textwidth]{figures/p3}
+\caption{新增 SUB 指令框图}
+\label{fig:p3-sub}
+\end{figure}
+
+除 \inst{SUB} 外，本课设还综合使用了 \inst{LDI}、\inst{IN}、\inst{OUT}、\inst{MOV}、\inst{JMP}、\inst{BZC}、\inst{STI}、\inst{CLI} 和 \inst{IRET} 等指令。这些指令分别完成中断初始化、端口输入输出、寄存器传送、条件转移、开关中断和中断返回等功能。其余指令框图如图 \ref{fig:p2-other} 所示。
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.65\textwidth]{figures/p2}
+\caption{其余指令框图}
+\label{fig:p2-other}
+\end{figure}
+
+从指令框图可以看出，所有机器指令都要先经过公共取指过程，再由 P<1> 完成指令译码并进入相应微程序分支。其中，\inst{BZC} 需要结合 P<2> 形成有效地址，并通过 P<3> 判断 FC/FZ 标志位；\inst{STI}、\inst{CLI} 和 \inst{IRET} 则体现了本课设中的中断控制和返回机制。
+
+在 GCD 运算过程中，程序没有使用专门的比较指令，而是利用 \inst{SUB} 产生 FC 和 FZ 标志位，再通过 \inst{BZC} 完成分支控制。这样既符合复杂模型机的指令执行方式，也能较好体现微程序控制和标志位判别之间的联系。
+
+\subsection{指令系统对应微程序二进制代码实现及分析}
+
+本课设的机器指令最终由控制存储器中的微程序完成。实验中写入的微程序以 \texttt{\$M 地址 数据} 的形式给出，其中地址表示控制存储器中的微地址，后面的 6 位十六进制数表示一条 24 位微指令。本设计在课本原有微程序的基础上进行修改，主要改造内容是加入 \textcolor{red}{\inst{SUB RD,RS}} 指令的执行流程，使模型机能够完成更相减损法所需的减法操作。
+
+{\small
+\renewcommand{\arraystretch}{1.25}
+\setlength{\tabcolsep}{2.2pt}
+
+\begin{longtable}{|>{\centering\arraybackslash}m{0.95cm}
+                  |>{\centering\arraybackslash}m{2.35cm}
+                  |>{\centering\arraybackslash}m{1.25cm}
+                  |>{\centering\arraybackslash}m{1.25cm}
+                  |>{\centering\arraybackslash}m{1.15cm}
+                  |>{\centering\arraybackslash}m{1.15cm}
+                  |>{\centering\arraybackslash}m{1.15cm}
+                  |>{\centering\arraybackslash}m{1.95cm}
+                  |>{\centering\arraybackslash}m{3.0cm}|}
+\caption{微程序二进制代码表}
+\label{tab:micro-binary-code}\\
+\hline
+\textbf{地址} & \textbf{十六进制表示} & \textbf{高五位} & \textbf{S3$\sim$S0} & \textbf{A字段} & \textbf{B字段} & \textbf{C字段} & \textbf{MA5$\sim$MA0} & \textbf{含义} \\
+\hline
+\endfirsthead
+
+\hline
+\textbf{地址} & \textbf{十六进制表示} & \textbf{高五位} & \textbf{S3$\sim$S0} & \textbf{A字段} & \textbf{B字段} & \textbf{C字段} & \textbf{MA5$\sim$MA0} & \textbf{含义} \\
+\hline
+\endhead
+
+00 & 0001C1 & 00000 & 0000 & 000 & 000 & 111 & 000001 & CLI，关中断 \\
+\hline
+01 & 000102 & 00000 & 0000 & 000 & 000 & 100 & 000010 & P<4>中断判别 \\
+\hline
+02 & 006D43 & 00000 & 0000 & 110 & 110 & 101 & 000011 & PC$\rightarrow$AR，PC+1 \\
+\hline
+03 & 107070 & 00010 & 0000 & 111 & 000 & 001 & 110000 & MEM$\rightarrow$IR，P<1> \\
+\hline
+04 & 002405 & 00000 & 0000 & 010 & 010 & 000 & 000101 & RS$\rightarrow$B \\
+\hline
+\textcolor{red}{05} & \textcolor{red}{05B201} & \textcolor{red}{00000} & \textcolor{red}{1011} & \textcolor{red}{011} & \textcolor{red}{001} & \textcolor{red}{000} & \textcolor{red}{000001} & \textcolor{red}{A-B$\rightarrow$RD} \\
+\hline
+06 & 002407 & 00000 & 0000 & 010 & 010 & 000 & 000111 & RS$\rightarrow$B \\
+\hline
+07 & 013201 & 00000 & 0010 & 011 & 001 & 000 & 000001 & ALU$\rightarrow$RD \\
+\hline
+08 & 106009 & 00010 & 0000 & 110 & 000 & 000 & 001001 & MEM$\rightarrow$AR \\
+\hline
+09 & 183001 & 00011 & 0000 & 011 & 000 & 000 & 000001 & I/O$\rightarrow$RD \\
+\hline
+0A & 106010 & 00010 & 0000 & 110 & 000 & 000 & 010000 & MEM$\rightarrow$AR \\
+\hline
+0B & 000001 & 00000 & 0000 & 000 & 000 & 000 & 000001 & NOP \\
+\hline
+0C & 103001 & 00010 & 0000 & 011 & 000 & 000 & 000001 & MEM$\rightarrow$RD \\
+\hline
+0D & 200601 & 00100 & 0000 & 000 & 011 & 000 & 000001 & RD$\rightarrow$MEM \\
+\hline
+0E & 005341 & 00000 & 0000 & 101 & 001 & 101 & 000001 & ALU$\rightarrow$PC \\
+\hline
+0F & 0000CB & 00000 & 0000 & 000 & 000 & 011 & 001011 & P<3>条件判别 \\
+\hline
+10 & 280401 & 00101 & 0000 & 000 & 010 & 000 & 000001 & RS$\rightarrow$I/O \\
+\hline
+11 & 103001 & 00010 & 0000 & 011 & 000 & 000 & 000001 & MEM$\rightarrow$RD \\
+\hline
+12 & 200413 & 00100 & 0000 & 000 & 010 & 000 & 010011 & RS$\rightarrow$MEM \\
+\hline
+13 & 001A14 & 00000 & 0000 & 001 & 101 & 000 & 010100 & SP$\rightarrow$A \\
+\hline
+14 & 06C201 & 00000 & 1101 & 100 & 001 & 000 & 000001 & ALU$\rightarrow$SP \\
+\hline
+15 & 064216 & 00000 & 1100 & 100 & 001 & 000 & 010110 & ALU$\rightarrow$SP \\
+\hline
+16 & 006A17 & 00000 & 0000 & 110 & 101 & 000 & 010111 & SP$\rightarrow$AR \\
+\hline
+17 & 103001 & 00010 & 0000 & 011 & 000 & 000 & 000001 & MEM$\rightarrow$RD \\
+\hline
+18 & 064219 & 00000 & 1100 & 100 & 001 & 000 & 011001 & ALU$\rightarrow$SP \\
+\hline
+19 & 006A1A & 00000 & 0000 & 110 & 101 & 000 & 011010 & SP$\rightarrow$AR \\
+\hline
+1A & 105141 & 00010 & 0000 & 101 & 000 & 101 & 000001 & MEM$\rightarrow$PC \\
+\hline
+1B & 005341 & 00000 & 0000 & 101 & 001 & 101 & 000001 & ALU$\rightarrow$PC \\
+\hline
+1C & 10101D & 00010 & 0000 & 001 & 000 & 000 & 011101 & MEM$\rightarrow$A \\
+\hline
+1D & 10608C & 00010 & 0000 & 110 & 000 & 010 & 001100 & MEM$\rightarrow$AR，P<2> \\
+\hline
+1E & 10601F & 00010 & 0000 & 110 & 000 & 000 & 011111 & MEM$\rightarrow$AR \\
+\hline
+1F & 101020 & 00010 & 0000 & 001 & 000 & 000 & 100000 & MEM$\rightarrow$A \\
+\hline
+20 & 10608C & 00010 & 0000 & 110 & 000 & 010 & 001100 & MEM$\rightarrow$AR，P<2> \\
+\hline
+22 & 406A23 & 01000 & 0000 & 110 & 101 & 000 & 100011 & SP$\rightarrow$AR \\
+\hline
+23 & 200C24 & 00100 & 0000 & 000 & 110 & 000 & 100100 & PC$\rightarrow$MEM \\
+\hline
+24 & 001A25 & 00000 & 0000 & 001 & 101 & 000 & 100101 & SP$\rightarrow$A \\
+\hline
+25 & 06C226 & 00000 & 1101 & 100 & 001 & 000 & 100110 & ALU$\rightarrow$SP \\
+\hline
+26 & 406027 & 01000 & 0000 & 110 & 000 & 000 & 100111 & MEM$\rightarrow$AR \\
+\hline
+27 & 105142 & 00010 & 0000 & 101 & 000 & 101 & 000010 & MEM$\rightarrow$PC \\
+\hline
+28 & 101029 & 00010 & 0000 & 001 & 000 & 000 & 101001 & MEM$\rightarrow$A \\
+\hline
+29 & 00282A & 00000 & 0000 & 010 & 100 & 000 & 101010 & RI$\rightarrow$B \\
+\hline
+2A & 04E22B & 00000 & 1001 & 110 & 001 & 000 & 101011 & ALU$\rightarrow$AR \\
+\hline
+2B & 04928C & 00000 & 1001 & 001 & 001 & 010 & 001100 & ALU$\rightarrow$A，P<2> \\
+\hline
+2C & 10102D & 00010 & 0000 & 001 & 000 & 000 & 101101 & MEM$\rightarrow$A \\
+\hline
+2D & 002C2E & 00000 & 0000 & 010 & 110 & 000 & 101110 & PC$\rightarrow$B \\
+\hline
+2E & 04E22F & 00000 & 1001 & 110 & 001 & 000 & 101111 & ALU$\rightarrow$AR \\
+\hline
+2F & 04928C & 00000 & 1001 & 001 & 001 & 010 & 001100 & ALU$\rightarrow$A，P<2> \\
+\hline
+\textcolor{red}{30} & \textcolor{red}{001604} & \textcolor{red}{00000} & \textcolor{red}{0000} & \textcolor{red}{001} & \textcolor{red}{011} & \textcolor{red}{000} & \textcolor{red}{000100} & \textcolor{red}{RD$\rightarrow$A} \\
+\hline
+31 & 001606 & 00000 & 0000 & 001 & 011 & 000 & 000110 & RD$\rightarrow$A \\
+\hline
+32 & 006D48 & 00000 & 0000 & 110 & 110 & 101 & 001000 & PC$\rightarrow$AR，PC+1 \\
+\hline
+33 & 006D4A & 00000 & 0000 & 110 & 110 & 101 & 001010 & PC$\rightarrow$AR，PC+1 \\
+\hline
+34 & 003401 & 00000 & 0000 & 011 & 010 & 000 & 000001 & RS$\rightarrow$RD \\
+\hline
+35 & 000035 & 00000 & 0000 & 000 & 000 & 000 & 110101 & NOP \\
+\hline
+36 & 006D51 & 00000 & 0000 & 110 & 110 & 101 & 010001 & PC$\rightarrow$AR，PC+1 \\
+\hline
+37 & 000181 & 00000 & 0000 & 000 & 000 & 110 & 000001 & STI，开中断 \\
+\hline
+38 & 0001C1 & 00000 & 0000 & 000 & 000 & 111 & 000001 & CLI，关中断 \\
+\hline
+39 & 006A12 & 00000 & 0000 & 110 & 101 & 000 & 010010 & SP$\rightarrow$AR \\
+\hline
+3A & 001A15 & 00000 & 0000 & 001 & 101 & 000 & 010101 & SP$\rightarrow$A \\
+\hline
+3B & 001A18 & 00000 & 0000 & 001 & 101 & 000 & 011000 & SP$\rightarrow$A \\
+\hline
+3C & 006D5C & 00000 & 0000 & 110 & 110 & 101 & 011100 & PC$\rightarrow$AR，PC+1 \\
+\hline
+3D & 006D5E & 00000 & 0000 & 110 & 110 & 101 & 011110 & PC$\rightarrow$AR，PC+1 \\
+\hline
+3E & 006D68 & 00000 & 0000 & 110 & 110 & 101 & 101000 & PC$\rightarrow$AR，PC+1 \\
+\hline
+3F & 006D6C & 00000 & 0000 & 110 & 110 & 101 & 101100 & PC$\rightarrow$AR，PC+1 \\
+\hline
+
+\end{longtable}
+}
+
+
+
+\subsubsection{微程序分析}
+
+从表 \ref{tab:micro-binary-code} 可以看出，本课设并没有重新编写整套复杂模型机微程序，而是在课本原有微程序基础上进行局部修改。公共取指、译码、中断判别、输入输出、程序转移和中断返回等基本流程仍沿用原有设计，保证了模型机原有指令系统的完整性。
+
+本设计的重点修改集中在 \textcolor{red}{\inst{SUB RD,RS}} 指令。其微程序执行路线为：
+
+\begin{center}
+30H $\rightarrow$ 04H $\rightarrow$ 05H $\rightarrow$ 01H
+\end{center}
+
+其中，30H 单元完成 $RD\rightarrow A$，将目的寄存器内容送入暂存器 A；04H 单元完成 $RS\rightarrow B$，将源寄存器内容送入暂存器 B；05H 单元完成 $A-B\rightarrow RD$，由 ALU 执行减法并将结果写回目的寄存器。执行完 05H 后，下一微地址回到 01H，重新进入公共取指流程。
+
+本课设最关键的微指令是 \textcolor{red}{\micro{05 05B201}}。该微指令中，S3$\sim$S0 字段选择减法功能，使 ALU 执行 $A-B$；A 字段控制结果写回寄存器；B 字段控制 ALU 输出送总线。因此，该微指令直接决定了 \inst{SUB} 是否能够正确实现 $RD-RS\rightarrow RD$。
+
+\inst{SUB} 执行后会影响 FC 和 FZ 标志位。FC 反映减法是否发生借位，FZ 反映结果是否为 0。中断服务程序中的 \inst{BZC} 根据 FC/FZ 判断是否跳转，因此 \inst{SUB} 不仅完成减法运算，也为 GCD 程序中的大小比较、交换分支和循环结束提供了判断依据。
+
+综上，本课设对课本微程序的主要修改是：在保留原有复杂模型机取指、译码、转移、I/O 和中断控制流程的基础上，将运算入口改造为 \textcolor{red}{\inst{SUB RD,RS}}，使模型机能够支持更相减损法所需的减法运算。
+
+
+\subsection{机器程序及分析}
+
+本设计的机器程序由三部分组成：主程序、中断向量和中断服务程序。主程序从 \hex{00} 开始，主要完成 8259 初始化、SP 设置、开中断和循环等待；中断向量位于 \hex{30} 单元；中断服务程序从 \hex{40} 开始，负责输入数据、执行 GCD 运算、输出结果并中断返回。
+
+\subsubsection{汇编源代码}
+
+为了便于理解程序逻辑，先将机器程序还原为汇编形式，如下所示。
+
+\begin{lstlisting}
+; 主程序 00H
+00: LDI R0,13H
+02: OUT C0H,R0        ; 8259初始化
+04: LDI R0,30H
+06: OUT C1H,R0        ; 设置中断向量相关信息
+08: LDI R0,03H
+0A: OUT C1H,R0
+0C: LDI R0,FEH
+0E: OUT C1H,R0        ; 只开放IR0
+10: LDI SP,A0H        ; 设置堆栈指针
+12: STI               ; 开中断
+13: JMP 13H           ; 等待中断
+
+; 中断向量
+30: 40H               ; IR0入口地址
+
+; 中断服务程序 40H
+40: CLI               ; 关中断
+41: IN  R1,00H        ; 输入第一个数
+43: IN  R2,00H        ; 输入第二个数
+
+45: MOV R3,R2
+46: SUB R3,R1         ; 比较R2和R1
+47: BZC 51H           ; R2<=R1则交换
+
+49: SUB R2,R1         ; 大数减小数
+4A: BZC 4EH           ; 相减为0则输出
+4C: JMP 45H           ; 继续循环
+
+4E: OUT 40H,R1        ; 输出GCD
+50: IRET              ; 中断返回
+
+51: MOV R0,R1
+52: MOV R1,R2
+53: MOV R2,R0         ; 交换R1和R2
+54: JMP 49H
+\end{lstlisting}
+
+从汇编程序可以看出，主程序不直接参与 GCD 运算，而是完成中断系统初始化后进入等待循环。真正的 GCD 计算放在 \hex{40} 单元开始的中断服务程序中。服务程序先关中断，再输入两个数，通过 \inst{SUB} 和 \inst{BZC} 实现比较、交换和循环相减，最后将结果从端口 \hex{40} 输出。
+
+本程序中各寄存器的分工如下：\reg{R1} 保存第一个输入数，并在最后保存 GCD 结果；\reg{R2} 保存第二个输入数并参与相减；\reg{R3} 用作比较临时寄存器；\reg{R0} 用作交换临时寄存器。
+
+\subsubsection{程序流程图}
+
+机器程序的执行流程可分为主程序流程和中断服务程序流程。主程序负责初始化并等待外部中断；按下 KK/IR0 后，CPU 根据 \hex{30} 单元中的中断向量进入 \hex{40} 单元，开始执行中断服务程序。程序流程如图 \ref{fig:machine-flow} 所示。
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=1\textwidth]{figures/p4}
+\caption{机器程序流程图}
+\label{fig:machine-flow}
+\end{figure}
+
+从流程上看，本程序的核心不是简单顺序执行，而是依靠中断完成主程序与服务程序之间的切换。主程序通过 \inst{STI} 开中断后停留在等待循环；中断服务程序完成 GCD 运算后，通过 \inst{IRET} 从堆栈恢复返回地址，使 CPU 回到主程序继续等待下一次中断。
+
+\subsubsection{机器码}
+
+本课设写入主存的机器码如下。双字节指令需要连续两个存储单元共同组成一条完整指令，例如 \inst{JMP}、\inst{BZC}、\inst{LDI}、\inst{IN} 和 \inst{OUT} 等。
+
+\begin{lstlisting}
+; 主程序入口 00H
+$P 00 60
+$P 01 13        ; LDI R0,13H
+$P 02 30
+$P 03 C0        ; OUT C0H,R0
+
+$P 04 60
+$P 05 30        ; LDI R0,30H
+$P 06 30
+$P 07 C1        ; OUT C1H,R0
+
+$P 08 60
+$P 09 03        ; LDI R0,03H
+$P 0A 30
+$P 0B C1        ; OUT C1H,R0
+
+$P 0C 60
+$P 0D FE        ; LDI R0,FEH
+$P 0E 30
+$P 0F C1        ; OUT C1H,R0
+
+$P 10 63
+$P 11 A0        ; LDI SP,A0H
+$P 12 70        ; STI
+$P 13 E0
+$P 14 13        ; JMP 13H
+
+; 中断向量
+$P 30 40        ; IR0入口为40H
+
+; 中断服务程序 40H
+$P 40 80        ; CLI
+
+$P 41 21
+$P 42 00        ; IN R1,00H
+$P 43 22
+$P 44 00        ; IN R2,00H
+
+$P 45 4B        ; MOV R3,R2
+$P 46 07        ; SUB R3,R1
+$P 47 F0
+$P 48 51        ; BZC 51H
+
+$P 49 06        ; SUB R2,R1
+$P 4A F0
+$P 4B 4E        ; BZC 4EH
+$P 4C E0
+$P 4D 45        ; JMP 45H
+
+$P 4E 34
+$P 4F 40        ; OUT 40H,R1
+$P 50 B0        ; IRET
+
+$P 51 44        ; MOV R0,R1
+$P 52 49        ; MOV R1,R2
+$P 53 42        ; MOV R2,R0
+$P 54 E0
+$P 55 49        ; JMP 49H
+\end{lstlisting}
+
+其中，\prog{30 40} 是本程序中最关键的地址设置之一，表示 IR0 中断发生后转入 \hex{40} 单元执行服务程序。\prog{13 E0} 和 \prog{14 13} 共同构成 \inst{JMP 13H}，使主程序保持等待状态。\prog{47 F0}、\prog{48 51} 构成 \inst{BZC 51H}，用于进入交换分支；\prog{4A F0}、\prog{4B 4E} 构成 \inst{BZC 4EH}，用于判断相减结果是否为 0 并转入输出部分。
+
+屏蔽字 \hex{FE} 的二进制形式为：
+
+\[
+11111110B
+\]
+
+在 8259 屏蔽字中，0 表示允许中断，1 表示屏蔽中断。因此 \hex{FE} 表示只开放 IR0，屏蔽 IR1 至 IR7，符合本课设通过 KK/IR0 触发 GCD 运算的设计要求。
+
+\section{实验步骤}
+
+\subsection{微程序写入及校验}
+
+\noindent\textbf{1、写入微程序}
+
+打开 TD-CMA 复杂模型机联机软件，选择“转储”—“装载”功能，将微程序文件装入实验系统。微程序采用 \texttt{\$M 地址 数据} 的格式写入控制存储器。本课设中需要重点关注 \inst{SUB RD,RS} 对应的微程序，其主要路线为：
+
+\begin{center}
+30H $\rightarrow$ 04H $\rightarrow$ 05H $\rightarrow$ 01H
+\end{center}
+
+其中 30H 完成 $RD\rightarrow A$，04H 完成 $RS\rightarrow B$，05H 完成 $A-B\rightarrow RD$。
+
+\noindent\textbf{2、校验微程序}
+
+装入完成后，通过“刷新指令区”读出控制存储器内容，与设计表逐项比对。重点检查 \micro{30 001604}、\micro{04 002405} 和 \micro{05 05B201} 是否写入正确。其中 05H 单元决定 ALU 是否执行减法，如果该单元错误，GCD 运算和后续 FC/FZ 判断都会出错。
+
+\subsection{机器程序写入及校验}
+
+\noindent\textbf{1、写入机器程序}
+
+机器程序采用 \texttt{\$P 地址 数据} 的格式写入主存。写入时按地址顺序装入主程序、中断向量和中断服务程序。
+
+本课设机器程序地址安排如下：
+
+\begin{center}
+\begin{tabular}{c c}
+\toprule
+地址范围 & 内容 \\
+\midrule
+\hex{00}--\hex{14} & 主程序，完成 8259 初始化、设置 SP、开中断和等待 \\
+\hex{30} & 中断向量，存放服务程序入口 \hex{40} \\
+\hex{40}--\hex{55} & 中断服务程序，完成输入、GCD 运算、输出和返回 \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+写入完成后，将 PC 置为 \hex{00}，准备从主程序入口运行。
+
+\noindent\textbf{2、校验机器程序}
+
+机器程序校验时主要检查双字节指令和关键跳转地址。重点包括：\prog{13 E0}、\prog{14 13} 构成 \inst{JMP 13H}，用于主程序等待；\prog{30 40} 为中断向量；\prog{47 F0}、\prog{48 51} 构成 \inst{BZC 51H}，用于进入交换分支；\prog{4A F0}、\prog{4B 4E} 构成 \inst{BZC 4EH}，用于跳转到输出位置；\prog{50 B0} 为 \inst{IRET}，用于中断返回。
+
+\subsection{程序运行及调试}
+
+\noindent\textbf{1、运行主程序}
+
+将 PC 置为 \hex{00} 后运行程序。主程序依次完成 8259 初始化、屏蔽字设置、SP 初始化和开中断操作，随后执行 \inst{JMP 13H} 进入等待循环。若不能停留在等待状态，应检查 \hex{13}、\hex{14} 单元的跳转指令是否正确。
+
+\noindent\textbf{2、触发中断}
+
+主程序等待后，按下 KK/IR0 触发中断。若初始化和中断向量设置正确，CPU 应进入 \hex{40} 单元执行服务程序。服务程序先执行 \inst{CLI} 关中断，再通过 \inst{IN R1,00H} 和 \inst{IN R2,00H} 输入两个数。
+
+\noindent\textbf{3、观察运算和返回}
+
+单步运行中断服务程序，重点观察 \reg{R1}、\reg{R2}、\reg{R3} 以及 FC/FZ 标志位的变化。程序通过 \inst{SUB} 和 \inst{BZC} 完成比较、交换和循环相减。当结果产生后，执行 \inst{OUT 40H,R1} 输出最大公约数，最后通过 \inst{IRET} 返回主程序等待循环。
+
+\section{实验结果及分析}
+
+本课设完成微程序和机器程序写入后，对中断 GCD 程序进行了运行测试。实验时先运行主程序，使 CPU 完成 8259 初始化、SP 设置和开中断操作，并停留在 \inst{JMP 13H} 等待循环中。随后通过 KK/IR0 触发中断，观察程序是否能够进入 \hex{40} 单元的中断服务程序，并完成输入、计算、输出和返回过程。
+
+图 \ref{fig:exp-result} 为程序运行过程中的实验截图。实验中主要观察 \reg{R1}、\reg{R2}、\reg{R3}、ALU、PC、IR、AR 以及 OUT 端口的变化，用于判断 GCD 运算过程是否正确。
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.88\textwidth]{figures/result1}
+\caption{中断 GCD 程序运行结果截图}
+\label{fig:exp-result}
+\end{figure}
+
+\subsection{演示程序一}
+
+第一组测试数据选择 \hex{12} 和 \hex{0C}，分别对应十进制下的 18 和 12。程序运行后输出 \hex{06}，对应十进制 6。测试结果如表 \ref{tab:demo1-result} 所示。
+
+\begin{table}[H]
+\centering
+\caption{演示程序一测试结果}
+\label{tab:demo1-result}
+\renewcommand{\arraystretch}{1.25}
+\begin{tabular}{ccccc}
+\toprule
+输入1 & 输入2 & 程序输出 & 十进制含义 & 结果判断 \\
+\midrule
+\hex{12} & \hex{0C} & \hex{06} & 18，12，6 & 正确 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+由数学计算可知：
+
+\[
+\gcd(18,12)=6
+\]
+
+程序输出结果为 \hex{06}，与理论结果一致，说明程序能够正确完成比较、交换、循环相减和输出过程。
+
+\subsection{演示程序二}
+
+第二组测试数据选择 \hex{12} 和 \hex{02}，分别对应十进制下的 18 和 2。程序运行后输出 \hex{02}，对应十进制 2。测试结果如表 \ref{tab:demo2-result} 所示。
+
+\begin{table}[H]
+\centering
+\caption{演示程序二测试结果}
+\label{tab:demo2-result}
+\renewcommand{\arraystretch}{1.25}
+\begin{tabular}{ccccc}
+\toprule
+输入1 & 输入2 & 程序输出 & 十进制含义 & 结果判断 \\
+\midrule
+\hex{12} & \hex{02} & \hex{02} & 18，2，2 & 正确 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+由数学计算可知：
+
+\[
+\gcd(18,2)=2
+\]
+
+程序输出结果为 \hex{02}，与理论结果一致，说明程序在一个数能够整除另一个数的情况下，也可以正确结束循环并输出结果。
+
+\subsection{结果分析}
+
+两组实验结果汇总如表 \ref{tab:exp-summary} 所示。
+
+\begin{table}[H]
+\centering
+\caption{实验结果汇总}
+\label{tab:exp-summary}
+\renewcommand{\arraystretch}{1.25}
+\begin{tabular}{cccccc}
+\toprule
+测试组 & 输入1 & 输入2 & 程序输出 & 理论结果 & 结果判断 \\
+\midrule
+演示程序一 & \hex{12} & \hex{0C} & \hex{06} & \hex{06} & 正确 \\
+演示程序二 & \hex{12} & \hex{02} & \hex{02} & \hex{02} & 正确 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+从实验结果可以看出，主程序能够在等待状态下响应 IR0 中断，并正确进入 \hex{40} 单元的中断服务程序。服务程序能够通过 \inst{IN} 指令读入两个数据，利用 \inst{SUB} 和 \inst{BZC} 完成更相减损法求最大公约数，最后通过 \inst{OUT 40H,R1} 输出结果，并执行 \inst{IRET} 返回主程序。两组测试结果均与理论值一致，说明本课设设计的中断 GCD 程序运行正确。
+
+\section{实验问题及思考}
+
+\noindent\textbf{1. 当前所实现的计算机是否完整？如果不完整，还缺少哪些部件？}
+
+答：当前所实现的计算机还不是一台完整意义上的通用计算机。本课设主要实现了基本运算、寄存器传送、输入输出、程序转移和中断处理等功能，能够完成中断触发的 GCD 运算。但如果要进一步扩展为更完整的计算机系统，还可以补充浮点运算单元、高速缓存、更多外设接口以及更完善的异常处理机制，从而支持更复杂的数据处理和系统运行需求。
+
+\vspace{0.8em}
+
+\noindent\textbf{2. 当前所实现的计算机是否能够实现除法运算？如果能，可以通过哪些指令实现除法运算？}
+
+答：当前程序没有直接设计专门的除法指令，因此不能像高级语言一样直接完成除法运算。但从算法实现角度看，可以利用已有的减法、比较和转移指令设计除法过程。基本思路是不断用被除数减去除数，并用一个寄存器记录减法次数，直到被除数小于除数或等于 0 为止。减法次数可以看作商，最后剩余的值可以看作余数。该过程主要依赖 \inst{SUB}、\inst{BZC}、\inst{JMP} 和寄存器传送指令实现。
+
+\vspace{0.8em}
+
+\noindent\textbf{3. 当前所实现的计算机还能实现哪些更复杂的计算？请举例说明。}
+
+答：在现有指令系统基础上，计算机可以实现一些由基本运算和循环控制组合而成的计算。例如，通过反复加法可以实现乘法，通过反复减法可以实现除法，通过比较和条件转移可以实现排序、最大值和最小值查找等简单算法。本课设已经实现了更相减损法求最大公约数，说明只要合理组合 \inst{MOV}、\inst{SUB}、\inst{BZC}、\inst{JMP} 等指令，就可以完成一定复杂度的程序设计。另外，由于系统支持中断，还可以进一步设计由外部事件触发的计算或控制程序。
+
+\vspace{0.8em}
+
+\noindent\textbf{4. 当前所实现的计算机，指令系统中的双字长指令是如何实现的？}
+
+答：双字长指令通过两个连续的主存单元实现。第一字节通常存放操作码、寄存器字段或寻址方式字段，第二字节存放立即数、端口地址或转移目标地址等附加信息。CPU 执行双字长指令时，先取出第一字节并装入 IR，通过 P<1> 完成操作码译码；随后根据该指令需要继续读取下一字节，得到数据字段或地址字段。这样就能在保持第一字节格式较短的情况下，完成 \inst{LDI}、\inst{IN}、\inst{OUT}、\inst{JMP}、\inst{BZC} 等双字节指令的执行。
+
+
+\section{实验总结}
+
+\subsection{验收答辩问题回答}
+
+\textbf{1. 本课设实现了什么内容？}
+
+答：本课设基于 TD-CMA 复杂模型机，实现了一个中断触发的最大公约数 GCD 运算程序。主程序从 \hex{00} 单元开始，完成 8259 初始化、屏蔽字设置、SP 初始化和开中断操作，然后通过 \inst{JMP 13H} 进入等待循环。
+
+当 KK/IR0 触发中断后，CPU 根据中断向量进入 \hex{40} 单元的中断服务程序。服务程序输入两个数，通过更相减损法计算最大公约数，最后用 \inst{OUT 40H,R1} 输出结果，并通过 \inst{IRET} 返回主程序。因此，本课设不仅实现了 GCD 运算，也体现了中断响应、堆栈返回、I/O 操作、条件转移和微程序控制等内容。
+
+\vspace{0.7em}
+
+\textbf{2. 课设中中断的作用是什么？}
+
+答：中断的作用是触发 GCD 运算。主程序本身不直接计算 GCD，而是在完成初始化后等待外部中断。当按下 KK/IR0 后，CPU 暂停当前等待状态，通过中断向量进入 \hex{40} 单元执行服务程序。
+
+这种设计体现了中断的基本思想：CPU 平时执行主程序，外部事件发生时自动转入对应服务程序，处理结束后再通过 \inst{IRET} 回到原程序。相比直接用 \inst{JMP} 跳转，中断方式更能体现“外部事件触发处理”的特点。
+
+\vspace{0.7em}
+
+\textbf{3. 主程序和子程序分别实现了什么？}
+
+答：主程序负责初始化和等待中断，主要完成 8259 初始化、设置屏蔽字 \hex{FE}、设置 SP 为 \hex{A0}、执行 \inst{STI} 开中断，并通过 \inst{JMP 13H} 形成等待循环。
+
+子程序在本课设中指中断服务程序，从 \hex{40} 单元开始执行。它负责输入两个数，并使用 \inst{MOV}、\inst{SUB}、\inst{BZC}、\inst{JMP} 等指令实现更相减损法。计算结束后，程序将 \reg{R1} 中的最大公约数输出到端口 \hex{40}，最后执行 \inst{IRET} 返回主程序。简单来说，主程序负责“初始化和等待”，中断服务程序负责“输入、计算、输出和返回”。
+
+\vspace{0.7em}
+
+\textbf{4. 堆栈中存储的是什么？}
+
+答：本课设中，堆栈主要存储中断返回地址。CPU 响应中断时，需要保存被中断程序原本应该继续执行的位置；服务程序执行完 \inst{IRET} 后，再从堆栈中恢复该地址到 PC，使程序回到主程序继续运行。
+
+堆栈中不是存放 GCD 结果。GCD 结果保存在 \reg{R1} 中，并通过 \inst{OUT 40H,R1} 输出。本设计也没有完整保存全部通用寄存器现场，所以服务程序入口先执行 \inst{CLI} 关中断，避免嵌套中断影响运算过程。
+
+\vspace{0.7em}
+
+\textbf{5. \inst{BZC} 这条指令的结构以及对应的含义是什么？}
+
+答：\inst{BZC} 是条件转移指令，格式为 \texttt{1111 M ** + D}。其中，高四位 \texttt{1111} 是操作码，M 表示寻址方式，低两位一般不用，第二字节 D 是地址字段。执行时，CPU 根据 M 和 D 形成有效地址 E，再根据标志位决定是否转移。
+
+\inst{BZC} 的含义是：当 FC=1 或 FZ=1 时，将有效地址 E 装入 PC；如果 FC 和 FZ 都不为 1，则不跳转，程序继续顺序执行。以本课设中的 \prog{47 F0}、\prog{48 51} 为例，\hex{F0} 表示 \inst{BZC} 且 M=00，为直接寻址；第二字节 \hex{51} 是目标地址。因此这两字节组成 \inst{BZC 51H}，表示条件成立时跳转到 \hex{51} 单元。
+
+\vspace{0.7em}
+
+\textbf{6. \prog{46 07} 和 \prog{47 F0} 是什么寻址方式？改成相对寻址如何改？}
+
+答：\prog{46 07} 表示在 \hex{46} 单元写入机器码 \hex{07}。在本课设中，\hex{07} 对应 \inst{SUB R3,R1}，属于寄存器之间的运算指令，操作数由 RS 和 RD 字段给出，可以理解为寄存器寻址。它不是带 M 字段的转移类指令，因此不涉及直接寻址、间接寻址、变址寻址或相对寻址。
+
+\prog{47 F0} 必须和下一字节 \prog{48 51} 合起来看，二者共同构成 \inst{BZC 51H}。\hex{F0} 的操作码为 \texttt{1111}，表示 \inst{BZC}；M=00，表示直接寻址；第二字节 \hex{51} 是地址字段，因此条件成立时 PC 跳转到 \hex{51}。
+
+若改为相对寻址，需要把 M 字段由 00 改为 11，所以第一字节由 \hex{F0} 改为 \hex{FC}。该指令位于 \hex{47}--\hex{48}，取完第二字节后 PC 指向 \hex{49}，目标地址仍为 \hex{51}，位移量为 \hex{08}。因此可改为 \prog{47 FC}、\prog{48 08}。
+
+\vspace{0.7em}
+
+\textbf{7. 你在原课本给出的中断程序一章进行了什么自己的修改？}
+
+答：本课设是在课本中断程序实验基础上的扩展。原实验主要演示中断响应和中断返回，本设计保留了 8259 初始化、中断向量设置、SP 设置、开中断、关中断和 \inst{IRET} 返回等基本框架，但重新设计了中断服务程序的功能。
+
+主要修改有三点。第一，将原本偏演示性的中断服务程序改为 GCD 运算程序，中断发生后不再只是简单显示或固定操作，而是输入两个数并计算最大公约数。第二，加入 \inst{IN R1,00H} 和 \inst{IN R2,00H}，实现从端口读入两个操作数。第三，修改了原指令系统中的运算入口，将原 \texttt{0000} 入口对应的微程序改为减法功能，实现 \inst{SUB RD,RS}，即 $RD-RS \rightarrow RD$。在本程序中，\hex{06} 和 \hex{07} 都按 \inst{SUB} 使用，分别用于 \inst{SUB R2,R1} 和 \inst{SUB R3,R1}。
+
+此外，程序还明确了寄存器分工：\reg{R1} 保存第一个输入数和最终结果，\reg{R2} 参与相减，\reg{R3} 用作比较临时寄存器，\reg{R0} 用作交换临时寄存器。程序结束时使用 \inst{IRET} 返回，而不是普通 \inst{JMP}，因此保留了真正的中断返回机制。
+
+\subsection{实验心得体会}
+
+通过本次课程设计，我对复杂模型机的运行过程有了更加完整的理解。以前学习计算机组成原理时，指令格式、寄存器、ALU、标志位、微程序、中断和堆栈这些内容比较分散，更多停留在概念层面。完成这个中断 GCD 程序后，可以明显感觉到这些知识点之间是相互联系的。机器程序能否正确执行，不仅取决于机器码写得对不对，还取决于底层微程序能否产生正确的控制信号。
+
+在 GCD 算法实现中，我最大的体会是模型机上的程序设计和高级语言程序设计差别很大。高级语言中可以直接写 if 判断和 while 循环，但在模型机中，判断条件需要通过一次实际运算产生。比如本程序中没有直接比较两个寄存器大小的指令，只能通过 \inst{SUB} 产生 FC 和 FZ 标志位，再由 \inst{BZC} 根据标志位决定是否跳转。这个过程让我更清楚地理解了条件转移指令的本质。
+
+在中断部分，我理解了主程序和中断服务程序之间的关系。主程序不是直接调用服务程序，而是在完成初始化后等待外部中断。当 KK/IR0 被按下时，CPU 响应中断，保存返回地址，并通过中断向量进入服务程序。服务程序结束后，必须使用 \inst{IRET} 从堆栈恢复返回地址，而不是简单地用 \inst{JMP} 跳回主程序。这个过程体现了中断机制和普通程序跳转之间的区别。
+
+调试过程中，比较容易出错的地方主要有三类。第一类是双字节指令的第二字节容易写错，尤其是 \inst{JMP} 和 \inst{BZC} 的目标地址。第二类是 \inst{SUB} 与课本原 \inst{ADD} 入口容易混淆，如果微程序没有真正改成减法，整个 GCD 逻辑就无法成立。第三类是中断相关设置容易遗漏，例如 \hex{30} 单元中断向量、\hex{FE} 屏蔽字和 SP 初始化都很关键。通过单步运行，观察 PC、寄存器、FC、FZ 的变化，可以逐步定位这些错误。
+
+总的来说，本次课程设计实现了从中断触发、数据输入、GCD 运算、结果输出到中断返回的完整流程。通过这个项目，我不仅复习了复杂模型机指令格式和微指令格式，也加深了对微程序控制、中断机制、堆栈返回和条件转移的理解。相比单独学习书本知识，这次实验更直观地体现了计算机硬件是如何一步一步执行程序的，也让我对计算机组成原理这门课有了更具体的认识。
+
+\end{document}
