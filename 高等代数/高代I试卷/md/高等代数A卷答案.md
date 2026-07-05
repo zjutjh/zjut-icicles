@@ -60,12 +60,12 @@ $$
 4. 解：设 $C=\begin{pmatrix}x&y\\z&w\end{pmatrix}$，则由 $AC=CA$ 得：$y=0, x=w$，于是
 
 $$
-C(A)=\left\{\begin{pmatrix}x&0\\z&x\end{pmatrix}\bigg|x,z\in R\right\},\quad\dim C(A)=2,\text{ 基为：}\begin{pmatrix}1&0\\0&1\end{pmatrix},\begin{pmatrix}0&0\\1&0\end{pmatrix}
+C(A)=\left\{\begin{pmatrix}x&0\\z&x\end{pmatrix}\bigg|x,z\in \mathbb{R}\right\},\quad\dim C(A)=2,\text{ 基为：}\begin{pmatrix}1&0\\0&1\end{pmatrix},\begin{pmatrix}0&0\\1&0\end{pmatrix}
 $$
 
 另取 $\begin{pmatrix}0&1\\0&0\end{pmatrix},\begin{pmatrix}0&0\\0&1\end{pmatrix}$，因为 $\begin{vmatrix}1&0&0&0\\0&0&1&0\\0&1&0&0\\1&0&0&1\end{vmatrix}=-1\neq 0$，所以
 
-$\begin{pmatrix}1&0\\0&1\end{pmatrix},\begin{pmatrix}0&0\\1&0\end{pmatrix},\begin{pmatrix}0&1\\0&0\end{pmatrix},\begin{pmatrix}0&0\\0&1\end{pmatrix}$ 是 $R^{2\times2}$ 的基。
+$\begin{pmatrix}1&0\\0&1\end{pmatrix},\begin{pmatrix}0&0\\1&0\end{pmatrix},\begin{pmatrix}0&1\\0&0\end{pmatrix},\begin{pmatrix}0&0\\0&1\end{pmatrix}$ 是 $\mathbb{R}^{2\times2}$ 的基。
 
 ## 三、证明题（每小题 7 分，共 21 分）
 
@@ -89,4 +89,4 @@ $\dim V_2=n$. 任取 $x\in V_1\cap V_2$，有 $A_1x=0, A_2x=0$，从而，$\begi
 
 所以 $x=0$，即 $V_1\cap V_2=0$. 所以 $\dim(V_1+V_2)=\dim V_1+\dim V_2=2n$，即
 
-$V_1+V_2=P^{2n}$，从而 $P^n=V_1\oplus V_2$.
+$V_1+V_2=P^{2n}$，从而 $P^{2n}=V_1\oplus V_2$.
