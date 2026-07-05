@@ -12877,7 +12877,7 @@ $$
 
 (3) 对 $F(x) = \displaystyle\int_0^{+\infty} x^3 e^{-x^2 y}\mathrm{d}y$ 能否运用积分与求导运算顺序交换来求解？
 
-**6.** 应用 $\displaystyle\int_0^{+\infty} e^{-a^2 t}\mathrm{d}t = \dfrac{\sqrt{\pi}}{2}\,a^{-1}$（$a > 0$），证明：
+**6.** 应用 $\displaystyle\int_0^{+\infty} e^{-a^2 t^2}\mathrm{d}t = \dfrac{\sqrt{\pi}}{2}\,a^{-1}$（$a > 0$），证明：
 
 (1) $\displaystyle\int_0^{+\infty} t^2 e^{-a^2 t^2}\mathrm{d}t = \dfrac{\sqrt{\pi}}{4}\,a^{-3}$；
 
