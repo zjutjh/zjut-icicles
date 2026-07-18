@@ -4,6 +4,6 @@
 
 收录了高等代数的教材和对应md、历年试卷
 
-需要旧版pdf版教材的可以访问[z-librery 高等代数 第五版](https://zh.z-library.sk/book/7vbMVrbMjY/%E9%AB%98%E7%AD%89%E4%BB%A3%E6%95%B0-%E7%AC%AC%E4%BA%94%E7%89%88.html)
+需要旧版（第五版）pdf版教材的可以访问[z-librery 高等代数 第五版](https://zh.z-library.sk/book/7vbMVrbMjY/%E9%AB%98%E7%AD%89%E4%BB%A3%E6%95%B0-%E7%AC%AC%E4%BA%94%E7%89%88.html)
 
 由于md是通过逐页调用claude ocr识别而来，难免有错漏，还请谅解。
