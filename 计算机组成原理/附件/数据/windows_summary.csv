@@ -1,0 +1,10 @@
+thread_count,avg_time_seconds,time_source,speedup_reference_seconds,speedup,efficiency,note
+1,19.996246,rerun_low_threads_excluding_first,6.970134,1.000000,1.000000,"runtime uses corrected steady-state average; speedup uses best observed single-thread baseline"
+2,6.839113,rerun_low_threads_all_runs,6.970134,1.019159,0.509579,"low-thread rerun data"
+4,2.189186,rerun_low_threads_all_runs,6.970134,3.183891,0.795973,"low-thread rerun data"
+8,1.588019,results_windows_csv,6.970134,4.389184,0.548648,"main results"
+16,1.032632,results_windows_csv,6.970134,6.749827,0.421864,"main results"
+24,0.820961,results_windows_csv,6.970134,8.490191,0.353758,"main results"
+32,0.768502,results_windows_csv,6.970134,9.069117,0.283410,"main results"
+48,0.722440,results_windows_csv,6.970134,9.648197,0.201004,"main results"
+64,0.664387,results_windows_csv,6.970134,10.492063,0.163939,"main results"

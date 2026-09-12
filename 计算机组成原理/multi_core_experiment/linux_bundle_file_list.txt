@@ -1,0 +1,23 @@
+请把下面这些文件一起上传到 Linux 服务器上的同一个目录：
+
+1. matrix_omp.cpp
+2. run_tests.sh
+3. README.txt
+4. LINUX_RUN_ME.md
+5. results_template.csv
+
+可选一起上传：
+6. 实验执行与回传说明.md（如果你想在本地保留一份总说明，也可以不传）
+
+上传后进入该目录执行：
+
+chmod +x run_tests.sh
+./run_tests.sh
+
+跑完后把下面内容发回：
+- results_linux.csv
+- uname -a 输出
+- lscpu 输出
+- free -h 输出
+- g++ --version 输出
+- nproc 输出

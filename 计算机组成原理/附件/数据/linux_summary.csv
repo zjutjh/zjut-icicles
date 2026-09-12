@@ -1,0 +1,13 @@
+matrix_size,thread_count,avg_time_seconds,speedup,efficiency,note
+600,1,0.289001,1.000000,1.000000,"baseline for size 600"
+600,2,0.166273,1.738128,0.869064,"good two-thread scaling"
+600,4,0.159835,1.808137,0.452034,"scaling begins to flatten"
+600,8,0.164310,1.758921,0.219865,"extra threads bring little benefit"
+1000,1,1.513075,1.000000,1.000000,"baseline for size 1000"
+1000,2,0.772066,1.959741,0.979870,"near-ideal two-thread scaling"
+1000,4,0.741612,2.040190,0.510048,"moderate benefit from four threads"
+1000,8,0.728932,2.075691,0.259461,"benefit plateaus"
+1400,1,4.112654,1.000000,1.000000,"baseline for size 1400"
+1400,2,2.134491,1.926940,0.963470,"strong two-thread scaling"
+1400,4,2.036397,2.019783,0.504946,"small gain beyond two threads"
+1400,8,2.067664,1.989246,0.248656,"eight threads slightly worse than four"

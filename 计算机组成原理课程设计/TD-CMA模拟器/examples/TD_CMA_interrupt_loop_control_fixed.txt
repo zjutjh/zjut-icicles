@@ -1,0 +1,308 @@
+; //==============================================================//
+; // TD-CMA 3.3 带中断功能的数字循环控制程序（修正版）           //
+; // 主程序：OUT单元循环显示 00H~09H                              //
+; // IN命令：00暂停/继续 01换方向 02步长1/2 03恢复初始状态       //
+; //==============================================================//
+
+; F8H=COUNT, F9H=PAUSE, FAH=DIR, FBH=STEP
+; 8259: ICW2=80H，所以IR0中断向量表入口为80H，MEM[80]=80H
+; SP=70H，避免中断响应和PUSH覆盖80H以后的中断服务程序
+
+; //***** Start of Main Memory Data *****//
+ $P 00 60 ; LDI R0,13H  ; ICW1
+ $P 01 13
+ $P 02 30 ; OUT C0H,R0
+ $P 03 C0
+ $P 04 60 ; LDI R0,80H  ; ICW2: IR0 -> 80H
+ $P 05 80
+ $P 06 30 ; OUT C1H,R0
+ $P 07 C1
+ $P 08 60 ; LDI R0,03H  ; ICW4
+ $P 09 03
+ $P 0A 30 ; OUT C1H,R0
+ $P 0B C1
+ $P 0C 60 ; LDI R0,FEH  ; OCW1: only IR0 enabled
+ $P 0D FE
+ $P 0E 30 ; OUT C1H,R0
+ $P 0F C1
+ $P 10 63 ; LDI SP,70H
+ $P 11 70
+ $P 12 70 ; STI
+ $P 13 C0 ; LAD F8H,R0  ; R0=COUNT
+ $P 14 F8
+ $P 15 30 ; OUT 40H,R0  ; display COUNT
+ $P 16 40
+ $P 17 E0 ; JMP MAIN_CLEAR_FC
+ $P 18 65
+ $P 19 62 ; LDI R2,01H
+ $P 1A 01
+ $P 1B 19 ; AND R1,R2
+ $P 1C F0 ; BZC RUN     ; PAUSE=0 -> run
+ $P 1D 20
+ $P 1E E0 ; JMP MAIN    ; PAUSE=1 -> wait
+ $P 1F 13
+ $P 20 C1 ; LAD FAH,R1  ; R1=DIR
+ $P 21 FA
+ $P 22 62 ; LDI R2,01H
+ $P 23 01
+ $P 24 19 ; AND R1,R2
+ $P 25 F0 ; BZC FORWARD ; DIR=0
+ $P 26 29
+ $P 27 E0 ; JMP REVERSE ; DIR=1
+ $P 28 3C
+ $P 29 C2 ; LAD FBH,R2  ; R2=STEP
+ $P 2A FB
+ $P 2B 08 ; ADD R0,R2   ; COUNT+=STEP
+ $P 2C 41 ; MOV R1,R0
+ $P 2D 62 ; LDI R2,F6H  ; -0AH
+ $P 2E F6
+ $P 2F 09 ; ADD R1,R2   ; COUNT-10
+ $P 30 F0 ; BZC FWD_WRAP ; if COUNT>=10
+ $P 31 36
+ $P 32 D0 ; STA F8H,R0
+ $P 33 F8
+ $P 34 E0 ; JMP MAIN
+ $P 35 13
+ $P 36 60 ; LDI R0,00H
+ $P 37 00
+ $P 38 D0 ; STA F8H,R0
+ $P 39 F8
+ $P 3A E0 ; JMP MAIN
+ $P 3B 13
+ $P 3C C1 ; LAD FBH,R1  ; R1=STEP
+ $P 3D FB
+ $P 3E 62 ; LDI R2,01H
+ $P 3F 01
+ $P 40 19 ; AND R1,R2
+ $P 41 F0 ; BZC REV_STEP2
+ $P 42 52
+ $P 43 62 ; LDI R2,FFH ; -1
+ $P 44 FF
+ $P 45 E0 ; JMP REV_SUB
+ $P 46 49
+ $P 47 62 ; LDI R2,FEH ; -2
+ $P 48 FE
+ $P 49 08 ; ADD R0,R2   ; COUNT-=STEP
+ $P 4A F0 ; BZC REV_STORE ; no borrow
+ $P 4B 4E
+ $P 4C 60 ; LDI R0,09H ; underflow wrap
+ $P 4D 09
+ $P 4E D0 ; STA F8H,R0
+ $P 4F F8
+ $P 50 E0 ; JMP MAIN
+ $P 51 13
+ $P 52 41 ; REV_STEP2: MOV R1,R0
+ $P 53 62 ; LDI R2,FEH
+ $P 54 FE
+ $P 55 08 ; ADD R0,R2 ; COUNT-=2
+ $P 56 F0 ; BZC REV_STORE
+ $P 57 4E
+ $P 58 62 ; LDI R2,FFH
+ $P 59 FF
+ $P 5A 09 ; old COUNT-1, distinguish 0/1 underflow
+ $P 5B F0 ; BZC REV_WRAP9
+ $P 5C 61
+ $P 5D 60 ; LDI R0,08H
+ $P 5E 08
+ $P 5F E0 ; JMP REV_STORE
+ $P 60 4E
+ $P 61 60 ; REV_WRAP9: LDI R0,09H
+ $P 62 09
+ $P 63 E0 ; JMP REV_STORE
+ $P 64 4E
+ $P 65 62 ; MAIN_CLEAR_FC: LDI R2,00H
+ $P 66 00
+ $P 67 0A ; ADD R2,R2 ; FC=0, FZ=1
+ $P 68 C1 ; LAD F9H,R1 ; R1=PAUSE
+ $P 69 F9
+ $P 6A E0 ; JMP PAUSE_TEST
+ $P 6B 19
+
+; // Interrupt Service Routine at 80H
+ $P 80 80 ; CLI
+ $P 81 90 ; PUSH R0
+ $P 82 94 ; PUSH R1
+ $P 83 98 ; PUSH R2
+ $P 84 20 ; IN R0,00H  ; command from IN unit
+ $P 85 00
+ $P 86 41 ; MOV R1,R0
+ $P 87 E0 ; JMP ISR_CLEAR_FC
+ $P 88 F0
+ $P 89 19 ; AND R1,R2
+ $P 8A F0 ; BZC CMD_0_1 ; bit1=0
+ $P 8B 94
+ $P 8C 41 ; MOV R1,R0
+ $P 8D 62 ; LDI R2,01H
+ $P 8E 01
+ $P 8F 19 ; AND R1,R2
+ $P 90 F0 ; BZC CMD2_STEP
+ $P 91 D4
+ $P 92 E0 ; JMP CMD3_RESET
+ $P 93 C6
+ $P 94 41 ; MOV R1,R0
+ $P 95 62 ; LDI R2,01H
+ $P 96 01
+ $P 97 19 ; AND R1,R2
+ $P 98 F0 ; BZC CMD0_PAUSE
+ $P 99 9C
+ $P 9A E0 ; JMP CMD1_DIR
+ $P 9B B1
+ $P 9C C1 ; LAD F9H,R1
+ $P 9D F9
+ $P 9E 62 ; LDI R2,01H
+ $P 9F 01
+ $P A0 09 ; ADD R1,R2
+ $P A1 44 ; MOV R0,R1
+ $P A2 62 ; LDI R2,FEH ; -2
+ $P A3 FE
+ $P A4 09 ; ADD R1,R2
+ $P A5 F0 ; BZC PAUSE_ZERO
+ $P A6 AB
+ $P A7 D0 ; STA F9H,R0
+ $P A8 F9
+ $P A9 E0 ; JMP ISR_END
+ $P AA EB
+ $P AB 60 ; LDI R0,00H
+ $P AC 00
+ $P AD D0 ; STA F9H,R0
+ $P AE F9
+ $P AF E0 ; JMP ISR_END
+ $P B0 EB
+ $P B1 C1 ; LAD FAH,R1
+ $P B2 FA
+ $P B3 62 ; LDI R2,01H
+ $P B4 01
+ $P B5 09 ; ADD R1,R2
+ $P B6 44 ; MOV R0,R1
+ $P B7 62 ; LDI R2,FEH ; -2
+ $P B8 FE
+ $P B9 09 ; ADD R1,R2
+ $P BA F0 ; BZC DIR_ZERO
+ $P BB C0
+ $P BC D0 ; STA FAH,R0
+ $P BD FA
+ $P BE E0 ; JMP ISR_END
+ $P BF EB
+ $P C0 60 ; LDI R0,00H
+ $P C1 00
+ $P C2 D0 ; STA FAH,R0
+ $P C3 FA
+ $P C4 E0 ; JMP ISR_END
+ $P C5 EB
+ $P C6 60 ; CMD3_RESET: LDI R0,00H
+ $P C7 00
+ $P C8 D0 ; COUNT=0
+ $P C9 F8
+ $P CA D0 ; PAUSE=0
+ $P CB F9
+ $P CC D0 ; DIR=0
+ $P CD FA
+ $P CE 60 ; LDI R0,01H
+ $P CF 01
+ $P D0 D0 ; STEP=1
+ $P D1 FB
+ $P D2 E0 ; JMP ISR_END
+ $P D3 EB
+ $P D4 C1 ; CMD2_STEP: LAD FBH,R1
+ $P D5 FB
+ $P D6 62 ; LDI R2,01H
+ $P D7 01
+ $P D8 09 ; ADD R1,R2
+ $P D9 44 ; MOV R0,R1
+ $P DA 62 ; LDI R2,FDH ; -3
+ $P DB FD
+ $P DC 09 ; ADD R1,R2
+ $P DD F0 ; BZC STEP_ONE
+ $P DE E7
+ $P DF D0 ; STA FBH,R0
+ $P E0 FB
+ $P E1 E0 ; JMP ISR_END
+ $P E2 EB
+ $P E7 60 ; STEP_ONE: LDI R0,01H
+ $P E8 01
+ $P E9 D0 ; STA FBH,R0
+ $P EA FB
+ $P EB A2 ; ISR_END: POP R2
+ $P EC A1 ; POP R1
+ $P ED A0 ; POP R0
+ $P EE 70 ; STI
+ $P EF B0 ; IRET
+ $P F0 62 ; ISR_CLEAR_FC: LDI R2,00H
+ $P F1 00
+ $P F2 0A ; ADD R2,R2 ; FC=0, FZ=1
+ $P F3 62 ; LDI R2,02H
+ $P F4 02
+ $P F5 E0 ; JMP CMD_BIT1_TEST
+ $P F6 89
+
+ $P F8 00 ; COUNT=00H
+ $P F9 00 ; PAUSE=0
+ $P FA 00 ; DIR=0 正向
+ $P FB 01 ; STEP=1
+; //***** End of Main Memory Data *****//
+
+; //** Start of MicroController Data **//
+ $M 00 0001C1 ; 取指公共微程序
+ $M 01 000102 ; 中断测试 P<4>
+ $M 02 006D43 ; PC->AR, PC+1
+ $M 03 107070 ; MEM->IR, P<1>
+ $M 04 002405 ; ADD
+ $M 05 04B201 ; ADD
+ $M 06 002407 ; AND
+ $M 07 013201 ; AND
+ $M 08 106009 ; IN
+ $M 09 183001 ; IN
+ $M 0A 106010 ; OUT
+ $M 0B 000001 ; OUT
+ $M 0C 103001 ; LAD
+ $M 0D 200601 ; STA
+ $M 0E 005341 ; JMP/BZC
+ $M 0F 0000CB ; P<3>条件判断
+ $M 10 280401 ; OUT
+ $M 11 103001 ; LAD
+ $M 12 200413 ; STA
+ $M 13 001A14 ; PUSH/POP/IRET
+ $M 14 06C201 ; SP相关
+ $M 15 064216 ; SP相关
+ $M 16 006A17 ; SP相关
+ $M 17 103001 ; MEM->RD
+ $M 18 064219 ; SP相关
+ $M 19 006A1A ; SP->AR
+ $M 1A 105141 ; MEM->PC
+ $M 1B 005341 ; A->PC
+ $M 1C 10101D ; MEM->A
+ $M 1D 10608C ; MEM->AR, P<2>
+ $M 1E 10601F ; MEM->AR
+ $M 1F 101020 ; MEM->A
+ $M 20 10608C ; MEM->AR, P<2>
+ $M 22 406A23 ; INTA, SP->AR
+ $M 23 200C24 ; PC->MEM
+ $M 24 001A25 ; SP->A
+ $M 25 06C226 ; A+1->SP
+ $M 26 406027 ; INTA, vector->AR
+ $M 27 105142 ; MEM->PC
+ $M 28 101029 ; MEM->A
+ $M 29 00282A ; R1->B
+ $M 2A 04E22B ; A+B->AR
+ $M 2B 04928C ; A+B->A, P<2>
+ $M 2C 10102D ; MEM->A
+ $M 2D 002C2E ; PC->B
+ $M 2E 04E22F ; A+B->AR
+ $M 2F 04928C ; A+B->A, P<2>
+ $M 30 001604 ; RD->A
+ $M 31 001606 ; RD->A
+ $M 32 006D48 ; PC->AR, PC+1
+ $M 33 006D4A ; PC->AR, PC+1
+ $M 34 003401 ; RS->RD
+ $M 35 000035 ; HALT/NOP
+ $M 36 006D51 ; PC->AR, PC+1
+ $M 37 000181 ; STI
+ $M 38 0001C1 ; CLI
+ $M 39 006A12 ; SP->AR
+ $M 3A 001A15 ; SP->A
+ $M 3B 001A18 ; SP->A
+ $M 3C 006D5C ; PC->AR, PC+1
+ $M 3D 006D5E ; PC->AR, PC+1
+ $M 3E 006D68 ; PC->AR, PC+1
+ $M 3F 006D6C ; PC->AR, PC+1
+; //** End of MicroController Data **//
