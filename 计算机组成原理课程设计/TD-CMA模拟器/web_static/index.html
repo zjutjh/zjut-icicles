@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>TD-CMA 3.3 复杂模型机模拟器</title>
+    <link rel="stylesheet" href="/static/styles.css">
+  </head>
+  <body>
+    <main class="app-shell">
+      <header class="topbar">
+        <div>
+          <h1>TD-CMA 3.3 复杂模型机模拟器</h1>
+          <div class="file-line" id="loadedName">未加载文件</div>
+        </div>
+        <div class="toolbar">
+          <input id="fileInput" type="file" accept=".txt,text/plain" hidden>
+          <button id="openFileBtn" type="button">打开文件</button>
+          <button id="loadExampleBtn" type="button">加载示例</button>
+          <button id="runBtn" type="button" class="primary">连续运行</button>
+          <button id="stepBtn" type="button">单指令运行</button>
+          <button id="resetBtn" type="button">终止/复位</button>
+        </div>
+      </header>
+
+      <section class="workspace">
+        <aside class="memory-panel">
+          <section class="section memory-section">
+            <div class="section-title">存储器</div>
+            <div class="memory-table" id="memoryTable" aria-live="polite"></div>
+            <div class="memory-tabs" role="group" aria-label="存储器显示切换">
+              <button id="showMainMemoryBtn" type="button" class="active">主存</button>
+              <button id="showMicroMemoryBtn" type="button">微存</button>
+            </div>
+          </section>
+        </aside>
+
+        <aside class="side-panel">
+          <section class="section">
+            <div class="section-title">通用寄存器</div>
+            <div class="register-grid" id="registerGrid"></div>
+          </section>
+
+          <section class="section">
+            <div class="section-title">控制状态</div>
+            <div class="state-grid" id="stateGrid"></div>
+          </section>
+
+          <section class="section">
+            <div class="section-title">I/O</div>
+            <label class="input-row" for="inBits">
+              <span>IN</span>
+              <input id="inBits" inputmode="numeric" pattern="[01]{8}" maxlength="8" value="00000000">
+            </label>
+            <div class="switch-bank" id="switchBank" aria-label="IN 单元 8 位开关"></div>
+            <div class="io-actions">
+              <button id="interruptBtn" type="button" class="danger">触发中断</button>
+            </div>
+            <div class="out-display">
+              <span>OUT</span>
+              <strong id="outValue">00</strong>
+            </div>
+          </section>
+        </aside>
+
+        <section class="main-panel">
+          <div class="metrics">
+            <div><span>机器指令</span><strong id="instructionCount">0</strong></div>
+            <div><span>微步数</span><strong id="microStepCount">0</strong></div>
+            <div><span>运行</span><strong id="haltedState">READY</strong></div>
+          </div>
+          <section class="log-section">
+            <div class="log-header">
+              <div class="section-title">运行日志</div>
+              <button id="clearLogBtn" type="button">清空日志</button>
+            </div>
+            <pre id="logView"></pre>
+          </section>
+        </section>
+      </section>
+    </main>
+    <script src="/static/main.js"></script>
+  </body>
+</html>
