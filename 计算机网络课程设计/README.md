@@ -9,3 +9,5 @@ https://github.com/gggaaallleee/test2
 ## example2上传于2025.4.9
 
 本样例得分95分，部分借鉴example1，特此感谢
+
+2026.6.28更新 Example3以及latex源码
