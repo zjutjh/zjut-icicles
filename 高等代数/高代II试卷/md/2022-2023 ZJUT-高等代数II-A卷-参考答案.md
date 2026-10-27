@@ -1,0 +1,128 @@
+# ZJUT-高等代数II-A卷-参考答案
+
+<!-- p1/3 -->
+
+# 浙江工业大学2022-2023学年第二学期《高等代数II》
+## 期末考试(A卷)参考答案与评分标准
+
+**一、填空题**（每小题3分，共30分）
+
+1. $\underline{1}$．2. $\underline{\begin{pmatrix} 0 & -1 \\ 1 & 3 \end{pmatrix}}$．3. $\underline{x=1, y=2}$．4. $\underline{(\lambda+1)^2(\lambda-3)}$．
+
+5. $\underline{32,\ 10}$．6. $\underline{t>3}$．7. $\underline{\dfrac{\pi}{2}}$．8. $\underline{\left(\dfrac{\sqrt{6}}{3},\ \dfrac{\sqrt{6}}{6},\ \dfrac{\sqrt{6}}{6}\right)}$．
+
+---
+
+**二、选择题**（每小题2分，共10分）
+
+9\. B. $\quad$ 10. C. $\quad$ 11. A. $\quad$ 12. D. $\quad$ 13. D.
+
+---
+
+**三、计算题**（每小题12分，共36分）
+
+**14. 解：** 对 $A$ 作初等行变换，直至化为行最简阶梯形得
+
+$$
+A \rightarrow \begin{pmatrix} 1 & 0 & 2 & 1 \\ 0 & 1 & \dfrac{3}{2} & 2 \\ 0 & 0 & 0 & 0 \\ 0 & 0 & 0 & 0 \end{pmatrix}.
+$$
+
+由此可知，$A$ 的前两列线性无关，故 $\mathscr{A}(V)$ 的基为
+
+$\varepsilon_1 - \varepsilon_2 + \varepsilon_3 + 2\varepsilon_4,\ \varepsilon_1 + \varepsilon_2 - \varepsilon_3$ ……………………………………………（6分）
+
+又因为 $AX = 0$ 的基础解系为
+
+$$
+\left(-2,\ -\frac{3}{2},\ 1,\ 0\right)^\top, \quad \left(-1,\ -2,\ 0,\ 1\right)^\top.
+$$
+
+故 $\mathscr{A}^{-1}(\mathbf{0})$ 的基为 $-2\varepsilon_1 - \dfrac{3}{2}\varepsilon_2 + \varepsilon_3,\ -\varepsilon_1 - 2\varepsilon_2 + \varepsilon_4$．……………………………（12分）
+
+---
+
+**15. 解：** (1) 求解 $A$ 的特征值为 $\lambda_1 = 1$（二重），$\lambda_2 = -2$（二重），且属于 $\lambda_1 = 1$ 与 $\lambda_2 = -2$ 的线性无关的特征向量各只有一个．
+
+---
+
+<!-- p2/3 -->
+
+因此，$A$的Jordan标准形为 $\begin{pmatrix} 1 & 1 & 0 & 0 \\ 0 & 1 & 0 & 0 \\ 0 & 0 & -2 & 1 \\ 0 & 0 & 0 & -2 \end{pmatrix}$. ………………………………(6分)
+
+(2) 由$A$的Jordan标准形可知，
+
+初等因子组：$(\lambda-1)^2, (\lambda+2)^2$, ………………………………………………(8分)
+
+不变因子：$d_1(\lambda)=d_2(\lambda)=d_3(\lambda)=1, d_4(\lambda)=(\lambda-1)^2(\lambda+2)^2$, …………(10分)
+
+行列式因子：$D_1(\lambda)=D_2(\lambda)=D_3(\lambda)=1, D_4(\lambda)=(\lambda-1)^2(\lambda+2)^2$, ……(12分)
+
+**16. 解：**(1) 设矩阵$A$属于特征值3的特征向量为$\alpha_3=(x_1,x_2,x_3)^\top$. 因为实对称矩阵属于不同特征值的特征向量相互正交，所以
+
+$$
+\begin{cases} -x_1 - x_2 + x_3 = 0 \\ x_1 - x_2 - x_3 = 0. \end{cases}
+$$
+
+解得基础解系为：$(1,0,1)^T$.
+
+故矩阵$A$属于特征值3的特征向量为$k(1,0,1)^T$，其中$k$为非零实数………………(6分)
+
+(2) 令$P=(\alpha_1,\alpha_2,\alpha_3)=\begin{pmatrix}-1 & 1 & 1 \\ -1 & -2 & 0 \\ 1 & -1 & 1\end{pmatrix}$，则$P^{-1}AP=\begin{pmatrix}1 & 0 & 0 \\ 0 & 2 & 0 \\ 0 & 0 & 3\end{pmatrix}$.
+
+于是，$A=P\begin{pmatrix}1 & 0 & 0 \\ 0 & 2 & 0 \\ 0 & 0 & 3\end{pmatrix}P^{-1}=\dfrac{1}{6}\begin{pmatrix}13 & -2 & 5 \\ -2 & 10 & 2 \\ 5 & 2 & 13\end{pmatrix}$ ………………………(12分)
+
+## 四、证明题（每小题8分，共24分）
+
+**17. 证：** 设数$k_0,k_1,\cdots,k_{n-1}$满足
+
+$$
+k_0\alpha + k_1\mathscr{A}(\alpha) + \ldots + k_{n-1}\mathscr{A}^{n-1}(\alpha) = 0.
+$$
+
+用$\mathscr{A}^{n-1}$作用在上式两边，则
+
+$$
+k_0\mathscr{A}^{n-1}(\alpha) + k_1\mathscr{A}^n(\alpha) + \ldots + k_{n-1}\mathscr{A}^{2(n-1)}(\alpha) = 0.
+$$
+
+---
+
+<!-- p3/3 -->
+
+又$\mathscr{A}^{n-1}(\alpha) \neq 0, \mathscr{A}^n(\alpha) = 0$，则$k_0 = 0$. $\cdots\cdots\cdots\cdots\cdots\cdots\cdots\cdots\cdots\cdots\cdots\cdots\cdots\cdots\cdots$（4分）
+
+所以
+
+$$
+k_1\mathscr{A}(\alpha) + \ldots + k_{n-1}\mathscr{A}^{n-1}(\alpha) = 0,
+$$
+
+再用$\mathscr{A}^{n-2}$作用上式两边，得$k_1 = 0$．以此类推：$k_0 = k_1 = k_2 = \ldots = k_{n-1} = 0$.所以，$\alpha, \mathscr{A}(\alpha), \ldots, \mathscr{A}^{n-1}(\alpha)$线性无关.又$V$是$n$维的，所以$\alpha, \mathscr{A}(\alpha), \ldots, \mathscr{A}^{n-1}(\alpha)$是$V$的一组基. $\cdots\cdots\cdots\cdots\cdots\cdots\cdots\cdots\cdots\cdots\cdots\cdots\cdots\cdots\cdots\cdots\cdots\cdots\cdots\cdots\cdots\cdots\cdots\cdots\cdots\cdots\cdots\cdots\cdots$（8分）
+
+18. **证：** 对任意的$\alpha \in W^\perp$，以及$\beta \in W$.
+
+因为$W$是$\mathscr{A}$的不变子空间，所以$\mathscr{A}(\beta) \in W$. $\cdots\cdots\cdots\cdots\cdots\cdots\cdots\cdots\cdots\cdots\cdots\cdots$（4分）
+
+又因为$(\mathscr{A}(\alpha), \beta) = -(\alpha, \mathscr{A}(\beta)) = 0$，
+
+所以，$\mathscr{A}(\alpha) \in W^\perp$，故$W^\perp$是$\mathscr{A}$的不变子空间. $\cdots\cdots\cdots\cdots\cdots\cdots\cdots\cdots\cdots\cdots\cdots$（8分）
+
+19. **证：** 设$A$的Jordan形为
+
+$$
+J = \mathrm{diag}(J(\lambda_1, n_1), J(\lambda_2, n_2), \cdots, J(\lambda_t, n_t)),
+$$
+
+其中$J(\lambda_i, n_i)$为主对角元为$\lambda_i$的$n_i$阶Jordan块矩阵$i = 1, 2, \cdots, t$. 故存在可逆阵$P$，使得$P^{-1}AP = J$. $\cdots\cdots\cdots\cdots\cdots\cdots\cdots\cdots\cdots\cdots\cdots\cdots\cdots\cdots\cdots\cdots\cdots\cdots\cdots\cdots\cdots\cdots\cdots\cdots\cdots\cdots\cdots$（3分）
+
+令
+
+$$
+B = P\,\mathrm{diag}(\lambda_1 I_{n_1}, \lambda_2 I_{n_2}, \cdots, \lambda_t I_{n_t})P^{-1},
+$$
+
+$$
+C = P\,\mathrm{diag}(J(0, n_1), J(0, n_2), \cdots, J(0, n_t))P^{-1}.
+$$
+
+显然，$B$相似于对角阵，$C$为幂零阵，且$A = B + C$. $\cdots\cdots\cdots\cdots\cdots\cdots\cdots\cdots\cdots\cdots\cdots\cdots$（8分）
